@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
     const nurse_id = user.id;
 
     // Update the interview_analysis table with the call_id
-    const { data: insertData, error: insertError } = await supabase
+    const { error: insertError } = await supabase
       .from("interview_analysis")
       .upsert({
         call_id,

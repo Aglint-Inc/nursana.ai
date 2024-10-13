@@ -12,7 +12,6 @@ interface InterviewSummaryProps {
 }
 
 export default function InterviewSummary({
-  interviewId,
   interviewData,
 }: InterviewSummaryProps) {
   const router = useRouter();

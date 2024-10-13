@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { Play, Pause, Repeat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -31,16 +30,9 @@ export default function InterviewInstructions({
   const [progress, setProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showInterview, setShowInterview] = useState(false);
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [callData, setCallData] = useState<{
-    accessToken: string;
-    callId: string;
-    analysisId: string;
-  } | null>(null);
 
   console.log("interviewData", interviewData);
+
   const showVideo = () => {
     setShowCover(false);
   };
@@ -210,8 +202,6 @@ export default function InterviewInstructions({
           </ul>
         </CardContent>
       </Card>
-
-      {error && <div className="text-red-500 mb-4">Error: {error}</div>}
 
       <Button className="w-full mb-4" onClick={handleProceed}>
         Proceed to Interview

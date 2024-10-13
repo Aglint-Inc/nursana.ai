@@ -7,7 +7,6 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Mic, StopCircle, Upload } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useVideoRecording } from "@/hooks/useVideoRecording";
-import { useRetellClient } from "@/hooks/useRetellClient";
 import { useRouter } from "next/navigation";
 import { RetellWebClient } from "retell-client-js-sdk";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -37,8 +36,6 @@ export default function Interview({
     error: videoError,
     videoBlobRef,
   } = useVideoRecording();
-
-  const { isClientReady, startCall, stopCall } = useRetellClient();
 
   const [isInterviewStarted, setIsInterviewStarted] = useState(false);
   const [timer, setTimer] = useState(0);
@@ -102,7 +99,7 @@ export default function Interview({
 
       const filePath = generateFilePath();
 
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from("videos")
         .upload(filePath, videoBlobRef.current, {
           contentType: "video/webm",
@@ -178,7 +175,7 @@ export default function Interview({
 
         if (update.transcript && Array.isArray(update.transcript)) {
           const newHistory: ConversationTurn[] = update.transcript.map(
-            (turn: any) => ({
+            (turn: { role: string; content: string }) => ({
               role: turn.role === "agent" ? "ai" : "human",
               content: turn.content,
             })

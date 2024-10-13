@@ -109,7 +109,7 @@ export default function ResumeUpload({
       const fileExt = file.name.split(".").pop();
       const fileName = `resumes/${userId}_${Date.now()}.${fileExt}`;
 
-      const { data, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from("resumes")
         .upload(fileName, file, {
           cacheControl: "3600",
