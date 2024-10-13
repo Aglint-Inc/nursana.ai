@@ -43,7 +43,6 @@ async function getOrCreateInterview(campaignCode: string, userId: string) {
 
   // Move normalizeStage function here
   const normalizeStage = (stage: string) => {
-    console.log("Stage from DB", stage);
     switch (stage) {
       case "not_started":
         return "get-started";

@@ -10,7 +10,6 @@ export default async function AuthButton() {
     data: { user },
   } = await createClient().auth.getUser();
 
-  console.log("From Header Component", user);
   const isAnonymous = user?.is_anonymous;
 
   if (!hasEnvVars) {

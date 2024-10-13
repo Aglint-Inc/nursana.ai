@@ -22,7 +22,6 @@ const InterviewSummary = dynamic(
 );
 
 const normalizeStage = (stage: string) => {
-  console.log("Stage from DB", stage);
   switch (stage) {
     case "not_started":
       return "get-started";
@@ -41,8 +40,6 @@ export default async function InterviewPage({
 }: {
   params: { id: string; stage: string };
 }) {
-  console.log("InterviewPage rendering with params:", params);
-
   const supabase = createClient();
   const { data: interview, error } = await supabase
     .from("interviews")
@@ -54,8 +51,6 @@ export default async function InterviewPage({
     console.error("Error fetching interview:", error);
     notFound();
   }
-
-  console.log("Fetched interview data:", interview);
 
   const normalizedStage = normalizeStage(interview.interview_stage);
   let redirectStage = normalizedStage;
@@ -79,7 +74,6 @@ export default async function InterviewPage({
   }
 
   const renderComponent = () => {
-    console.log("Rendering component for stage:", redirectStage);
     switch (redirectStage) {
       case "get-started":
         return (

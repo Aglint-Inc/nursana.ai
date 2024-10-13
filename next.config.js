@@ -3,7 +3,8 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
+  productionBrowserSourceMaps: true,
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
