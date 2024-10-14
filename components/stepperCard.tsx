@@ -25,7 +25,7 @@ const StepperCard: React.FC<StepperCardProps> = ({
   return (
     <div className="flex flex-col gap-4 items-center">
       <div
-        className={`w-24 h-24 flex items-center justify-center rounded-full ${backgroundColorClass}`}
+        className={`w-24 h-24 flex items-center justify-center rounded-md ${backgroundColorClass}`}
       >
         <Icon className="w-12 h-12 text-white"  strokeWidth={1.2}/>
       </div>

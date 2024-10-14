@@ -20,7 +20,7 @@ function HowItWorks() {
         </h1>
       </div>
       <div>
-        <div className="grid grid-cols-3 gap-32">
+        <div className="grid grid-cols-3 gap-28">
           <StepperCard
             heading="Upload your resume"
             description=" Add your resume, choose your ideal job title, and get
@@ -38,9 +38,8 @@ function HowItWorks() {
           />
 
           <StepperCard
-            heading="Sit back and relax while matches come to you!"
-            description=" Set your preferences and watch as the AI matches you with
-                suitable job opportunities!"
+            heading="Sit back and relax!"
+            description=" Set your preferences and watch as the AI instantly matches you with ideal job opportunities tailored just for you!"
             icon={UserCheck}
             color="green"
           />

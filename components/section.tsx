@@ -8,7 +8,7 @@ const Section: FC<SectionProps> = ({ children }) => {
   return (
     <div className="w-full">
       <div className="px-6">
-        <div className="container">
+        <div className="container max-w-screen-xl">
           {children}
         </div>
       </div>
