@@ -1,0 +1,1 @@
+gcloud functions deploy process_resume_and_jd_v1 --gen2 --runtime=nodejs18 --region=us-central1 --source=. --entry-point=hello --trigger-http --allow-unauthenticated

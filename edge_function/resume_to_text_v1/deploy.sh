@@ -1,0 +1,1 @@
+gcloud functions deploy resume_to_text_v1 --gen2 --runtime=python312 --region=northamerica-northeast2 --source=./resume_to_text_v1/ --entry-point=hello_http --trigger-http --allow-unauthenticated

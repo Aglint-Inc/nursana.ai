@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/select";
 import { updateInterviewStage } from "@/app/interview/[id]/[stage]/actions";
 import Section from "./section";
+import { getResumeJson } from "@/utils/resume";
+
 
 interface ResumeUploadProps {
   userId: string;
@@ -127,6 +129,8 @@ export default function ResumeUpload({
         .single();
 
       if (resumeError) throw resumeError;
+
+      getResumeJson(updatedResume.id, publicUrl);
 
       if (updatedResume) {
         setResumeUrl(updatedResume.file_url);

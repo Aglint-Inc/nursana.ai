@@ -37,3 +37,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .cursorrules
+
+*/**/.env
+*/**/node_modules
+*/**/lib
+*/**/__pycache__
+*/**/venv

@@ -3,6 +3,7 @@ import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import Providers from "./providers";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -32,7 +33,7 @@ export default function RootLayout({
             <div className="flex-1 w-full flex flex-col items-center">
               <Navbar />
               <div className="flex flex-col gap-20 min-h-[calc(100vh-156px)]">
-                {children}
+                <Providers>{children}</Providers>
               </div>
               <Footer />
             </div>
