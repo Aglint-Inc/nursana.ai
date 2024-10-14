@@ -1,3 +1,4 @@
+import InvalidCampagin from "@/components/invalid-campagin";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -130,9 +131,7 @@ export default async function HomePage() {
 
   if (!campaignCode) {
     return (
-      <div>
-        Invalid request. Please use a valid link to start your interview.
-      </div>
+      <InvalidCampagin/>
     );
   }
 

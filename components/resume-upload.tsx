@@ -3,15 +3,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import type { Database } from "@/lib/database.types";
-import { Cloud, FileText, Loader, X } from "lucide-react";
+import { File, Loader, UploadCloud, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -22,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateInterviewStage } from "@/app/interview/[id]/[stage]/actions";
+import Section from "./section";
 import { getResumeJson } from "@/utils/resume";
 
 
@@ -177,137 +172,147 @@ export default function ResumeUpload({
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center">
-          <span className="text-teal-600">
-            Let Nursana&apos;s AI find your next opportunity.
-          </span>
-          <br />
-          <span className="text-navy-900">Get started now!</span>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="job-title">Choose your job title</Label>
-              <Select onValueChange={setJobTitle} value={jobTitle}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a job title" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="nurse">Nurse</SelectItem>
-                  <SelectItem value="doctor">Doctor</SelectItem>
-                  <SelectItem value="therapist">Therapist</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="resume" className="flex items-center gap-2">
-                <Cloud className="h-5 w-5" />
-                {resumeUrl ? "Update your resume" : "Upload your resume"}
-              </Label>
-              {resumeUrl && (
-                <div className="mt-2 flex items-center gap-2">
-                  <FileText className="h-5 w-5" />
-                  <a
-                    href={resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline"
+    <Section>
+    <div className="flex flex-col gap-16 items-center">
+      <div className="max-w-screen-xl flex flex-col gap-2 items-center">
+        <h1 className="text-5xl font-medium">
+          Let Nursera&apos;s AI find your next opportunity.
+        </h1>
+        <h1 className="text-5xl font-medium">Get started now!</h1>
+      </div>
+      <Card className="w-full max-w-md bg-muted">
+        <CardContent className="mt-6">
+          <form onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="job-title">Choose your job title</Label>
+                <p className="text-sm text-muted-foreground">
+                  Pick your job title from the list
+                </p>
+                <Select onValueChange={setJobTitle} value={jobTitle}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a job title" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="nurse">Nurse</SelectItem>
+                    <SelectItem value="doctor">Doctor</SelectItem>
+                    <SelectItem value="therapist">Therapist</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col gap-1">
+                <Label htmlFor="resume" className="flex items-center gap-2">
+                  {resumeUrl ? "Update your resume" : "Upload your resume"}
+                </Label>
+                {resumeUrl && (
+                  <div className="flex items-center gap-2 bg-input mt-2 p-3 rounded-md">
+                    <File className="h-4 w-4" />
+                    <a
+                      href={resumeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-card-foreground bg-input hover:underline cursor-pointer"
+                    >
+                      <p>View current resume</p>
+                    </a>
+                  </div>
+                )}
+                <p className="text-sm text-muted-foreground">
+                  {resumeUrl
+                    ? "Select a new file to update your resume"
+                    : "Select and upload your resume"}
+                </p>
+                {!file ? (
+                  <div
+                    className={`mt-2 flex justify-center rounded-lg border border-dashed ${
+                      dragActive ? "bg-background" : "bg-background"
+                    } px-6 py-10`}
+                    onDragEnter={handleDrag}
+                    onDragLeave={handleDrag}
+                    onDragOver={handleDrag}
+                    onDrop={handleDrop}
                   >
-                    View current resume
-                  </a>
-                </div>
-              )}
-              <p className="text-sm text-gray-500">
-                {resumeUrl
-                  ? "Select a new file to update your resume"
-                  : "Select and upload your resume"}
-              </p>
-              {!file ? (
-                <div
-                  className={`mt-2 flex justify-center rounded-lg border border-dashed ${
-                    dragActive ? "border-primary" : "border-gray-900/25"
-                  } px-6 py-10`}
-                  onDragEnter={handleDrag}
-                  onDragLeave={handleDrag}
-                  onDragOver={handleDrag}
-                  onDrop={handleDrop}
-                >
-                  <div className="text-center">
-                    <Cloud
-                      className="mx-auto h-12 w-12 text-gray-300"
-                      aria-hidden="true"
-                    />
-                    <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                      <label
-                        htmlFor="file-upload"
-                        className="relative cursor-pointer rounded-md bg-white font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 hover:text-primary/80"
-                      >
-                        <span>Upload a file</span>
-                        <Input
-                          id="file-upload"
-                          name="file-upload"
-                          type="file"
-                          className="sr-only"
-                          onChange={handleFileChange}
-                          accept=".pdf,.doc,.docx"
-                        />
-                      </label>
-                      <p className="pl-1">or drag and drop</p>
+                    <div className="text-center">
+                      <UploadCloud
+                        className="mx-auto h-12 w-12 text-muted-foreground"
+                        aria-hidden="true"
+                        strokeWidth={1.2}
+                      />
+                      <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                        <label
+                          htmlFor="file-upload"
+                          className="relative cursor-pointer rounded-md font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 hover:text-primary/80"
+                        >
+                          <span>Upload a file</span>
+                          <Input
+                            id="file-upload"
+                            name="file-upload"
+                            type="file"
+                            className="sr-only"
+                            onChange={handleFileChange}
+                            accept=".pdf,.doc,.docx"
+                          />
+                        </label>
+
+                        <p className="pl-1  text-muted-foreground">
+                          or drag and drop
+                        </p>
+                      </div>
+                      <p className="text-xs leading-5 text-muted-foreground">
+                        PDF, DOC up to 10MB
+                      </p>
                     </div>
-                    <p className="text-xs leading-5 text-gray-600">
-                      PDF, DOC up to 10MB
-                    </p>
                   </div>
-                </div>
-              ) : (
-                <div className="mt-2">
-                  <div className="flex items-center justify-between bg-gray-50 p-2 rounded">
-                    <span className="text-sm truncate">{file.name}</span>
-                    {uploading ? (
-                      <span className="text-sm text-gray-500">
-                        <Loader className="h-4 w-4 animate-spin" /> Uploading
-                        resume...
-                      </span>
-                    ) : (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setFile(null)}
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
-                    )}
+                ) : (
+                  <div className="mt-2">
+                    <div className="flex items-center justify-between bg-background p-2 rounded border-input shadow-none h-14">
+                      <div className="flex items-center gap-3 px-2">
+                        <File size={20} className="text-muted-foreground" />
+                        <span className="text-sm truncate">{file.name}</span>
+                      </div>
+
+                      {uploading ? (
+                        <span className="text-sm text-muted-foreground px-2">
+                          <Loader className="h-4 w-4 animate-spin" />
+                        </span>
+                      ) : (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => setFile(null)}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-          <Button
-            className="w-full mt-4"
-            type="submit"
-            disabled={!file || !jobTitle || uploading || isLoading}
-          >
-            {uploading
-              ? "Uploading..."
-              : resumeUrl
-              ? "Update Resume"
-              : "Upload Resume"}
-          </Button>
-        </form>
-      </CardContent>
-      <CardFooter className="flex flex-col items-center">
-        <p className="mt-4 text-sm text-gray-600">
-          Already have an account?{" "}
-          <a href="/sign-in" className="text-blue-600 hover:underline">
-            Login here
-          </a>
-          .
-        </p>
-      </CardFooter>
-    </Card>
+            <Button
+              className="w-full mt-4"
+              type="submit"
+              disabled={!file || !jobTitle || uploading || isLoading}
+            >
+              {uploading
+                ? "Uploading..."
+                : resumeUrl
+                ? "Update Resume"
+                : "Upload Resume"}
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter className="flex flex-col items-center">
+          <p className="mt-4 text-sm text-muted-foreground">
+            Already have an account?{" "}
+            <a href="/sign-in" className="underline text-card-foreground">
+              Login here
+            </a>
+            .
+          </p>
+        </CardFooter>
+      </Card>
+    </div>
+    </Section>
   );
 }

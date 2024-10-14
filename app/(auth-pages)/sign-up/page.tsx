@@ -26,7 +26,7 @@ export default function Signup() {
     <>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col min-w-64 max-w-64 mx-auto"
+        className="flex flex-col  mx-auto min-w-80 mt-36"
       >
         <h1 className="text-2xl font-medium">Sign up</h1>
         <p className="text-sm text text-foreground">

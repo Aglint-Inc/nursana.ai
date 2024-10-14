@@ -53,7 +53,7 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex-1 flex flex-col min-w-64">
+    <form onSubmit={handleSubmit} className="flex-1 flex flex-col min-w-80 mt-36">
       <h1 className="text-2xl font-medium">Sign in</h1>
       <p className="text-sm text-foreground">
         Don&apos;t have an account?{" "}
