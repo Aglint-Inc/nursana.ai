@@ -1,6 +1,5 @@
 import React from "react";
 import Section from "../section";
-import { Sparkle } from "lucide-react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import Link from "next/link";
