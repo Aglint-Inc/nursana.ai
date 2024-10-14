@@ -2,7 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { notFound, redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import HowItWorks from "@/components/how-it-works";
+import HowItWorks from "@/components/landing-sections.tsx/how-it-works";
 
 const ResumeUpload = dynamic(() => import("@/components/resume-upload"), {
   ssr: false,

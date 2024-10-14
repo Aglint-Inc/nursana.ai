@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateInterviewStage } from "@/app/interview/[id]/[stage]/actions";
+import Section from "./section";
 
 interface ResumeUploadProps {
   userId: string;
@@ -167,12 +168,13 @@ export default function ResumeUpload({
   }
 
   return (
+    <Section>
     <div className="flex flex-col gap-16 items-center">
       <div className="max-w-screen-xl flex flex-col gap-2 items-center">
-        <h1 className="text-4xl font-bold">
+        <h1 className="text-5xl font-medium">
           Let Nursera&apos;s AI find your next opportunity.
         </h1>
-        <h1 className="text-4xl font-bold">Get started now!</h1>
+        <h1 className="text-5xl font-medium">Get started now!</h1>
       </div>
       <Card className="w-full max-w-md bg-muted">
         <CardContent className="mt-6">
@@ -307,5 +309,6 @@ export default function ResumeUpload({
         </CardFooter>
       </Card>
     </div>
+    </Section>
   );
 }
