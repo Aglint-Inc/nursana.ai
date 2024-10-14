@@ -58,23 +58,23 @@ export function ResumeReview({ data }: ResumeReviewProps) {
         <CardContent className="p-6">
           <h2 className="text-xl font-semibold mb-4">Basic Information</h2>
           <p>
-            <strong>Name:</strong> {basics.firstName} {basics.lastName}
+            <strong>Name:</strong> {basics?.firstName} {basics?.lastName}
           </p>
           <p>
-            <strong>Email:</strong> {basics.email}
+            <strong>Email:</strong> {basics?.email}
           </p>
           <p>
-            <strong>Current Position:</strong> {basics.currentJobTitle} at{" "}
-            {basics.currentCompany}
+            <strong>Current Position:</strong> {basics?.currentJobTitle} at{" "}
+            {basics?.currentCompany}
           </p>
           <p>
-            <strong>Location:</strong> {basics.location.city},{" "}
-            {basics.location.state}, {basics.location.country}
+            <strong>Location:</strong> {basics?.location?.city},{" "}
+            {basics?.location?.state}, {basics?.location?.country}
           </p>
           <p>
             <strong>Total Experience:</strong>{" "}
-            {Math.floor(basics.totalExperienceInMonths / 12)} years{" "}
-            {basics.totalExperienceInMonths % 12} months
+            {Math.floor((basics?.totalExperienceInMonths ?? 0) / 12)} years{" "}
+            {(basics?.totalExperienceInMonths ?? 0) % 12} months
           </p>
         </CardContent>
       </Card>
@@ -83,7 +83,7 @@ export function ResumeReview({ data }: ResumeReviewProps) {
         <CardContent className="p-6">
           <h2 className="text-xl font-semibold mb-4">Skills</h2>
           <ul className="list-disc pl-5">
-            {skills.map((skill, index) => (
+            {skills?.map((skill, index) => (
               <li key={index}>{skill}</li>
             ))}
           </ul>
@@ -93,14 +93,14 @@ export function ResumeReview({ data }: ResumeReviewProps) {
       <Card>
         <CardContent className="p-6">
           <h2 className="text-xl font-semibold mb-4">Education</h2>
-          {schools.map((school, index) => (
+          {schools?.map((school, index) => (
             <div key={index} className="mb-4">
               <p>
                 <strong>{school.degree}</strong> in {school.field}
               </p>
               <p>{school.institution}</p>
               <p>
-                Graduated: {school.end.month}/{school.end.year}
+                Graduated: {school.end?.month}/{school.end?.year}
               </p>
             </div>
           ))}
@@ -110,13 +110,13 @@ export function ResumeReview({ data }: ResumeReviewProps) {
       <Card>
         <CardContent className="p-6">
           <h2 className="text-xl font-semibold mb-4">Work Experience</h2>
-          {positions.map((position, index) => (
+          {positions?.map((position, index) => (
             <div key={index} className="mb-4">
               <p>
                 <strong>{position.title}</strong> at {position.org}
               </p>
               <p>
-                {position.start.month}/{position.start.year} -{" "}
+                {position.start?.month}/{position.start?.year} -{" "}
                 {position.end
                   ? `${position.end.month}/${position.end.year}`
                   : "Present"}
@@ -130,13 +130,13 @@ export function ResumeReview({ data }: ResumeReviewProps) {
       <Card>
         <CardContent className="p-6">
           <h2 className="text-xl font-semibold mb-4">Certifications</h2>
-          {certificates.map((cert, index) => (
+          {certificates?.map((cert, index) => (
             <div key={index} className="mb-2">
               <p>
                 <strong>{cert.name}</strong> - {cert.institution}
               </p>
               <p>
-                Obtained: {cert.date.month}/{cert.date.year}
+                Obtained: {cert.date?.month}/{cert.date?.year}
               </p>
             </div>
           ))}
