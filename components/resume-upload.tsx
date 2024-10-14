@@ -22,7 +22,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateInterviewStage } from "@/app/interview/[id]/[stage]/actions";
-import { getResumeJson } from "@/hooks/useResumeJson";
+import { getResumeJson } from "@/utils/resume";
+
 
 interface ResumeUploadProps {
   userId: string;
