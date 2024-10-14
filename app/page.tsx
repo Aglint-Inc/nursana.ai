@@ -113,7 +113,7 @@ async function getOrCreateInterview(campaignCode: string, userId: string) {
 
 export default async function HomePage() {
   const headersList = headers();
-  const campaignCode = headersList.get("x-campaign-code") || "SUMMER23NURSE";
+  const campaignCode = headersList.get("x-campaign-code");
 
   const supabase = createClient();
   const {
