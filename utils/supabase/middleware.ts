@@ -50,12 +50,12 @@ export const updateSession = async (request: NextRequest) => {
   } else {
     response.headers.set('x-user-id', session.user.id);
 
-    if (!session.user.is_anonymous) {
-      // If user is authenticated and not anonymous, redirect to protected route
-      if (!request.nextUrl.pathname.startsWith("/protected")) {
-        return NextResponse.redirect(new URL("/protected", request.url));
-      }
-    }
+    // if (!session.user.is_anonymous) {
+    //   // If user is authenticated and not anonymous, redirect to protected route
+    //   if (!request.nextUrl.pathname.startsWith("/protected")) {
+    //     return NextResponse.redirect(new URL("/protected", request.url));
+    //   }
+    // }
   }
 
   // Check if the user is trying to access a protected route

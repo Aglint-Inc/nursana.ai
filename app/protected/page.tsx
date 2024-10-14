@@ -23,5 +23,5 @@ export default async function ProtectedPage() {
 
   const isNurse = !!nurseData;
 
-  return <>{isNurse ? <HospitalHomePage /> : <NurseHomePage />}</>;
+  return <>{!isNurse ? <HospitalHomePage /> : <NurseHomePage />}</>;
 }

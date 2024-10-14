@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export interface ResumeData {
   basics?: {
@@ -57,36 +58,51 @@ export function ResumeReview({ data }: ResumeReviewProps) {
       <Card>
         <CardContent className="p-6">
           <h2 className="text-xl font-semibold mb-4">Basic Information</h2>
-          <p>
-            <strong>Name:</strong> {basics?.firstName} {basics?.lastName}
-          </p>
-          <p>
-            <strong>Email:</strong> {basics?.email}
-          </p>
-          <p>
-            <strong>Current Position:</strong> {basics?.currentJobTitle} at{" "}
-            {basics?.currentCompany}
-          </p>
-          <p>
-            <strong>Location:</strong> {basics?.location?.city},{" "}
-            {basics?.location?.state}, {basics?.location?.country}
-          </p>
-          <p>
-            <strong>Total Experience:</strong>{" "}
-            {Math.floor((basics?.totalExperienceInMonths ?? 0) / 12)} years{" "}
-            {(basics?.totalExperienceInMonths ?? 0) % 12} months
-          </p>
+          <dl className="grid grid-cols-2 gap-4">
+            <div>
+              <dt className="font-semibold">Name</dt>
+              <dd>
+                {basics?.firstName} {basics?.lastName}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-semibold">Email</dt>
+              <dd>{basics?.email}</dd>
+            </div>
+            <div>
+              <dt className="font-semibold">Current Position</dt>
+              <dd>
+                {basics?.currentJobTitle} at {basics?.currentCompany}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-semibold">Location</dt>
+              <dd>
+                {basics?.location?.city}, {basics?.location?.state},{" "}
+                {basics?.location?.country}
+              </dd>
+            </div>
+            <div className="col-span-2">
+              <dt className="font-semibold">Total Experience</dt>
+              <dd>
+                {Math.floor((basics?.totalExperienceInMonths ?? 0) / 12)} years{" "}
+                {(basics?.totalExperienceInMonths ?? 0) % 12} months
+              </dd>
+            </div>
+          </dl>
         </CardContent>
       </Card>
 
       <Card>
         <CardContent className="p-6">
           <h2 className="text-xl font-semibold mb-4">Skills</h2>
-          <ul className="list-disc pl-5">
+          <div className="flex flex-wrap gap-2">
             {skills?.map((skill, index) => (
-              <li key={index}>{skill}</li>
+              <Badge key={index} variant="secondary">
+                {skill}
+              </Badge>
             ))}
-          </ul>
+          </div>
         </CardContent>
       </Card>
 

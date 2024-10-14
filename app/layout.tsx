@@ -32,7 +32,7 @@ export default function RootLayout({
           <main className="min-h-screen flex flex-col items-center">
             <div className="flex-1 w-full flex flex-col items-center">
               <Navbar />
-              <div className="flex flex-col gap-20 min-h-[calc(100vh-156px)]">
+              <div className="flex w-full flex-col gap-20 min-h-[calc(100vh-156px)]">
                 <Providers>{children}</Providers>
               </div>
               <Footer />
