@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import type { Database } from "@/lib/database.types";
-import { Cloud, FileText } from "lucide-react";
+import { Cloud, FileText, Loader, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,7 +21,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Progress } from "@/components/ui/progress";
 import { updateInterviewStage } from "@/app/interview/[id]/[stage]/actions";
 
 interface ResumeUploadProps {
@@ -35,7 +34,6 @@ export default function ResumeUpload({
 }: ResumeUploadProps) {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [jobTitle, setJobTitle] = useState("nurse");
   const [dragActive, setDragActive] = useState(false);
   const [resumeUrl, setResumeUrl] = useState<string | null>(null);
@@ -77,7 +75,6 @@ export default function ResumeUpload({
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setFile(event.target.files[0]);
-      setUploadProgress(0);
     }
   };
 
@@ -97,7 +94,6 @@ export default function ResumeUpload({
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setFile(e.dataTransfer.files[0]);
-      setUploadProgress(0);
     }
   }, []);
 
@@ -268,14 +264,17 @@ export default function ResumeUpload({
                   <div className="flex items-center justify-between bg-gray-50 p-2 rounded">
                     <span className="text-sm truncate">{file.name}</span>
                     {uploading ? (
-                      <Progress value={uploadProgress} className="w-1/2" />
+                      <span className="text-sm text-gray-500">
+                        <Loader className="h-4 w-4 animate-spin" /> Uploading
+                        resume...
+                      </span>
                     ) : (
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
                         onClick={() => setFile(null)}
                       >
-                        Remove
+                        <X className="h-4 w-4" />
                       </Button>
                     )}
                   </div>

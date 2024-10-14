@@ -4,8 +4,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Mic, StopCircle, Upload } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
+import { Mic, StopCircle, Loader, Video } from "lucide-react";
 import { useVideoRecording } from "@/hooks/useVideoRecording";
 import { useRouter } from "next/navigation";
 import { RetellWebClient } from "retell-client-js-sdk";
@@ -40,9 +39,7 @@ export default function Interview({
   const [isInterviewStarted, setIsInterviewStarted] = useState(false);
   const [timer, setTimer] = useState(0);
   const [showCaptions, setShowCaptions] = useState(true);
-  const [recordingProgress, setRecordingProgress] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [conversationHistory, setConversationHistory] = useState<
     ConversationTurn[]
@@ -78,7 +75,6 @@ export default function Interview({
 
     try {
       setIsProcessing(true);
-      setUploadProgress(0);
 
       // Wait for the video blob to be created
       await new Promise<void>((resolve) => {
@@ -109,8 +105,6 @@ export default function Interview({
 
       if (uploadError) throw uploadError;
 
-      setUploadProgress(50);
-
       const { data } = supabase.storage.from("videos").getPublicUrl(filePath);
 
       if (!data) throw new Error("Failed to get public URL");
@@ -135,7 +129,6 @@ export default function Interview({
       if (updateInterviewResult.error) throw updateInterviewResult.error;
       if (updateAnalysisResult.error) throw updateAnalysisResult.error;
 
-      setUploadProgress(100);
       console.log("Video upload and database updates completed successfully");
       router.push(`/interview/${interviewId}/summary`);
     } catch (error) {
@@ -264,7 +257,6 @@ export default function Interview({
       interval = setInterval(() => {
         setTimer((prevTimer) => {
           const newTimer = prevTimer + 1;
-          setRecordingProgress((newTimer / interviewDuration) * 100);
           if (newTimer >= interviewDuration) {
             handleStopInterview();
           }
@@ -345,8 +337,9 @@ export default function Interview({
                     <Mic className="h-4 w-4" />
                   </Button>
                 </div>
-                <div className="absolute bottom-0 left-0 w-full">
-                  <Progress value={recordingProgress} className="w-full" />
+                <div className="absolute bottom-0 left-0 w-full bg-red-500 bg-opacity-75 text-white px-4 py-2 flex items-center justify-center">
+                  <Video className="h-4 w-4 mr-2 animate-pulse" />
+                  <span>Recording</span>
                 </div>
               </>
             )}
@@ -356,10 +349,8 @@ export default function Interview({
 
       {isProcessing ? (
         <div className="mt-4 p-4 bg-gray-100 rounded-lg text-center">
-          <Upload className="animate-spin h-8 w-8 mx-auto mb-2" />
+          <Loader className="animate-spin h-8 w-8 mx-auto mb-2" />
           <p>Processing and uploading interview data...</p>
-          <Progress value={uploadProgress} className="w-full mt-2" />
-          <p>{uploadProgress}% complete</p>
         </div>
       ) : isInterviewStarted ? (
         <Button className="w-full mt-4" size="lg" onClick={handleStopInterview}>
