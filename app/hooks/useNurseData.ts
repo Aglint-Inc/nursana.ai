@@ -1,36 +1,41 @@
 import { useQuery } from "@tanstack/react-query";
 import { createClient } from "@/utils/supabase/client";
+import type { Database } from "@/lib/database.types";
 
+type NurseData = {
+  nurse: Database['public']['Tables']['nurses']['Row'] | null;
+  resume: Database['public']['Tables']['resumes']['Row'] | null;
+  interview: Database['public']['Tables']['interviews']['Row'] | null;
+  analysis: Database['public']['Tables']['interview_analysis']['Row'] | null;
+};
 
 export const useNurseData = (nurseId: string) => {
   const supabase = createClient();
-  console.log(nurseId);
-  console.log("from useNurseData");
 
-  return useQuery({
+  return useQuery<NurseData, Error>({
     queryKey: ['nurseData', nurseId],
     queryFn: async () => {
       const [nurseResult, resumeResult, interviewResult, analysisResult] = await Promise.all([
         supabase
           .from('nurses')
-          .select('first_name, last_name, job_title, email, phone_number, profile_status')
+          .select('*')
           .eq('nurse_id', nurseId)
           .single(),
         supabase
           .from('resumes')
-          .select('file_name, file_size, file_url, structured_resume')
+          .select('*')
           .eq('nurse_id', nurseId)
           .single(),
         supabase
           .from('interviews')
-          .select('name, interview_stage, created_at,  candidate_estimated_time, candidate_form, candidate_instructions, candidate_intro_video_cover_image_url, candidate_intro_video_url, candidate_overview')
+          .select('*')
           .eq('nurse_id', nurseId)
           .order('created_at', { ascending: false })
           .limit(1)
           .single(),
         supabase
           .from('interview_analysis')
-          .select('duration, structured_analysis, video_url, audio_url, transcript_url')
+          .select('*')
           .eq('nurse_id', nurseId)
           .order('created_at', { ascending: false })
           .limit(1)

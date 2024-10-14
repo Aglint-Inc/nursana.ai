@@ -1,48 +1,47 @@
 "use client";
-
+import { ResumeReview } from "@/app/components/ResumeReview";
+import { InterviewTranscript } from "@/app/components/InterviewTranscript";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Clock, Calendar, FileText, Play, X } from "lucide-react";
-import Image from "next/image";
+import { Clock, Calendar, FileText, Play, ExternalLink } from "lucide-react";
 import { useNurseData } from "@/app/hooks/useNurseData";
 import { format } from "date-fns";
 import { useAuth } from "@/app/contexts/AuthContext";
+import { PreferencesView } from "@/app/components/PreferencesView";
+import { PreferencesEdit } from "@/app/components/PreferencesEdit";
+import {
+  InterviewAnalysis,
+  type AIAnalysis,
+} from "@/app/components/InterviewAnalysis";
+import { VideoPlayer } from "@/app/components/VideoPlayer";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { AudioPlayer } from "@/app/components/AudioPlayer";
 
 export default function NurseHomePage() {
-  const [preferredJobTitles, setPreferredJobTitles] = useState([
-    "Pediatric Nurse",
-    "Critical Care Nurse",
-    "Registered Nurse",
-  ]);
-  const [preferredLocations, setPreferredLocations] = useState([
-    "Great Falls, Maryland",
-    "Corona, Michigan",
-    "Lansing, Illinois",
-  ]);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    setIsEditing(false);
+    refetch();
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
 
   const { userId } = useAuth();
   console.log("userId from the nurse home page", userId);
-  const nurseId = "d3122c67-70b9-421b-9a6d-0fdea60fc856";
-  const { data: nurseData, isLoading, error } = useNurseData(nurseId);
+  // interview ID cad4cf00-6371-46eb-b51a-5bb97bc5a930
+  const nurseId = "d6b2cf82-3f60-4886-893e-b472fb56b9e8";
+  const { data: nurseData, isLoading, error, refetch } = useNurseData(nurseId);
   console.log("nurseData from the nurse home page", nurseData);
-  const removeJobTitle = (title: string) => {
-    setPreferredJobTitles(preferredJobTitles.filter((t) => t !== title));
-  };
-
-  const removeLocation = (location: string) => {
-    setPreferredLocations(preferredLocations.filter((l) => l !== location));
-  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -51,16 +50,47 @@ export default function NurseHomePage() {
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
-          <h1 className="text-2xl font-bold mb-4">
-            Interview for {nurseData?.nurse?.job_title || "Nurse"}
+          <span className="text-sm text-purple-600">
+            ✦ Welcome, {nurseData?.nurse?.first_name || "to Nursera"}
+          </span>
+          <h1 className="text-xl font-bold mb-4">
+            Find you interview & resume feedback here
           </h1>
+          <Tabs defaultValue="interview">
+            <TabsList className="mb-4">
+              <TabsTrigger value="interview">Interview Feedback</TabsTrigger>
+              <TabsTrigger value="resume">Resume Review</TabsTrigger>
+              <TabsTrigger value="transcript">Interview Transcript</TabsTrigger>
+            </TabsList>
+            <TabsContent value="resume">
+              {nurseData?.resume?.structured_resume ? (
+                <ResumeReview data={nurseData.resume.structured_resume} />
+              ) : (
+                <p>No resume feedback available.</p>
+              )}
+            </TabsContent>
+            <TabsContent value="interview">
+              {nurseData?.analysis?.call_analysis && (
+                <InterviewAnalysis
+                  analysis={nurseData.analysis.call_analysis as AIAnalysis}
+                />
+              )}
+            </TabsContent>
+            <TabsContent value="transcript">
+              {nurseData?.analysis?.transcript ? (
+                <InterviewTranscript
+                  transcript={nurseData.analysis.transcript}
+                />
+              ) : (
+                <p>No interview transcript available.</p>
+              )}
+            </TabsContent>
+          </Tabs>
+        </div>
+
+        <div>
+          <h2 className="text-md font-medium mb-2">Recorded Interview</h2>
           <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
-            <div className="flex items-center">
-              <Clock className="w-4 h-4 mr-1" />
-              {nurseData?.analysis?.duration
-                ? `${Math.round(nurseData.analysis.duration / 60)} Minutes`
-                : "N/A"}
-            </div>
             <div className="flex items-center">
               <Calendar className="w-4 h-4 mr-1" />
               {nurseData?.interview?.created_at
@@ -70,226 +100,83 @@ export default function NurseHomePage() {
                   )
                 : "N/A"}
             </div>
-            <div>
+            <div className="flex items-center">
+              {/* */}
+              {nurseData?.analysis?.duration
+                ? `${Math.round(nurseData.analysis.duration)} Minutes at `
+                : "N/A"}{" "}
               {nurseData?.interview?.created_at
                 ? format(new Date(nurseData.interview.created_at), "hh:mm a")
                 : "N/A"}
             </div>
           </div>
-
-          <Card className="mb-6">
-            <CardContent className="p-4 flex items-center space-x-4">
-              <FileText className="w-8 h-8 text-red-500" />
-              <div>
-                <p className="font-medium">
-                  {nurseData?.resume?.file_name || "No resume uploaded"}
-                </p>
-                <p className="text-sm text-gray-500">
-                  {nurseData?.resume?.file_size || "N/A"}
-                </p>
-              </div>
-              {nurseData?.resume?.file_url && (
-                <Button variant="link" className="ml-auto">
-                  <a
-                    href={nurseData.resume.file_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    view resume
-                  </a>
-                </Button>
+          <Card className="overflow-hidden">
+            <CardContent className="p-0">
+              {nurseData?.analysis?.video_url ? (
+                <VideoPlayer videoUrl={nurseData.analysis.video_url} />
+              ) : (
+                <AspectRatio ratio={16 / 9}>
+                  <div className="flex items-center justify-center h-full bg-gray-200 text-gray-500">
+                    No video available
+                  </div>
+                </AspectRatio>
               )}
             </CardContent>
           </Card>
 
-          <Card className="mb-6 overflow-hidden">
-            <CardContent className="p-0 relative">
-              <Image
-                src="/images/interview-cover.png"
-                alt="Interview video thumbnail"
-                className="w-full h-auto"
-                width={600}
-                height={338}
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  className="flex items-center"
-                >
-                  <Play className="w-6 h-6 mr-2" />
-                  Replay Interview
-                </Button>
-              </div>
-              <div className="absolute top-4 right-4 bg-white p-2 rounded-lg">
-                <div className="w-10 h-10 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-full"></div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <h2 className="text-xl font-semibold flex items-center mb-4">
-                <span className="text-purple-600 mr-2">✦</span> AI Feedback
-              </h2>
-              <Tabs defaultValue="resume">
-                <TabsList className="mb-4">
-                  <TabsTrigger value="resume">Resume Review</TabsTrigger>
-                  <TabsTrigger value="interview">
-                    Interview Feedback
-                  </TabsTrigger>
-                </TabsList>
-                <TabsContent value="resume">
-                  {nurseData?.analysis?.structured_analysis ? (
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: nurseData.analysis.structured_analysis,
-                      }}
-                    />
-                  ) : (
-                    <p>No resume feedback available.</p>
-                  )}
-                </TabsContent>
-                <TabsContent value="interview">
-                  {nurseData?.analysis?.structured_analysis ? (
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: nurseData.analysis.structured_analysis,
-                      }}
-                    />
-                  ) : (
-                    <p>No interview feedback available.</p>
-                  )}
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div>
-          <Card>
-            <CardContent className="p-6">
-              <h2 className="text-xl font-semibold mb-4">
-                Set Up Your Preferences
-              </h2>
-              <p className="text-sm text-gray-600 mb-6">
-                Tailor your preferences to help us match you with the most
-                suitable job opportunities.
-              </p>
-
-              <div className="space-y-6">
+          {nurseData?.analysis?.audio_url && (
+            <AudioPlayer audioUrl={nurseData.analysis.audio_url} />
+          )}
+          <Card className="mb-6 bg-gray-50 group cursor-pointer">
+            <CardContent className="p-4">
+              <div className="flex justify-between items-center">
+                <div className="flex items-cente">
+                  <FileText
+                    className="w-10 h-10 text-muted-foreground"
+                    strokeWidth={1}
+                  />
+                </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Preferred Job Titles
-                  </label>
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {preferredJobTitles.map((title, index) => (
-                      <Badge
-                        key={index}
-                        variant="secondary"
+                  <p className="font-medium text-sm text-muted-foreground">
+                    {nurseData?.resume?.file_name || "No resume uploaded"}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {nurseData?.resume?.file_size || "N/A"}
+                  </p>
+                </div>
+                {nurseData?.resume?.file_url && (
+                  <div className="group relative">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                    >
+                      <a
+                        href={nurseData.resume.file_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center"
                       >
-                        {title}
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="ml-1 h-auto p-0"
-                          onClick={() => removeJobTitle(title)}
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </Badge>
-                    ))}
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </Button>
                   </div>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Choose from the list" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="nurse">Nurse</SelectItem>
-                      <SelectItem value="doctor">Doctor</SelectItem>
-                      <SelectItem value="surgeon">Surgeon</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Preferred Locations
-                  </label>
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {preferredLocations.map((location, index) => (
-                      <Badge
-                        key={index}
-                        variant="secondary"
-                        className="flex items-center"
-                      >
-                        {location}
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="ml-1 h-auto p-0"
-                          onClick={() => removeLocation(location)}
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </Badge>
-                    ))}
-                  </div>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Choose from the list" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="newyork">New York, NY</SelectItem>
-                      <SelectItem value="losangeles">
-                        Los Angeles, CA
-                      </SelectItem>
-                      <SelectItem value="chicago">Chicago, IL</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Job Type
-                  </label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Full time" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="fulltime">Full time</SelectItem>
-                      <SelectItem value="parttime">Part time</SelectItem>
-                      <SelectItem value="contract">Contract</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Travel
-                  </label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Yes" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="yes">Yes</SelectItem>
-                      <SelectItem value="no">No</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Desired Salary (yearly)
-                  </label>
-                  <Input type="text" placeholder="eg: $20000" />
-                </div>
+                )}
               </div>
             </CardContent>
           </Card>
+          {isEditing ? (
+            <PreferencesEdit
+              nurseData={nurseData?.nurse || null}
+              onSave={handleSave}
+              onCancel={handleCancel}
+            />
+          ) : (
+            <PreferencesView
+              nurseData={nurseData?.nurse || null}
+              onEdit={handleEdit}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -137,6 +137,7 @@ export type Database = {
       interview_analysis: {
         Row: {
           audio_url: string | null
+          call_analysis: Json | null
           call_id: string | null
           created_at: string | null
           duration: number | null
@@ -145,12 +146,14 @@ export type Database = {
           interview_id: string
           nurse_id: string
           structured_analysis: Json | null
+          transcript: string | null
           transcript_url: string | null
           updated_at: string | null
           video_url: string | null
         }
         Insert: {
           audio_url?: string | null
+          call_analysis?: Json | null
           call_id?: string | null
           created_at?: string | null
           duration?: number | null
@@ -159,12 +162,14 @@ export type Database = {
           interview_id: string
           nurse_id: string
           structured_analysis?: Json | null
+          transcript?: string | null
           transcript_url?: string | null
           updated_at?: string | null
           video_url?: string | null
         }
         Update: {
           audio_url?: string | null
+          call_analysis?: Json | null
           call_id?: string | null
           created_at?: string | null
           duration?: number | null
@@ -173,6 +178,7 @@ export type Database = {
           interview_id?: string
           nurse_id?: string
           structured_analysis?: Json | null
+          transcript?: string | null
           transcript_url?: string | null
           updated_at?: string | null
           video_url?: string | null
@@ -369,35 +375,50 @@ export type Database = {
         Row: {
           created_at: string | null
           email: string | null
+          expected_salary: number | null
           first_name: string | null
           job_title: string | null
+          job_type: string | null
           last_name: string | null
           nurse_id: string
           phone_number: string | null
+          preferred_job_titles: string[] | null
+          preferred_locations: string[] | null
           profile_status: string | null
           terms_accepted: boolean | null
+          travel_preference: string | null
         }
         Insert: {
           created_at?: string | null
           email?: string | null
+          expected_salary?: number | null
           first_name?: string | null
           job_title?: string | null
+          job_type?: string | null
           last_name?: string | null
           nurse_id?: string
           phone_number?: string | null
+          preferred_job_titles?: string[] | null
+          preferred_locations?: string[] | null
           profile_status?: string | null
           terms_accepted?: boolean | null
+          travel_preference?: string | null
         }
         Update: {
           created_at?: string | null
           email?: string | null
+          expected_salary?: number | null
           first_name?: string | null
           job_title?: string | null
+          job_type?: string | null
           last_name?: string | null
           nurse_id?: string
           phone_number?: string | null
+          preferred_job_titles?: string[] | null
+          preferred_locations?: string[] | null
           profile_status?: string | null
           terms_accepted?: boolean | null
+          travel_preference?: string | null
         }
         Relationships: [
           {
@@ -546,33 +567,11 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      create_interview_v2:
-        | {
-            Args: {
-              p_campaign_code: string
-              p_nurse_id: string
-            }
-            Returns: string
-          }
-        | {
-            Args: {
-              p_campaign_code: string
-              p_nurse_id: string
-              p_interview_stage: string
-            }
-            Returns: string
-          }
-      delete_all_auth_users: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      delete_all_nurses: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      delete_nurse: {
+      create_interview_v2: {
         Args: {
+          p_campaign_code: string
           p_nurse_id: string
+          p_interview_stage: string
         }
         Returns: string
       }
