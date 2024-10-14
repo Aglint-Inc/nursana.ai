@@ -15,8 +15,11 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Clock, Calendar, FileText, Play, X } from "lucide-react";
 import Image from "next/image";
+import { useNurseData } from "@/app/hooks/useNurseData";
+import { format } from "date-fns";
+import { useAuth } from "@/app/contexts/AuthContext";
 
-export default function Component() {
+export default function NurseHomePage() {
   const [preferredJobTitles, setPreferredJobTitles] = useState([
     "Pediatric Nurse",
     "Critical Care Nurse",
@@ -28,6 +31,11 @@ export default function Component() {
     "Lansing, Illinois",
   ]);
 
+  const { userId } = useAuth();
+  console.log("userId from the nurse home page", userId);
+  const nurseId = "d3122c67-70b9-421b-9a6d-0fdea60fc856";
+  const { data: nurseData, isLoading, error } = useNurseData(nurseId);
+  console.log("nurseData from the nurse home page", nurseData);
   const removeJobTitle = (title: string) => {
     setPreferredJobTitles(preferredJobTitles.filter((t) => t !== title));
   };
@@ -36,35 +44,61 @@ export default function Component() {
     setPreferredLocations(preferredLocations.filter((l) => l !== location));
   };
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
           <h1 className="text-2xl font-bold mb-4">
-            Interview for Pediatric Nurse
+            Interview for {nurseData?.nurse?.job_title || "Nurse"}
           </h1>
           <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
             <div className="flex items-center">
               <Clock className="w-4 h-4 mr-1" />
-              12 Minutes
+              {nurseData?.analysis?.duration
+                ? `${Math.round(nurseData.analysis.duration / 60)} Minutes`
+                : "N/A"}
             </div>
             <div className="flex items-center">
               <Calendar className="w-4 h-4 mr-1" />
-              24 September 2024
+              {nurseData?.interview?.created_at
+                ? format(
+                    new Date(nurseData.interview.created_at),
+                    "dd MMMM yyyy"
+                  )
+                : "N/A"}
             </div>
-            <div>07:24 PM</div>
+            <div>
+              {nurseData?.interview?.created_at
+                ? format(new Date(nurseData.interview.created_at), "hh:mm a")
+                : "N/A"}
+            </div>
           </div>
 
           <Card className="mb-6">
             <CardContent className="p-4 flex items-center space-x-4">
               <FileText className="w-8 h-8 text-red-500" />
               <div>
-                <p className="font-medium">caty-pery-pediatric.pdf</p>
-                <p className="text-sm text-gray-500">94 KB</p>
+                <p className="font-medium">
+                  {nurseData?.resume?.file_name || "No resume uploaded"}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {nurseData?.resume?.file_size || "N/A"}
+                </p>
               </div>
-              <Button variant="link" className="ml-auto">
-                view resume
-              </Button>
+              {nurseData?.resume?.file_url && (
+                <Button variant="link" className="ml-auto">
+                  <a
+                    href={nurseData.resume.file_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    view resume
+                  </a>
+                </Button>
+              )}
             </CardContent>
           </Card>
 
@@ -106,64 +140,26 @@ export default function Component() {
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="resume">
-                  <p className="mb-4">
-                    Your resume presents a solid background in pediatric
-                    nursing, highlighting your education and hands-on experience
-                    in various healthcare settings. Below are a few suggestions
-                    for improvement:
-                  </p>
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="font-semibold flex items-center">
-                        Experience{" "}
-                        <Badge variant="secondary" className="ml-2">
-                          High 85%
-                        </Badge>
-                      </h3>
-                      <p className="text-sm text-gray-600">
-                        Extensive experience in pediatric emergency care,
-                        administering vaccinations, managing chronic illnesses,
-                        and supporting recovery from surgical procedures. Proven
-                        ability to collaborate with interdisciplinary teams to
-                        deliver holistic child care.
-                      </p>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold flex items-center">
-                        Skill{" "}
-                        <Badge variant="secondary" className="ml-2">
-                          Medium 78%
-                        </Badge>
-                      </h3>
-                      <p className="text-sm text-gray-600">
-                        Expertise in child development, pain management, and
-                        handling sensitive pediatric cases. Skilled in
-                        child-centric communication and education for both
-                        patients and parents to ensure comfort and
-                        understanding.
-                      </p>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold flex items-center">
-                        Education{" "}
-                        <Badge variant="secondary" className="ml-2">
-                          High 95%
-                        </Badge>
-                      </h3>
-                      <p className="text-sm text-gray-600">
-                        Comprehensive understanding of pediatric nursing
-                        principles, backed by formal education and ongoing
-                        training in the latest child healthcare techniques and
-                        practices.
-                      </p>
-                    </div>
-                  </div>
+                  {nurseData?.analysis?.structured_analysis ? (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: nurseData.analysis.structured_analysis,
+                      }}
+                    />
+                  ) : (
+                    <p>No resume feedback available.</p>
+                  )}
                 </TabsContent>
                 <TabsContent value="interview">
-                  <p>
-                    Interview feedback will be available here after the
-                    interview is completed.
-                  </p>
+                  {nurseData?.analysis?.structured_analysis ? (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: nurseData.analysis.structured_analysis,
+                      }}
+                    />
+                  ) : (
+                    <p>No interview feedback available.</p>
+                  )}
                 </TabsContent>
               </Tabs>
             </CardContent>
