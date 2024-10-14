@@ -37,12 +37,12 @@ export interface ResumeData {
 }
 
 interface ResumeReviewProps {
-  data: any; // Change this to 'any' to accept any structure
+  data: ResumeData;
 }
 
 export function ResumeReview({ data }: ResumeReviewProps) {
   // Type guard function to check if the data matches ResumeData structure
-  const isResumeData = (obj: any): obj is ResumeData => {
+  const isResumeData = (obj: ResumeData): obj is ResumeData => {
     return obj && typeof obj === "object" && "basics" in obj;
   };
 

@@ -1,5 +1,5 @@
 "use client";
-import { ResumeReview } from "@/app/components/ResumeReview";
+import { type ResumeData, ResumeReview } from "@/app/components/ResumeReview";
 import { InterviewTranscript } from "@/app/components/InterviewTranscript";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -64,7 +64,9 @@ export default function NurseHomePage() {
             </TabsList>
             <TabsContent value="resume">
               {nurseData?.resume?.structured_resume ? (
-                <ResumeReview data={nurseData.resume.structured_resume} />
+                <ResumeReview
+                  data={nurseData.resume.structured_resume as ResumeData}
+                />
               ) : (
                 <p>No resume feedback available.</p>
               )}
