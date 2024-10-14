@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateInterviewStage } from "@/app/interview/[id]/[stage]/actions";
+import { getResumeJson } from "@/hooks/useResumeJson";
 
 interface ResumeUploadProps {
   userId: string;
@@ -132,6 +133,8 @@ export default function ResumeUpload({
         .single();
 
       if (resumeError) throw resumeError;
+
+      getResumeJson(updatedResume.id, publicUrl);
 
       if (updatedResume) {
         setResumeUrl(updatedResume.file_url);

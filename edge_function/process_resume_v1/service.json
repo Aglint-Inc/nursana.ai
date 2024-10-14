@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "aglint-cloud-381414",
+  "private_key_id": "ecd1d7bd9d97936e722f32da549f43e379f8ee3b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDSKJWPCshEbGrD\n4s9zG+Q36IiDEKK5eb22Gmjf2HOhSOKcdS3OyukrM+7jUZdC0hWoLbUn0GUdESNw\n4HniRMK6BtXVeTvFtJMEeaXwzfCt725OfKCKg7gmBOnFiwaw0C1o1Gy0Hgz06oOQ\nV7Zg8dh8B06Kozjm/of6fF2iZLGSrWSoTmFkysFc+eDYxDdhOSp8as7EPFK8igvW\n564etZSe8oVpIw5LvYfIyNRMRFVFQes7MKzXFDvPuLAltpeG6dG4d2IE2AgEuWXU\n2tQeekHYdXMnxFBi9WeMAaUpyLKwi+QSGZumLpdq+B/sNU5nldz/jPLFfhMUlzZ3\n0PhETWE9AgMBAAECggEAEkZrMwQqBCE1a5FWntjnEKGM9XDF5cEbaTGEuyp0a6sN\n4bMi55+nhRVACc53i9z++x/2Z97sXAm4fkFW+AEoucqMX8LqGrgoLLRzZKxT6Jww\niGy3/TOVGOFGfuInE8sWl84ZIdSXJdka1bt65ZVCUQ7FmrK06QlrQ7H65ntBIdL/\nq+1wWd3j0n2hpKAMiHR+aVU+dBExZxrN/FJndG8R8oUbXoPa3HxCCMMyFDqxuqY6\niXfLOSVpo3wzBckQWwCHWNGS/jZfoYbodLCDNN/5b5YtRGCRPHs6mywaZNIS6JnH\nEgrOWLLxK8K2kBPlsvgs1f8xEIce6FJdsn+IURUIoQKBgQD/2M8rWIs9iH9u/USE\nOs9sS5EuvHi2zwTuMVtkFD7OOsskX1hFiXASygQTMQntuB9opeb/2rrMSRBhx24f\nomtJqMo4TZyb1YEv4GNL/bLnHVHrnjmca9KXh2lynNsTT5Ffur2LFVfZQg+40c93\nEw7kA9SIDa68++bwqLoSZ4gz5QKBgQDSSMbBpV6/mgRMeOm0S5sSPoV0Txz6pqvs\nOpNaCiu9vXPiEOEjNoFzgwxRuu3zxtBuvfh5VItDA8RywRqCOKKKsif7rqLKefFI\nWGprc5p3GGkSilAZe5WrY9acbkWLIms8haIIaZxOuepR3YKlHYz0qcjmWdQfiyIC\nes8UMT/SeQKBgQD8mVHJiQ1Ifnja2yGHsAzU7jL0Qs6oJvLGPWLvB3IO6UthqOUd\nGpnVYzDsxdD4rH4OMyZD2+/r/AM5ls4qW5Cz0/t75VzHGuAGpfNDtsKonnEgQUK+\nJlJwmxhIOYeupDNyoYu8QyFN9oRRRI0iEmX0R7fRcDjii46yctPrkd6O5QKBgQCA\nq2FaujqYmMBKnq250Y1og3MbcRE1WejW2hyxuol7R0JyMIviBQb+zFAsbmoNgTim\nmn1AmHfCILsC0J/M0KS8oziN6xTXOfhmoRs09n6sovYgDxvmC9XQEn4OJ/dLpFrj\npI06Ao1PKrlzMEwxhjxqtL0mHg8K4hKEW+r72wrHWQKBgQDH82aTPUJwFG5kJNSd\n1yd/17BeedfV17qGRtVgq0MEBWRc9TXq2Gn+ecSze4XSY2CfODCVD4Rjal67OW9r\n277DBN2KXu5xkuU8GzWkhz7GbwRPOHH3N4t4Ol7vtlaqpoCjwPXQ0o+pO8E6Yr2n\nhDeRDs4XUkiXRUyT/0YwCFcx4A==\n-----END PRIVATE KEY-----\n",
+  "client_email": "logger@aglint-cloud-381414.iam.gserviceaccount.com",
+  "client_id": "102750906426646649868",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/logger%40aglint-cloud-381414.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

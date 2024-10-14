@@ -1,0 +1,38 @@
+{
+  "name": "process_resume_and_jd_v1",
+  "version": "1.0.0",
+  "description": "parser function for jd to jd json",
+  "packageManager": "yarn@1.22.19",
+  "engines": {
+    "yarn": "^1.22.19"
+  },
+  "main": "lib/index.js",
+  "author": "Vivekß",
+  "license": "",
+  "private": true,
+  "scripts": {
+    "tsconfig": "tsc --init",
+    "gcp-build": "tsc",
+    "start": "tsc && functions-framework --target hello --port 8081",
+    "dev": "nodemon --ext ts --exec 'yarn start'",
+    "deploy_dev": "gcloud functions deploy process_resume_and_jd_v1 --gen2 --runtime=nodejs18 --region=northamerica-northeast2 --source=. --entry-point=hello --trigger-http --allow-unauthenticated",
+    "deploy_prod": "gcloud functions deploy process_resume_and_jd_v1 --gen2 --runtime=nodejs18 --region=us-central1 --source=. --entry-point=hello --trigger-http --allow-unauthenticated"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.4.2",
+    "@langchain/core": "^0.3.11",
+    "@langchain/openai": "^0.3.7",
+    "@supabase/supabase-js": "^2.38.4",
+    "axios": "^1.6.0",
+    "dlx": "^0.2.1",
+    "dotenv": "^16.3.1",
+    "langchain": "^0.3.2",
+    "openai": "^4.11.1",
+    "tesseract.js": "^5.1.1",
+    "zod-to-json-schema": "^3.23.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "typescript": "^5.2.2"
+  }
+}
