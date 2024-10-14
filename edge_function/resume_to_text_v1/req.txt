@@ -1,0 +1,2 @@
+pip install functions-framework requests pypdf PyMuPDF docx2txt pdfminer.six
+pip install urllib3==1.26.6

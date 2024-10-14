@@ -8,5 +8,6 @@
     "typescript",
     "typescriptreact"
   ],
+  "cSpell.words": ["langchain", "OPENAI", "SUPABASE", "tesseract"],
   "cSpell.words": ["supabase"]
 }
