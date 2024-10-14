@@ -10,7 +10,7 @@ function HowItWorks() {
   return (
     <div className="flex flex-col gap-16">
       <div className="max-w-screen-xl flex flex-col gap-2 items-center">
-        <h1 className="text-4xl font-bold text-purple-600">
+        <h1 className="text-4xl font-bold">
           Nursera connects you with top-tier opportunities,
         </h1>
         <h1 className="text-4xl font-bold">

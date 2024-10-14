@@ -79,7 +79,7 @@ export default async function InterviewPage({
       case "get-started":
         return (
           <Suspense fallback={<div>Loading Resume Upload...</div>}>
-            <div className="flex flex-col gap-28 items-center">
+            <div className="flex flex-col gap-36 items-center">
             <HowItWorks/>
             <ResumeUpload
               key={params.id}
