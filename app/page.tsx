@@ -21,7 +21,7 @@ async function getOrCreateNurse(userId: string) {
       profile_status: "initial",
     });
     if (nurseError) throw nurseError;
-    console.log("New nurse record created");
+    console.log("New nurse record created successfully");
   } else {
     console.log("Existing nurse record found");
   }
@@ -70,6 +70,11 @@ async function getOrCreateInterview(campaignCode: string, userId: string) {
         existingInterview.interview_stage
       );
       return existingInterview;
+    }
+    if (fetchError) {
+      console.error(
+        "Error fetching existing interview. Creating new interview."
+      );
     }
 
     // If no existing interview, create a new one using the create_interview_v2 function
@@ -152,11 +157,12 @@ export default async function HomePage() {
 
     // Redirect to the appropriate interview stage
     return redirect(`/interview/${interviewData.id}/${redirectStage}`);
-  } catch (error) {
+  } catch (error: unknown) {
     if (
       error instanceof Error &&
       "digest" in error &&
-      (error as any).digest.startsWith("NEXT_REDIRECT")
+      typeof error.digest === "string" &&
+      error.digest.startsWith("NEXT_REDIRECT")
     ) {
       // This is a redirect, not an error. Let Next.js handle it.
       throw error;

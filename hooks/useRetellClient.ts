@@ -26,23 +26,22 @@ export function useRetellClient() {
         await retellClientRef.current.startCall({
           accessToken: accessToken,
         });
-        console.log("Call started using Retell Web Client.");
       } catch (error) {
         console.error("Failed to start call:", error);
         throw error;
       }
     } else {
-      console.error("Retell Web Client is not initialized.");
-      throw new Error("Retell Web Client is not initialized.");
+      console.error("Telephony Web Client is not initialized.");
+      throw new Error("Telephony Web Client is not initialized.");
     }
   }, []);
 
   const stopCall = useCallback(() => {
     if (retellClientRef.current) {
       retellClientRef.current.stopCall();
-      console.log("Call stopped using Retell Web Client.");
+      console.log("Call stopped using Telephony Web Client.");
     } else {
-      console.error("Retell Web Client is not initialized.");
+      console.error("Telephony Web Client is not initialized.");
     }
   }, []);
 
