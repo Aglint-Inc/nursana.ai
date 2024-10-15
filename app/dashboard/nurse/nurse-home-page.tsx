@@ -3,18 +3,19 @@ import { format } from "date-fns";
 import { Calendar, ExternalLink, FileText } from "lucide-react";
 import { useState } from "react";
 
-import { AudioPlayer } from "@/app/components/AudioPlayer";
+import { AudioPlayer } from "@/common/components/AudioPlayer";
+import { InterviewAnalysis } from "@/common/components/InterviewAnalysis";
+import { type AIAnalysis } from "@/common/components/InterviewAnalysis";
+import { InterviewTranscript } from "@/common/components/InterviewTranscript";
+import { PreferencesEdit } from "@/common/components/PreferencesEdit";
+import { PreferencesView } from "@/common/components/PreferencesView";
 import {
-  type AIAnalysis,
-  InterviewAnalysis,
-} from "@/app/components/InterviewAnalysis";
-import { InterviewTranscript } from "@/app/components/InterviewTranscript";
-import { PreferencesEdit } from "@/app/components/PreferencesEdit";
-import { PreferencesView } from "@/app/components/PreferencesView";
-import { type ResumeData, ResumeReview } from "@/app/components/ResumeReview";
-import { VideoPlayer } from "@/app/components/VideoPlayer";
-import { useAuth } from "@/app/contexts/AuthContext";
-import { useNurseData } from "@/app/hooks/useNurseData";
+  type ResumeData,
+  ResumeReview,
+} from "@/common/components/ResumeReview";
+import { VideoPlayer } from "@/common/components/VideoPlayer";
+import { useAuth } from "@/common/contexts/AuthContext";
+import { useNurseData } from "@/common/hooks/useNurseData";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
