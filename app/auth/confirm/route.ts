@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   if (code) {
     const supabase = createClient();
     await supabase.auth.exchangeCodeForSession(code);
-    return NextResponse.redirect(`${origin}/protected`);
+    return NextResponse.redirect(`${origin}/nurse/dashboard`);
   } else {
     return NextResponse.redirect(`${origin}/user/sign-in?error=invalid_code`);
   }

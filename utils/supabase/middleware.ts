@@ -8,7 +8,7 @@ export const updateSession = async (request: NextRequest) => {
     },
   });
 
-  const isProtectedRoute = request.nextUrl.pathname.startsWith("/protected");
+  const isProtectedRoute = request.nextUrl.pathname.startsWith("/dashboard");
 
   if (isProtectedRoute) {
     const supabase = createServerClient(

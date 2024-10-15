@@ -4,8 +4,10 @@ import { Calendar, ExternalLink, FileText } from "lucide-react";
 import { useState } from "react";
 
 import { AudioPlayer } from "@/common/components/AudioPlayer";
-import { InterviewAnalysis } from "@/common/components/InterviewAnalysis";
-import { type AIAnalysis } from "@/common/components/InterviewAnalysis";
+import {
+  type AIAnalysis,
+  InterviewAnalysis,
+} from "@/common/components/InterviewAnalysis";
 import { InterviewTranscript } from "@/common/components/InterviewTranscript";
 import { PreferencesEdit } from "@/common/components/PreferencesEdit";
 import { PreferencesView } from "@/common/components/PreferencesView";
@@ -14,7 +16,6 @@ import {
   ResumeReview,
 } from "@/common/components/ResumeReview";
 import { VideoPlayer } from "@/common/components/VideoPlayer";
-import { useAuth } from "@/common/contexts/AuthContext";
 import { useNurseData } from "@/common/hooks/useNurseData";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
@@ -37,12 +38,9 @@ export default function NurseHomePage() {
     setIsEditing(false);
   };
 
-  const { userId } = useAuth();
-  console.log("userId from the nurse home page", userId);
   // interview ID cad4cf00-6371-46eb-b51a-5bb97bc5a930
   const nurseId = "d6b2cf82-3f60-4886-893e-b472fb56b9e8";
   const { data: nurseData, isLoading, error, refetch } = useNurseData(nurseId);
-  console.log("nurseData from the nurse home page", nurseData);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
