@@ -28,9 +28,9 @@ async function checkRole() {
     return "company";
   }
   const { data: nurse } = await supabase
-    .from("nurses")
+    .from("users")
     .select()
-    .eq("nurse_id", userId)
+    .eq("id", userId)
     .throwOnError();
 
   if (nurse && nurse.length > 0) {

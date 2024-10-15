@@ -88,7 +88,7 @@ const timingMiddleware = t.middleware(async ({ next, path: _path }) => {
   const result = await next();
 
   const _end = Date.now();
-  if (process.env.NEXT_PUBLIC_HOST_NAME === "http://localhost:3000") {
+  if (process.env.NEXT_PUBLIC_SITE_URL === "http://localhost:3000") {
     // eslint-disable-next-line no-console
     // console.log(`[TRPC] ${path} took ${end - start}ms to execute`);
   }
@@ -151,7 +151,7 @@ export type PrivateProcedure<T = unknown> = Procedure<
 
 type Procedure<
   U extends ProcedureBuilder<any, any, any, any, any, any, any, any>,
-  T = unknown
+  T = unknown,
 > = T extends ZodSchema
   ? U extends ProcedureBuilder<
       infer TContext,
@@ -169,20 +169,20 @@ type Procedure<
       }
     : never
   : U extends ProcedureBuilder<
-      infer TContext,
-      any,
-      infer TContextOverrides,
-      any,
-      any,
-      any,
-      any,
-      any
-    >
-  ? {
-      ctx: TContext & TContextOverrides;
-      input: undefined;
-    }
-  : never;
+        infer TContext,
+        any,
+        infer TContextOverrides,
+        any,
+        any,
+        any,
+        any,
+        any
+      >
+    ? {
+        ctx: TContext & TContextOverrides;
+        input: undefined;
+      }
+    : never;
 
 export type RequiredPayload<T extends Record<any, any>[] | Record<any, any>> =
   T extends Record<any, any>[] ? Required<T[number]>[] : Required<T>;

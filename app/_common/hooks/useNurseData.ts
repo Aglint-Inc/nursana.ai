@@ -1,24 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 
-import type { Database } from "@/lib/database.types";
-import { createClient } from "@/utils/supabase/client";
-
-type NurseData = {
-  nurse: Database["public"]["Tables"]["nurses"]["Row"] | null;
-  resume: Database["public"]["Tables"]["resumes"]["Row"] | null;
-  interview: Database["public"]["Tables"]["interviews"]["Row"] | null;
-  analysis: Database["public"]["Tables"]["interview_analysis"]["Row"] | null;
-};
+import { supabase } from "@/utils/supabase/client";
 
 export const useNurseData = (nurseId: string) => {
-  const supabase = createClient();
-
-  return useQuery<NurseData, Error>({
+  return useQuery({
     queryKey: ["nurseData", nurseId],
     queryFn: async () => {
       const [nurseResult, resumeResult, interviewResult, analysisResult] =
         await Promise.all([
-          supabase.from("nurses").select("*").eq("nurse_id", nurseId).single(),
+          supabase.from("users").select("*").eq("nurse_id", nurseId).single(),
           supabase.from("resumes").select("*").eq("nurse_id", nurseId).single(),
           supabase
             .from("interviews")

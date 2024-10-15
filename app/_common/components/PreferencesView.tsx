@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Database } from "@/lib/database.types";
 
-type NurseRow = Database["public"]["Tables"]["nurses"]["Row"];
+type NurseRow = Database["public"]["Tables"]["users"]["Row"];
 
 type PreferencesViewProps = {
   nurseData: NurseRow | null;

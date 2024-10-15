@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import type { Database } from "@/lib/database.types";
 
-type NurseRow = Database["public"]["Tables"]["nurses"]["Row"];
+type NurseRow = Database["public"]["Tables"]["users"]["Row"];
 
 type PreferencesEditProps = {
   nurseData: NurseRow | null;
@@ -76,7 +76,7 @@ export function PreferencesEdit({
     if (!nurseData) return;
 
     const { error } = await supabase
-      .from("nurses")
+      .from("users")
       .update({
         preferred_job_titles: preferredJobTitles,
         preferred_locations: preferredLocations,
@@ -84,7 +84,7 @@ export function PreferencesEdit({
         travel_preference: travelPreference,
         expected_salary: expectedSalary ? parseInt(expectedSalary) : null,
       })
-      .eq("nurse_id", nurseData.nurse_id);
+      .eq("id", nurseData.id);
 
     if (error) {
       console.error("Error updating preferences:", error);

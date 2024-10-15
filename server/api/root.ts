@@ -1,4 +1,5 @@
-import { example, exampleSchema } from "./routers/example";
+import { example } from "./routers/example";
+import { user } from "./routers/user";
 import { createCallerFactory, createTRPCRouter } from "./trpc";
 
 /**
@@ -8,11 +9,8 @@ import { createCallerFactory, createTRPCRouter } from "./trpc";
  */
 export const appRouter = createTRPCRouter({
   example,
+  user,
 });
-
-export const appRouterSchema = {
-  example: exampleSchema,
-};
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
