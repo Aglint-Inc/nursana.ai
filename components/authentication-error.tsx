@@ -1,7 +1,8 @@
-import React from "react";
-import { Button } from "./ui/button";
-import Link from "next/link";
 import { ShieldAlert } from "lucide-react";
+import Link from "next/link";
+import React from "react";
+
+import { Button } from "./ui/button";
 
 function AuthenticationError() {
   return (
