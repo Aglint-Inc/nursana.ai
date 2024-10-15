@@ -10,6 +10,8 @@ import { type InterviewData } from "src/types/types";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Section from "./section";
+import Footer from "./footer";
 
 const InterviewProcess = dynamic(
   () => import("@/components/interview-process"),
@@ -89,18 +91,23 @@ export default function InterviewInstructions({
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-3xl">
-      <h1 className="text-3xl font-bold text-center mb-6">
-        <span className="text-navy-900">
+    <Section>
+    <div className="flex flex-col items-center justify-center mb-20">
+    <div className="text-3xl font-light mb-10">
+              <span className="font-medium">Nursera</span>
+              <span className="font-light text-purple-500">.ai</span>
+            </div>
+      <h1 className="text-4xl font-medium text-center mb-10">
+        <span className="">
           Welcome to the AI Based interview for
         </span>
         <br />
-        <span className="text-teal-600">
+        <span >
           {interviewData.name || interviewData.campaign_code}
         </span>
       </h1>
 
-      <div className="relative rounded-lg overflow-hidden mb-6">
+      <div className="relative rounded-lg overflow-hidden mb-6 max-w-3xl w-full">
         <AspectRatio ratio={16 / 9}>
           {showCover ? (
             <>
@@ -115,7 +122,7 @@ export default function InterviewInstructions({
                 <Button
                   size="icon"
                   variant="secondary"
-                  className="w-16 h-16 rounded-full bg-white bg-opacity-75 hover:bg-opacity-100 transition-all"
+                  className="w-16 h-16 rounded-full bg-secondary bg-opacity-75 hover:bg-opacity-100 transition-all"
                   onClick={showVideo}
                 >
                   <Play className="h-8 w-8 text-navy-900" />
@@ -167,24 +174,25 @@ export default function InterviewInstructions({
         </AspectRatio>
       </div>
 
-      <Card className="mb-6">
+<div className="flex flex-col gap-6 max-w-3xl w-full">
+      <Card>
         <CardContent className="p-4">
-          <h2 className="font-semibold text-lg mb-2">
-            Estimated Time: {interviewData.candidate_estimated_time} minutes
+          <h2 className="font-medium text-lg mb-2">
+            Estimated Time: {interviewData.candidate_estimated_time}
           </h2>
-          <p className="text-gray-600">
+          <p className="text-lg text-muted-foreground">
             Please ensure you have sufficient time to complete it in one
             sitting.
           </p>
         </CardContent>
       </Card>
 
-      <Card className="mb-6">
+      <Card>
         <CardContent className="p-4">
-          <h2 className="font-semibold text-lg mb-4">Overview</h2>
+          <h2 className="font-medium text-lg mb-4">Overview</h2>
           <ul className="space-y-2">
             {interviewData.candidate_overview.map((item, index) => (
-              <li key={index} className="text-gray-600">
+              <li key={index} className="text-lg text-muted-foreground">
                 • {item}
               </li>
             ))}
@@ -192,12 +200,12 @@ export default function InterviewInstructions({
         </CardContent>
       </Card>
 
-      <Card className="mb-6">
+      <Card>
         <CardContent className="p-4">
-          <h2 className="font-semibold text-lg mb-4 flex items-center">
-            <span className="mr-2">💡</span>Instructions
+          <h2 className="font-medium text-lg mb-4 flex items-center">
+            Instructions
           </h2>
-          <ul className="list-disc list-inside space-y-2 text-gray-600">
+          <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground">
             {interviewData.candidate_instructions.map((instruction, index) => (
               <li key={index}>{instruction}</li>
             ))}
@@ -208,6 +216,9 @@ export default function InterviewInstructions({
       <Button className="w-full mb-4" onClick={handleProceed}>
         Proceed to Interview
       </Button>
+      </div>
     </div>
+    <Footer/>
+    </Section>
   );
 }

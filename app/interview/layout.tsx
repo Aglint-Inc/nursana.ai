@@ -4,7 +4,7 @@ export default async function InterviewLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="">
       {/* Add any common layout elements here */}
       {children}
     </div>
