@@ -10,8 +10,9 @@ import { type InterviewData } from "src/types/types";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import Section from "./section";
+
 import Footer from "./footer";
+import Section from "./section";
 
 const InterviewProcess = dynamic(
   () => import("@/components/interview-process"),
