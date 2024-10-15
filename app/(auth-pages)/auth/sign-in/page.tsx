@@ -3,6 +3,7 @@
 import { useToast } from "hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { api } from "trpc/client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,14 +25,19 @@ export default function NurseSignIn() {
   const { toast } = useToast();
   const router = useRouter();
 
+  const { mutateAsync } = api.user.check.useMutation();
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setIsLoading(false);
     try {
-      if (role === "nurse") {
-        await nurseSignIn({ email });
-      } else {
-        await companySignIn({ email, password });
+      setIsLoading(false);
+      const res = await mutateAsync({ email });
+      if (res) {
+        if (role === "nurse") {
+          await nurseSignIn({ email });
+        } else {
+          await companySignIn({ email, password });
+        }
       }
     } catch (error) {
       toast({ variant: "destructive", title: error.message });

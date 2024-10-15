@@ -20,7 +20,6 @@ import {
 import { supabase } from "@/utils/supabase/client";
 
 import Section from "../../../../components/section";
-import { createUser } from "../actions/createUser";
 
 export type Role = "nurse" | "doctor" | "therapist";
 
@@ -49,7 +48,9 @@ export default function FormCampaign() {
   const [dragActive, setDragActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { mutateAsync } = api.user.create.useMutation();
+  const { mutateAsync: createUser } = api.user.create.useMutation();
+  const { mutateAsync: createInterview } =
+    api.user.create_interview.useMutation();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -106,7 +107,7 @@ export default function FormCampaign() {
           data: { publicUrl },
         } = supabase.storage.from("resumes").getPublicUrl(fileName);
 
-        const res = await mutateAsync({
+        const res = await createInterview({
           campaign_code,
           resume_url: publicUrl,
           userId,
