@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useVideoRecording } from "@/hooks/useVideoRecording";
 import type { Database } from "@/lib/database.types";
+import Footer from "./footer";
 
 interface InterviewProps {
   interviewId: string;
@@ -291,17 +292,24 @@ export default function Interview({
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl">
+    <div>
+    <div className="min-h-[calc(100vh-180px)] mb-4">
       {!isInterviewStarted ? (
         <>
-          <h1 className="text-4xl font-bold text-center mb-4">
-            Let&apos;s Start Your AI Interview
-          </h1>
-          <p className="text-center text-gray-600 mb-8">
-            Your camera has been initialized. Once you&apos;re ready, click
-            &apos;Start Interview&apos; to begin. Our AI system will guide you
-            through the process.
-          </p>
+          <div className="mt-10 flex flex-col items-center">
+          <div className="text-3xl font-light mb-10 mx-auto">
+              <span className="font-medium">Nursera</span>
+              <span className="font-light text-purple-500">.ai</span>
+            </div>
+            <h1 className="text-4xl font-medium text-center mb-2 ">
+              Let&apos;s Start Your AI Interview
+            </h1>
+            <p className="text-center text-muted-foreground mb-10 max-w-xl">
+              Your camera has been initialized. Once you&apos;re ready, click
+              &apos;Start Interview&apos; to begin. Our AI system will guide you
+              through the process.
+            </p>
+          </div>
         </>
       ) : null}
 
@@ -370,8 +378,8 @@ export default function Interview({
         </Button>
       )}
 
-      {showCaptions && (
-        <div className="mt-4 p-4 bg-gray-100 rounded-lg max-h-96 overflow-y-auto">
+      {/* {showCaptions && (
+        <div className="mt-4 p-4  rounded-lg max-h-96 overflow-y-auto">
           {conversationHistory.map((turn, index) => (
             <div
               key={index}
@@ -380,13 +388,15 @@ export default function Interview({
               }`}
             >
               <p className="font-semibold">
-                {turn.role === "ai" ? "Nursana:" : "You:"}
+                {turn.role === "ai" ? "Nursana:" : "You:"} refwerf
               </p>
               <p>{turn.content}</p>
             </div>
           ))}
         </div>
-      )}
+      )} */}
+    </div>
+    <Footer/>
     </div>
   );
 }
