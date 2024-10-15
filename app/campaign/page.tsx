@@ -1,11 +1,27 @@
-import FormCampaign from "app/campaign/_common/components/form";
+"use client";
+
+import FormCampaign from "app/campaign/_common/components";
+
+import { Loader } from "@/common/components/Loader";
+
+import { useCampaign } from "./_common/hooks/useCampaign";
 
 const Campaign = () => {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4">
-      <FormCampaign />
-    </div>
-  );
+  const { data, isLoading } = useCampaign();
+
+  if (isLoading) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
+
+  if (!data) {
+    return <div>Campaign not found</div>;
+  }
+
+  return <FormCampaign />;
 };
 
 export default Campaign;
