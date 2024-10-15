@@ -383,23 +383,23 @@ export default function Interview({
           </Button>
         )}
 
-        {/* {showCaptions && (
-        <div className="mt-4 p-4  rounded-lg max-h-96 overflow-y-auto">
-          {conversationHistory.map((turn, index) => (
-            <div
-              key={index}
-              className={`mb-2 ${
-                turn.role === "ai" ? "text-blue-600" : "text-green-600"
-              }`}
-            >
-              <p className="font-semibold">
-                {turn.role === "ai" ? "Nursana:" : "You:"} refwerf
-              </p>
-              <p>{turn.content}</p>
-            </div>
-          ))}
-        </div>
-      )} */}
+        {showCaptions && (
+          <div className="mt-4 p-4  rounded-lg max-h-96 overflow-y-auto">
+            {conversationHistory.map((turn, index) => (
+              <div
+                key={index}
+                className={`mb-2 ${
+                  turn.role === "ai" ? "text-blue-600" : "text-green-600"
+                }`}
+              >
+                <p className="font-semibold">
+                  {turn.role === "ai" ? "Nursana:" : "You:"} refwerf
+                </p>
+                <p>{turn.content}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <Footer />
     </div>
