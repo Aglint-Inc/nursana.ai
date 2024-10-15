@@ -1,8 +1,31 @@
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 
 import { updateSession } from "@/utils/supabase/middleware";
 
+// Define public routes and folders
+const PUBLIC_ROUTES = [
+  // Exact matches
+  '^/$', // Homepage
+  '^/login$',
+  '^/signup$',
+  '^/about$',
+  '^/contact$',
+  // Folders (everything under these paths)
+  // Starts with
+  '^/auth/',
+];
+
+const PUBLIC_ROUTES_REGEX = new RegExp(PUBLIC_ROUTES.join('|'));
+
+
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // Check if the current path matches any public route pattern
+  if (PUBLIC_ROUTES_REGEX.test(pathname)) {
+    return NextResponse.next();
+  }
+
   return await updateSession(request);
 }
 
