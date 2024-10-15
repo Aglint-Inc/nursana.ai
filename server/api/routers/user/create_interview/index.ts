@@ -60,7 +60,7 @@ const mutation = async ({
   const { data: updatedResume } = await db
     .from("resumes")
     .insert({
-      nurse_id: userId,
+      user_id: userId,
       file_url: resume_url,
       structured_resume: null,
     })
@@ -78,7 +78,7 @@ const mutation = async ({
       interview_stage: "resume_submitted",
       name: "Summer 2024 Nurse Recruitment - Interview",
       campaign_code,
-      nurse_id: userId,
+      user_id: userId,
       ai_ending_message: campaign.interview_templates.ai_ending_message,
       ai_instructions: campaign.interview_templates.ai_instructions,
       ai_interview_duration: campaign.interview_templates.ai_interview_duration,

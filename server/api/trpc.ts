@@ -8,8 +8,11 @@
  */
 import { initTRPC, TRPCError } from "@trpc/server";
 import type { ProcedureBuilder } from "@trpc/server/unstable-core-do-not-import";
+import { jwtDecode } from "jwt-decode";
 import superjson from "superjson";
 import { type TypeOf, ZodError, type ZodSchema } from "zod";
+
+import { type Database } from "@/lib/database.types";
 
 import { createPrivateClient } from "../db";
 
@@ -103,9 +106,19 @@ const authMiddleware = t.middleware(async ({ next, ctx }) => {
 
   let user_id: string | null = null;
 
-  if (process.env.NODE_ENV === "development")
-    user_id = (await db.auth.getSession())?.data?.session?.user?.id ?? null;
-  else user_id = (await db.auth.getUser()).data.user?.id ?? null;
+  let role: Database["public"]["Enums"]["app_role"] | null = null;
+
+  if (process.env.NODE_ENV === "development") {
+    const { data } = await db.auth.getSession();
+    const jwt = jwtDecode(data.session?.access_token ?? "") as any;
+    role = jwt?.user_role as unknown as Database["public"]["Enums"]["app_role"];
+    user_id = data?.session?.user.id ?? null;
+  } else {
+    const { data } = await db.auth.getSession();
+    const jwt = jwtDecode(data.session?.access_token ?? "") as any;
+    role = jwt?.user_role as unknown as Database["public"]["Enums"]["app_role"];
+    user_id = data?.session?.user.id ?? null;
+  }
 
   if (!user_id)
     throw new TRPCError({
@@ -117,6 +130,7 @@ const authMiddleware = t.middleware(async ({ next, ctx }) => {
     ctx: {
       ...ctx,
       user_id,
+      role,
     },
   });
 });

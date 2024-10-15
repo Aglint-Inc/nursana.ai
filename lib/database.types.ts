@@ -39,9 +39,10 @@ export type Database = {
           campaign_code: string
           created_at: string | null
           description: string | null
+          hospital_id: string
           id: string
           name: string
-          template_id: string | null
+          template_id: string
           template_version: number
           updated_at: string | null
         }
@@ -49,9 +50,10 @@ export type Database = {
           campaign_code: string
           created_at?: string | null
           description?: string | null
+          hospital_id: string
           id?: string
           name: string
-          template_id?: string | null
+          template_id: string
           template_version: number
           updated_at?: string | null
         }
@@ -59,13 +61,21 @@ export type Database = {
           campaign_code?: string
           created_at?: string | null
           description?: string | null
+          hospital_id?: string
           id?: string
           name?: string
-          template_id?: string | null
+          template_id?: string
           template_version?: number
           updated_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "campaigns_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "campaigns_template_id_fkey"
             columns: ["template_id"]
@@ -136,12 +146,12 @@ export type Database = {
           hospital_id: string | null
           id: string
           interview_id: string
-          nurse_id: string
           structured_analysis: Json | null
           transcript: string | null
           transcript_json: Json[] | null
           transcript_url: string | null
           updated_at: string | null
+          user_id: string
           video_url: string | null
         }
         Insert: {
@@ -153,12 +163,12 @@ export type Database = {
           hospital_id?: string | null
           id?: string
           interview_id: string
-          nurse_id: string
           structured_analysis?: Json | null
           transcript?: string | null
           transcript_json?: Json[] | null
           transcript_url?: string | null
           updated_at?: string | null
+          user_id: string
           video_url?: string | null
         }
         Update: {
@@ -170,12 +180,12 @@ export type Database = {
           hospital_id?: string | null
           id?: string
           interview_id?: string
-          nurse_id?: string
           structured_analysis?: Json | null
           transcript?: string | null
           transcript_json?: Json[] | null
           transcript_url?: string | null
           updated_at?: string | null
+          user_id?: string
           video_url?: string | null
         }
         Relationships: [
@@ -194,8 +204,8 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "interview_analysis_nurse_id_fkey"
-            columns: ["nurse_id"]
+            foreignKeyName: "interview_analysis_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -216,6 +226,7 @@ export type Database = {
           candidate_intro_video_url: string | null
           candidate_overview: string[] | null
           created_at: string | null
+          hospital_id: string
           id: string
           name: string
           published_version: number | null
@@ -236,6 +247,7 @@ export type Database = {
           candidate_intro_video_url?: string | null
           candidate_overview?: string[] | null
           created_at?: string | null
+          hospital_id: string
           id?: string
           name: string
           published_version?: number | null
@@ -256,6 +268,7 @@ export type Database = {
           candidate_intro_video_url?: string | null
           candidate_overview?: string[] | null
           created_at?: string | null
+          hospital_id?: string
           id?: string
           name?: string
           published_version?: number | null
@@ -263,7 +276,15 @@ export type Database = {
           updated_at?: string | null
           version?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "interview_templates_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospitals"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       interviews: {
         Row: {
@@ -284,8 +305,8 @@ export type Database = {
           id: string
           interview_stage: Database["public"]["Enums"]["interview_stage"]
           name: string
-          nurse_id: string
           updated_at: string | null
+          user_id: string
         }
         Insert: {
           ai_ending_message?: string | null
@@ -305,8 +326,8 @@ export type Database = {
           id?: string
           interview_stage?: Database["public"]["Enums"]["interview_stage"]
           name: string
-          nurse_id: string
           updated_at?: string | null
+          user_id: string
         }
         Update: {
           ai_ending_message?: string | null
@@ -326,17 +347,10 @@ export type Database = {
           id?: string
           interview_stage?: Database["public"]["Enums"]["interview_stage"]
           name?: string
-          nurse_id?: string
           updated_at?: string | null
+          user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "fk_nurse"
-            columns: ["nurse_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "interviews_campaign_id_fkey"
             columns: ["campaign_id"]
@@ -345,8 +359,15 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "interviews_nurse_id_fkey"
-            columns: ["nurse_id"]
+            foreignKeyName: "interviews_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interviews_user_id_fkey1"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -362,9 +383,9 @@ export type Database = {
           file_url: string | null
           hospital_id: string | null
           id: string
-          nurse_id: string | null
           structured_resume: Json | null
           updated_at: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string | null
@@ -374,9 +395,9 @@ export type Database = {
           file_url?: string | null
           hospital_id?: string | null
           id?: string
-          nurse_id?: string | null
           structured_resume?: Json | null
           updated_at?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string | null
@@ -386,9 +407,9 @@ export type Database = {
           file_url?: string | null
           hospital_id?: string | null
           id?: string
-          nurse_id?: string | null
           structured_resume?: Json | null
           updated_at?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -399,8 +420,8 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "resumes_nurse_id_fkey"
-            columns: ["nurse_id"]
+            foreignKeyName: "resumes_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -435,17 +456,17 @@ export type Database = {
       }
       user_roles: {
         Row: {
-          id: number
+          id: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Insert: {
-          id?: number
+          id?: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Update: {
-          id?: number
+          id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
@@ -454,11 +475,10 @@ export type Database = {
       users: {
         Row: {
           created_at: string | null
-          email: string | null
+          email: string
           expected_salary: number | null
           first_name: string | null
           id: string
-          job_title: string | null
           job_type: string | null
           last_name: string | null
           phone_number: string | null
@@ -470,11 +490,10 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
-          email?: string | null
+          email: string
           expected_salary?: number | null
           first_name?: string | null
           id: string
-          job_title?: string | null
           job_type?: string | null
           last_name?: string | null
           phone_number?: string | null
@@ -486,11 +505,10 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
-          email?: string | null
+          email?: string
           expected_salary?: number | null
           first_name?: string | null
           id?: string
-          job_title?: string | null
           job_type?: string | null
           last_name?: string | null
           phone_number?: string | null

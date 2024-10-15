@@ -39,9 +39,7 @@ export default function NurseHomePage() {
     setIsEditing(false);
   };
 
-  // interview ID cad4cf00-6371-46eb-b51a-5bb97bc5a930
-  const nurseId = "d6b2cf82-3f60-4886-893e-b472fb56b9e8";
-  const { data: nurseData, isLoading, error, refetch } = useNurseData(nurseId);
+  const { data: nurseData, isLoading, error, refetch } = useNurseData();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;

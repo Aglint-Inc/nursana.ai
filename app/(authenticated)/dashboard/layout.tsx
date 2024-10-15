@@ -1,3 +1,6 @@
+import { jwtDecode } from "jwt-decode";
+
+import { type Database } from "@/lib/database.types";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function Layout({
@@ -14,7 +17,7 @@ export default async function Layout({
   return (
     <>
       {children}
-      {role === "user" ? user : company}
+      {role === "hospital" ? company : user}
     </>
   );
 }
@@ -22,19 +25,6 @@ export default async function Layout({
 async function checkRole() {
   const supabase = createClient();
   const { data } = await supabase.auth.getSession();
-
-  const userId = data?.session?.user.id;
-  if (!userId) {
-    return "company";
-  }
-  const { data: nurse } = await supabase
-    .from("users")
-    .select()
-    .eq("id", userId)
-    .throwOnError();
-
-  if (nurse && nurse.length > 0) {
-    return "user";
-  }
-  return "company";
+  const jwt = jwtDecode(data?.session?.access_token ?? "") as any;
+  return jwt.user_role as Database["public"]["Enums"]["app_role"];
 }
