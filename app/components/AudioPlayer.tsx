@@ -1,9 +1,11 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { Pause, Play, SkipBack, SkipForward } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Pause, SkipBack, SkipForward } from "lucide-react";
 
 interface AudioPlayerProps {
   audioUrl: string;

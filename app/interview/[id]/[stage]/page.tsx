@@ -1,8 +1,9 @@
-import { createClient } from "@/utils/supabase/server";
-import { notFound, redirect } from "next/navigation";
 import dynamic from "next/dynamic";
+import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
+
 import HowItWorks from "@/components/landing-sections.tsx/how-it-works";
+import { createClient } from "@/utils/supabase/server";
 
 const ResumeUpload = dynamic(() => import("@/components/resume-upload"), {
   ssr: false,
@@ -80,12 +81,12 @@ export default async function InterviewPage({
         return (
           <Suspense fallback={<div>Loading Resume Upload...</div>}>
             <div className="flex flex-col gap-36 items-center">
-            <HowItWorks/>
-            <ResumeUpload
-              key={params.id}
-              userId={interview.nurse_id}
-              interviewId={params.id}
-            />
+              <HowItWorks />
+              <ResumeUpload
+                key={params.id}
+                userId={interview.nurse_id}
+                interviewId={params.id}
+              />
             </div>
           </Suspense>
         );

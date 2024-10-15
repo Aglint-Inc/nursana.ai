@@ -1,21 +1,22 @@
-'use server'
+"use server";
+
+import { revalidatePath } from "next/cache";
 
 import { createClient } from "@/utils/supabase/server";
-import { revalidatePath } from "next/cache";
 
 export async function uploadResume(formData: FormData) {
   const supabase = createClient();
-  const file = formData.get('file') as File;
-  const interviewId = formData.get('interviewId') as string;
+  const file = formData.get("file") as File;
+  const interviewId = formData.get("interviewId") as string;
 
   if (!file || !interviewId) {
-    return { error: 'File or interview ID is missing' };
+    return { error: "File or interview ID is missing" };
   }
 
   try {
     // Upload file to Supabase storage
     const { data, error } = await supabase.storage
-      .from('resumes')
+      .from("resumes")
       .upload(`${interviewId}/${file.name}`, file);
 
     if (error) throw error;
@@ -23,9 +24,9 @@ export async function uploadResume(formData: FormData) {
     // Update interview stage and resume URL
     const { error: updateError } = await supabase
       .from("interviews")
-      .update({ 
+      .update({
         interview_stage: "in_progress",
-        resume_url: data.path
+        resume_url: data.path,
       })
       .eq("id", interviewId);
 
@@ -35,6 +36,6 @@ export async function uploadResume(formData: FormData) {
     return { success: true, path: `/interview/in_progress?id=${interviewId}` };
   } catch (error) {
     console.error("Error uploading resume:", error);
-    return { error: 'Failed to upload resume' };
+    return { error: "Failed to upload resume" };
   }
 }

@@ -1,24 +1,24 @@
 "use client";
-import { type ResumeData, ResumeReview } from "@/app/components/ResumeReview";
-import { InterviewTranscript } from "@/app/components/InterviewTranscript";
+import { format } from "date-fns";
+import { Calendar, ExternalLink, FileText } from "lucide-react";
 import { useState } from "react";
+
+import { AudioPlayer } from "@/app/components/AudioPlayer";
+import {
+  type AIAnalysis,
+  InterviewAnalysis,
+} from "@/app/components/InterviewAnalysis";
+import { InterviewTranscript } from "@/app/components/InterviewTranscript";
+import { PreferencesEdit } from "@/app/components/PreferencesEdit";
+import { PreferencesView } from "@/app/components/PreferencesView";
+import { type ResumeData, ResumeReview } from "@/app/components/ResumeReview";
+import { VideoPlayer } from "@/app/components/VideoPlayer";
+import { useAuth } from "@/app/contexts/AuthContext";
+import { useNurseData } from "@/app/hooks/useNurseData";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, FileText, ExternalLink } from "lucide-react";
-import { useNurseData } from "@/app/hooks/useNurseData";
-import { format } from "date-fns";
-import { useAuth } from "@/app/contexts/AuthContext";
-import { PreferencesView } from "@/app/components/PreferencesView";
-import { PreferencesEdit } from "@/app/components/PreferencesEdit";
-import {
-  InterviewAnalysis,
-  type AIAnalysis,
-} from "@/app/components/InterviewAnalysis";
-import { VideoPlayer } from "@/app/components/VideoPlayer";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { AudioPlayer } from "@/app/components/AudioPlayer";
 
 export default function NurseHomePage() {
   const [isEditing, setIsEditing] = useState(false);

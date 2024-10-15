@@ -1,9 +1,13 @@
-'use server'
+"use server";
 
-import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
-export async function updateInterviewStage(interviewId: string, newStage: string) {
+import { createClient } from "@/utils/supabase/server";
+
+export async function updateInterviewStage(
+  interviewId: string,
+  newStage: string
+) {
   const supabase = createClient();
   console.log("Attempting to update interview stage...");
   console.log("Interview ID:", interviewId);
@@ -11,9 +15,9 @@ export async function updateInterviewStage(interviewId: string, newStage: string
 
   try {
     const { data, error } = await supabase
-      .from('interviews')
+      .from("interviews")
       .update({ interview_stage: newStage })
-      .eq('id', interviewId)
+      .eq("id", interviewId)
       .select();
 
     if (error) {

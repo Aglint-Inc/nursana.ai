@@ -1,6 +1,7 @@
-import React from "react";
-import Section from "../section";
 import Image from "next/image";
+import React from "react";
+
+import Section from "../section";
 import { Button } from "../ui/button";
 
 function WhyUS() {
@@ -35,10 +36,10 @@ function WhyUS() {
               AI-Driven Interviews for Perfect Job Matches
             </div>
             <div className="text-lg text-muted-foreground">
-              Nurses can take AI interviews that assess their skills and
+              {`Nurses can take AI interviews that assess their skills and
               preferences. Based on the analysis, you'll receive job matches
               that align with your qualifications and career goals, ensuring you
-              find the right fit in no time
+              find the right fit in no time`}
             </div>
           </div>
           <div className="p-8 flex flex-col gap-4 bg-muted rounded-lg">

@@ -1,7 +1,8 @@
-import InvalidCampagin from "@/components/invalid-campagin";
-import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+
+import InvalidCampagin from "@/components/invalid-campagin";
+import { createClient } from "@/utils/supabase/server";
 
 async function getOrCreateNurse(userId: string) {
   const supabase = createClient();
@@ -130,9 +131,7 @@ export default async function HomePage() {
   const userId = user.id;
 
   if (!campaignCode) {
-    return (
-      <InvalidCampagin/>
-    );
+    return <InvalidCampagin />;
   }
 
   try {

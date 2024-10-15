@@ -1,9 +1,11 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 "use client";
 
-import { useState, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { Play, Pause } from "lucide-react";
+import { Pause, Play } from "lucide-react";
+import { useRef, useState } from "react";
+
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Button } from "@/components/ui/button";
 
 interface VideoPlayerProps {
   videoUrl: string;

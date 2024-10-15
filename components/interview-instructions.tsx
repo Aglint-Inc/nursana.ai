@@ -1,13 +1,15 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 "use client";
 
-import { useState, useRef, useCallback } from "react";
-import { Play, Pause, Repeat } from "lucide-react";
+import { Pause, Play, Repeat } from "lucide-react";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import { useCallback, useRef, useState } from "react";
+
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import Image from "next/image";
-import { InterviewData } from "@/src/types/types";
-import dynamic from "next/dynamic";
+import { type InterviewData } from "@/src/types/types";
 
 const InterviewProcess = dynamic(
   () => import("@/components/interview-process"),

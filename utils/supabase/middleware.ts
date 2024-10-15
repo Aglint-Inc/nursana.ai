@@ -42,7 +42,7 @@ export const updateSession = async (request: NextRequest) => {
       return NextResponse.redirect(new URL("login", request.url));
     } else {
       response.headers.set("x-user-id", user.id);
-      return NextResponse.redirect(new URL("/protected", request.url));
+      return response;
     }
   }
 

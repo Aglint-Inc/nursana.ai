@@ -1,5 +1,6 @@
-import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
+
+import { createClient } from "@/utils/supabase/server";
 
 export default async function InterviewLayout({
   children,

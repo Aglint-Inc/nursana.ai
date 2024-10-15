@@ -1,5 +1,6 @@
-import NurseHomePage from "./nurse-home-page";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
+
+import NurseHomePage from "./nurse-home-page";
 
 export default function NurseDashboard() {
   return (

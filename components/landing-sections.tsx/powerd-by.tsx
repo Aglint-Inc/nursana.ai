@@ -1,9 +1,10 @@
 import { Sparkles } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
+
 import Section from "../section";
 import { Button } from "../ui/button";
-import Link from "next/link";
 
 function PoweredBy() {
   return (
@@ -25,8 +26,8 @@ function PoweredBy() {
               your job search by showcasing your qualifications in a way that
               stands out to potential employers.
             </p>
-            <Link  href="/sign-up">
-            <Button size={"lg"}>Sign Up Today</Button>
+            <Link href="/sign-up">
+              <Button size={"lg"}>Sign Up Today</Button>
             </Link>
           </div>
           <div className="w-full flex items-center justify-center">

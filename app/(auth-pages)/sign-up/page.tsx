@@ -1,12 +1,13 @@
 "use client";
 
+import Link from "next/link";
+import { useState } from "react";
+
 import { signUpAction } from "@/app/actions";
 import { FormMessage, type Message } from "@/components/form-message";
 import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
-import { useState } from "react";
 
 export default function Signup() {
   const [message, setMessage] = useState<Message | null>(null);

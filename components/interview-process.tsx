@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Loader, Mic, StopCircle, Video } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { RetellWebClient } from "retell-client-js-sdk";
+
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Mic, StopCircle, Loader, Video } from "lucide-react";
 import { useVideoRecording } from "@/hooks/useVideoRecording";
-import { useRouter } from "next/navigation";
-import { RetellWebClient } from "retell-client-js-sdk";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import type { Database } from "@/lib/database.types";
 
 interface InterviewProps {

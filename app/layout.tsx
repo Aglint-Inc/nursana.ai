@@ -1,8 +1,11 @@
+import "./globals.css";
+
 import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
-import "./globals.css";
-import Navbar from "@/components/navbar";
+
 import Footer from "@/components/footer";
+import Navbar from "@/components/navbar";
+
 import Providers from "./providers";
 
 const defaultUrl = process.env.VERCEL_URL

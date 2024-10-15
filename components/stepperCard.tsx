@@ -1,4 +1,4 @@
-import { FunctionComponent, SVGProps } from "react";
+import { type FunctionComponent, type SVGProps } from "react";
 
 type IconType = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -27,7 +27,7 @@ const StepperCard: React.FC<StepperCardProps> = ({
       <div
         className={`w-24 h-24 flex items-center justify-center rounded-md ${backgroundColorClass}`}
       >
-        <Icon className="w-12 h-12 text-white"  strokeWidth={1.2}/>
+        <Icon className="w-12 h-12 text-white" strokeWidth={1.2} />
       </div>
       <div className="flex flex-col gap-2 text-center">
         <div className="text-lg font-medium">{heading}</div>

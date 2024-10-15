@@ -1,14 +1,15 @@
 "use client";
 
-import { signInAction } from "@/app/actions";
-import { FormMessage, Message } from "@/components/form-message";
-import { SubmitButton } from "@/components/submit-button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+
+import { signInAction } from "@/app/actions";
 import { sendMagicLink } from "@/app/actions/sendMagicLink";
+import { FormMessage, type Message } from "@/components/form-message";
+import { SubmitButton } from "@/components/submit-button";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function Login() {
   const [message, setMessage] = useState<Message | null>(null);
@@ -53,7 +54,10 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex-1 flex flex-col min-w-80 mt-36">
+    <form
+      onSubmit={handleSubmit}
+      className="flex-1 flex flex-col min-w-80 mt-36"
+    >
       <h1 className="text-2xl font-medium">Sign in</h1>
       <p className="text-sm text-foreground">
         Don&apos;t have an account?{" "}

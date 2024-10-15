@@ -1,5 +1,6 @@
-import HospitalHomePage from "./hospital-home-page";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
+
+import HospitalHomePage from "./hospital-home-page";
 
 export default function HospitalDashboard() {
   return (
