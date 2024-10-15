@@ -1,13 +1,9 @@
 import { type SupabaseClient } from "@supabase/supabase-js";
 import { type NextRequest, NextResponse } from "next/server";
-import type {
-  PhoneCallResponse,
-  WebCallResponse,
-} from "retell-sdk/src/resources/call";
 
 import { createAdminClient } from "@/utils/supabase/server";
 
-import { retellGetCallDetails } from "./util";
+import { type retellAiGetCallType, retellGetCallDetails } from "./util";
 
 // @ts-ignore
 interface NextRequestTS<T> extends NextRequest {
@@ -32,8 +28,13 @@ export async function POST(
   const {
     call_analysis,
     recording_url: audio_url,
-    transcript_object,
+    transcript_object: tempTranscript,
   } = await retellGetCallDetails(call_id);
+  const transcript_object =
+    tempTranscript?.map((item) => ({
+      role: item.role,
+      content: item.content,
+    })) || [];
   if (audio_url?.trim().length) {
     const { extension, mimeType } = getMimeType(audio_url);
     // Fetch the audio file from the provided URL
@@ -108,10 +109,7 @@ async function setInterviewAnalysis(
   interview_analysis_id: string,
   data: {
     audio_url: string;
-    call_analysis:
-      | WebCallResponse.CallAnalysis
-      | PhoneCallResponse.CallAnalysis
-      | undefined;
+    call_analysis: retellAiGetCallType["call_analysis"];
     transcript_json: { role: string; content: string }[];
   }
 ) {

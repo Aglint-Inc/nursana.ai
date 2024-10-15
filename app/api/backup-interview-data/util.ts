@@ -1,14 +1,21 @@
-import Retell from "retell-sdk";
-
 const RETELL_API_KEY = process.env.RETELL_API_KEY;
+
 export async function retellGetCallDetails(callId: string) {
   if (!RETELL_API_KEY) {
     throw new Error("RETELL_API_KEY is required");
   }
-  const client = new Retell({
-    apiKey: RETELL_API_KEY,
+  const res = await fetch(`https://api.retellai.com/v2/get-call/${callId}`, {
+    headers: {
+      Authorization: `Bearer ${RETELL_API_KEY}`,
+    },
   });
-  return await client.call.retrieve(callId);
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error("Retell API error:", res.status, errorText);
+    throw new Error(`Retell API error: ${res.status} ${errorText}`);
+  }
+  const retellData = (await res.json()) as unknown as retellAiGetCallType;
+  return retellData;
 }
 
 export type retellAiGetCallType = {
