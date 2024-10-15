@@ -19,6 +19,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Section from "@/components/section";
 
 export default function NurseHomePage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -47,13 +48,14 @@ export default function NurseHomePage() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <Section>
+    <div className="py-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
-          <span className="text-sm text-purple-600">
-            ✦ Welcome, {nurseData?.nurse?.first_name || "to Nursera"}
+          <span className="text-lg text-muted-foreground">
+            Hello, {nurseData?.nurse?.first_name || "to Nursera"} 👋🏻 
           </span>
-          <h1 className="text-xl font-bold mb-4">
+          <h1 className="text-2xl font-medium mb-4">
             Find you interview & resume feedback here
           </h1>
           <Tabs defaultValue="interview">
@@ -90,7 +92,7 @@ export default function NurseHomePage() {
           </Tabs>
         </div>
 
-        <div>
+        <div className="mt-[140px]">
           <h2 className="text-md font-medium mb-2">Recorded Interview</h2>
           <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
             <div className="flex items-center">
@@ -112,7 +114,7 @@ export default function NurseHomePage() {
                 : "N/A"}
             </div>
           </div>
-          <Card className="overflow-hidden">
+          <Card className="overflow-hidden border-none shadow-none bg-secondary">
             <CardContent className="p-0">
               {nurseData?.analysis?.video_url ? (
                 <VideoPlayer videoUrl={nurseData.analysis.video_url} />
@@ -123,18 +125,18 @@ export default function NurseHomePage() {
                   </div>
                 </AspectRatio>
               )}
-            </CardContent>
-          </Card>
-
-          {nurseData?.analysis?.audio_url && (
+               {nurseData?.analysis?.audio_url && (
             <AudioPlayer audioUrl={nurseData.analysis.audio_url} />
           )}
-          <Card className="mb-6 bg-gray-50 group cursor-pointer">
+            </CardContent>
+          </Card>         
+
+          <Card className="group border-none bg-secondary mt-4">
             <CardContent className="p-4">
               <div className="flex justify-between items-center">
                 <div className="flex items-cente">
                   <FileText
-                    className="w-10 h-10 text-muted-foreground"
+                    className="w-8 h-8 text-muted-foreground"
                     strokeWidth={1}
                   />
                 </div>
@@ -182,5 +184,6 @@ export default function NurseHomePage() {
         </div>
       </div>
     </div>
+    </Section>
   );
 }

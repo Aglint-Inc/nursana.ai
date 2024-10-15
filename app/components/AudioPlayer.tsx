@@ -74,7 +74,7 @@ export function AudioPlayer({ audioUrl }: AudioPlayerProps) {
   };
 
   return (
-    <div className="bg-gray-50 p-4 rounded-lg group cursor-pointer border border-gray-200 shadow-sm mb-6">
+    <div className="p-4">
       <audio ref={audioRef} src={audioUrl} />
       <Slider
         value={[currentTime]}
