@@ -1,10 +1,10 @@
 "use client";
 
+import { signInAction } from "app/actions";
+import { sendMagicLink } from "app/actions/sendMagicLink";
 import Link from "next/link";
 import { useState } from "react";
 
-import { signInAction } from "@/app/actions";
-import { sendMagicLink } from "@/app/actions/sendMagicLink";
 import { FormMessage, type Message } from "@/components/form-message";
 import { SubmitButton } from "@/components/submit-button";
 import { Button } from "@/components/ui/button";

@@ -1,10 +1,10 @@
 "use client";
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { updateInterviewStage } from "app/interview/[id]/[stage]/actions";
 import { File, Loader, UploadCloud, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
-import { updateInterviewStage } from "@/app/interview/[id]/[stage]/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

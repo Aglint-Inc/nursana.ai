@@ -1,11 +1,11 @@
 "use client";
 
+import { useToast } from "hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
 import { createClient } from "@/utils/supabase/client";
 
 export default function NurseSignIn() {

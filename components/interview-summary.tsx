@@ -2,10 +2,10 @@
 
 import { Calendar, CheckCircle, Clock, FileText } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { type InterviewData } from "src/types/types";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import type { InterviewData } from "@/src/types/types";
 
 interface InterviewSummaryProps {
   interviewId: string;
