@@ -100,7 +100,7 @@ export function PreferencesEdit({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Edit Your Preferences</CardTitle>
+        <CardTitle className="text-lg font-medium pb-0">Edit Your Preferences</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
