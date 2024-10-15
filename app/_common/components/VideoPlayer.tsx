@@ -46,9 +46,9 @@ export function VideoPlayer({ videoUrl }: VideoPlayerProps) {
           </Button>
         </div>
       </AspectRatio>
-      <div className="absolute top-4 right-4 bg-white p-2 rounded-lg">
+      {/* <div className="absolute top-4 right-4 bg-white p-2 rounded-lg">
         <div className="w-10 h-10 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-full"></div>
-      </div>
+      </div> */}
     </div>
   );
 }

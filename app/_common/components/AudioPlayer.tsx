@@ -1,9 +1,8 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 "use client";
 
+import { forwardRef, useEffect, useRef, useState, useImperativeHandle } from "react";
 import { Pause, Play, SkipBack, SkipForward } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 
@@ -11,7 +10,7 @@ interface AudioPlayerProps {
   audioUrl: string;
 }
 
-export function AudioPlayer({ audioUrl }: AudioPlayerProps) {
+export const AudioPlayer = forwardRef(function AudioPlayer({ audioUrl }: AudioPlayerProps, ref) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -73,6 +72,12 @@ export function AudioPlayer({ audioUrl }: AudioPlayerProps) {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
+  useImperativeHandle(ref, () => ({
+    togglePlay,
+    play: () => audioRef.current?.play(),
+    pause: () => audioRef.current?.pause(),
+  }));
+
   return (
     <div className="p-4">
       <audio ref={audioRef} src={audioUrl} />
@@ -123,4 +128,4 @@ export function AudioPlayer({ audioUrl }: AudioPlayerProps) {
       </div>
     </div>
   );
-}
+});
