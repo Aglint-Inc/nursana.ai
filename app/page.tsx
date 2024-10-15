@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import InvalidCampagin from "@/components/invalid-campagin";
 import { createClient } from "@/utils/supabase/server";
+import AuthenticationError from "@/components/authentication-error";
 
 async function getOrCreateNurse(userId: string) {
   const supabase = createClient();
@@ -125,7 +126,7 @@ export default async function HomePage() {
 
   if (userError || !user) {
     console.error("Error getting authenticated user:", userError);
-    return <div>Authentication error. Please try logging in again.</div>;
+    return <AuthenticationError/>;
   }
 
   const userId = user.id;
