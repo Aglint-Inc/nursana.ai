@@ -6,7 +6,7 @@ import HospitalHomePage from "./hospital-home-page";
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen">
       <DashboardHeader />
       <main className="pt-16">
         <HospitalHomePage />

@@ -1,8 +1,7 @@
+import { Sparkle, User } from "lucide-react";
 import React from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Message {
   role: "Agent" | "User";
@@ -17,52 +16,55 @@ export function InterviewTranscript({ transcript }: InterviewTranscriptProps) {
   const messages: Message[] = parseTranscript(transcript);
 
   return (
-    <ScrollArea className="h-[600px] w-full pr-4">
-      <div className="space-y-4 max-w-3xl mx-auto">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`flex ${
-              message.role === "Agent" ? "justify-start" : "justify-end"
-            }`}
-          >
+    <Card>
+      <CardContent className="p-4">
+        <div className="flex flex-col gap-8">
+          {messages.map((message, index) => (
             <div
+              key={index}
               className={`flex ${
-                message.role === "Agent" ? "flex-row" : "flex-row-reverse"
-              } items-start max-w-[80%]`}
+                message.role === "Agent" ? "justify-start" : "justify-start"
+              }`}
             >
-              <Avatar
-                className={`w-10 h-10 ${
-                  message.role === "Agent" ? "mr-3" : "ml-3"
-                }`}
-              >
-                <AvatarImage
-                  src={
-                    message.role === "Agent"
-                      ? "/agent-avatar.png"
-                      : "/user-avatar.png"
-                  }
-                />
-                <AvatarFallback>
-                  {message.role === "Agent" ? "A" : "U"}
-                </AvatarFallback>
-              </Avatar>
-              <Card
-                className={
-                  message.role === "Agent" ? "bg-blue-50" : "bg-green-50"
-                }
-              >
-                <CardContent className="p-3">
-                  <p className="text-sm whitespace-pre-wrap">
-                    {message.content}
-                  </p>
-                </CardContent>
-              </Card>
+              <div className="flex flex-col gap-2">
+                <div className="">
+                  {message.role === "Agent" ? (
+                    <div className="grid grid-cols-[max-content_1fr] items-center gap-2">
+                      <div className="w-6 h-6 bg-secondary flex items-center justify-center rounded-sm">
+                        <Sparkle size={16} strokeWidth={1.2} />
+                      </div>
+                      <div className="text-md">AI Interviewer</div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-secondary flex items-center justify-center rounded-sm">
+                        <User size={16} strokeWidth={1.2} />
+                      </div>
+                      <div className="text-md ">You</div>
+                    </div>
+                  )}
+                </div>
+                <Card
+                  className={`border-none shadow-none ${
+                    message.role === "Agent" ? "" : ""
+                  }`}
+                >
+                  <CardContent className="p-0">
+                    <p
+                      className={`text-md whitespace-pre-wrap ${
+                        message.role === "Agent" ? "text-muted-foreground" : ""
+                      }`}
+                    >
+                      {message.content}
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </ScrollArea>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 

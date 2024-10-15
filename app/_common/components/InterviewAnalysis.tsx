@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
 type AIAnalysis = {
@@ -42,61 +42,87 @@ export function InterviewAnalysis({ analysis }: InterviewAnalysisProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Interview Analysis</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="space-y-4">
-          <SkillBar label="Teamwork" value={analysis.teamwork} />
-          <SkillBar label="Adaptability" value={analysis.adaptability} />
-          <SkillBar label="Empathy Score" value={analysis.empathy_score} />
-          <SkillBar
-            label="Calm Under Pressure"
-            value={analysis.calm_under_pressure}
-          />
-          <SkillBar
-            label="Self-Care Awareness"
-            value={analysis.self_care_awareness}
-          />
+      <CardContent className="flex flex-col gap-8 pt-6">
+        <div className="flex flex-col gap-2">
+          <div className="text-sm text-muted-foreground">
+            Interview Analysis
+          </div>
+          <div className="grid grid-cols-2 gap-y-4 gap-x-10">
+            <SkillBar label="Teamwork" value={analysis.teamwork} />
+            <SkillBar label="Adaptability" value={analysis.adaptability} />
+            <SkillBar label="Empathy Score" value={analysis.empathy_score} />
+            <SkillBar
+              label="Calm Under Pressure"
+              value={analysis.calm_under_pressure}
+            />
+            <SkillBar
+              label="Self-Care Awareness"
+              value={analysis.self_care_awareness}
+            />
+          </div>
         </div>
 
-        <div>
-          <h3 className="font-semibold mb-2">Key Strengths</h3>
-          <ul className="list-disc pl-5">
-            {analysis.key_strengths?.map((strength, index) => (
-              <li key={index}>{strength}</li>
-            )) || <li>No key strengths available</li>}
-          </ul>
+        <div className="flex flex-col gap-2">
+          <div className="text-sm text-muted-foreground">Key Strengths</div>
+          {analysis.key_strengths?.map((strength, index) => (
+            <div key={index}>{strength}</div>
+          )) || <div>No key strengths available</div>}
         </div>
 
-        <div>
-          <h3 className="font-semibold mb-2">Areas for Improvement</h3>
-          <ul className="list-disc pl-5">
-            {analysis.areas_for_improvement?.map((area, index) => (
-              <li key={index}>{area}</li>
-            )) || <li>No areas for improvement available</li>}
-          </ul>
+        <div className="flex flex-col gap-2">
+          <div className="text-sm text-muted-foreground">
+            Areas for Improvement
+          </div>
+          {analysis.areas_for_improvement?.map((area, index) => (
+            <div key={index}>{area}</div>
+          )) || <div>No key strengths available</div>}
         </div>
 
-        <div className="space-y-2">
-          <p>
-            <strong>Communication Skills:</strong>{" "}
-            {analysis.communication_skills}
-          </p>
-          <p>
-            <strong>Recommended Fit:</strong> {analysis.recommended_fit}
-          </p>
-          <p>
-            <strong>Overall Sentiment:</strong> {analysis.overall_sentiment}
-          </p>
-          <p>
-            <strong>Candidate Overall Score:</strong>{" "}
-            {analysis.candidate_overall_score}%
-          </p>
-          <p>
-            <strong>Follow-up Recommendation:</strong>{" "}
-            {analysis.follow_up_recommendation}
-          </p>
+        <div className="flex flex-col gap-2">
+          <div className="text-sm text-muted-foreground">
+            Areas for Improvement
+          </div>
+          {analysis.communication_skills ? (
+            <p>{analysis.communication_skills}</p>
+          ) : (
+            <p>---</p>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="text-sm text-muted-foreground">Recommended Fit</div>
+          {analysis.recommended_fit ? (
+            <p>{analysis.recommended_fit}</p>
+          ) : (
+            <p>---</p>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="text-sm text-muted-foreground">Overall Sentiment</div>
+          {analysis.overall_sentiment ? (
+            <p>{analysis.overall_sentiment}</p>
+          ) : (
+            <p>---</p>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="text-sm text-muted-foreground">
+            Candidate Overall Score
+          </div>
+          {analysis.candidate_overall_score ? (
+            <p>{analysis.candidate_overall_score}%</p>
+          ) : (
+            <p>---</p>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="text-sm text-muted-foreground">
+            Follow-up Recommendation
+          </div>
+          {analysis.follow_up_recommendation ? (
+            <p>{analysis.follow_up_recommendation}</p>
+          ) : (
+            <p>---</p>
+          )}
         </div>
       </CardContent>
     </Card>

@@ -4,8 +4,8 @@ import NurseHomePage from "./nurse-home-page";
 
 export default function NurseDashboard() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <main className="pt-16">
+    <div className="min-h-screen ">
+      <main className="">
         <NurseHomePage />
       </main>
     </div>
