@@ -24,7 +24,6 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
       "@/common/*": ["./app/_common/*"],
       "@/trpc/*": ["./src/trpc/*"],
       "@/components/*": ["./components/*"],

@@ -5,11 +5,11 @@ import { Pause, Play, Repeat } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
+import { type InterviewData } from "src/types/types";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { type InterviewData } from "@/src/types/types";
 
 const InterviewProcess = dynamic(
   () => import("@/components/interview-process"),

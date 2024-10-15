@@ -8,7 +8,7 @@ export const updateSession = async (request: NextRequest) => {
     },
   });
 
-  const isProtectedRoute = request.nextUrl.pathname.startsWith("/protected");
+  const isProtectedRoute = request.nextUrl.pathname.startsWith("/dashboard");
 
   if (isProtectedRoute) {
     const supabase = createServerClient(
@@ -39,7 +39,7 @@ export const updateSession = async (request: NextRequest) => {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.redirect(new URL("login", request.url));
+      return NextResponse.redirect(new URL("/user/sign-in", request.url));
     } else {
       response.headers.set("x-user-id", user.id);
       return response;

@@ -1,13 +1,15 @@
+"use client";
+
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
-import NurseHomePage from "./nurse-home-page";
+import HospitalHomePage from "./hospital-home-page";
 
-export default function NurseDashboard() {
+export default function Page() {
   return (
     <div className="min-h-screen bg-gray-100">
       <DashboardHeader />
       <main className="pt-16">
-        <NurseHomePage />
+        <HospitalHomePage />
       </main>
     </div>
   );
