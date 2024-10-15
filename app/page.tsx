@@ -1,9 +1,9 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import AuthenticationError from "@/components/authentication-error";
 import InvalidCampagin from "@/components/invalid-campagin";
 import { createClient } from "@/utils/supabase/server";
-import AuthenticationError from "@/components/authentication-error";
 
 async function getOrCreateNurse(userId: string) {
   const supabase = createClient();

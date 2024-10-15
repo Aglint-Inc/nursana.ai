@@ -1,7 +1,7 @@
+import { Building2, Medal, School } from "lucide-react";
 import React from "react";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Building, Building2, Medal, School } from "lucide-react";
 
 export interface ResumeData {
   basics?: {

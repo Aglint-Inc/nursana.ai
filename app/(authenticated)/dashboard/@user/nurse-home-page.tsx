@@ -1,6 +1,6 @@
 "use client";
 import { format } from "date-fns";
-import { Calendar, ExternalLink, FileText } from "lucide-react";
+import { ExternalLink, FileText } from "lucide-react";
 import { useState } from "react";
 
 import { AudioPlayer } from "@/common/components/AudioPlayer";
@@ -17,11 +17,11 @@ import {
 } from "@/common/components/ResumeReview";
 import { VideoPlayer } from "@/common/components/VideoPlayer";
 import { useNurseData } from "@/common/hooks/useNurseData";
+import Section from "@/components/section";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Section from "@/components/section";
 
 export default function NurseHomePage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -94,8 +94,6 @@ export default function NurseHomePage() {
           </div>
 
           <div className="mt-[140px]">
-            
-           
             <Card className="overflow-hidden border-none shadow-none bg-secondary">
               <CardContent className="p-0">
                 {nurseData?.analysis?.video_url ? (
@@ -111,29 +109,26 @@ export default function NurseHomePage() {
                   <AudioPlayer audioUrl={nurseData.analysis.audio_url} />
                 )}
 
-
-
-              <div className="flex items-center text-sm text-muted-foreground gap-2 p-4 pt-0">
-                {/* */}
-                <span>
-                {nurseData?.interview?.created_at
-                  ? format(
-                      new Date(nurseData.interview.created_at),
-                      "dd MMMM yyyy"
-                    )
-                  : "N/A"}
-</span>
-<span>
-                at
-                </span>
-                <span>
-                {nurseData?.interview?.created_at
-                  ? format(new Date(nurseData.interview.created_at), "hh:mm a")
-                  : "N/A"}
+                <div className="flex items-center text-sm text-muted-foreground gap-2 p-4 pt-0">
+                  {/* */}
+                  <span>
+                    {nurseData?.interview?.created_at
+                      ? format(
+                          new Date(nurseData.interview.created_at),
+                          "dd MMMM yyyy"
+                        )
+                      : "N/A"}
                   </span>
-               
-              </div>
-
+                  <span>at</span>
+                  <span>
+                    {nurseData?.interview?.created_at
+                      ? format(
+                          new Date(nurseData.interview.created_at),
+                          "hh:mm a"
+                        )
+                      : "N/A"}
+                  </span>
+                </div>
               </CardContent>
             </Card>
 

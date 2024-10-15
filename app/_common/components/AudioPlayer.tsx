@@ -1,8 +1,15 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 "use client";
 
-import { forwardRef, useEffect, useRef, useState, useImperativeHandle } from "react";
 import { Pause, Play, SkipBack, SkipForward } from "lucide-react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
+
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 
@@ -10,7 +17,10 @@ interface AudioPlayerProps {
   audioUrl: string;
 }
 
-export const AudioPlayer = forwardRef(function AudioPlayer({ audioUrl }: AudioPlayerProps, ref) {
+export const AudioPlayer = forwardRef(function AudioPlayer(
+  { audioUrl }: AudioPlayerProps,
+  ref
+) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
