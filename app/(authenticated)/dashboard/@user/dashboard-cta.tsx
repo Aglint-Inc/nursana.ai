@@ -11,7 +11,7 @@ export function DashboardCTA() {
 
   if (!userData) return null; // Return null if data is not available
 
-  const user = userData.nurse;
+  const user = userData.user;
   const resume = userData.resume;
 
   // Check if profile is complete
