@@ -1,6 +1,5 @@
 'use client';
 
-import { useNurseData } from 'app/(authenticated)/_common/hooks/useNurseData';
 import { ExternalLink, FileText } from 'lucide-react';
 import { useState } from 'react';
 
@@ -8,6 +7,7 @@ import { AudioPlayer } from '@/common/components/AudioPlayer';
 import { PreferencesEdit } from '@/common/components/PreferencesEdit';
 import { PreferencesView } from '@/common/components/PreferencesView';
 import { VideoPlayer } from '@/common/components/VideoPlayer';
+import { useNurseData } from '@/common/hooks/useNurseData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
