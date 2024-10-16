@@ -315,7 +315,7 @@ export default function Interview({
           </>
         ) : null}
 
-        <Card className="mb-8 overflow-hidden mx-auto w-[600px]">
+        <Card className="mb-8 overflow-hidden mx-auto w-[900px]">
           <CardContent className="p-0 relative min-w-full">
             <AspectRatio ratio={16 / 9}>
               <video
@@ -346,9 +346,31 @@ export default function Interview({
                       <Mic className="h-4 w-4" />
                     </Button>
                   </div>
-                  <div className="absolute bottom-0 left-0 w-full bg-red-500 bg-opacity-75 text-white px-4 py-2 flex items-center justify-center">
+                  <div className="absolute bottom-0 left-0 w-[200px] rounded-md bg-white  text-red-600 px-4 py-2 flex items-center justify-center">
                     <Video className="h-4 w-4 mr-2 animate-pulse" />
                     <span>Recording</span>
+                    <span className="ml-2">{formatTime(timer)}</span>
+                  </div>
+                  <div className="w-full absolute bottom-0 left-0 flex gap-2">
+                  <div className=" w-[200px] rounded-md bg-white  text-red-600 px-4 py-2 flex items-center justify-center">
+                    <StopCircle className="h-6 w-6 mr-2" />
+                    <span>Recording</span>
+                    <span className="ml-2 w-[100px]">{formatTime(timer)}</span>
+                  </div>
+                  <Button
+                      variant="destructive"
+                      onClick={handleStopInterview}
+                      aria-label="Stop interview"
+                    >
+                      Stop Interview
+                    </Button> 
+                    <Button
+                      variant="default"
+                      onClick={toggleCaptions}
+                      aria-label="Toggle captions"
+                    >
+                      <Mic className="h-4 w-4" />
+                    </Button>
                   </div>
                 </>
               )}
