@@ -7,17 +7,10 @@ import { api } from 'trpc/client';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/utils/supabase/client';
 
-export default function NurseSignIn() {
+export default function SignIn() {
   const [role, setRole] = useState<'nurse' | 'company'>('nurse');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,7 +23,7 @@ export default function NurseSignIn() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     try {
-      setIsLoading(false);
+      setIsLoading(true);
       const res = await mutateAsync({ email, role });
       if (res) {
         if (role === 'nurse') {
@@ -80,53 +73,60 @@ export default function NurseSignIn() {
 
   return (
     <div className='flex min-h-screen flex-col items-center justify-center px-4'>
-      <form onSubmit={handleSubmit} className='space-y-4'>
-        <div className='flex w-[300px] flex-col gap-4'>
-          <div id='role' className='flex flex-col gap-2'>
-            <label
-              htmlFor='role'
-              className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-            >
-              Role
-            </label>
-            <Select
-              value={role}
-              onValueChange={(val: 'nurse' | 'company') => {
-                setRole(val);
-              }}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder='Select a role' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value='nurse'> Nurse</SelectItem>
-                  <SelectItem value='company'>Company</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className='flex flex-col gap-2'>
-            <label
-              htmlFor='email'
-              className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-            >
-              Email
-            </label>
-            <Input
-              id='email'
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder='Enter your email'
-              required
-            />
-          </div>
-          {role === 'company' && (
+      <Tabs
+        defaultValue='nurse'
+        onValueChange={(value) => setRole(value as 'nurse' | 'company')}
+        className='w-[300px]'
+      >
+        <TabsList className='mb-4 grid w-full grid-cols-2'>
+          <TabsTrigger value='nurse'>Individual</TabsTrigger>
+          <TabsTrigger value='company'>Company</TabsTrigger>
+        </TabsList>
+        <TabsContent value='nurse'>
+          <form onSubmit={handleSubmit} className='space-y-4'>
+            <div className='flex flex-col gap-2'>
+              <label
+                htmlFor='email'
+                className='text-sm font-medium leading-none'
+              >
+                Email
+              </label>
+              <Input
+                id='email'
+                type='email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder='Enter your email'
+                required
+              />
+            </div>
+            <Button type='submit' className='w-full' disabled={isLoading}>
+              {isLoading ? 'Sending...' : 'Get Magic Link to Sign In'}
+            </Button>
+          </form>
+        </TabsContent>
+        <TabsContent value='company'>
+          <form onSubmit={handleSubmit} className='space-y-4'>
+            <div className='flex flex-col gap-2'>
+              <label
+                htmlFor='email'
+                className='text-sm font-medium leading-none'
+              >
+                Email
+              </label>
+              <Input
+                id='email'
+                type='email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder='Enter your email'
+                required
+              />
+            </div>
             <div className='flex flex-col gap-2'>
               <label
                 htmlFor='password'
-                className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                className='text-sm font-medium leading-none'
               >
                 Password
               </label>
@@ -139,16 +139,12 @@ export default function NurseSignIn() {
                 required
               />
             </div>
-          )}
-        </div>
-        <Button type='submit' className='w-full' disabled={isLoading}>
-          {isLoading
-            ? 'Sending...'
-            : role === 'nurse'
-              ? 'Get Magic Link'
-              : 'Sign In'}
-        </Button>
-      </form>
+            <Button type='submit' className='w-full' disabled={isLoading}>
+              {isLoading ? 'Signing In...' : 'Sign In'}
+            </Button>
+          </form>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

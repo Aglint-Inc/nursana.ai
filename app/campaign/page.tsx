@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import FormCampaign from "app/campaign/_common/components";
+import FormCampaign from 'app/campaign/_common/components';
 
-import { Loader } from "@/common/components/Loader";
+import { Loader } from '@/common/components/Loader';
 
-import { useCampaign } from "./_common/hooks/useCampaign";
+import { useCampaign } from './_common/hooks/useCampaign';
 
 const Campaign = () => {
   const { data, isLoading } = useCampaign();
