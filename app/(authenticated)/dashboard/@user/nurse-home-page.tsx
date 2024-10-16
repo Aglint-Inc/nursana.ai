@@ -32,7 +32,7 @@ export default function NurseHomePage() {
         )}
       </TabsContent>
       <TabsContent value='transcript'>
-        {nurseData?.analysis?.transcript ? (
+        {nurseData?.analysis?.transcript_json ? (
           <InterviewTranscript />
         ) : (
           <p>No interview transcript available.</p>
