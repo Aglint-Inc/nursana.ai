@@ -93,8 +93,8 @@ export default function InterviewInstructions({
 
   return (
     <Section>
-      <div className="flex flex-col items-center justify-center mb-20">
-        <div className="text-3xl font-light mb-10">
+      <div className="flex pt-6 flex-col items-center mb-20">
+        <div className="text-xl font-light mb-10">
           <span className="font-medium">Nursera</span>
           <span className="font-light text-purple-500">.ai</span>
         </div>
