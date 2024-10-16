@@ -34,20 +34,19 @@ export default function NurseDashboard() {
   if (!nurseData) return null; // Render Error if no data
 
   return (
-    <div className='min-h-screen'>
-      <main>
-        <div className='flex flex-row gap-4 px-6'>
-          <div className='flex w-[8/12] flex-col'>
-            <span className='text-lg text-muted-foreground'>
+    <div className='w-full max-w-6xl mx-auto'>
+           <span className='text-lg text-muted-foreground'>
               Hello {nurseData?.nurse?.first_name || 'Nurse'} 👋🏻, Welcome to
               Nursana!
             </span>
             <p>Here are your next steps:</p>
             <DashboardCTA />
+        <div className=' grid grid-cols-[1fr_max-content] gap-4 w-full'>
+          <div className='flex  flex-col'>
             <NurseHomePage />
           </div>
-          <div className='flex w-[4/12] flex-col'>
-            <div className='mt-[72px]'>
+          <div className='flex w-[350px] flex-col'>
+            <div className='mt-[64px]'>
               {nurseData?.analysis?.audio_url &&
                 nurseData?.analysis?.video_url && (
                   <Card className='overflow-hidden border-none bg-secondary shadow-none'>
@@ -112,7 +111,7 @@ export default function NurseDashboard() {
             </div>
           </div>
         </div>
-      </main>
+
     </div>
   );
 }

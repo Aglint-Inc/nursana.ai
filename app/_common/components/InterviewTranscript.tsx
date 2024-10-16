@@ -39,7 +39,7 @@ export function InterviewTranscript() {
   return (
     <Card>
       <CardContent className='p-4'>
-        <div className='flex flex-col gap-8'>
+        <div className='flex flex-col gap-6'>
           {transcript.map((message, index) => (
             <div key={index} className='flex justify-start'>
               <div className='flex flex-col gap-2'>
