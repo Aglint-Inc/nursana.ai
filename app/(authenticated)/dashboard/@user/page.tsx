@@ -6,7 +6,6 @@ import NurseHomePage from './nurse-home-page';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { VideoPlayer } from '@/common/components/VideoPlayer';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { AudioPlayer } from '@/common/components/AudioPlayer';
 import { ExternalLink, FileText } from 'lucide-react';
 import { PreferencesEdit } from '@/common/components/PreferencesEdit';

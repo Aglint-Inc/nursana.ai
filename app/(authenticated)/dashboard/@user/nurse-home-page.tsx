@@ -9,7 +9,6 @@ import {
   type ResumeData,
   ResumeReview,
 } from '@/common/components/ResumeReview';
-import Section from '@/components/section';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useNurseData } from '@/common/hooks/useNurseData';
 
