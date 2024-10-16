@@ -1,10 +1,10 @@
+import { PromptTemplate } from "@langchain/core/prompts";
+import { ChatOpenAI } from "@langchain/openai";
+import { JsonOutputFunctionsParser } from "langchain/output_parsers";
+import { type z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
-import { ChatOpenAI } from "@langchain/openai";
-import { PromptTemplate } from "@langchain/core/prompts";
-import { JsonOutputFunctionsParser } from "langchain/output_parsers";
 import { schema } from "./schema";
-import { z } from "zod";
 
 const TEMPLATE = `Extract the requested fields from the input text only.
 Do not add or generate extra information use only given text.
@@ -23,7 +23,7 @@ export const parseJson = async (currentMessageContent: string) => {
       {
         handleLLMEnd: (output) => {
           const { completionTokens, promptTokens, totalTokens } =
-            output.llmOutput?.tokenUsage;
+            output.llmOutput?.tokenUsage || {};
           totalCompletionTokens += completionTokens ?? 0;
           totalPromptTokens += promptTokens ?? 0;
           totalExecutionTokens += totalTokens ?? 0;

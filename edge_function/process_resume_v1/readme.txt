@@ -9,7 +9,7 @@ Run:
     yarn dev
 
 push function to G-Cloud:
-    gcloud functions deploy process_resume_and_jd_v1 --gen2 --runtime=nodejs18 --region=northamerica-northeast2 --source=. --entry-point=hello --trigger-http --allow-unauthenticated
+    gcloud functions deploy nursera_ai_process_resume_v1 --gen2 --runtime=nodejs18 --region=northamerica-northeast2 --source=. --entry-point=hello --trigger-http --allow-unauthenticated
 
 test:
     url: https://northamerica-northeast2-aglint-cloud-381414.cloudfunctions.net/process_resume_and_jd_v1
