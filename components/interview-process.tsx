@@ -12,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useVideoRecording } from "@/hooks/useVideoRecording";
 import type { Database } from "@/lib/database.types";
 
+import AllowCameraPermission from "./allow-camera-permission";
 import Footer from "./footer";
 
 interface InterviewProps {
@@ -289,7 +290,7 @@ export default function Interview({
   }, [stopCamera]);
 
   if (videoError || error) {
-    return <div>Error: {videoError || error}</div>;
+    return <AllowCameraPermission/>;
   }
 
   return (
