@@ -1,9 +1,10 @@
 'use client';
 
+import { useNurseData } from 'app/(authenticated)/_common/hooks/useNurseData';
+
 import { InterviewAnalysis } from '@/common/components/InterviewAnalysis';
 import { InterviewTranscript } from '@/common/components/InterviewTranscript';
 import { ResumeReview } from '@/common/components/ResumeReview';
-import { useNurseData } from '@/common/hooks/useNurseData';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function NurseHomePage() {
