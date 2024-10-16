@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 import Footer from "./footer";
+import NursanaLogo from "./nursana-logo";
 import Section from "./section";
 
 const InterviewProcess = dynamic(
@@ -94,17 +95,14 @@ export default function InterviewInstructions({
   return (
     <Section>
       <div className="flex pt-6 flex-col items-center mb-20">
-        <div className="text-xl font-light mb-10">
-          <span className="font-medium">Nursera</span>
-          <span className="font-light text-purple-500">.ai</span>
-        </div>
-        <h1 className="text-4xl font-medium text-center mb-10">
+        <NursanaLogo/>
+        <h1 className="text-3xl font-medium text-center mb-10">
           <span className="">Welcome to the AI Based interview for</span>
           <br />
           <span>{interviewData.name || interviewData.campaign_code}</span>
         </h1>
 
-        <div className="relative rounded-lg overflow-hidden mb-6 max-w-3xl w-full">
+        <div className="relative rounded-lg overflow-hidden mb-4 max-w-3xl w-full">
           <AspectRatio ratio={16 / 9}>
             {showCover ? (
               <>
@@ -117,8 +115,8 @@ export default function InterviewInstructions({
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <Button
-                    variant="secondary"
-                    className="w-16 h-16 rounded-full bg-secondary bg-opacity-75 hover:bg-opacity-100 transition-all"
+                    variant="default"
+                    className="w-16 h-16 rounded-full bg-opacity-75 hover:bg-opacity-100 transition-all"
                     onClick={showVideo}
                   >
                     <Play className="h-8 w-8 text-navy-900" />
@@ -168,13 +166,13 @@ export default function InterviewInstructions({
           </AspectRatio>
         </div>
 
-        <div className="flex flex-col gap-6 max-w-3xl w-full">
+        <div className="flex flex-col gap-4 max-w-3xl w-full">
           <Card>
             <CardContent className="p-4">
-              <h2 className="font-medium text-lg mb-2">
+              <h2 className="font-medium text-lg mb-1">
                 Estimated Time: {interviewData.candidate_estimated_time}
               </h2>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-md text-muted-foreground">
                 Please ensure you have sufficient time to complete it in one
                 sitting.
               </p>
@@ -183,11 +181,11 @@ export default function InterviewInstructions({
 
           <Card>
             <CardContent className="p-4">
-              <h2 className="font-medium text-lg mb-4">Overview</h2>
-              <ul className="space-y-2">
+              <h2 className="font-medium text-lg mb-1">Overview</h2>
+              <ul className="space-y-1">
                 {interviewData.candidate_overview.map((item, index) => (
-                  <li key={index} className="text-lg text-muted-foreground">
-                    • {item}
+                  <li key={index} className="list-disc list-inside space-y-1 text-md text-muted-foreground">
+                    {item}
                   </li>
                 ))}
               </ul>
@@ -196,10 +194,10 @@ export default function InterviewInstructions({
 
           <Card>
             <CardContent className="p-4">
-              <h2 className="font-medium text-lg mb-4 flex items-center">
+              <h2 className="font-medium text-lg mb-1 flex items-center">
                 Instructions
               </h2>
-              <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground">
+              <ul className="list-disc list-inside space-y-1 text-md text-muted-foreground">
                 {interviewData.candidate_instructions.map(
                   (instruction, index) => (
                     <li key={index}>{instruction}</li>
@@ -209,7 +207,7 @@ export default function InterviewInstructions({
             </CardContent>
           </Card>
 
-          <Button className="w-full mb-4" onClick={handleProceed}>
+          <Button className="w-full mb-4" size={"lg"} onClick={handleProceed}>
             Proceed to Interview
           </Button>
         </div>

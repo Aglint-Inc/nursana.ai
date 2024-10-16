@@ -14,6 +14,7 @@ import { useVideoRecording } from '@/hooks/useVideoRecording';
 
 import AllowCameraPermission from './allow-camera-permission';
 import Footer from './footer';
+import NursanaLogo from './nursana-logo';
 
 interface InterviewProps {
   interviewId: string;
@@ -297,13 +298,10 @@ export default function Interview({
   return (
     <div>
       <div className='flex h-[calc(100vh-72px)] flex-col items-center'>
-        {!isInterviewStarted ? (
+        {!isInterviewStarted && !isProcessing ? (
           <>
             <div className='mt-6 flex flex-col items-center'>
-              <div className='mx-auto mb-10 text-xl font-light'>
-                <span className='font-medium'>Nursana</span>
-                <span className='font-light text-purple-500'>.ai</span>
-              </div>
+             <NursanaLogo/>
               <h1 className='mb-2 text-center text-3xl font-medium'>
                 Let&apos;s Start Your AI Interview
               </h1>
@@ -315,57 +313,64 @@ export default function Interview({
             </div>
           </>
         ) : (
-          <div className='mx-auto mb-4 mt-6 text-xl font-light'>
-            <span className='font-medium'>Nursana</span>
-            <span className='font-light text-purple-500'>.ai</span>
+          <div className='mt-6'>
+          <NursanaLogo/>
           </div>
         )}
-
-        <Card className='mx-auto mb-4 w-[700px] overflow-hidden'>
-          <CardContent className='relative min-w-full p-0'>
-            <AspectRatio ratio={16 / 9}>
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                muted
-                className='h-full w-full object-cover'
-              />
-              {isInterviewStarted && (
-                <>
-                  <div className='absolute bottom-0 left-0 flex w-full justify-center gap-2 bg-gradient-to-t from-[#00000050] to-transparent py-4'>
-                    <div className='flex h-[36px] items-center justify-center rounded-md bg-white px-4 text-sm text-red-600'>
-                      <StopCircle className='mr-2 h-4 w-4' strokeWidth={1.2} />
-                      <span>Recording</span>
-                      <span className='ml-2 w-[36px]'>{formatTime(timer)}</span>
-                    </div>
-                    <Button
-                      variant='destructive'
-                      onClick={handleStopInterview}
-                      aria-label='Stop interview'
-                    >
-                      Stop Interview
-                    </Button>
-                    {/* <Button
+        {!isProcessing && (
+        
+         
+          <Card className=' mx-auto mb-4 w-[700px] overflow-hidden'>
+            <CardContent className='relative min-w-full p-0'>
+              <AspectRatio ratio={16 / 9}>
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  muted
+                  className='h-full w-full object-cover'
+                />
+                {isInterviewStarted && (
+                  <>
+                    <div className='absolute bottom-0 left-0 flex w-full justify-center gap-2 bg-gradient-to-t from-[#00000050] to-transparent py-4'>
+                      <div className='flex h-[36px] items-center justify-center rounded-md bg-white px-4 text-sm text-red-600'>
+                        <StopCircle
+                          className='mr-2 h-4 w-4'
+                          strokeWidth={1.2}
+                        />
+                        <span>Recording</span>
+                        <span className='ml-2 w-[36px]'>
+                          {formatTime(timer)}
+                        </span>
+                      </div>
+                      <Button
+                        variant='destructive'
+                        onClick={handleStopInterview}
+                        aria-label='Stop interview'
+                      >
+                        Stop Interview
+                      </Button>
+                      {/* <Button
                       variant='default'
                       onClick={toggleCaptions}
                       aria-label='Toggle captions'
                     >
                       <Mic className='h-4 w-4' />
                     </Button> */}
-                  </div>
-                </>
-              )}
-            </AspectRatio>
-          </CardContent>
-        </Card>
-       
+                    </div>
+                  </>
+                )}
+              </AspectRatio>
+            </CardContent>
+          </Card>
+
+        )}
 
         {isProcessing ? (
-           <div className='mt-4 rounded-lg bg-gray-100 text-gray-500 p-4 text-center h-[26vh] w-[700px] flex flex-col justify-center items-center'>
-           <Loader className='mx-auto mb-2 h-6 w-6 animate-spin' />
-           <p className=''>Processing and uploading interview data...</p>
-         </div>
+          <div className='mt-4 flex h-[50vh] w-[700px] flex-col items-center justify-center rounded-lg  p-4 text-center text-gray-500'>
+            <Loader className='mx-auto mb-2 h-6 w-6 animate-spin' />
+            <p className=''>Processing and uploading interview data...</p>
+          </div>
         ) : isInterviewStarted ? (
           <></>
         ) : (
@@ -420,7 +425,7 @@ export default function Interview({
                 <p>{turn.content}</p>
               </div>
             ))}
-            <div className='absolute left-0 top-0 z-10 h-[90%] w-full bg-gradient-to-b from-gray-50 to-transparent'></div>
+            <div className='absolute left-0 top-0 z-10 h-[80%] w-full bg-gradient-to-b from-gray-50 to-transparent'></div>
           </div>
         )}
       </div>

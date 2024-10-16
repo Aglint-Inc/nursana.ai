@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 import Footer from "./footer";
+import NursanaLogo from "./nursana-logo";
 
 interface InterviewSummaryProps {
   interviewId: string;
@@ -20,20 +21,19 @@ export default function InterviewSummary({
   const router = useRouter();
   return (
     <div className=" flex flex-col items-center">
-      <div className="h-[calc(100vh-136px)] pt-10 flex flex-col items-center">
-      <div className="text-3xl font-light mb-10 mx-auto">
-        <span className="font-medium">Nursera</span>
-        <span className="font-light text-purple-500">.ai</span>
+      <div className="h-[calc(100vh-72px)] pt-10 flex flex-col items-center">
+        <div className="">
+      <NursanaLogo/>
       </div>
-      <div className="text-4xl font-medium text-center mb-2 flex">
-        <span>Interview completed successfully</span>
+      <div className="text-2xl font-medium text-center mb-1 flex">
+        <span>Interview completed successfully 🎉</span>
       </div>
-      <p className="text-center text-muted-foreground mb-10 max-w-xl">
+      <p className="text-center text-muted-foreground mb-6 max-w-xl">
         Interview successfully completed. Head to the dashboard for more
         details.
       </p>
       <Card className="w-full bg-secondary">
-        <CardContent className="pt-6">
+        <CardContent className="p-4">
           <h2 className="text-lf  font-medium mb-2">{interviewData.name}</h2>
           <div className="flex items-center gap-4">
             <div className="flex items-center text-gray-600">
