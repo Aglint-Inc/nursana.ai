@@ -7,12 +7,12 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 
 export function DashboardCTA() {
-  const { nurseData } = useUserData();
+  const { userData } = useUserData();
 
-  if (!nurseData) return null; // Return null if data is not available
+  if (!userData) return null; // Return null if data is not available
 
-  const user = nurseData.nurse;
-  const resume = nurseData.resume;
+  const user = userData.nurse;
+  const resume = userData.resume;
 
   // Check if profile is complete
   const isProfileComplete =
@@ -27,8 +27,8 @@ export function DashboardCTA() {
     user?.expected_salary;
 
   const hasCompletedInterview =
-    nurseData.interview?.interview_stage ?? null === 'completed';
-  const hasAnyInterview = nurseData.interview?.interview_stage ?? null !== null;
+    userData.interview?.interview_stage ?? null === 'completed';
+  const hasAnyInterview = userData.interview?.interview_stage ?? null !== null;
 
   return (
     <div className='my-4 space-y-4'>

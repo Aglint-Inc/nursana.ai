@@ -38,7 +38,7 @@ const getErrorMessage = (error: any) => {
 };
 
 export default function NurseDashboard() {
-  const { nurseData } = useUserData();
+  const { userData } = useUserData();
 
   const [isEditing, setIsEditing] = useState(false);
   const handleEdit = () => {
@@ -54,7 +54,7 @@ export default function NurseDashboard() {
     setIsEditing(false);
   };
 
-  if (!nurseData) return null; // Render Error if no data
+  if (!userData) return null; // Render Error if no data
 
   return (
     <div className='min-h-screen'>
@@ -62,7 +62,7 @@ export default function NurseDashboard() {
         <div className='flex flex-row gap-4 px-6'>
           <div className='flex w-[8/12] flex-col'>
             <span className='text-lg text-muted-foreground'>
-              Hello {nurseData?.nurse?.first_name || 'Nurse'} 👋🏻, Welcome to
+              Hello {userData?.nurse?.first_name || 'Nurse'} 👋🏻, Welcome to
               Nursana!
             </span>
             <p>Here are your next steps:</p>
@@ -71,25 +71,25 @@ export default function NurseDashboard() {
           </div>
           <div className='flex w-[4/12] flex-col'>
             <div className='mt-[72px]'>
-              {nurseData?.analysis?.audio_url &&
-                nurseData?.analysis?.video_url && (
+              {userData?.analysis?.audio_url &&
+                userData?.analysis?.video_url && (
                   <Card className='overflow-hidden border-none bg-secondary shadow-none'>
                     <CardContent className='p-0'>
-                      {nurseData?.analysis?.audio_url && (
-                        <VideoPlayer videoUrl={nurseData.analysis.video_url} />
+                      {userData?.analysis?.audio_url && (
+                        <VideoPlayer videoUrl={userData.analysis.video_url} />
                       )}
-                      {nurseData?.analysis?.audio_url && (
-                        <AudioPlayer audioUrl={nurseData.analysis.audio_url} />
+                      {userData?.analysis?.audio_url && (
+                        <AudioPlayer audioUrl={userData.analysis.audio_url} />
                       )}
                     </CardContent>
                   </Card>
                 )}
-              {nurseData?.resume?.error_status ? (
+              {userData?.resume?.error_status ? (
                 <Alert variant='destructive'>
                   <AlertCircle className='h-4 w-4' />
                   <AlertTitle>Resume Upload Issue</AlertTitle>
                   <AlertDescription>
-                    {getErrorMessage(nurseData.resume.error_status)}
+                    {getErrorMessage(userData.resume.error_status)}
                   </AlertDescription>
                 </Alert>
               ) : (
@@ -103,21 +103,21 @@ export default function NurseDashboard() {
                         />
                         <div>
                           <p className='text-md font-medium'>
-                            {nurseData?.resume?.file_name || 'Untitled'}
+                            {userData?.resume?.file_name || 'Untitled'}
                           </p>
                           <p className='text-sm text-muted-foreground'>
-                            {nurseData?.resume?.file_size || '-- KB'}
+                            {userData?.resume?.file_size || '-- KB'}
                           </p>
                         </div>
                       </div>
-                      {nurseData?.resume?.file_url && (
+                      {userData?.resume?.file_url && (
                         <div className='group relative'>
                           <Button
                             variant='ghost'
                             className='opacity-0 transition-opacity duration-200 group-hover:opacity-100'
                           >
                             <a
-                              href={nurseData?.resume?.file_url}
+                              href={userData?.resume?.file_url}
                               target='_blank'
                               rel='noopener noreferrer'
                               className='flex items-center'
@@ -135,7 +135,7 @@ export default function NurseDashboard() {
                 <PreferencesEdit onSave={handleSave} onCancel={handleCancel} />
               ) : (
                 <PreferencesView
-                  nurseData={nurseData?.nurse || null}
+                  nurseData={userData?.nurse || null}
                   onEdit={handleEdit}
                 />
               )}

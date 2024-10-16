@@ -18,8 +18,8 @@ const SkillBar: React.FC<{ label: string; value: number }> = ({
 );
 
 export function InterviewAnalysis() {
-  const { nurseData } = useUserData();
-  const analysis = nurseData?.analysis?.structured_analysis;
+  const { userData } = useUserData();
+  const analysis = userData?.analysis?.structured_analysis;
 
   if (!analysis) {
     return <div>No analysis available.</div>;

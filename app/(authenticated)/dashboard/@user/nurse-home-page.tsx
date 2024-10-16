@@ -7,8 +7,8 @@ import { ResumeReview } from '@/common/components/ResumeReview';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function NurseHomePage() {
-  const { nurseData } = useUserData();
-  if (!nurseData) return null; // Return Error if no data
+  const { userData } = useUserData();
+  if (!userData) return null; // Return Error if no data
   return (
     <Tabs defaultValue='interview'>
       <TabsList className='mb-4'>
@@ -17,21 +17,21 @@ export default function NurseHomePage() {
         <TabsTrigger value='transcript'>Interview Transcript</TabsTrigger>
       </TabsList>
       <TabsContent value='resume'>
-        {nurseData?.resume?.structured_resume ? (
+        {userData?.resume?.structured_resume ? (
           <ResumeReview />
         ) : (
           <p>No resume feedback available.</p>
         )}
       </TabsContent>
       <TabsContent value='interview'>
-        {nurseData?.analysis?.structured_analysis ? (
+        {userData?.analysis?.structured_analysis ? (
           <InterviewAnalysis />
         ) : (
           <p>Interview analysis is not yet complete.</p>
         )}
       </TabsContent>
       <TabsContent value='transcript'>
-        {nurseData?.analysis?.transcript_json ? (
+        {userData?.analysis?.transcript_json ? (
           <InterviewTranscript />
         ) : (
           <p>No interview transcript available.</p>
