@@ -6,15 +6,14 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-import { initTRPC, TRPCError } from "@trpc/server";
-import type { ProcedureBuilder } from "@trpc/server/unstable-core-do-not-import";
-import { jwtDecode } from "jwt-decode";
-import superjson from "superjson";
-import { type TypeOf, ZodError, type ZodSchema } from "zod";
+import { initTRPC, TRPCError } from '@trpc/server';
+import type { ProcedureBuilder } from '@trpc/server/unstable-core-do-not-import';
+import { jwtDecode } from 'jwt-decode';
+import { type Database } from 'src/supabase-types/database.types';
+import superjson from 'superjson';
+import { type TypeOf, ZodError, type ZodSchema } from 'zod';
 
-import { type Database } from "src/supabase-types/database.types";
-
-import { createPrivateClient } from "../db";
+import { createPrivateClient } from '../db';
 
 /**
  * 1. CONTEXT
@@ -91,7 +90,7 @@ const timingMiddleware = t.middleware(async ({ next, path: _path }) => {
   const result = await next();
 
   const _end = Date.now();
-  if (process.env.NEXT_PUBLIC_SITE_URL === "http://localhost:3000") {
+  if (process.env.NEXT_PUBLIC_SITE_URL === 'http://localhost:3000') {
     // eslint-disable-next-line no-console
     // console.log(`[TRPC] ${path} took ${end - start}ms to execute`);
   }
@@ -106,24 +105,26 @@ const authMiddleware = t.middleware(async ({ next, ctx }) => {
 
   let user_id: string | null = null;
 
-  let role: Database["public"]["Enums"]["app_role"] | null = null;
+  let role: Database['public']['Enums']['app_role'] | null = null;
 
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === 'development') {
     const { data } = await db.auth.getSession();
-    const jwt = jwtDecode(data.session?.access_token ?? "") as any;
-    role = jwt?.user_role as unknown as Database["public"]["Enums"]["app_role"];
+    const jwt = jwtDecode(data.session?.access_token ?? '') as any;
+    role = jwt?.user_role as unknown as Database['public']['Enums']['app_role'];
     user_id = data?.session?.user.id ?? null;
   } else {
+    const { data: user } = await db.auth.getUser();
+    user_id = user.user?.id ?? null;
+
     const { data } = await db.auth.getSession();
-    const jwt = jwtDecode(data.session?.access_token ?? "") as any;
-    role = jwt?.user_role as unknown as Database["public"]["Enums"]["app_role"];
-    user_id = data?.session?.user.id ?? null;
+    const jwt = jwtDecode(data.session?.access_token ?? '') as any;
+    role = jwt?.user_role as unknown as Database['public']['Enums']['app_role'];
   }
 
   if (!user_id)
     throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: "User unauthenticated",
+      code: 'UNAUTHORIZED',
+      message: 'User unauthenticated',
     });
 
   return await next({

@@ -1,11 +1,10 @@
-import "server-only";
+import 'server-only';
 
-import { createServerClient } from "@supabase/ssr";
-import { createClient } from "@supabase/supabase-js";
-import type { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import { cookies } from "next/headers";
-
-import { type Database } from "src/supabase-types/database.types";
+import { createServerClient } from '@supabase/ssr';
+import { createClient } from '@supabase/supabase-js';
+import type { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
+import { cookies } from 'next/headers';
+import { type Database } from 'src/supabase-types/database.types';
 
 export function createPrivateClient() {
   const cookieStore = cookies();
@@ -20,7 +19,7 @@ export function createPrivateClient() {
         setAll(cookiesToSet) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, { ...(options as ResponseCookie) })
+              cookieStore.set(name, value, { ...(options as ResponseCookie) }),
             );
           } catch {
             // The `setAll` method was called from a Server Component.
@@ -29,13 +28,13 @@ export function createPrivateClient() {
           }
         },
       },
-    }
+    },
   );
 }
 
 export function createPublicClient() {
   return createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
   );
 }

@@ -1,12 +1,11 @@
-"use client";
+'use client';
 
-import NurseHomePage from "./nurse-home-page";
+import NurseHomePage from './nurse-home-page';
 
 export default function NurseDashboard() {
-  
   return (
-    <div className="min-h-screen ">
-      <main className="">
+    <div className='min-h-screen'>
+      <main className=''>
         <NurseHomePage />
       </main>
     </div>

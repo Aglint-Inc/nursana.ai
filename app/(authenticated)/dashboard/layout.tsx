@@ -26,7 +26,5 @@ async function checkRole() {
   const supabase = createClient();
   const { data } = await supabase.auth.getSession();
   const jwt = jwtDecode(data?.session?.access_token ?? '') as any;
-  console.log(jwt);
-
   return jwt.user_role as Database['public']['Enums']['app_role'];
 }
