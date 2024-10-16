@@ -359,12 +359,13 @@ export default function Interview({
             </AspectRatio>
           </CardContent>
         </Card>
+       
 
         {isProcessing ? (
-          <div className='mt-4 rounded-lg bg-gray-100 p-4 text-center'>
-            <Loader className='mx-auto mb-2 h-8 w-8 animate-spin' />
-            <p>Processing and uploading interview data...</p>
-          </div>
+           <div className='mt-4 rounded-lg bg-gray-100 text-gray-500 p-4 text-center h-[26vh] w-[700px] flex flex-col justify-center items-center'>
+           <Loader className='mx-auto mb-2 h-6 w-6 animate-spin' />
+           <p className=''>Processing and uploading interview data...</p>
+         </div>
         ) : isInterviewStarted ? (
           <></>
         ) : (
@@ -380,7 +381,7 @@ export default function Interview({
           </Button>
         )}
 
-        {showCaptions && isInterviewStarted && (
+        {showCaptions && isInterviewStarted && !isProcessing && (
           <div className='text-md relative mt-4 flex h-[26vh] w-[700px] flex-col justify-end gap-4 overflow-hidden rounded-lg bg-gray-50 p-6'>
             {conversationHistory.map((turn, index) => (
               <div
