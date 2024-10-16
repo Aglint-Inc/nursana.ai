@@ -12,7 +12,7 @@ function HowItWorks() {
       <div className="flex flex-col gap-20">
         <div className="max-w-screen-xl flex flex-col gap-2 items-center">
           <h1 className="text-5xl font-medium">
-            Nursera connects you with top-tier opportunities,
+            Nursana connects you with top-tier opportunities,
           </h1>
           <h1 className="text-5xl font-medium">
             opening doors you didn’t even know existed.

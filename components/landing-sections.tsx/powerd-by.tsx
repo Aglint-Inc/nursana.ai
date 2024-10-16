@@ -22,7 +22,7 @@ function PoweredBy() {
             <p className="text-lg text-gray-600">
               Our AI-driven resume analysis delivers an objective assessment of
               your resume, providing tailored recommendations to enhance its
-              effectiveness while eliminating bias. Trust nursera.ai to empower
+              effectiveness while eliminating bias. Trust Nursana.ai to empower
               your job search by showcasing your qualifications in a way that
               stands out to potential employers.
             </p>

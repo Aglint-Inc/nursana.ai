@@ -223,7 +223,7 @@ CREATE OR REPLACE FUNCTION public.post_process_interview()
 AS $function$
 BEGIN
     PERFORM net.http_post(
-        url := 'https://nursera.ai/api/backup-interview-data',
+        url := 'https://nursana.ai/api/backup-interview-data',
         headers := '{"Content-Type": "application/json"}'::jsonb,
         body := json_build_object('interview_analysis_id', NEW.id)::jsonb
     );

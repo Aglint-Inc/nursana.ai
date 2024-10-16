@@ -10,11 +10,11 @@ function WhyUS() {
       <div className="flex flex-col gap-10">
         <div className="grid grid-cols-2 gap-10 items-center">
           <div className="flex flex-col gap-4 items-start">
-            <h1 className="text-5xl font-medium">Why Nursera?</h1>
+            <h1 className="text-5xl font-medium">Why Nursana?</h1>
             <p className="text-lg text-muted-foreground">
               Our AI-driven resume analysis delivers an objective assessment of
               your resume, providing tailored recommendations to enhance its
-              effectiveness while eliminating bias. Trust nursera.ai to empower
+              effectiveness while eliminating bias. Trust Nursana.ai to empower
               your job search by showcasing your qualifications in a way that
               stands out to potential employers.
             </p>
@@ -56,7 +56,7 @@ function WhyUS() {
               Seamless Process for Quick Matches
             </div>
             <div className="text-lg text-muted-foreground">
-              The process is simple: take an AI interview, and let Nursera.ai do
+              The process is simple: take an AI interview, and let Nursana.ai do
               the rest. Our platform efficiently connects you with job
               opportunities that meet your criteria, making your job search
               smooth and hassle-free.

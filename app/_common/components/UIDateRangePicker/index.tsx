@@ -1,16 +1,16 @@
 /* eslint-disable no-unused-vars */
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-import * as React from "react";
-import { cn } from "src/utils/cn";
+import { format } from 'date-fns';
+import { Calendar as CalendarIcon } from 'lucide-react';
+import * as React from 'react';
+import { cn } from 'src/utils/cn';
 
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover';
 
 interface DateRange {
   from: Date | undefined;
@@ -34,27 +34,27 @@ export function UIDateRangePicker({
   const [open, setOpen] = React.useState(false);
 
   return (
-    <div className={cn("grid gap-2", className)}>
+    <div className={cn('grid gap-2', className)}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           {customButton ?? (
             <Button
-              id="date"
-              variant={"outline"}
+              id='date'
+              variant={'outline'}
               className={cn(
-                "w-[300px] justify-start text-left font-normal",
-                !value && "text-muted-foreground"
+                'w-[300px] justify-start text-left font-normal',
+                !value && 'text-muted-foreground',
               )}
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
+              <CalendarIcon className='mr-2 h-4 w-4' />
               {value?.from ? (
                 value.to ? (
                   <>
-                    {format(value.from, "LLL dd, y")} -{" "}
-                    {format(value.to, "LLL dd, y")}
+                    {format(value.from, 'LLL dd, y')} -{' '}
+                    {format(value.to, 'LLL dd, y')}
                   </>
                 ) : (
-                  format(value.from, "LLL dd, y")
+                  format(value.from, 'LLL dd, y')
                 )
               ) : (
                 <span>Pick a date</span>
@@ -63,12 +63,12 @@ export function UIDateRangePicker({
           )}
         </PopoverTrigger>
         <PopoverContent
-          side={customButton ? "left" : "bottom"}
-          className="w-auto p-0"
-          align={"start"}
+          side={customButton ? 'left' : 'bottom'}
+          className='w-auto p-0'
+          align={'start'}
         >
           <Calendar
-            mode="range"
+            mode='range'
             defaultMonth={value?.from}
             selected={value}
             onSelect={(dates) => {
@@ -82,7 +82,7 @@ export function UIDateRangePicker({
             }}
             numberOfMonths={2}
             disabled={
-              disablePastDates ? (date) => date < new Date() : undefined
+              disablePastDates ? (date: Date) => date < new Date() : undefined
             }
           />
         </PopoverContent>

@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
         <div className="w-full flex justify-between items-center py-6">
           <div className="flex gap-5 items-center font-semibold">
             <Link href="/" className="text-3xl font-light">
-              <span className="font-medium ">Nursera</span>
+              <span className="font-medium ">Nursana</span>
               <span className="font-light text-purple-500">.ai</span>
             </Link>
           </div>

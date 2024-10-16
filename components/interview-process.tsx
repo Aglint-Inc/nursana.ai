@@ -300,7 +300,7 @@ export default function Interview({
           <>
             <div className="mt-10 flex flex-col items-center">
               <div className="text-3xl font-light mb-10 mx-auto">
-                <span className="font-medium">Nursera</span>
+                <span className="font-medium">Nursana</span>
                 <span className="font-light text-purple-500">.ai</span>
               </div>
               <h1 className="text-4xl font-medium text-center mb-2 ">
