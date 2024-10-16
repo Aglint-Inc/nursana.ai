@@ -21,7 +21,7 @@ export async function POST(
     );
   }
   const supabase = createAdminClient();
-  const { call_id } = await getInterviewAnalysis(
+  const { interview_id,call_id } = await getInterviewAnalysis(
     supabase,
     interview_analysis_id
   );
@@ -57,12 +57,12 @@ export async function POST(
     // });
     const audioFile = new File(
       [blob],
-      `${interview_analysis_id}.${extension}`,
+      `${interview_id}.${extension}`,
       {
         type: mimeType,
       }
     );
-    const fileName = `interviews/${interview_analysis_id}.${extension}`;
+    const fileName = `interviews/${interview_id}.${extension}`;
 
     // // Upload the file to Supabase storage
     await UploadAudio(supabase, {
@@ -97,7 +97,7 @@ async function getInterviewAnalysis(
   return (
     await supabase
       .from("interview_analysis")
-      .select("call_id")
+      .select("interview_id,call_id")
       .eq("id", interview_analysis_id)
       .single()
       .throwOnError()
