@@ -107,28 +107,42 @@ export type Database = {
         Row: {
           address: string | null
           contact_email: string | null
+          contact_number: string | null
           contact_person: string | null
           created_at: string | null
+          created_by: string | null
           hospital_name: string
           id: string
         }
         Insert: {
           address?: string | null
           contact_email?: string | null
+          contact_number?: string | null
           contact_person?: string | null
           created_at?: string | null
+          created_by?: string | null
           hospital_name: string
           id?: string
         }
         Update: {
           address?: string | null
           contact_email?: string | null
+          contact_number?: string | null
           contact_person?: string | null
           created_at?: string | null
+          created_by?: string | null
           hospital_name?: string
           id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "hospitals_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "tenant"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       interview_analysis: {
         Row: {
@@ -415,33 +429,7 @@ export type Database = {
           },
         ]
       }
-      user_hospital_access: {
-        Row: {
-          hospital_id: string
-          id: string
-          user_id: string
-        }
-        Insert: {
-          hospital_id: string
-          id?: string
-          user_id: string
-        }
-        Update: {
-          hospital_id?: string
-          id?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_tenant_access_hospital_id_fkey"
-            columns: ["hospital_id"]
-            isOneToOne: false
-            referencedRelation: "hospitals"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      user_roles: {
+      roles: {
         Row: {
           id: string
           role: Database["public"]["Enums"]["app_role"]
@@ -457,12 +445,39 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
+        Relationships: []
+      }
+      tenant: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string
+          hospital_id: string | null
+          last_name: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_name: string
+          hospital_id?: string | null
+          last_name?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string
+          hospital_id?: string | null
+          last_name?: string | null
+          user_id?: string
+        }
         Relationships: [
           {
-            foreignKeyName: "user_roles_user_id_fkey1"
-            columns: ["user_id"]
+            foreignKeyName: "tenant_hospital_id_fkey"
+            columns: ["hospital_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "hospitals"
             referencedColumns: ["id"]
           },
         ]

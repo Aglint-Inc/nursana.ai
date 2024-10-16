@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useToast } from "hooks/use-toast";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { api } from "trpc/client";
+import { useToast } from 'hooks/use-toast';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { api } from 'trpc/client';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -14,13 +14,13 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { supabase } from "@/utils/supabase/client";
+} from '@/components/ui/select';
+import { supabase } from '@/utils/supabase/client';
 
 export default function NurseSignIn() {
-  const [role, setRole] = useState<"nurse" | "company">("nurse");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [role, setRole] = useState<'nurse' | 'company'>('nurse');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
@@ -31,16 +31,16 @@ export default function NurseSignIn() {
     e.preventDefault();
     try {
       setIsLoading(false);
-      const res = await mutateAsync({ email });
+      const res = await mutateAsync({ email, role });
       if (res) {
-        if (role === "nurse") {
+        if (role === 'nurse') {
           await nurseSignIn({ email });
         } else {
           await companySignIn({ email, password });
         }
       }
     } catch (error) {
-      toast({ variant: "destructive", title: error.message });
+      toast({ variant: 'destructive', title: error.message });
     } finally {
       setIsLoading(false);
     }
@@ -56,7 +56,7 @@ export default function NurseSignIn() {
     if (error) {
       throw new Error(error.message);
     } else {
-      router.push("/auth/check-email");
+      router.push('/auth/check-email');
     }
   };
 
@@ -74,79 +74,79 @@ export default function NurseSignIn() {
     if (error) {
       throw new Error(error.message);
     } else {
-      router.push("/dashboard");
+      router.push('/dashboard');
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex flex-col gap-4 w-[300px]">
-          <div id="role" className="flex  gap-2 flex-col">
+    <div className='flex min-h-screen flex-col items-center justify-center px-4'>
+      <form onSubmit={handleSubmit} className='space-y-4'>
+        <div className='flex w-[300px] flex-col gap-4'>
+          <div id='role' className='flex flex-col gap-2'>
             <label
-              htmlFor="role"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              htmlFor='role'
+              className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
             >
               Role
             </label>
             <Select
               value={role}
-              onValueChange={(val: "nurse" | "company") => {
+              onValueChange={(val: 'nurse' | 'company') => {
                 setRole(val);
               }}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select a role" />
+                <SelectValue placeholder='Select a role' />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="nurse"> Nurse</SelectItem>
-                  <SelectItem value="company">Company</SelectItem>
+                  <SelectItem value='nurse'> Nurse</SelectItem>
+                  <SelectItem value='company'>Company</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
           </div>
-          <div className="flex  gap-2 flex-col">
+          <div className='flex flex-col gap-2'>
             <label
-              htmlFor="email"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              htmlFor='email'
+              className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
             >
               Email
             </label>
             <Input
-              id="email"
-              type="email"
+              id='email'
+              type='email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
+              placeholder='Enter your email'
               required
             />
           </div>
-          {role === "company" && (
-            <div className="flex  gap-2 flex-col">
+          {role === 'company' && (
+            <div className='flex flex-col gap-2'>
               <label
-                htmlFor="password"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor='password'
+                className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
               >
                 Password
               </label>
               <Input
-                id="password"
-                type="password"
+                id='password'
+                type='password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
+                placeholder='Enter your password'
                 required
               />
             </div>
           )}
         </div>
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button type='submit' className='w-full' disabled={isLoading}>
           {isLoading
-            ? "Sending..."
-            : role === "nurse"
-              ? "Get Magic Link"
-              : "Sign In"}
+            ? 'Sending...'
+            : role === 'nurse'
+              ? 'Get Magic Link'
+              : 'Sign In'}
         </Button>
       </form>
     </div>

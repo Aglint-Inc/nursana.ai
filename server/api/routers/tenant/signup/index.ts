@@ -3,48 +3,37 @@ import { z } from 'zod';
 
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
 import { createPublicClient } from '@/server/db';
-import { appRoleSchema } from '@/supabase-types/zod-schema.types';
 
 export const schema = z.object({
+  userId: z.string(),
   email: z.string().email(),
-  role: appRoleSchema,
   first_name: z.string(),
   last_name: z.string().optional(),
 });
 
 const mutation = async ({
-  input: { email, role, first_name, last_name },
+  input: { userId, email, first_name, last_name },
 }: PublicProcedure<typeof schema>) => {
-  const supabase = createPublicClient();
-
-  const res = await supabase.auth.admin.createUser({
-    email: email,
-    password: 'Welcome@123',
-  });
-
-  const userId = res.data?.user?.id;
-
-  if (!userId) throw new Error('User not created');
-
-  await supabase
-    .from('users')
+  const db = createPublicClient();
+  await db
+    .from('tenant')
     .insert({
-      id: userId,
+      user_id: userId,
       email,
       first_name,
       last_name,
     })
     .throwOnError();
 
-  await supabase
+  await db
     .from('roles')
     .insert({
       user_id: userId,
-      role: role,
+      role: 'hospital',
     })
     .throwOnError();
 
-  return res;
+  return { success: true };
 };
 
-export const createUser = publicProcedure.input(schema).mutation(mutation);
+export const tenantSignup = publicProcedure.input(schema).mutation(mutation);
