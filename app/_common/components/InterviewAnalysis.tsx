@@ -1,19 +1,21 @@
 import React from 'react';
 
 import { useUserData } from '@/authenicated/hooks/useUserData';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 
-const SkillBar: React.FC<{ label: string; value: number }> = ({
-  label,
-  value,
-}) => (
+const RatingBar: React.FC<{
+  label: string;
+  rating: number;
+  comments: string;
+}> = ({ label, rating, comments }) => (
   <div className='space-y-1'>
     <div className='flex justify-between text-sm'>
       <span>{label}</span>
-      <span>{value}%</span>
+      <span>{rating}/5</span>
     </div>
-    <Progress value={value} className='h-2' />
+    <Progress value={rating * 20} className='h-2' />
+    <p className='text-sm text-muted-foreground'>{comments}</p>
   </div>
 );
 
@@ -27,87 +29,84 @@ export function InterviewAnalysis() {
 
   return (
     <Card>
-      <CardContent className='flex flex-col gap-8 pt-6'>
-        <div className='flex flex-col gap-2'>
-          <div className='text-sm text-muted-foreground'>
-            Interview Analysis
-          </div>
-          <div className='grid grid-cols-2 gap-x-10 gap-y-4'>
-            <SkillBar label='Teamwork' value={analysis.teamwork} />
-            <SkillBar label='Adaptability' value={analysis.adaptability} />
-            <SkillBar label='Empathy Score' value={analysis.empathy_score} />
-            <SkillBar
-              label='Calm Under Pressure'
-              value={analysis.calm_under_pressure}
-            />
-            <SkillBar
-              label='Self-Care Awareness'
-              value={analysis.self_care_awareness}
-            />
-          </div>
+      <CardHeader>
+        <CardTitle>Interview Analysis</CardTitle>
+      </CardHeader>
+      <CardContent className='flex flex-col gap-8'>
+        <div className='space-y-4'>
+          <h3 className='text-lg font-semibold'>
+            Education and Certifications
+          </h3>
+          <p>Degree: {analysis?.education_and_certifications?.degree}</p>
+          <p>
+            Certifications:{' '}
+            {analysis?.education_and_certifications?.certifications.join(', ')}
+          </p>
+          <p>
+            Specializations:{' '}
+            {analysis?.education_and_certifications?.specializations.length
+              ? analysis?.education_and_certifications?.specializations.join(
+                  ', ',
+                )
+              : 'None'}
+          </p>
         </div>
 
-        <div className='flex flex-col gap-2'>
-          <div className='text-sm text-muted-foreground'>Key Strengths</div>
-          {analysis.key_strengths?.map((strength: string, index: number) => (
-            <div key={index}>{strength}</div>
-          )) || <div>No key strengths available</div>}
+        <div className='space-y-4'>
+          <h3 className='text-lg font-semibold'>Licenses</h3>
+          <RatingBar
+            label='Active License'
+            rating={analysis?.licensure?.active_license?.rating}
+            comments={analysis?.licensure?.active_license?.comments}
+          />
+          <RatingBar
+            label='License Expiration'
+            rating={analysis?.licensure?.expiration_date?.rating}
+            comments={analysis?.licensure?.expiration_date?.comments}
+          />
         </div>
 
-        <div className='flex flex-col gap-2'>
-          <div className='text-sm text-muted-foreground'>
-            Areas for Improvement
-          </div>
-          {analysis.areas_for_improvement?.map(
-            (area: string, index: number) => <div key={index}>{area}</div>,
-          ) || <div>No key strengths available</div>}
+        <div className='space-y-4'>
+          <h3 className='text-lg font-semibold'>Experience</h3>
+          <RatingBar
+            label='Years of Experience'
+            rating={analysis?.experience?.years_of_experience?.rating}
+            comments={analysis?.experience?.years_of_experience?.comments}
+          />
+          <RatingBar
+            label='Healthcare Settings'
+            rating={analysis?.experience?.healthcare_settings?.rating}
+            comments={analysis?.experience?.healthcare_settings?.comments}
+          />
+          <RatingBar
+            label='Specialties'
+            rating={analysis?.experience?.specialties?.rating}
+            comments={analysis?.experience?.specialties?.comments}
+          />
+          <RatingBar
+            label='Leadership Roles'
+            rating={analysis?.experience?.leadership_roles?.rating}
+            comments={analysis?.experience?.leadership_roles?.comments}
+          />
         </div>
 
-        <div className='flex flex-col gap-2'>
-          <div className='text-sm text-muted-foreground'>
-            Areas for Improvement
-          </div>
-          {analysis.communication_skills ? (
-            <p>{analysis.communication_skills}</p>
-          ) : (
-            <p>---</p>
-          )}
-        </div>
-        <div className='flex flex-col gap-2'>
-          <div className='text-sm text-muted-foreground'>Recommended Fit</div>
-          {analysis.recommended_fit ? (
-            <p>{analysis.recommended_fit}</p>
-          ) : (
-            <p>---</p>
-          )}
-        </div>
-        <div className='flex flex-col gap-2'>
-          <div className='text-sm text-muted-foreground'>Overall Sentiment</div>
-          {analysis.overall_sentiment ? (
-            <p>{analysis.overall_sentiment}</p>
-          ) : (
-            <p>---</p>
-          )}
-        </div>
-        <div className='flex flex-col gap-2'>
-          <div className='text-sm text-muted-foreground'>
-            Candidate Overall Score
-          </div>
-          {analysis.candidate_overall_score ? (
-            <p>{analysis.candidate_overall_score}%</p>
-          ) : (
-            <p>---</p>
-          )}
-        </div>
-        <div className='flex flex-col gap-2'>
-          <div className='text-sm text-muted-foreground'>
-            Follow-up Recommendation
-          </div>
-          {analysis.follow_up_recommendation ? (
-            <p>{analysis.follow_up_recommendation}</p>
-          ) : (
-            <p>---</p>
-          )}
+        <div className='space-y-4'>
+          <h3 className='text-lg font-semibold'>Technical Skills</h3>
+          <RatingBar
+            label='Software'
+            rating={analysis?.technicalSkills?.software?.rating}
+            comments={analysis?.technicalSkills?.software?.comments}
+          />
+          <RatingBar
+            label='Equipment'
+            rating={analysis?.technicalSkills?.equipment?.rating}
+            comments={analysis?.technicalSkills?.equipment?.comments}
+          />
+          <RatingBar
+            label='Telemedicine'
+            rating={analysis?.technicalSkills?.telemedicine?.rating}
+            comments={analysis?.technicalSkills?.telemedicine?.comments}
+          />
         </div>
       </CardContent>
     </Card>
