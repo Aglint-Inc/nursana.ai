@@ -1,9 +1,9 @@
 'use client';
 
-import { useNurseData } from 'app/(authenticated)/_common/hooks/useNurseData';
 import { useEffect, useState } from 'react';
 import { api } from 'trpc/client';
 
+import { useUserData } from '@/authenicated/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -40,7 +40,7 @@ const locationOptions = [
 ].map((location) => ({ label: location, value: location }));
 
 export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
-  const { nurseData, refetch } = useNurseData();
+  const { userData, refetch } = useUserData();
   const updatePreferences = api.user.updatePreferences.useMutation();
 
   const [selectedJobTitles, setSelectedJobTitles] = useState<string[]>([]);
@@ -50,14 +50,14 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
   const [expectedSalary, setExpectedSalary] = useState('');
 
   useEffect(() => {
-    if (nurseData?.nurse) {
-      setSelectedJobTitles(nurseData.nurse.preferred_job_titles || []);
-      setSelectedLocations(nurseData.nurse.preferred_locations || []);
-      setJobType(nurseData.nurse.job_type || '');
-      setTravelPreference(nurseData.nurse.travel_preference || '');
-      setExpectedSalary(nurseData.nurse.expected_salary?.toString() || '');
+    if (userData?.user) {
+      setSelectedJobTitles(userData.user.preferred_job_titles || []);
+      setSelectedLocations(userData.user.preferred_locations || []);
+      setJobType(userData.user.job_type || '');
+      setTravelPreference(userData.user.travel_preference || '');
+      setExpectedSalary(userData.user.expected_salary?.toString() || '');
     }
-  }, [nurseData]);
+  }, [userData]);
 
   const handleSave = async () => {
     try {
@@ -75,7 +75,7 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
     }
   };
 
-  if (!nurseData) {
+  if (!userData) {
     return <div>Loading...</div>;
   }
 

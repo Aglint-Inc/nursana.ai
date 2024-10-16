@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useNurseData } from '@/common/hooks/useNurseData';
+import { useUserData } from '@/authenicated/hooks/useUserData';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 
@@ -18,8 +18,8 @@ const SkillBar: React.FC<{ label: string; value: number }> = ({
 );
 
 export function InterviewAnalysis() {
-  const { nurseData } = useNurseData();
-  const analysis = nurseData?.analysis?.structured_analysis;
+  const { userData } = useUserData();
+  const analysis = userData?.analysis?.structured_analysis;
 
   if (!analysis) {
     return <div>No analysis available.</div>;

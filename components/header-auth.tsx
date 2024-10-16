@@ -1,34 +1,69 @@
-import { signOutAction } from "app/actions";
-import Link from "next/link";
+'use client';
 
-import { createClient } from "@/utils/supabase/server";
+import { signOutAction } from 'app/actions';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-import { Button } from "./ui/button";
+import { useUserData } from '@/authenicated/hooks/useUserData';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
-export default async function AuthButton() {
-  const {
-    data: { user },
-  } = await createClient().auth.getUser();
+export default function HeaderAuth() {
+  const { userData } = useUserData();
+  const [hasIncompleteInterview, setHasIncompleteInterview] = useState(false);
 
-  const isAnonymous = user?.is_anonymous;
+  useEffect(() => {
+    if (userData?.interview) {
+      setHasIncompleteInterview(
+        userData.interview?.interview_stage !== 'interview_completed',
+      );
+    }
+  }, [userData]);
 
-  return user && !isAnonymous ? (
-    <div className="flex items-center gap-4">
-      Hey, {user.email}!
-      <form action={signOutAction}>
-        <Button type="submit" variant={"outline"}>
-          Sign out
+  if (!userData?.interview) {
+    return (
+      <div className='flex gap-2'>
+        <Button asChild variant={'default'}>
+          <Link href='/campaign/?campaign_code=SUMMER23NURSE'>Get Started</Link>
         </Button>
-      </form>
-    </div>
-  ) : (
-    <div className="flex gap-2">
-      <Button asChild size="sm" variant={"outline"}>
-        <Link href="/sign-in">Sign in</Link>
-      </Button>
-      <Button asChild size="sm" variant={"default"}>
-        <Link href="/sign-up">Sign up</Link>
-      </Button>
+      </div>
+    );
+  }
+
+  const userInitials =
+    userData?.user?.first_name && userData.user.last_name
+      ? `${userData.user.first_name[0]}${userData.user.last_name[0]}`
+      : userData?.user?.email?.[0] || '?';
+
+  return (
+    <div className='flex items-center gap-4'>
+      {hasIncompleteInterview && (
+        <Badge variant='destructive'>Incomplete Interview</Badge>
+      )}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Avatar className='cursor-pointer'>
+            <AvatarFallback>{userInitials}</AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align='end'>
+          <DropdownMenuItem asChild>
+            <Link href='/dashboard'>Dashboard</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href='/' onClick={signOutAction}>
+              Sign out
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }
