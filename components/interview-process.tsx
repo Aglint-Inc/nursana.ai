@@ -1,16 +1,15 @@
 'use client';
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Loader, Sparkle, StopCircle, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RetellWebClient } from 'retell-client-js-sdk';
-import type { Database } from 'src/supabase-types/database.types';
 
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useVideoRecording } from '@/hooks/useVideoRecording';
+import { supabase } from '@/utils/supabase/client';
 
 import AllowCameraPermission from './allow-camera-permission';
 import Footer from './footer';
@@ -60,7 +59,6 @@ export default function Interview({
   const retellWebClientRef = useRef<RetellWebClient | null>(null);
 
   const router = useRouter();
-  const supabase = createClientComponentClient<Database>();
 
   useEffect(() => {
     initializeCamera();
@@ -301,7 +299,7 @@ export default function Interview({
         {!isInterviewStarted && !isProcessing ? (
           <>
             <div className='mt-6 flex flex-col items-center'>
-             <NursanaLogo/>
+              <NursanaLogo />
               <h1 className='mb-2 text-center text-3xl font-medium'>
                 Let&apos;s Start Your AI Interview
               </h1>
@@ -314,13 +312,11 @@ export default function Interview({
           </>
         ) : (
           <div className='mt-6'>
-          <NursanaLogo/>
+            <NursanaLogo />
           </div>
         )}
         {!isProcessing && (
-        
-         
-          <Card className=' mx-auto mb-4 w-[700px] overflow-hidden'>
+          <Card className='mx-auto mb-4 w-[700px] overflow-hidden'>
             <CardContent className='relative min-w-full p-0'>
               <AspectRatio ratio={16 / 9}>
                 <video
@@ -363,11 +359,10 @@ export default function Interview({
               </AspectRatio>
             </CardContent>
           </Card>
-
         )}
 
         {isProcessing ? (
-          <div className='mt-4 flex h-[50vh] w-[700px] flex-col items-center justify-center rounded-lg  p-4 text-center text-gray-500'>
+          <div className='mt-4 flex h-[50vh] w-[700px] flex-col items-center justify-center rounded-lg p-4 text-center text-gray-500'>
             <Loader className='mx-auto mb-2 h-6 w-6 animate-spin' />
             <p className=''>Processing and uploading interview data...</p>
           </div>
