@@ -90,16 +90,6 @@ export async function POST(request: NextRequest) {
     // Get the call_id from the Retell API response
     const call_id = data.call_id;
 
-    // Get the current user's ID
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser();
-    if (userError) throw userError;
-    if (!user) throw new Error("User not found");
-
-    const nurse_id = user.id;
-
     // Update the interview_analysis table with the call_id
     const { error: insertError } = await supabase
       .from("interview_analysis")
@@ -107,7 +97,7 @@ export async function POST(request: NextRequest) {
         {
           call_id,
           interview_id: interviewId,
-          nurse_id,
+          user_id: interviewData.user_id,
         },
         {
           onConflict: "interview_id",
