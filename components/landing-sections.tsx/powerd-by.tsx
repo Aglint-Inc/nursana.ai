@@ -27,6 +27,7 @@ function PoweredBy() {
               stands out to potential employers.
             </p>
             <Link href="/sign-up">
+              {/* If user is loggedin then redirect to dashboard. CTS should chaneg and say Explore Opportunites */}
               <Button size={"lg"}>Sign Up Today</Button>
             </Link>
           </div>

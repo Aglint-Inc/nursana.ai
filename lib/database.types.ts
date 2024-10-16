@@ -454,6 +454,18 @@ export type Database = {
           },
         ]
       }
+      user_role: {
+        Row: {
+          role: Database["public"]["Enums"]["app_role"] | null
+        }
+        Insert: {
+          role?: Database["public"]["Enums"]["app_role"] | null
+        }
+        Update: {
+          role?: Database["public"]["Enums"]["app_role"] | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
