@@ -9,10 +9,9 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import type { ProcedureBuilder } from "@trpc/server/unstable-core-do-not-import";
 import { jwtDecode } from "jwt-decode";
+import { type Database } from "src/supabase-types/database.types";
 import superjson from "superjson";
 import { type TypeOf, ZodError, type ZodSchema } from "zod";
-
-import { type Database } from "src/supabase-types/database.types";
 
 import { createPrivateClient } from "../db";
 
@@ -83,10 +82,10 @@ export const createTRPCRouter = t.router;
 const timingMiddleware = t.middleware(async ({ next, path: _path }) => {
   const _start = Date.now();
 
-  // if (t._config.isDev) {
-  //   const waitMs = Math.floor(Math.random() * 400) + 1000;
-  //   await new Promise((resolve) => setTimeout(resolve, waitMs));
-  // }
+  if (t._config.isDev) {
+    const waitMs = Math.floor(Math.random() * 400) + 1000;
+    await new Promise((resolve) => setTimeout(resolve, waitMs));
+  }
 
   const result = await next();
 
