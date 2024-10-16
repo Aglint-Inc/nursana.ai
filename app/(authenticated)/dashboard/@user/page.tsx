@@ -58,25 +58,6 @@ export default function NurseDashboard() {
                       {nurseData?.analysis?.audio_url && (
                         <AudioPlayer audioUrl={nurseData.analysis.audio_url} />
                       )}
-                      <div className='flex items-center gap-2 p-4 pt-0 text-sm text-muted-foreground'>
-                        <span>
-                          {nurseData?.interview?.[0]?.created_at
-                            ? format(
-                                new Date(nurseData?.interview?.[0]?.created_at),
-                                'dd MMMM yyyy',
-                              )
-                            : 'N/A'}
-                        </span>
-                        <span>at</span>
-                        <span>
-                          {nurseData?.interview?.[0]?.created_at
-                            ? format(
-                                new Date(nurseData?.interview?.[0]?.created_at),
-                                'hh:mm a',
-                              )
-                            : 'N/A'}
-                        </span>
-                      </div>
                     </CardContent>
                   </Card>
                 )}
@@ -121,11 +102,7 @@ export default function NurseDashboard() {
                 </Card>
               )}
               {isEditing ? (
-                <PreferencesEdit
-                  nurseData={nurseData?.nurse || null}
-                  onSave={handleSave}
-                  onCancel={handleCancel}
-                />
+                <PreferencesEdit onSave={handleSave} onCancel={handleCancel} />
               ) : (
                 <PreferencesView
                   nurseData={nurseData?.nurse || null}

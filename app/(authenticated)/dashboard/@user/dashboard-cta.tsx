@@ -1,9 +1,10 @@
 'use client';
+import { AlertCircle, Terminal } from 'lucide-react';
 import Link from 'next/link';
+
 import { useNurseData } from '@/common/hooks/useNurseData';
-import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Terminal, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export function DashboardCTA() {
   const { nurseData } = useNurseData();
@@ -19,17 +20,15 @@ export function DashboardCTA() {
     user?.last_name &&
     user?.email &&
     resume?.file_url &&
-    user?.preferred_job_titles?.length > 0 &&
-    user?.preferred_locations?.length > 0 &&
+    (user?.preferred_job_titles ?? []).length > 0 &&
+    (user?.preferred_locations ?? []).length > 0 &&
     user?.job_type &&
     user?.travel_preference &&
     user?.expected_salary;
 
-  const interviews = nurseData.interview || [];
-  const hasCompletedInterview = interviews.some(
-    (interview) => interview.interview_stage === 'completed',
-  );
-  const hasAnyInterview = interviews.length > 0;
+  const hasCompletedInterview =
+    nurseData.interview?.interview_stage ?? null === 'completed';
+  const hasAnyInterview = nurseData.interview?.interview_stage ?? null !== null;
 
   return (
     <div className='my-4 space-y-4'>
