@@ -1,14 +1,13 @@
 'use client';
 
-import { useNurseData } from 'app/(authenticated)/_common/hooks/useNurseData';
-
+import { useUserData } from '@/authenicated/hooks/useUserData';
 import { InterviewAnalysis } from '@/common/components/InterviewAnalysis';
 import { InterviewTranscript } from '@/common/components/InterviewTranscript';
 import { ResumeReview } from '@/common/components/ResumeReview';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function NurseHomePage() {
-  const { nurseData } = useNurseData();
+  const { nurseData } = useUserData();
   if (!nurseData) return null; // Return Error if no data
   return (
     <Tabs defaultValue='interview'>

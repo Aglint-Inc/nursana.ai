@@ -1,9 +1,9 @@
 'use client';
 
-import { useNurseData } from 'app/(authenticated)/_common/hooks/useNurseData';
 import { useEffect, useState } from 'react';
 import { api } from 'trpc/client';
 
+import { useUserData } from '@/authenicated/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -40,7 +40,7 @@ const locationOptions = [
 ].map((location) => ({ label: location, value: location }));
 
 export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
-  const { nurseData, refetch } = useNurseData();
+  const { nurseData, refetch } = useUserData();
   const updatePreferences = api.user.updatePreferences.useMutation();
 
   const [selectedJobTitles, setSelectedJobTitles] = useState<string[]>([]);

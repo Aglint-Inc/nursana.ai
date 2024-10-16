@@ -1,7 +1,7 @@
 import { Building2, Medal, School } from 'lucide-react';
 import React from 'react';
 
-import { useNurseData } from '@/common/hooks/useNurseData';
+import { useUserData } from '@/authenicated/hooks/useUserData';
 import { Card, CardContent } from '@/components/ui/card';
 
 export interface ResumeData {
@@ -40,7 +40,7 @@ export interface ResumeData {
 }
 
 export function ResumeReview() {
-  const { nurseData } = useNurseData();
+  const { nurseData } = useUserData();
   const resumeData = nurseData?.resume?.structured_resume;
 
   // Type guard function to check if the data matches ResumeData structure

@@ -2,12 +2,12 @@
 import { AlertCircle, Terminal } from 'lucide-react';
 import Link from 'next/link';
 
-import { useNurseData } from '@/common/hooks/useNurseData';
+import { useUserData } from '@/authenicated/hooks/useUserData';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 
 export function DashboardCTA() {
-  const { nurseData } = useNurseData();
+  const { nurseData } = useUserData();
 
   if (!nurseData) return null; // Return null if data is not available
 
