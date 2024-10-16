@@ -15,8 +15,6 @@ const PUBLIC_ROUTES = [
   "^/auth/",
   "campaign",
   "/api/trpc",
-  "/api/create-web-call",
-  "interview",
 ];
 
 const PUBLIC_ROUTES_REGEX = new RegExp(PUBLIC_ROUTES.join("|"));

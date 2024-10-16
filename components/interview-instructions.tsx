@@ -95,7 +95,7 @@ export default function InterviewInstructions({
     <Section>
       <div className="flex flex-col items-center justify-center mb-20">
         <div className="text-3xl font-light mb-10">
-          <span className="font-medium">Nursana</span>
+          <span className="font-medium">Nursera</span>
           <span className="font-light text-purple-500">.ai</span>
         </div>
         <h1 className="text-4xl font-medium text-center mb-10">
@@ -117,7 +117,6 @@ export default function InterviewInstructions({
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <Button
-                    size="icon"
                     variant="secondary"
                     className="w-16 h-16 rounded-full bg-secondary bg-opacity-75 hover:bg-opacity-100 transition-all"
                     onClick={showVideo}
@@ -138,7 +137,6 @@ export default function InterviewInstructions({
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2 flex items-center">
                   <Button
-                    size="icon"
                     variant="ghost"
                     onClick={togglePlay}
                     className="text-white"
@@ -150,7 +148,6 @@ export default function InterviewInstructions({
                     )}
                   </Button>
                   <Button
-                    size="icon"
                     variant="ghost"
                     onClick={handleReplay}
                     className="text-white"

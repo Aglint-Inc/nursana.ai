@@ -1,10 +1,8 @@
 import { signOutAction } from "app/actions";
-import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 
 import { createClient } from "@/utils/supabase/server";
 
-import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 
 export default async function AuthButton() {
@@ -16,15 +14,10 @@ export default async function AuthButton() {
 
   return user && !isAnonymous ? (
     <div className="flex items-center gap-4">
-      Hey, User First Name!
-      <Badge>
-        If user has an incomplete interview, and in pubilc pages i.e not in
-        dashbaord. show this badge with CTA to proceed and complete interview
-        and redirect to interview page.
-      </Badge>
+      Hey, {user.email}!
       <form action={signOutAction}>
         <Button type="submit" variant={"outline"}>
-          Visit Dashboard <ArrowRightIcon />
+          Sign out
         </Button>
       </form>
     </div>

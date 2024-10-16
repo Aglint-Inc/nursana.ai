@@ -5,12 +5,12 @@ import { Loader, Mic, StopCircle, Video } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { RetellWebClient } from "retell-client-js-sdk";
+import type { Database } from "src/supabase-types/database.types";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useVideoRecording } from "@/hooks/useVideoRecording";
-import type { Database } from "@/lib/database.types";
 
 import Footer from "./footer";
 
@@ -331,7 +331,6 @@ export default function Interview({
                       {formatTime(timer)}
                     </div>
                     <Button
-                      size="icon"
                       variant="ghost"
                       onClick={handleStopInterview}
                       aria-label="Stop interview"
@@ -339,7 +338,6 @@ export default function Interview({
                       <StopCircle className="h-4 w-4" />
                     </Button>
                     <Button
-                      size="icon"
                       variant="ghost"
                       onClick={toggleCaptions}
                       aria-label="Toggle captions"

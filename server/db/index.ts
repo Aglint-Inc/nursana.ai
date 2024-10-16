@@ -5,7 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 import type { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { cookies } from "next/headers";
 
-import { type Database } from "@/lib/database.types";
+import { type Database } from "src/supabase-types/database.types";
 
 export function createPrivateClient() {
   const cookieStore = cookies();
