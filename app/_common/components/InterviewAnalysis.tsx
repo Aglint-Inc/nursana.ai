@@ -1,9 +1,8 @@
 import React from 'react';
 
+import { useNurseData } from '@/common/hooks/useNurseData';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-
-import { useNurseData } from '../hooks/useNurseData';
 
 const SkillBar: React.FC<{ label: string; value: number }> = ({
   label,

@@ -1,9 +1,8 @@
 import { Building2, Medal, School } from 'lucide-react';
 import React from 'react';
 
+import { useNurseData } from '@/common/hooks/useNurseData';
 import { Card, CardContent } from '@/components/ui/card';
-
-import { useNurseData } from '../hooks/useNurseData';
 
 export interface ResumeData {
   basics?: {
