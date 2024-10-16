@@ -13,7 +13,7 @@ function CTA() {
           <span className="text-purple-600">Nursing Job?</span>
         </h1>
         <p className="text-lg text-muted-foreground">
-          Join thousands of nurses using Nursera.ai to fast-track their careers.
+          Join thousands of nurses using Nursana.ai to fast-track their careers.
           Don’t miss out on the perfect job opportunity.
         </p>
         <Link href="/sign-up">

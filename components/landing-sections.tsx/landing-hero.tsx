@@ -28,7 +28,7 @@ function LandingHero() {
             src={"/images/hero-image.png"}
             width={600}
             height={400}
-            alt="nursera.ai"
+            alt="Nursana.ai"
           />
         </div>
         <Link href="/sign-up">
