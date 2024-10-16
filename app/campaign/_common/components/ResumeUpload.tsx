@@ -70,7 +70,7 @@ function ResumeUpload({
                 <div className='flex flex-row gap-2 text-sm leading-6 text-gray-600'>
                   <label
                     htmlFor='file-upload'
-                    className=' cursor-pointer rounded-md font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 hover:text-primary/80'
+                    className='rounded-md font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 hover:text-primary/80'
                   >
                     <span>Upload a file</span>
                     <Input
