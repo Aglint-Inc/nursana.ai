@@ -18,6 +18,7 @@ const PUBLIC_ROUTES = [
   '/api/trpc',
   '/tenant/sign-up',
   '/api/backup-interview-data',
+  "/openAiRealTime",
 ];
 
 const PUBLIC_ROUTES_REGEX = new RegExp(PUBLIC_ROUTES.join('|'));

@@ -30,7 +30,10 @@
       "@/utils/*": ["./utils/*"],
       "@/supabase-types/*": ["src/supabase-types/*"],
       "@/server/*": ["./server/*"],
-      "@/hooks/*": ["./hooks/*"]
+      "@/hooks/*": ["./hooks/*"],
+      "@/audio/*": [
+        "./lib/audio/*"
+      ],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
