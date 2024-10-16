@@ -12,7 +12,7 @@ import { jwtDecode } from "jwt-decode";
 import superjson from "superjson";
 import { type TypeOf, ZodError, type ZodSchema } from "zod";
 
-import { type Database } from "@/lib/database.types";
+import { type Database } from "src/supabase-types/database.types";
 
 import { createPrivateClient } from "../db";
 

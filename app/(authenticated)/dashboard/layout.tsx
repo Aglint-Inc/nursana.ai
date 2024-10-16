@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
+import { type Database } from "src/supabase-types/database.types";
 
-import { type Database } from "@/lib/database.types";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function Layout({

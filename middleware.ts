@@ -15,7 +15,6 @@ const PUBLIC_ROUTES = [
   "^/auth/",
   "campaign",
   "/api/trpc",
-  "/api/create-web-call",
   "interview",
 ];
 

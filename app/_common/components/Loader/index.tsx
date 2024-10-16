@@ -1,7 +1,6 @@
 import { Loader as LoaderIcon, Loader2 } from "lucide-react";
 import React from "react";
-
-import { cn } from "@/lib/utils";
+import { cn } from "src/utils/cn";
 
 interface LoaderProps {
   variant?: "inline" | "full";

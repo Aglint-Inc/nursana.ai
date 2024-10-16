@@ -1,10 +1,4 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = any;
 
 export type Database = {
   graphql_public: {
@@ -365,47 +359,40 @@ export type Database = {
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "interviews_user_id_fkey1"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       resumes: {
         Row: {
+          campaign_id: string | null
           created_at: string | null
           error_status: Json | null
           file_name: string | null
           file_size: string | null
           file_url: string | null
-          hospital_id: string | null
           id: string
           structured_resume: Json | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
+          campaign_id?: string | null
           created_at?: string | null
           error_status?: Json | null
           file_name?: string | null
           file_size?: string | null
           file_url?: string | null
-          hospital_id?: string | null
           id?: string
           structured_resume?: Json | null
           updated_at?: string | null
           user_id: string
         }
         Update: {
+          campaign_id?: string | null
           created_at?: string | null
           error_status?: Json | null
           file_name?: string | null
           file_size?: string | null
           file_url?: string | null
-          hospital_id?: string | null
           id?: string
           structured_resume?: Json | null
           updated_at?: string | null
@@ -413,10 +400,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "nurse_resumes_hospital_id_fkey"
-            columns: ["hospital_id"]
+            foreignKeyName: "resumes_campaign_id_fkey"
+            columns: ["campaign_id"]
             isOneToOne: false
-            referencedRelation: "hospitals"
+            referencedRelation: "campaigns"
             referencedColumns: ["id"]
           },
           {
@@ -454,18 +441,6 @@ export type Database = {
           },
         ]
       }
-      user_role: {
-        Row: {
-          role: Database["public"]["Enums"]["app_role"] | null
-        }
-        Insert: {
-          role?: Database["public"]["Enums"]["app_role"] | null
-        }
-        Update: {
-          role?: Database["public"]["Enums"]["app_role"] | null
-        }
-        Relationships: []
-      }
       user_roles: {
         Row: {
           id: string
@@ -482,7 +457,15 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       users: {
         Row: {

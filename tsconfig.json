@@ -28,7 +28,7 @@
       "@/trpc/*": ["./src/trpc/*"],
       "@/components/*": ["./components/*"],
       "@/utils/*": ["./utils/*"],
-      "@/lib/*": ["./lib/*"],
+      "@/supabase-types/*": ["src/supabase-types/*"],
       "@/server/*": ["./server/*"],
       "@/hooks/*": ["./hooks/*"]
     }

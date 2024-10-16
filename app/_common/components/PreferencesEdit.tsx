@@ -2,6 +2,7 @@
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
+import type { Database } from "src/supabase-types/database.types";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,7 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { Database } from "@/lib/database.types";
 
 type NurseRow = Database["public"]["Tables"]["users"]["Row"];
 
@@ -100,7 +100,9 @@ export function PreferencesEdit({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-medium pb-0">Edit Your Preferences</CardTitle>
+        <CardTitle className="text-lg font-medium pb-0">
+          Edit Your Preferences
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">

@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import { getSupabaseAdminServer } from "@/utils/supabase/supabaseAdmin";
+import { createClient } from "@/utils/supabase/server";
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create a Supabase client using the custom function
-    const supabase = getSupabaseAdminServer();
+    const supabase = createClient();
 
     // Fetch the interview data from Supabase
     const { data: interviewData, error: interviewError } = await supabase
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
             interview_duration: ai_interview_duration.toString(),
             ending_message: ai_ending_message,
           },
-          max_duration: Number(ai_interview_duration) * 60,
+          max_duration: ai_interview_duration * 60,
         }),
       }
     );
@@ -91,8 +91,14 @@ export async function POST(request: NextRequest) {
     const call_id = data.call_id;
 
     // Get the current user's ID
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+    if (userError) throw userError;
+    if (!user) throw new Error("User not found");
 
-    const user_id = interviewData.user_id;
+    const nurse_id = user.id;
 
     // Update the interview_analysis table with the call_id
     const { error: insertError } = await supabase
@@ -101,7 +107,7 @@ export async function POST(request: NextRequest) {
         {
           call_id,
           interview_id: interviewId,
-          user_id: user_id,
+          nurse_id,
         },
         {
           onConflict: "interview_id",

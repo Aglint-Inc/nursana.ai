@@ -8,5 +8,5 @@ export const useCampaign = () => {
     code: campaign_code,
   });
 
-  return query;
+  return { ...query, data: query.data! };
 };
