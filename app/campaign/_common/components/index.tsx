@@ -137,7 +137,7 @@ export default function FormCampaign() {
       <div className="flex flex-col gap-16 items-center">
         <div className="max-w-screen-xl flex flex-col gap-2 items-center">
           <h1 className="text-5xl font-medium">
-            Let Nursera&apos;s AI find your next opportunity.
+            Let Nursana&apos;s AI find your next opportunity.
           </h1>
           <h1 className="text-5xl font-medium">Get started now!</h1>
         </div>

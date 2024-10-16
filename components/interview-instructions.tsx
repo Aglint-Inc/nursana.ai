@@ -93,133 +93,131 @@ export default function InterviewInstructions({
 
   return (
     <Section>
-    <div className="flex flex-col items-center justify-center mb-20">
-    <div className="text-3xl font-light mb-10">
-              <span className="font-medium">Nursera</span>
-              <span className="font-light text-purple-500">.ai</span>
-            </div>
-      <h1 className="text-4xl font-medium text-center mb-10">
-        <span className="">
-          Welcome to the AI Based interview for
-        </span>
-        <br />
-        <span >
-          {interviewData.name || interviewData.campaign_code}
-        </span>
-      </h1>
+      <div className="flex flex-col items-center justify-center mb-20">
+        <div className="text-3xl font-light mb-10">
+          <span className="font-medium">Nursana</span>
+          <span className="font-light text-purple-500">.ai</span>
+        </div>
+        <h1 className="text-4xl font-medium text-center mb-10">
+          <span className="">Welcome to the AI Based interview for</span>
+          <br />
+          <span>{interviewData.name || interviewData.campaign_code}</span>
+        </h1>
 
-      <div className="relative rounded-lg overflow-hidden mb-6 max-w-3xl w-full">
-        <AspectRatio ratio={16 / 9}>
-          {showCover ? (
-            <>
-              <Image
-                src={interviewData.candidate_intro_video_cover_image_url}
-                alt="Video cover"
-                className="object-cover w-full h-full"
-                width={600}
-                height={338}
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Button
-                  size="icon"
-                  variant="secondary"
-                  className="w-16 h-16 rounded-full bg-secondary bg-opacity-75 hover:bg-opacity-100 transition-all"
-                  onClick={showVideo}
-                >
-                  <Play className="h-8 w-8 text-navy-900" />
-                  <span className="sr-only">Show video</span>
-                </Button>
-              </div>
-            </>
-          ) : (
-            <>
-              <video
-                ref={videoRef}
-                src={interviewData.candidate_intro_video_url}
-                className="object-cover w-full h-full"
-                onTimeUpdate={handleTimeUpdate}
-                onEnded={() => setIsPlaying(false)}
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2 flex items-center">
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={togglePlay}
-                  className="text-white"
-                >
-                  {isPlaying ? (
-                    <Pause className="h-6 w-6" />
-                  ) : (
-                    <Play className="h-6 w-6" />
-                  )}
-                </Button>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={handleReplay}
-                  className="text-white"
-                >
-                  <Repeat className="h-6 w-6" />
-                </Button>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={progress}
-                  onChange={handleSeek}
-                  className="flex-grow mx-2"
+        <div className="relative rounded-lg overflow-hidden mb-6 max-w-3xl w-full">
+          <AspectRatio ratio={16 / 9}>
+            {showCover ? (
+              <>
+                <Image
+                  src={interviewData.candidate_intro_video_cover_image_url}
+                  alt="Video cover"
+                  className="object-cover w-full h-full"
+                  width={600}
+                  height={338}
                 />
-              </div>
-            </>
-          )}
-        </AspectRatio>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    className="w-16 h-16 rounded-full bg-secondary bg-opacity-75 hover:bg-opacity-100 transition-all"
+                    onClick={showVideo}
+                  >
+                    <Play className="h-8 w-8 text-navy-900" />
+                    <span className="sr-only">Show video</span>
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <video
+                  ref={videoRef}
+                  src={interviewData.candidate_intro_video_url}
+                  className="object-cover w-full h-full"
+                  onTimeUpdate={handleTimeUpdate}
+                  onEnded={() => setIsPlaying(false)}
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2 flex items-center">
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    onClick={togglePlay}
+                    className="text-white"
+                  >
+                    {isPlaying ? (
+                      <Pause className="h-6 w-6" />
+                    ) : (
+                      <Play className="h-6 w-6" />
+                    )}
+                  </Button>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    onClick={handleReplay}
+                    className="text-white"
+                  >
+                    <Repeat className="h-6 w-6" />
+                  </Button>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={progress}
+                    onChange={handleSeek}
+                    className="flex-grow mx-2"
+                  />
+                </div>
+              </>
+            )}
+          </AspectRatio>
+        </div>
+
+        <div className="flex flex-col gap-6 max-w-3xl w-full">
+          <Card>
+            <CardContent className="p-4">
+              <h2 className="font-medium text-lg mb-2">
+                Estimated Time: {interviewData.candidate_estimated_time}
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Please ensure you have sufficient time to complete it in one
+                sitting.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-4">
+              <h2 className="font-medium text-lg mb-4">Overview</h2>
+              <ul className="space-y-2">
+                {interviewData.candidate_overview.map((item, index) => (
+                  <li key={index} className="text-lg text-muted-foreground">
+                    • {item}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-4">
+              <h2 className="font-medium text-lg mb-4 flex items-center">
+                Instructions
+              </h2>
+              <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground">
+                {interviewData.candidate_instructions.map(
+                  (instruction, index) => (
+                    <li key={index}>{instruction}</li>
+                  )
+                )}
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Button className="w-full mb-4" onClick={handleProceed}>
+            Proceed to Interview
+          </Button>
+        </div>
       </div>
-
-<div className="flex flex-col gap-6 max-w-3xl w-full">
-      <Card>
-        <CardContent className="p-4">
-          <h2 className="font-medium text-lg mb-2">
-            Estimated Time: {interviewData.candidate_estimated_time}
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            Please ensure you have sufficient time to complete it in one
-            sitting.
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardContent className="p-4">
-          <h2 className="font-medium text-lg mb-4">Overview</h2>
-          <ul className="space-y-2">
-            {interviewData.candidate_overview.map((item, index) => (
-              <li key={index} className="text-lg text-muted-foreground">
-                • {item}
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardContent className="p-4">
-          <h2 className="font-medium text-lg mb-4 flex items-center">
-            Instructions
-          </h2>
-          <ul className="list-disc list-inside space-y-2 text-lg text-muted-foreground">
-            {interviewData.candidate_instructions.map((instruction, index) => (
-              <li key={index}>{instruction}</li>
-            ))}
-          </ul>
-        </CardContent>
-      </Card>
-
-      <Button className="w-full mb-4" onClick={handleProceed}>
-        Proceed to Interview
-      </Button>
-      </div>
-    </div>
-    <Footer/>
+      <Footer />
     </Section>
   );
 }

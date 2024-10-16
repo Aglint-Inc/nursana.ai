@@ -50,7 +50,7 @@ export default function NurseHomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
             <span className="text-lg text-muted-foreground">
-              Hello, {nurseData?.nurse?.first_name || "to Nursera"} 👋🏻
+              Hello, {nurseData?.nurse?.first_name || "to Nursana AI"} 👋🏻
             </span>
             <h1 className="text-2xl font-medium mb-4">
               Find you interview & resume feedback here
