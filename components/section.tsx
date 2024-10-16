@@ -1,4 +1,4 @@
-import React, { type FC, type ReactNode } from "react";
+import React, { type FC, type ReactNode } from 'react';
 
 interface SectionProps {
   children: ReactNode;
@@ -6,9 +6,9 @@ interface SectionProps {
 
 const Section: FC<SectionProps> = ({ children }) => {
   return (
-    <div className="w-full">
-      <div className="px-6">
-        <div className="container max-w-screen-xl">{children}</div>
+    <div className='w-full'>
+      <div className='px-6'>
+        <div className='container max-w-screen-xl'>{children}</div>
       </div>
     </div>
   );

@@ -1,7 +1,14 @@
+import Footer from '@/components/footer';
+import Navbar from '@/components/navbar';
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className='flex min-h-[calc(100vh-156px)] flex-col gap-20 w-full'>
-      {children}
-    </div>
+    <>
+      <Navbar />
+      <div className='flex min-h-[calc(100vh-156px)] w-full flex-col gap-20'>
+        {children}
+      </div>
+      <Footer />
+    </>
   );
 }

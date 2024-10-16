@@ -57,7 +57,7 @@ export default function NurseDashboard() {
   if (!userData) return null; // Render Error if no data
 
   return (
-    <div className='mx-auto w-full max-w-6xl'>
+    <div className='container mx-auto w-full max-w-screen-xl'>
       <span className='text-lg text-muted-foreground'>
         Hello {userData?.user?.first_name || 'Nurse'} 👋🏻, Welcome to Nursana!
       </span>
@@ -68,7 +68,7 @@ export default function NurseDashboard() {
           <NurseHomePage />
         </div>
         <div className='flex w-[350px] flex-col'>
-          <div className='mt-[64px]'>
+          <div className='mt-[64px] gap-4 space-y-4'>
             {userData?.analysis?.audio_url && userData?.analysis?.video_url && (
               <Card className='overflow-hidden border-none bg-secondary shadow-none'>
                 <CardContent className='p-0'>
