@@ -1,16 +1,18 @@
 'use client';
 
-import { useNurseData } from '@/common/hooks/useNurseData';
-import { DashboardCTA } from './dashboard-cta';
-import NurseHomePage from './nurse-home-page';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { VideoPlayer } from '@/common/components/VideoPlayer';
-import { AudioPlayer } from '@/common/components/AudioPlayer';
+import { useNurseData } from 'app/(authenticated)/_common/hooks/useNurseData';
 import { ExternalLink, FileText } from 'lucide-react';
+import { useState } from 'react';
+
+import { AudioPlayer } from '@/common/components/AudioPlayer';
 import { PreferencesEdit } from '@/common/components/PreferencesEdit';
 import { PreferencesView } from '@/common/components/PreferencesView';
-import { useState } from 'react';
+import { VideoPlayer } from '@/common/components/VideoPlayer';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+
+import { DashboardCTA } from './dashboard-cta';
+import NurseHomePage from './nurse-home-page';
 
 export default function NurseDashboard() {
   const { nurseData } = useNurseData();

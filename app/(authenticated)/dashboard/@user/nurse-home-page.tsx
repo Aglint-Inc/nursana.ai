@@ -1,5 +1,7 @@
 'use client';
 
+import { useNurseData } from 'app/(authenticated)/_common/hooks/useNurseData';
+
 import {
   type AIAnalysis,
   InterviewAnalysis,
@@ -10,7 +12,6 @@ import {
   ResumeReview,
 } from '@/common/components/ResumeReview';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useNurseData } from '@/common/hooks/useNurseData';
 
 export default function NurseHomePage() {
   const { nurseData } = useNurseData();
