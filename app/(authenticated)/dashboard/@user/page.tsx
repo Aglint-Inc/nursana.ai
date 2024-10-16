@@ -57,91 +57,88 @@ export default function NurseDashboard() {
   if (!userData) return null; // Render Error if no data
 
   return (
-    <div className='w-full max-w-6xl mx-auto'>
-           <span className='text-lg text-muted-foreground'>
-              Hello {nurseData?.nurse?.first_name || 'Nurse'} 👋🏻, Welcome to
-              Nursana!
-            </span>
-            <p>Here are your next steps:</p>
-            <DashboardCTA />
-        <div className=' grid grid-cols-[1fr_max-content] gap-4 w-full'>
-          <div className='flex  flex-col'>
-            <NurseHomePage />
-          </div>
-          <div className='flex w-[350px] flex-col'>
-            <div className='mt-[64px]'>
-              {nurseData?.analysis?.audio_url &&
-                nurseData?.analysis?.video_url && (
-                  <Card className='overflow-hidden border-none bg-secondary shadow-none'>
-                    <CardContent className='p-0'>
-                      {userData?.analysis?.audio_url && (
-                        <VideoPlayer videoUrl={userData.analysis.video_url} />
-                      )}
-                      {userData?.analysis?.audio_url && (
-                        <AudioPlayer audioUrl={userData.analysis.audio_url} />
-                      )}
-                    </CardContent>
-                  </Card>
-                )}
-              {userData?.resume?.error_status ? (
-                <Alert variant='destructive'>
-                  <AlertCircle className='h-4 w-4' />
-                  <AlertTitle>Resume Upload Issue</AlertTitle>
-                  <AlertDescription>
-                    {getErrorMessage(userData.resume.error_status)}
-                  </AlertDescription>
-                </Alert>
-              ) : (
-                <Card className='group my-4 border-none bg-secondary'>
-                  <CardContent className='p-4'>
-                    <div className='flex items-center justify-between'>
-                      <div className='flex items-center'>
-                        <FileText
-                          className='mr-2 h-10 w-10 text-muted-foreground'
-                          strokeWidth={1}
-                        />
-                        <div>
-                          <p className='text-md font-medium'>
-                            {userData?.resume?.file_name || 'Untitled'}
-                          </p>
-                          <p className='text-sm text-muted-foreground'>
-                            {userData?.resume?.file_size || '-- KB'}
-                          </p>
-                        </div>
+    <div className='mx-auto w-full max-w-6xl'>
+      <span className='text-lg text-muted-foreground'>
+        Hello {userData?.user?.first_name || 'Nurse'} 👋🏻, Welcome to Nursana!
+      </span>
+      <p>Here are your next steps:</p>
+      <DashboardCTA />
+      <div className='grid w-full grid-cols-[1fr_max-content] gap-4'>
+        <div className='flex flex-col'>
+          <NurseHomePage />
+        </div>
+        <div className='flex w-[350px] flex-col'>
+          <div className='mt-[64px]'>
+            {userData?.analysis?.audio_url && userData?.analysis?.video_url && (
+              <Card className='overflow-hidden border-none bg-secondary shadow-none'>
+                <CardContent className='p-0'>
+                  {userData?.analysis?.audio_url && (
+                    <VideoPlayer videoUrl={userData.analysis.video_url} />
+                  )}
+                  {userData?.analysis?.audio_url && (
+                    <AudioPlayer audioUrl={userData.analysis.audio_url} />
+                  )}
+                </CardContent>
+              </Card>
+            )}
+            {userData?.resume?.error_status ? (
+              <Alert variant='destructive'>
+                <AlertCircle className='h-4 w-4' />
+                <AlertTitle>Resume Upload Issue</AlertTitle>
+                <AlertDescription>
+                  {getErrorMessage(userData.resume.error_status)}
+                </AlertDescription>
+              </Alert>
+            ) : (
+              <Card className='group my-4 border-none bg-secondary'>
+                <CardContent className='p-4'>
+                  <div className='flex items-center justify-between'>
+                    <div className='flex items-center'>
+                      <FileText
+                        className='mr-2 h-10 w-10 text-muted-foreground'
+                        strokeWidth={1}
+                      />
+                      <div>
+                        <p className='text-md font-medium'>
+                          {userData?.resume?.file_name || 'Untitled'}
+                        </p>
+                        <p className='text-sm text-muted-foreground'>
+                          {userData?.resume?.file_size || '-- KB'}
+                        </p>
                       </div>
-                      {userData?.resume?.file_url && (
-                        <div className='group relative'>
-                          <Button
-                            variant='ghost'
-                            className='opacity-0 transition-opacity duration-200 group-hover:opacity-100'
-                          >
-                            <a
-                              href={userData?.resume?.file_url}
-                              target='_blank'
-                              rel='noopener noreferrer'
-                              className='flex items-center'
-                            >
-                              <ExternalLink className='h-4 w-4' />
-                            </a>
-                          </Button>
-                        </div>
-                      )}
                     </div>
-                  </CardContent>
-                </Card>
-              )}
-              {isEditing ? (
-                <PreferencesEdit onSave={handleSave} onCancel={handleCancel} />
-              ) : (
-                <PreferencesView
-                  nurseData={userData?.nurse || null}
-                  onEdit={handleEdit}
-                />
-              )}
-            </div>
+                    {userData?.resume?.file_url && (
+                      <div className='group relative'>
+                        <Button
+                          variant='ghost'
+                          className='opacity-0 transition-opacity duration-200 group-hover:opacity-100'
+                        >
+                          <a
+                            href={userData?.resume?.file_url}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='flex items-center'
+                          >
+                            <ExternalLink className='h-4 w-4' />
+                          </a>
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+            {isEditing ? (
+              <PreferencesEdit onSave={handleSave} onCancel={handleCancel} />
+            ) : (
+              <PreferencesView
+                nurseData={userData?.user || null}
+                onEdit={handleEdit}
+              />
+            )}
           </div>
         </div>
-
+      </div>
     </div>
   );
 }
