@@ -38,7 +38,6 @@ export function VideoPlayer({ videoUrl }: VideoPlayerProps) {
         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <Button
             variant="outline"
-            size="icon"
             onClick={togglePlay}
             className="text-muted-foreground hover:text-foreground"
           >

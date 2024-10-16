@@ -152,7 +152,6 @@ export default function NurseHomePage() {
                     <div className="group relative">
                       <Button
                         variant="ghost"
-                        size="icon"
                         className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                       >
                         <a

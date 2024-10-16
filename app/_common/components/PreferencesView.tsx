@@ -1,8 +1,9 @@
 "use client";
 
+import type { Database } from "src/supabase-types/database.types";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Database } from "@/lib/database.types";
 
 type NurseRow = Database["public"]["Tables"]["users"]["Row"];
 
@@ -27,9 +28,7 @@ export function PreferencesView({ nurseData, onEdit }: PreferencesViewProps) {
       <CardContent>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <div className="text-sm ">
-              Preferred Job Titles
-            </div>
+            <div className="text-sm ">Preferred Job Titles</div>
             <div className="flex flex-wrap gap-1.5">
               {nurseData.preferred_job_titles?.map((title, index) => (
                 <span
@@ -43,9 +42,7 @@ export function PreferencesView({ nurseData, onEdit }: PreferencesViewProps) {
           </div>
 
           <div className="flex flex-col gap-2">
-            <div className="text-sm ">
-              Preferred Locations
-            </div>
+            <div className="text-sm ">Preferred Locations</div>
             <div className="flex flex-wrap gap-1.5">
               {nurseData.preferred_locations?.map((location, index) => (
                 <span
@@ -96,8 +93,6 @@ export function PreferencesView({ nurseData, onEdit }: PreferencesViewProps) {
               </span>
             )}
           </div>
-
-         
         </div>
       </CardContent>
     </Card>

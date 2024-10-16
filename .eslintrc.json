@@ -5,7 +5,11 @@
     ".next",
     "src/types/*",
     ".github",
-    "components/ui"
+    "components/ui",
+    "script/*",
+    "lib/*",
+    "definitions/*",
+    "constant/*"
   ],
   "extends": [
     "eslint:recommended",
