@@ -52,7 +52,7 @@ function ResumeUpload({
       <div className='flex flex-col gap-1'>
         {!form.file ? (
           <div
-            className={`mt-2 flex justify-center rounded-lg border border-dashed ${
+            className={`mt-2 relative flex justify-center rounded-lg border border-dashed ${
               dragActive ? 'bg-background' : 'bg-background'
             } px-6 py-6`}
             onDragEnter={handleDrag}
@@ -70,14 +70,14 @@ function ResumeUpload({
                 <div className='flex flex-row gap-2 text-sm leading-6 text-gray-600'>
                   <label
                     htmlFor='file-upload'
-                    className='relative cursor-pointer rounded-md font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 hover:text-primary/80'
+                    className=' cursor-pointer rounded-md font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 hover:text-primary/80'
                   >
                     <span>Upload a file</span>
                     <Input
                       id='file-upload'
                       name='file-upload'
                       type='file'
-                      className='sr-only'
+                      className=' absolute z-20 w-full left-0 opacity-0 h-full top-0 cursor-pointer'
                       onChange={handleFileChange}
                       accept='.pdf,.doc,.docx'
                     />
