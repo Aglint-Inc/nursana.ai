@@ -1,5 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
 import { type Database } from 'src/supabase-types/database.types';
+import { api, HydrateClient } from 'trpc/server';
 
 import { createClient } from '@/utils/supabase/server';
 
@@ -12,13 +13,14 @@ export default async function Layout({
   company: React.ReactNode;
   user: React.ReactNode;
 }) {
+  api.user.get_data.prefetch();
   const role = await checkRole();
 
   return (
-    <>
+    <HydrateClient>
       {children}
       {role === 'hospital' ? company : user}
-    </>
+    </HydrateClient>
   );
 }
 

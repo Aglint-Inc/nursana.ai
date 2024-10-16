@@ -1,6 +1,6 @@
 'use client';
 
-import { Loader, Mic, StopCircle, Video } from 'lucide-react';
+import { Loader, Sparkle, StopCircle, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RetellWebClient } from 'retell-client-js-sdk';
@@ -11,7 +11,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useVideoRecording } from '@/hooks/useVideoRecording';
 import { supabase } from '@/utils/supabase/client';
 
+import AllowCameraPermission from './allow-camera-permission';
 import Footer from './footer';
+import NursanaLogo from './nursana-logo';
 
 interface InterviewProps {
   interviewId: string;
@@ -40,7 +42,8 @@ export default function Interview({
 
   const [isInterviewStarted, setIsInterviewStarted] = useState(false);
   const [timer, setTimer] = useState(0);
-  const [showCaptions, setShowCaptions] = useState(true);
+  // const [showCaptions, setShowCaptions] = useState(true);
+  const [showCaptions] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [conversationHistory, setConversationHistory] = useState<
@@ -268,9 +271,9 @@ export default function Interview({
     return () => clearInterval(interval);
   }, [isInterviewStarted, interviewDuration, handleStopInterview]);
 
-  const toggleCaptions = useCallback(() => {
-    setShowCaptions((prev) => !prev);
-  }, []);
+  // const toggleCaptions = useCallback(() => {
+  //   setShowCaptions((prev) => !prev);
+  // }, []);
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60)
@@ -287,85 +290,84 @@ export default function Interview({
   }, [stopCamera]);
 
   if (videoError || error) {
-    return <div>Error: {videoError || error}</div>;
+    return <AllowCameraPermission />;
   }
 
   return (
     <div>
-      <div className='mb-4 min-h-[calc(100vh-180px)]'>
-        {!isInterviewStarted ? (
+      <div className='flex h-[calc(100vh-72px)] flex-col items-center'>
+        {!isInterviewStarted && !isProcessing ? (
           <>
-            <div className='mt-10 flex flex-col items-center'>
-              <div className='mx-auto mb-10 text-3xl font-light'>
-                <span className='font-medium'>Nursana</span>
-                <span className='font-light text-purple-500'>.ai</span>
-              </div>
-              <h1 className='mb-2 text-center text-4xl font-medium'>
+            <div className='mt-6 flex flex-col items-center'>
+              <NursanaLogo />
+              <h1 className='mb-2 text-center text-3xl font-medium'>
                 Let&apos;s Start Your AI Interview
               </h1>
-              <p className='mb-10 max-w-xl text-center text-muted-foreground'>
+              <p className='mb-6 max-w-xl text-center text-muted-foreground'>
                 Your camera has been initialized. Once you&apos;re ready, click
                 &apos;Start Interview&apos; to begin. Our AI system will guide
                 you through the process.
               </p>
             </div>
           </>
-        ) : null}
-
-        <Card className='mx-auto mb-8 w-[600px] overflow-hidden'>
-          <CardContent className='relative min-w-full p-0'>
-            <AspectRatio ratio={16 / 9}>
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                muted
-                className='h-full w-full object-cover'
-              />
-              {isInterviewStarted && (
-                <>
-                  <div className='absolute bottom-4 left-1/2 flex -translate-x-1/2 transform items-center space-x-2 rounded-full bg-gray-800 bg-opacity-75 px-4 py-2 text-white'>
-                    <div className='font-mono text-red-500'>
-                      {formatTime(timer)}
-                    </div>
-                    <Button
-                      variant='ghost'
-                      onClick={handleStopInterview}
-                      aria-label='Stop interview'
-                    >
-                      <StopCircle className='h-4 w-4' />
-                    </Button>
-                    <Button
-                      variant='ghost'
+        ) : (
+          <div className='mt-6'>
+            <NursanaLogo />
+          </div>
+        )}
+        {!isProcessing && (
+          <Card className='mx-auto mb-4 w-[700px] overflow-hidden'>
+            <CardContent className='relative min-w-full p-0'>
+              <AspectRatio ratio={16 / 9}>
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  muted
+                  className='h-full w-full object-cover'
+                />
+                {isInterviewStarted && (
+                  <>
+                    <div className='absolute bottom-0 left-0 flex w-full justify-center gap-2 bg-gradient-to-t from-[#00000050] to-transparent py-4'>
+                      <div className='flex h-[36px] items-center justify-center rounded-md bg-white px-4 text-sm text-red-600'>
+                        <StopCircle
+                          className='mr-2 h-4 w-4'
+                          strokeWidth={1.2}
+                        />
+                        <span>Recording</span>
+                        <span className='ml-2 w-[36px]'>
+                          {formatTime(timer)}
+                        </span>
+                      </div>
+                      <Button
+                        variant='destructive'
+                        onClick={handleStopInterview}
+                        aria-label='Stop interview'
+                      >
+                        Stop Interview
+                      </Button>
+                      {/* <Button
+                      variant='default'
                       onClick={toggleCaptions}
                       aria-label='Toggle captions'
                     >
                       <Mic className='h-4 w-4' />
-                    </Button>
-                  </div>
-                  <div className='absolute bottom-0 left-0 flex w-full items-center justify-center bg-red-500 bg-opacity-75 px-4 py-2 text-white'>
-                    <Video className='mr-2 h-4 w-4 animate-pulse' />
-                    <span>Recording</span>
-                  </div>
-                </>
-              )}
-            </AspectRatio>
-          </CardContent>
-        </Card>
+                    </Button> */}
+                    </div>
+                  </>
+                )}
+              </AspectRatio>
+            </CardContent>
+          </Card>
+        )}
 
         {isProcessing ? (
-          <div className='mt-4 rounded-lg bg-gray-100 p-4 text-center'>
-            <Loader className='mx-auto mb-2 h-8 w-8 animate-spin' />
-            <p>Processing and uploading interview data...</p>
+          <div className='mt-4 flex h-[50vh] w-[700px] flex-col items-center justify-center rounded-lg p-4 text-center text-gray-500'>
+            <Loader className='mx-auto mb-2 h-6 w-6 animate-spin' />
+            <p className=''>Processing and uploading interview data...</p>
           </div>
         ) : isInterviewStarted ? (
-          <Button
-            className='mt-4 w-full'
-            size='lg'
-            onClick={handleStopInterview}
-          >
-            Stop Interview
-          </Button>
+          <></>
         ) : (
           <Button
             className='w-full'
@@ -379,21 +381,46 @@ export default function Interview({
           </Button>
         )}
 
-        {showCaptions && (
-          <div className='mt-4 max-h-96 overflow-y-auto rounded-lg p-4'>
+        {showCaptions && isInterviewStarted && !isProcessing && (
+          <div className='text-md relative mt-4 flex h-[26vh] w-[700px] flex-col justify-end gap-4 overflow-hidden rounded-lg bg-gray-50 p-6'>
             {conversationHistory.map((turn, index) => (
               <div
                 key={index}
-                className={`mb-2 ${
-                  turn.role === 'ai' ? 'text-blue-600' : 'text-green-600'
+                className={`pb-2 ${
+                  turn.role === 'ai' ? 'text-black' : 'text-black'
                 }`}
               >
                 <p className='font-semibold'>
-                  {turn.role === 'ai' ? 'Nursana:' : 'You:'} refwerf
+                  {turn.role === 'ai' ? (
+                    <>
+                      <div className='mb-1 grid grid-cols-[max-content_1fr] items-center gap-2'>
+                        <div className='flex h-6 w-6 items-center justify-center rounded-sm bg-gray-200 text-muted-foreground'>
+                          <Sparkle className='' size={16} strokeWidth={1.2} />
+                        </div>
+                        <div className='text-sm font-normal'>
+                          AI Interviewer
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className='mb-1 flex items-center gap-2'>
+                        <div className='flex h-6 w-6 items-center justify-center rounded-sm bg-gray-200 font-medium text-muted-foreground'>
+                          <User
+                            className='text-muted-foreground'
+                            size={16}
+                            strokeWidth={1.2}
+                          />
+                        </div>
+                        <div className='text-sm font-normal'>You</div>
+                      </div>
+                    </>
+                  )}
                 </p>
                 <p>{turn.content}</p>
               </div>
             ))}
+            <div className='absolute left-0 top-0 z-10 h-[80%] w-full bg-gradient-to-b from-gray-50 to-transparent'></div>
           </div>
         )}
       </div>

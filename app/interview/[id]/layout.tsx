@@ -20,5 +20,5 @@ export default async function InterviewLayout({
     notFound();
   }
 
-  return <div className="container mx-auto px-4 py-8">{children}</div>;
+  return <div className="">{children}</div>;
 }

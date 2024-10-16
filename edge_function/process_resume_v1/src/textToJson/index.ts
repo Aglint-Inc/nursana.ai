@@ -30,6 +30,8 @@ export async function processResumeToJson(resume_text: string) {
     } else if (error instanceof Error) {
       errorMessage = error.message;
     }
-    throw new Error(errorMessage);
+    const temp = new Error(errorMessage);
+    temp.name = "AI_ERROR";
+    throw temp;
   }
 }

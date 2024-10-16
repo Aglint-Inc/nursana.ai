@@ -1,15 +1,14 @@
 import {
-  HttpFunction,
-  Request,
-  Response,
+  type HttpFunction,
+  type Request,
+  type Response,
 } from "@google-cloud/functions-framework";
 
-import { handleCalls } from "./preCall";
-import { getResponse as getResponse, saveToDB } from "./utils";
+import { handlerResumeToText } from "./preCall";
 import { processResumeToJson } from "./textToJson";
+import { type ErrorType, getResponse as getResponse, saveToDB } from "./utils";
 
 export const hello: HttpFunction = async (req: Request, res: Response) => {
-  console.log("Request received", req.body);
   res.set("Access-Control-Allow-Origin", "*");
   if (req.method === "POST") {
     const {
@@ -17,13 +16,11 @@ export const hello: HttpFunction = async (req: Request, res: Response) => {
       resume,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       retry = 0,
-      update,
-      test,
+      test = false,
     } = req.body as {
       application_id: string;
       resume: string;
       retry: number;
-      update?: boolean;
       test?: boolean;
     };
     if (!application_id || !resume) {
@@ -34,22 +31,18 @@ export const hello: HttpFunction = async (req: Request, res: Response) => {
             resume,
           })}`,
           application_id,
+          test,
         })
       );
     }
     // setToProcess(application_id, retry);
     try {
-      const data = await handleCalls({
-        application_id,
-        resume,
-        update,
-        test: test || false,
-      });
+      const data = await handlerResumeToText(resume);
       const resume_text = data.resume_text;
-      const json = !!resume_text
-        ? await processResumeToJson(resume_text)
-        : undefined;
-      if (json) {
+      const json = !resume_text
+        ? undefined
+        : await processResumeToJson(resume_text);
+      if (!test && json) {
         await saveToDB({
           table: "resumes",
           data: { structured_resume: json },
@@ -58,18 +51,26 @@ export const hello: HttpFunction = async (req: Request, res: Response) => {
       }
       return res
         .status(200)
-        .json(getResponse({ data: { resume_text, json }, application_id }));
+        .json(
+          getResponse({ data: { resume_text, json }, application_id, test })
+        );
     } catch (error) {
       let errorMessage = "Internal Server Error at: process_resume.";
+      let errorType = "SYSTEM_ERROR";
       if (typeof error === "string") {
         errorMessage = error.toUpperCase();
       } else if (error instanceof Error) {
+        errorType = error.name;
         errorMessage = error.message;
       }
-      console.error(errorMessage);
-      return res
-        .status(200)
-        .json(getResponse({ error: errorMessage, application_id }));
+      return res.status(500).json(
+        getResponse({
+          error: errorMessage,
+          application_id,
+          type: errorType as ErrorType,
+          test,
+        })
+      );
     }
   } else if (req.method === "OPTIONS") {
     // Send response to OPTIONS requests
@@ -79,7 +80,13 @@ export const hello: HttpFunction = async (req: Request, res: Response) => {
     res.status(204).send("");
   } else {
     res.setHeader("Allow", "POST");
-    res.status(405).send(getResponse({ error: "Method Not Allowed!" }));
+    res.status(405).send(
+      getResponse({
+        error: "Method Not Allowed!",
+        type: "SYSTEM_ERROR",
+        test: false,
+      })
+    );
     return;
   }
 };

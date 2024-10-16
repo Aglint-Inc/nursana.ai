@@ -1,13 +1,10 @@
 from resume import ResumeProcessor, clean_text
 from flask import make_response, jsonify
-
+from enum import Enum
 import functions_framework
 import requests
 import io
 
-# from json_parser import json_parser
-
-# from config.supabase_config import save_supabase 
 
 supported_formats = {
     'PDF': 'PDF',
@@ -15,8 +12,18 @@ supported_formats = {
     'TEXT': 'TEXT',
 }
 
-def make_json_response(text=None, images=None, error=None):
-    return jsonify({'text': text, 'images':images, 'error': error}) 
+ErrorType = {
+    "SYSTEM_ERROR": "SYSTEM_ERROR",
+    "URL_ERROR": "URL_ERROR",
+    "UNSUPPORTED_FORMAT": "UNSUPPORTED_FORMAT",
+    "TEXT_EXTRACTION_FAILED": "TEXT_EXTRACTION_FAILED",
+    "TEXT_TO_IMAGE_FAILED": "TEXT_TO_IMAGE_FAILED",
+}
+    
+
+
+def make_json_response(text=None, images=None, error=None, error_type=None):
+    return jsonify({'text': text, 'images':images, 'error': error, 'error_type': error_type}) 
 
 @functions_framework.http
 def hello_http(request):
@@ -30,16 +37,15 @@ def hello_http(request):
             if request_json and "url" in request_json:
                 url = request_json["url"]
                 if (url is None or url.strip() == ''):
-                    return make_response(make_json_response(error="Missing payload or wrong payload"), 415, headers)
+                    return make_response(make_json_response(error="Missing payload or wrong payload", error_type=ErrorType['URL_ERROR']), 415, headers)
                 try:
                     data = read_file(url)
                     return make_response(make_json_response(text=data['text'],images=data['images']), 200, headers)
                 except Exception as e:
-                    return make_response(make_json_response(error=f"{str(e)}"), 200, headers)
+                    errorType = file_read_error_mapper(str(e))
+                    return make_response(make_json_response(error=f"{str(e)}",error_type=errorType ), 200, headers)
             else:
                 return make_response(make_json_response(error="JSON is invalid, or missing 'url' or 'request_json' payload"), 200, headers)
-    elif request.method == 'GET':
-        return make_response(make_json_response(error='only POST method allowed'), 200, headers)
     elif request.method == "OPTIONS":
         # Allows GET requests from any origin with the Content-Type
         # header and caches preflight response for an 3600s
@@ -52,7 +58,7 @@ def hello_http(request):
         }
         return ("", 204, headers)
     else:
-        return make_response(make_json_response(error='Method not Allowed!'), 400, headers)
+        return make_response(make_json_response(error='Method not Allowed!'), 401, headers)
 
 
 def read_file(url):
@@ -87,3 +93,13 @@ def read_file(url):
             return success
         raise Exception(f'Text Extraction Failed for file type {formate}')
     raise Exception('File Formate not Supported')
+
+def file_read_error_mapper(error_message:str):
+    if 'File Formate not Supported' in error_message:
+        return ErrorType['UNSUPPORTED_FORMAT']
+    elif 'Text Extraction Failed' in error_message:
+        return ErrorType['TEXT_EXTRACTION_FAILED']
+    elif 'text to Image Failed' in error_message:
+        return ErrorType['TEXT_EXTRACTION_FAILED']
+    else:
+        return ErrorType['SYSTEM_ERROR']
