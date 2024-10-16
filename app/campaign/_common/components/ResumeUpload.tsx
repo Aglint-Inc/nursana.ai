@@ -60,7 +60,7 @@ function ResumeUpload({
             onDragOver={handleDrag}
             onDrop={handleDrop}
           >
-            <div className='flex w-full flex-row justify-center gap-8 text-center'>
+            <div className='flex w-full flex-col items-center justify-center gap-2 text-center'>
               <UploadCloud
                 className='h-12 w-12 text-muted-foreground'
                 aria-hidden='true'
