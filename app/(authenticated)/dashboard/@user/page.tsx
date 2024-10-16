@@ -1,16 +1,18 @@
 'use client';
 
-import { useNurseData } from '@/common/hooks/useNurseData';
-import { DashboardCTA } from './dashboard-cta';
-import NurseHomePage from './nurse-home-page';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { VideoPlayer } from '@/common/components/VideoPlayer';
-import { AudioPlayer } from '@/common/components/AudioPlayer';
 import { ExternalLink, FileText } from 'lucide-react';
+import { useState } from 'react';
+
+import { AudioPlayer } from '@/common/components/AudioPlayer';
 import { PreferencesEdit } from '@/common/components/PreferencesEdit';
 import { PreferencesView } from '@/common/components/PreferencesView';
-import { useState } from 'react';
+import { VideoPlayer } from '@/common/components/VideoPlayer';
+import { useNurseData } from '@/common/hooks/useNurseData';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+
+import { DashboardCTA } from './dashboard-cta';
+import NurseHomePage from './nurse-home-page';
 
 export default function NurseDashboard() {
   const { nurseData } = useNurseData();
@@ -56,25 +58,6 @@ export default function NurseDashboard() {
                       {nurseData?.analysis?.audio_url && (
                         <AudioPlayer audioUrl={nurseData.analysis.audio_url} />
                       )}
-                      <div className='flex items-center gap-2 p-4 pt-0 text-sm text-muted-foreground'>
-                        <span>
-                          {nurseData?.interview?.[0]?.created_at
-                            ? format(
-                                new Date(nurseData?.interview?.[0]?.created_at),
-                                'dd MMMM yyyy',
-                              )
-                            : 'N/A'}
-                        </span>
-                        <span>at</span>
-                        <span>
-                          {nurseData?.interview?.[0]?.created_at
-                            ? format(
-                                new Date(nurseData?.interview?.[0]?.created_at),
-                                'hh:mm a',
-                              )
-                            : 'N/A'}
-                        </span>
-                      </div>
                     </CardContent>
                   </Card>
                 )}
@@ -119,11 +102,7 @@ export default function NurseDashboard() {
                 </Card>
               )}
               {isEditing ? (
-                <PreferencesEdit
-                  nurseData={nurseData?.nurse || null}
-                  onSave={handleSave}
-                  onCancel={handleCancel}
-                />
+                <PreferencesEdit onSave={handleSave} onCancel={handleCancel} />
               ) : (
                 <PreferencesView
                   nurseData={nurseData?.nurse || null}
