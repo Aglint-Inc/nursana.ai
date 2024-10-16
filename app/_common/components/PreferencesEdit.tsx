@@ -81,15 +81,14 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className='pb-0 text-lg font-medium'>
+      <CardHeader className='p-3'>
+        <CardTitle className='pb-0 text-lg font-medium '>
           Edit Your Preferences
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className='p-3 pt-0'>
         <div className='space-y-4'>
-          <div>
-            <label htmlFor='preferredJobTitles'>Preferred Job Titles</label>
+          <div className='flex flex-col gap-1'>
             <label htmlFor='preferredJobTitles'>Preferred Job Titles</label>
             <MultiSelect
               options={jobTitleOptions}
@@ -101,8 +100,7 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
               maxCount={3}
             />
           </div>
-          <div>
-            <label htmlFor='preferredLocations'>Preferred Locations</label>
+          <div  className='flex flex-col gap-1'>
             <label htmlFor='preferredLocations'>Preferred Locations</label>
             <MultiSelect
               options={locationOptions}
@@ -114,12 +112,10 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
               maxCount={3}
             />
           </div>
-          <div>
-            <label htmlFor='jobType'>Job Type</label>
+          <div className='flex flex-col gap-1'>
             <label htmlFor='jobType'>Job Type</label>
             <Select value={jobType} onValueChange={setJobType}>
               <SelectTrigger>
-                <SelectValue placeholder='Select job type' />
                 <SelectValue placeholder='Select job type' />
               </SelectTrigger>
               <SelectContent>
@@ -132,8 +128,7 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
               </SelectContent>
             </Select>
           </div>
-          <div>
-            <label htmlFor='travelPreference'>Travel Preference</label>
+          <div className='flex flex-col gap-1'>
             <label htmlFor='travelPreference'>Travel Preference</label>
             <Select
               value={travelPreference}
@@ -149,13 +144,14 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
               </SelectContent>
             </Select>
           </div>
-          <div>
+          <div className='flex flex-col gap-1'>
             <label htmlFor='expectedSalary'>Expected Salary</label>
             <Input
               id='expectedSalary'
               type='number'
               value={expectedSalary}
               onChange={(e) => setExpectedSalary(e.target.value)}
+              placeholder='Type in numbes'
             />
           </div>
           <div className='flex justify-end space-x-2'>
