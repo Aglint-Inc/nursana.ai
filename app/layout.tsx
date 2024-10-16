@@ -1,18 +1,18 @@
-import "./globals.css";
+import './globals.css';
 
-import { GeistSans } from "geist/font/sans";
-import { ThemeProvider } from "next-themes";
+import { GeistSans } from 'geist/font/sans';
+import { ThemeProvider } from 'next-themes';
 
-import Providers from "./providers";
+import Providers from './providers';
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+  : 'http://localhost:3000';
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Narsura AI",
-  description: "Connecting Nurses with the right opportunities",
+  title: 'Narsara AI',
+  description: 'Connecting Nurses with the right opportunities',
 };
 
 export default function RootLayout({
@@ -21,14 +21,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <body className="bg-background text-foreground">
+    <html lang='en' className={GeistSans.className} suppressHydrationWarning>
+      <body className='bg-background text-foreground'>
         <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
+          attribute='class'
+          defaultTheme='light'
           disableTransitionOnChange
         >
-          <main className="min-h-screen flex flex-col items-center">
+          <main className='flex min-h-screen flex-col items-center'>
             <Providers>{children}</Providers>
           </main>
         </ThemeProvider>
