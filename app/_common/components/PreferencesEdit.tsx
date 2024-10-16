@@ -1,13 +1,9 @@
 'use client';
-'use client';
 
+import { useNurseData } from 'app/(authenticated)/_common/hooks/useNurseData';
 import { useEffect, useState } from 'react';
 import { api } from 'trpc/client';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { MultiSelect } from '@/components/ui/multi-select';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -19,8 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-import { useNurseData } from '../hooks/useNurseData';
 
 type PreferencesEditProps = {
   onSave: () => void;
@@ -89,12 +83,10 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
     <Card>
       <CardHeader>
         <CardTitle className='pb-0 text-lg font-medium'>
-        <CardTitle className='pb-0 text-lg font-medium'>
           Edit Your Preferences
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className='space-y-4'>
         <div className='space-y-4'>
           <div>
             <label htmlFor='preferredJobTitles'>Preferred Job Titles</label>
