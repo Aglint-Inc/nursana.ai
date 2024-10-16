@@ -1,9 +1,11 @@
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { api } from "trpc/client";
-import { Role } from "../components";
-import { supabase } from "@/utils/supabase/client";
+
 import { useToast } from "@/hooks/use-toast";
-import { useSearchParams } from "next/navigation";
+import { supabase } from "@/utils/supabase/client";
+
+import type { Role } from "../components";
 import { useCampaign } from "./useCampaign";
 
 export type FormCampaign = {
