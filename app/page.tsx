@@ -1,5 +1,5 @@
-import InvalidCampagin from "@/components/invalid-campagin";
+import HomePage from '@/components/home-page';
 
-export default async function HomePage() {
-  return <InvalidCampagin />;
+export default async function Home() {
+  return <HomePage />;
 }

@@ -5,7 +5,7 @@ import { createPrivateClient } from "@/server/db";
 
 const query = async ({ ctx: { user_id } }: PrivateProcedure) => {
   const db = createPrivateClient();
-  const [nurseResult, resumeResult, interviewResult, analysisResult] =
+  const [userResult, resumeResult, interviewResult, analysisResult] =
     await Promise.all([
       db.from("users").select("*").eq("id", user_id).single(),
       db.from("resumes").select("*").eq("user_id", user_id).single(),
@@ -19,13 +19,13 @@ const query = async ({ ctx: { user_id } }: PrivateProcedure) => {
       db
         .from("interview_analysis")
         .select("*")
-        .eq("nurse_id", user_id)
-        .order("user_id", { ascending: false })
+        .eq("user_id", user_id)
+        .order("created_at", { ascending: false })
         .limit(1)
         .single(),
     ]);
   return {
-    nurse: nurseResult.data,
+    user: userResult.data,
     resume: resumeResult.data,
     interview: interviewResult.data,
     analysis: analysisResult.data,

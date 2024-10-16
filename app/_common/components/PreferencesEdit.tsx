@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { Database } from 'src/supabase-types/database.types';
+import { api } from 'trpc/client';
 
+import { useUserData } from '@/authenicated/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -14,12 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { supabase } from '@/utils/supabase/client';
-
-type NurseRow = Database['public']['Tables']['users']['Row'];
 
 type PreferencesEditProps = {
-  nurseData: NurseRow | null;
   onSave: () => void;
   onCancel: () => void;
 };
@@ -31,7 +28,8 @@ const jobTitleOptions = [
   'Emergency Room Nurse',
   'Pediatric Nurse',
   'Operating Room Nurse',
-];
+].map((title) => ({ label: title, value: title }));
+
 const locationOptions = [
   'New York, NY',
   'Los Angeles, CA',
@@ -39,90 +37,82 @@ const locationOptions = [
   'Houston, TX',
   'Phoenix, AZ',
   'Philadelphia, PA',
-];
+].map((location) => ({ label: location, value: location }));
 
-export function PreferencesEdit({
-  nurseData,
-  onSave,
-  onCancel,
-}: PreferencesEditProps) {
-  const [preferredJobTitles, setPreferredJobTitles] = useState<string[]>(
-    nurseData?.preferred_job_titles || [],
-  );
-  const [preferredLocations, setPreferredLocations] = useState<string[]>(
-    nurseData?.preferred_locations || [],
-  );
-  const [jobType, setJobType] = useState(nurseData?.job_type || '');
-  const [travelPreference, setTravelPreference] = useState(
-    nurseData?.travel_preference || '',
-  );
-  const [expectedSalary, setExpectedSalary] = useState(
-    nurseData?.expected_salary?.toString() || '',
-  );
+export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
+  const { userData, refetch } = useUserData();
+  const updatePreferences = api.user.updatePreferences.useMutation();
+
+  const [selectedJobTitles, setSelectedJobTitles] = useState<string[]>([]);
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [jobType, setJobType] = useState('');
+  const [travelPreference, setTravelPreference] = useState('');
+  const [expectedSalary, setExpectedSalary] = useState('');
 
   useEffect(() => {
-    if (nurseData) {
-      setPreferredJobTitles(nurseData.preferred_job_titles || []);
-      setPreferredLocations(nurseData.preferred_locations || []);
-      setJobType(nurseData.job_type || '');
-      setTravelPreference(nurseData.travel_preference || '');
-      setExpectedSalary(nurseData.expected_salary?.toString() || '');
+    if (userData?.user) {
+      setSelectedJobTitles(userData.user.preferred_job_titles || []);
+      setSelectedLocations(userData.user.preferred_locations || []);
+      setJobType(userData.user.job_type || '');
+      setTravelPreference(userData.user.travel_preference || '');
+      setExpectedSalary(userData.user.expected_salary?.toString() || '');
     }
-  }, [nurseData]);
+  }, [userData]);
 
   const handleSave = async () => {
-    if (!nurseData) return;
-
-    const { error } = await supabase
-      .from('users')
-      .update({
-        preferred_job_titles: preferredJobTitles,
-        preferred_locations: preferredLocations,
+    try {
+      await updatePreferences.mutateAsync({
+        preferred_job_titles: selectedJobTitles,
+        preferred_locations: selectedLocations,
         job_type: jobType,
         travel_preference: travelPreference,
         expected_salary: expectedSalary ? parseInt(expectedSalary) : null,
-      })
-      .eq('id', nurseData.id);
-
-    if (error) {
-      console.error('Error updating preferences:', error);
-    } else {
+      });
+      await refetch();
       onSave();
+    } catch (error) {
+      console.error('Error updating preferences:', error);
     }
   };
 
-  if (!nurseData) {
+  if (!userData) {
     return <div>Loading...</div>;
   }
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className='pb-0 text-lg font-medium'>
+      <CardHeader className='p-3'>
+        <CardTitle className='pb-0 text-lg font-medium '>
           Edit Your Preferences
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className='p-3 pt-0'>
         <div className='space-y-4'>
-          <div>
+          <div className='flex flex-col gap-1'>
             <label htmlFor='preferredJobTitles'>Preferred Job Titles</label>
             <MultiSelect
               options={jobTitleOptions}
-              selected={preferredJobTitles}
-              onChange={setPreferredJobTitles}
+              onValueChange={setSelectedJobTitles}
+              defaultValue={selectedJobTitles}
               placeholder='Select job titles...'
+              variant='inverted'
+              animation={2}
+              maxCount={3}
             />
           </div>
-          <div>
+          <div  className='flex flex-col gap-1'>
             <label htmlFor='preferredLocations'>Preferred Locations</label>
             <MultiSelect
               options={locationOptions}
-              selected={preferredLocations}
-              onChange={setPreferredLocations}
+              onValueChange={setSelectedLocations}
+              defaultValue={selectedLocations}
               placeholder='Select locations...'
+              variant='inverted'
+              animation={2}
+              maxCount={3}
             />
           </div>
-          <div>
+          <div className='flex flex-col gap-1'>
             <label htmlFor='jobType'>Job Type</label>
             <Select value={jobType} onValueChange={setJobType}>
               <SelectTrigger>
@@ -132,10 +122,13 @@ export function PreferencesEdit({
                 <SelectItem value='Full-time'>Full-time</SelectItem>
                 <SelectItem value='Part-time'>Part-time</SelectItem>
                 <SelectItem value='Contract'>Contract</SelectItem>
+                <SelectItem value='Full-time'>Full-time</SelectItem>
+                <SelectItem value='Part-time'>Part-time</SelectItem>
+                <SelectItem value='Contract'>Contract</SelectItem>
               </SelectContent>
             </Select>
           </div>
-          <div>
+          <div className='flex flex-col gap-1'>
             <label htmlFor='travelPreference'>Travel Preference</label>
             <Select
               value={travelPreference}
@@ -151,20 +144,23 @@ export function PreferencesEdit({
               </SelectContent>
             </Select>
           </div>
-          <div>
+          <div className='flex flex-col gap-1'>
             <label htmlFor='expectedSalary'>Expected Salary</label>
             <Input
               id='expectedSalary'
               type='number'
               value={expectedSalary}
               onChange={(e) => setExpectedSalary(e.target.value)}
+              placeholder='Type in numbes'
             />
           </div>
           <div className='flex justify-end space-x-2'>
             <Button onClick={onCancel} variant='outline'>
               Cancel
             </Button>
-            <Button onClick={handleSave}>Save</Button>
+            <Button onClick={handleSave} disabled={updatePreferences.isPending}>
+              {updatePreferences.isPending ? 'Saving...' : 'Save'}
+            </Button>
           </div>
         </div>
       </CardContent>
