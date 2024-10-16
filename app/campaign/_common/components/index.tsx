@@ -1,44 +1,43 @@
-"use client";
+'use client';
 
-import { UIButton } from "@/common/components/UIButton";
-import UISelectDropDown from "@/common/components/UISelectDropDown";
-import UITextField from "@/common/components/UITextField";
-import { capitalize } from "@/common/utils/capitalize";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { UIButton } from '@/common/components/UIButton';
+import UISelectDropDown from '@/common/components/UISelectDropDown';
+import UITextField from '@/common/components/UITextField';
+import { capitalize } from '@/common/utils/capitalize';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 
-import Section from "../../../../components/section";
-import { useUploadCampaign } from "../hooks/useUpload";
-import ResumeUpload from "./ResumeUpload";
-
-export type Role = "nurse" | "doctor" | "therapist";
+import Section from '../../../../components/section';
+import { useUploadCampaign } from '../hooks/useUpload';
+import { type Role } from '../types';
+import ResumeUpload from './ResumeUpload';
 
 export default function FormCampaign() {
   const { form, setForm, saving, handleSubmit } = useUploadCampaign();
 
   return (
     <Section>
-      <div className="flex flex-col gap-16 items-center w-full">
-        <div className="max-w-screen-xl flex flex-col gap-2 items-center">
-          <h1 className="text-5xl font-medium">
+      <div className='flex w-full flex-col items-center gap-16'>
+        <div className='flex max-w-screen-xl flex-col items-center gap-2'>
+          <h1 className='text-5xl font-medium'>
             Let Nursana&apos;s AI find your next opportunity.
           </h1>
-          <h1 className="text-5xl font-medium">Get started now!</h1>
+          <h1 className='text-5xl font-medium'>Get started now!</h1>
         </div>
 
-        <Card className="max-w-lg bg-muted ">
-          <CardContent className="mt-6">
+        <Card className='max-w-lg bg-muted'>
+          <CardContent className='mt-6'>
             <form onSubmit={handleSubmit}>
-              <div className="flex flex-col gap-8">
-                <div className="flex flex-row w-full gap-4">
+              <div className='flex flex-col gap-8'>
+                <div className='flex w-full flex-row gap-4'>
                   <UISelectDropDown
                     disabled={saving}
                     fullWidth
-                    label="Choose your job title"
-                    menuOptions={["nurse", "doctor", "therapist"].map(
+                    label='Choose your job title'
+                    menuOptions={['nurse', 'doctor', 'therapist'].map(
                       (role) => ({
                         name: capitalize(role),
                         value: role,
-                      })
+                      }),
                     )}
                     onValueChange={(val: Role) =>
                       setForm({ ...form, role: val })
@@ -48,20 +47,20 @@ export default function FormCampaign() {
                   <UITextField
                     disabled={saving}
                     fullWidth
-                    label="Email"
-                    placeholder="Enter your email"
+                    label='Email'
+                    placeholder='Enter your email'
                     value={form.email}
                     onChange={(e) => {
                       setForm({ ...form, email: e.target.value });
                     }}
                   />
                 </div>
-                <div className="flex flex-row w-full gap-4">
+                <div className='flex w-full flex-row gap-4'>
                   <UITextField
                     disabled={saving}
                     fullWidth
-                    label="First Name"
-                    placeholder="Enter your first name"
+                    label='First Name'
+                    placeholder='Enter your first name'
                     value={form.first_name}
                     onChange={(e) => {
                       setForm({ ...form, first_name: e.target.value });
@@ -70,8 +69,8 @@ export default function FormCampaign() {
                   <UITextField
                     disabled={saving}
                     fullWidth
-                    label="Last Name"
-                    placeholder="Enter your last name"
+                    label='Last Name'
+                    placeholder='Enter your last name'
                     value={form.last_name}
                     onChange={(e) => {
                       setForm({ ...form, last_name: e.target.value });
@@ -82,13 +81,13 @@ export default function FormCampaign() {
                   form={form}
                   saving={saving}
                   setForm={setForm}
-                  key={"resume-upload"}
+                  key={'resume-upload'}
                 />
               </div>
 
               <UIButton
-                className="w-full mt-4"
-                type="submit"
+                className='mt-4 w-full'
+                type='submit'
                 isLoading={saving}
                 disabled={
                   !form.email || !form.role || !form.first_name || !form.file
@@ -98,12 +97,12 @@ export default function FormCampaign() {
               </UIButton>
             </form>
           </CardContent>
-          <CardFooter className="flex flex-col items-center">
-            <p className="mt-4 text-sm text-muted-foreground">
-              Already have an account?{" "}
+          <CardFooter className='flex flex-col items-center'>
+            <p className='mt-4 text-sm text-muted-foreground'>
+              Already have an account?{' '}
               <a
-                href="/auth/sign-in"
-                className="underline text-card-foreground"
+                href='/auth/sign-in'
+                className='text-card-foreground underline'
               >
                 Login here
               </a>

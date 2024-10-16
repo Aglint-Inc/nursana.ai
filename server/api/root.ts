@@ -1,7 +1,8 @@
-import { campaign } from "./routers/campaign";
-import { example } from "./routers/example";
-import { user } from "./routers/user";
-import { createCallerFactory, createTRPCRouter } from "./trpc";
+import { campaign } from './routers/campaign';
+import { example } from './routers/example';
+import { tenant } from './routers/tenant';
+import { user } from './routers/user';
+import { createCallerFactory, createTRPCRouter } from './trpc';
 
 /**
  * This is the primary router for your server.
@@ -12,6 +13,7 @@ export const appRouter = createTRPCRouter({
   example,
   user,
   campaign,
+  tenant,
 });
 
 // export type definition of API

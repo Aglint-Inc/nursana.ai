@@ -10,7 +10,7 @@ import LoadingWapper from '@/common/components/LoadingWapper';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { type FormCampaign } from '../hooks/useUpload';
+import { type FormCampaign } from '../types';
 
 function ResumeUpload({
   form,

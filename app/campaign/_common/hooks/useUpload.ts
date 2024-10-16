@@ -1,33 +1,26 @@
-import { useState } from "react";
-import { api } from "trpc/client";
-import { Role } from "../components";
-import { supabase } from "@/utils/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { useSearchParams } from "next/navigation";
-import { useCampaign } from "./useCampaign";
+import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { api } from 'trpc/client';
 
-export type FormCampaign = {
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  file: File | null;
-  role: Role;
-};
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/utils/supabase/client';
+
+import { type FormCampaign } from '../types';
+import { useCampaign } from './useCampaign';
 
 export const useUploadCampaign = () => {
   const { toast } = useToast();
   const { data } = useCampaign();
   const [form, setForm] = useState<FormCampaign>({
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone: "",
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
     file: null,
-    role: "nurse",
+    role: 'nurse',
   });
   const searchParams = useSearchParams();
-  const campaign_code = searchParams.get("campaign_code") as string;
+  const campaign_code = searchParams.get('campaign_code') as string;
   const [saving, setSaving] = useState(false);
 
   const { mutateAsync: createUser } = api.user.create.useMutation();
@@ -50,8 +43,8 @@ export const useUploadCampaign = () => {
 
         if (resCheckUser.resume?.id) {
           return toast({
-            description: "You have already applied for this campaign",
-            variant: "destructive",
+            description: 'You have already applied for this campaign',
+            variant: 'destructive',
           });
         }
 
@@ -71,13 +64,13 @@ export const useUploadCampaign = () => {
           userId = resCheckUser.user.id;
         }
 
-        const fileExt = form.file.name.split(".").pop();
+        const fileExt = form.file.name.split('.').pop();
         const fileName = `resumes/${userId}_${Date.now()}.${fileExt}`;
 
         const { error: uploadError } = await supabase.storage
-          .from("resumes")
+          .from('resumes')
           .upload(fileName, form.file, {
-            cacheControl: "3600",
+            cacheControl: '3600',
             upsert: false,
           });
 
@@ -85,7 +78,7 @@ export const useUploadCampaign = () => {
 
         const {
           data: { publicUrl },
-        } = supabase.storage.from("resumes").getPublicUrl(fileName);
+        } = supabase.storage.from('resumes').getPublicUrl(fileName);
 
         const res = await createInterview({
           campaign_code,
@@ -101,31 +94,31 @@ export const useUploadCampaign = () => {
             },
           });
           if (error) {
-            throw new Error("Error creating interview");
+            throw new Error('Error creating interview');
           }
           toast({
             description:
-              "Interview link has been sent to your email. Please check your inbox.",
-            variant: "default",
+              'Interview link has been sent to your email. Please check your inbox.',
+            variant: 'default',
           });
         } else {
-          throw new Error("Error creating interview");
+          throw new Error('Error creating interview');
         }
 
         setForm({
-          first_name: "",
-          last_name: "",
-          email: "",
-          phone: "",
+          first_name: '',
+          last_name: '',
+          email: '',
+          phone: '',
           file: null,
-          role: "nurse",
+          role: 'nurse',
         });
       } catch (error) {
         console.log(error);
         toast({
           description:
-            error.message ?? "An error occurred. Please try again later.",
-          variant: "destructive",
+            error.message ?? 'An error occurred. Please try again later.',
+          variant: 'destructive',
         });
       } finally {
         setSaving(false);

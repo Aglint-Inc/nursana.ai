@@ -1,41 +1,48 @@
 /* eslint-disable no-console */
-import { z } from "zod";
+import { z } from 'zod';
 
-import { type PublicProcedure, publicProcedure } from "@/server/api/trpc";
-import { createPublicClient } from "@/server/db";
+import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
+import { createPublicClient } from '@/server/db';
 
 export const schema = z.object({
   email: z.string().email(),
+  role: z.enum(['nurse', 'company']),
 });
 
 const mutation = async ({
-  input: { email },
+  input: { email, role },
 }: PublicProcedure<typeof schema>) => {
   const db = createPublicClient();
-  const user = (
-    await db
-      .from("users")
-      .select("*")
-      .eq("email", email)
-      .single()
-      .throwOnError()
-  ).data;
+  if (role === 'nurse') {
+    const user = (
+      await db
+        .from('users')
+        .select('*')
+        .eq('email', email)
+        .single()
+        .throwOnError()
+    ).data;
 
-  if (!user) return false;
-
-  const role = (
-    await db
-      .from("user_roles")
-      .select("*")
-      .eq("user_id", user.id)
-      .single()
-      .throwOnError()
-  ).data;
-
-  if (role?.role === "nurse") {
-    return true;
+    if (user) {
+      return true;
+    } else {
+      return false;
+    }
   } else {
-    return false;
+    const tenant = (
+      await db
+        .from('tenant')
+        .select('*')
+        .eq('email', email)
+        .single()
+        .throwOnError()
+    ).data;
+
+    if (tenant) {
+      return true;
+    } else {
+      return false;
+    }
   }
 };
 
