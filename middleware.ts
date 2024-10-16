@@ -12,10 +12,12 @@ const PUBLIC_ROUTES = [
   '^/contact$',
   // Folders (everything under these paths)
   // Starts with
+
   '^/auth/',
   'campaign',
   '/api/trpc',
   '/tenant/sign-up',
+  '/api/backup-interview-data',
 ];
 
 const PUBLIC_ROUTES_REGEX = new RegExp(PUBLIC_ROUTES.join('|'));

@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverActions: true,
-  },
   reactStrictMode: false,
   productionBrowserSourceMaps: true,
   webpack: (config, { isServer }) => {
@@ -10,7 +7,7 @@ const nextConfig = {
       config.resolve.fallback = {
         ...config.resolve.fallback,
         bufferutil: false,
-        "utf-8-validate": false,
+        'utf-8-validate': false,
       };
     }
     return config;
