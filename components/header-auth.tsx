@@ -30,7 +30,7 @@ export default function HeaderAuth() {
   if (!userData?.interview) {
     return (
       <div className='flex gap-2'>
-        <Button asChild size='sm' variant={'default'}>
+        <Button asChild variant={'default'}>
           <Link href='/campaign/?campaign_code=SUMMER23NURSE'>Get Started</Link>
         </Button>
       </div>
