@@ -19,8 +19,8 @@ const query = async ({ ctx: { user_id } }: PrivateProcedure) => {
       db
         .from("interview_analysis")
         .select("*")
-        .eq("nurse_id", user_id)
-        .order("user_id", { ascending: false })
+        .eq("user_id", user_id)
+        .order("created_at", { ascending: false })
         .limit(1)
         .single(),
     ]);
