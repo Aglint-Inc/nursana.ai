@@ -1,4 +1,4 @@
-import { PSM, createWorker } from "tesseract.js";
+import { createWorker,PSM } from "tesseract.js";
 
 const cleanText = (text: string) => {
   return text.replace(/\b(eo)\b|\b[eo]\b|©/g, "*").replace(/[\r\n]+|\s+/g, " ");

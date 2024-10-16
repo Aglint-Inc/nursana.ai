@@ -1,24 +1,33 @@
 import { supabase } from "./client/supabaseClient";
-
+export type ErrorType =
+  | "SYSTEM_ERROR"
+  | "UNSUPPORTED_FORMAT"
+  | "AI_ERROR"
+  | "DB_ERROR"
+  | "PARSING_ERROR";
 export const getResponse = ({
   data,
   saved = false,
   error,
   application_id,
+  type = "SYSTEM_ERROR",
+  test,
 }: {
   data?: any;
   saved?: boolean;
   error?: string;
   application_id?: string;
+  type?: ErrorType;
+  test: boolean;
 }) => {
-  if (error && application_id) {
-    console.error("Error: ", error);
+  if (!test && error && application_id) {
     logs(application_id, {
       step: "process_resume_v1",
       message: error,
+      type,
     });
   }
-  return { data, saved, error };
+  return { data, saved, error, type };
 };
 
 export const saveToDB = async ({
@@ -38,7 +47,7 @@ export const saveToDB = async ({
   if (error) {
     console.error(error);
   }
-  return !Boolean(error);
+  return !error;
 };
 
 export const logs = async (
@@ -46,8 +55,10 @@ export const logs = async (
   error_status: {
     step: string;
     message: string;
+    type: ErrorType;
   }
 ) => {
+  console.log("Logging Error: ", error_status);
   return await supabase
     .from("resumes")
     .update({
