@@ -49,7 +49,7 @@ export default function HeaderAuth() {
   return (
     <div className='flex items-center gap-4'>
       {hasIncompleteInterview && (
-        <Link href='/interview'>
+        <Link href='/dashboard'>
           <Badge variant='destructive'>
             Complete Interview <ArrowRightIcon className='ml-2 h-4 w-4' />
           </Badge>
@@ -58,7 +58,9 @@ export default function HeaderAuth() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className='cursor-pointer rounded-md'>
-            <AvatarFallback className='bg-purple-600 text-white rounded-md'>{userInitials}</AvatarFallback>
+            <AvatarFallback className='rounded-md bg-purple-600 text-white'>
+              {userInitials}
+            </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
