@@ -37,8 +37,8 @@ export function InterviewTranscript() {
   }
 
   return (
-    <Card>
-      <CardContent className='p-4'>
+    <Card className='min-h-[calc(100vh-164px)]'>
+      <CardContent className='p-6'>
         <div className='flex flex-col gap-6'>
           {transcript.map((message, index) => (
             <div key={index} className='flex justify-start'>

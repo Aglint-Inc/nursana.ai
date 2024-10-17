@@ -23,7 +23,7 @@ export default function FormCampaign() {
       
         <div className='flex max-w-screen-xl flex-col items-center gap-1 mt-6'>
         <NursanaLogo/>
-          <h1 className='text-2xl font-medium'>
+          <h1 className='text-2xl font-medium mt-4'>
             Let Nursana&apos;s AI find your next opportunity.
           </h1>
           <h1 className='text-2xl font-medium'>Get started now!</h1>

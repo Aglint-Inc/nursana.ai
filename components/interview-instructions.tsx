@@ -96,7 +96,7 @@ export default function InterviewInstructions({
     <Section>
       <div className="flex pt-6 flex-col items-center mb-20">
         <NursanaLogo/>
-        <h1 className="text-3xl font-medium text-center mb-10">
+        <h1 className="text-3xl font-medium text-center mb-10 mt-6">
           <span className="">Welcome to the AI Based interview for</span>
           <br />
           <span>{interviewData.name || interviewData.campaign_code}</span>
