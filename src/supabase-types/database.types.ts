@@ -124,30 +124,6 @@ export type Database = {
           },
         ]
       }
-      event_logs: {
-        Row: {
-          action: string | null
-          created_at: string | null
-          entity_id: string | null
-          entity_type: string | null
-          event_id: string
-        }
-        Insert: {
-          action?: string | null
-          created_at?: string | null
-          entity_id?: string | null
-          entity_type?: string | null
-          event_id?: string
-        }
-        Update: {
-          action?: string | null
-          created_at?: string | null
-          entity_id?: string | null
-          entity_type?: string | null
-          event_id?: string
-        }
-        Relationships: []
-      }
       hospital: {
         Row: {
           address: string | null

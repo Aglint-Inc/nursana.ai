@@ -31,6 +31,9 @@
       "@/supabase-types/*": ["src/supabase-types/*"],
       "@/server/*": ["./server/*"],
       "@/hooks/*": ["./hooks/*"],
+      "@/audio/*": [
+        "./lib/audio/*"
+      ],
       "@/authenicated/*": ["./app/(authenticated)/_common/*"]
     }
   },
