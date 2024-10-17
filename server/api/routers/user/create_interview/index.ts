@@ -61,7 +61,7 @@ const mutation = async ({
         candidate_intro_video_url:
           campaign.interview_template.candidate_intro_video_url,
         candidate_overview: campaign.interview_template.candidate_overview,
-        hospital_id: campaign.id,
+        hospital_id: campaign.hospital_id,
         version_id: campaign.version_id,
       })
       .select()
