@@ -16,6 +16,9 @@ function CTA() {
           Join thousands of nurses using Nursana.ai to fast-track their careers.
           Don’t miss out on the perfect job opportunity.
         </p>
+        <Link href='/users/sign_in'>
+          <Button size={'lg'}>Login</Button>
+        </Link>
         <Link href='/campaign/?campaign_code=SUMMER23NURSE'>
           <Button size={'lg'}>Get Started</Button>
         </Link>
