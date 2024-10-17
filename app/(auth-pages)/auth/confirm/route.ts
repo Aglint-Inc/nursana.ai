@@ -9,9 +9,6 @@ export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get('code');
   const interview_id = requestUrl.searchParams.get('interview_id');
-  const origin = requestUrl.origin;
-
-  console.log(code, interview_id, origin);
 
   if (code) {
     const supabase = createClient();
