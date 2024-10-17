@@ -1,31 +1,6 @@
 export type Json = any;
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string
-          query?: string
-          variables?: Json
-          extensions?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       applicant: {
@@ -74,7 +49,15 @@ export type Database = {
           terms_accepted?: boolean | null
           travel_preference?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "users_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       campaign: {
         Row: {
@@ -84,8 +67,10 @@ export type Database = {
           hospital_id: string
           id: string
           name: string
+          status: Database["public"]["Enums"]["campaign_status"]
           template_id: string
           updated_at: string | null
+          version_id: string
         }
         Insert: {
           campaign_code: string
@@ -94,8 +79,10 @@ export type Database = {
           hospital_id: string
           id?: string
           name: string
+          status?: Database["public"]["Enums"]["campaign_status"]
           template_id: string
           updated_at?: string | null
+          version_id: string
         }
         Update: {
           campaign_code?: string
@@ -104,10 +91,19 @@ export type Database = {
           hospital_id?: string
           id?: string
           name?: string
+          status?: Database["public"]["Enums"]["campaign_status"]
           template_id?: string
           updated_at?: string | null
+          version_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "campaign_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "version"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "campaigns_hospital_id_fkey"
             columns: ["hospital_id"]
@@ -179,11 +175,13 @@ export type Database = {
           candidate_intro_video_url: string | null
           candidate_overview: string[] | null
           created_at: string | null
+          hospital_id: string
           id: string
           interview_stage: Database["public"]["Enums"]["interview_stage"]
           name: string
           updated_at: string | null
           user_id: string
+          version_id: string
         }
         Insert: {
           ai_ending_message?: string | null
@@ -198,11 +196,13 @@ export type Database = {
           candidate_intro_video_url?: string | null
           candidate_overview?: string[] | null
           created_at?: string | null
+          hospital_id: string
           id?: string
           interview_stage?: Database["public"]["Enums"]["interview_stage"]
           name: string
           updated_at?: string | null
           user_id: string
+          version_id: string
         }
         Update: {
           ai_ending_message?: string | null
@@ -217,13 +217,29 @@ export type Database = {
           candidate_intro_video_url?: string | null
           candidate_overview?: string[] | null
           created_at?: string | null
+          hospital_id?: string
           id?: string
           interview_stage?: Database["public"]["Enums"]["interview_stage"]
           name?: string
           updated_at?: string | null
           user_id?: string
+          version_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "interview_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospital"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interview_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "version"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "interviews_campaign_id_fkey"
             columns: ["campaign_id"]
@@ -242,6 +258,7 @@ export type Database = {
       }
       interview_analysis: {
         Row: {
+          analysis_status: Json | null
           audio_url: string | null
           call_analysis: Json | null
           call_id: string | null
@@ -257,6 +274,7 @@ export type Database = {
           video_url: string | null
         }
         Insert: {
+          analysis_status?: Json | null
           audio_url?: string | null
           call_analysis?: Json | null
           call_id?: string | null
@@ -272,6 +290,7 @@ export type Database = {
           video_url?: string | null
         }
         Update: {
+          analysis_status?: Json | null
           audio_url?: string | null
           call_analysis?: Json | null
           call_id?: string | null
@@ -429,7 +448,44 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      template: {
+        Row: {
+          created_at: string
+          hospital_id: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          hospital_id: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          hospital_id?: string
+          id?: string
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "template_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospital"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user: {
         Row: {
@@ -464,6 +520,88 @@ export type Database = {
             referencedRelation: "hospital"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "tenant_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      version: {
+        Row: {
+          ai_ending_message: string | null
+          ai_instructions: string[]
+          ai_interview_duration: number
+          ai_questions: string | null
+          ai_welcome_message: string | null
+          candidate_estimated_time: string | null
+          candidate_instructions: string[]
+          candidate_intro_video_cover_image_url: string | null
+          candidate_intro_video_url: string | null
+          candidate_overview: string[]
+          created_at: string
+          hospital_id: string
+          id: string
+          name: string
+          status: Database["public"]["Enums"]["version_status"]
+          template_id: string
+          updated_at: string
+        }
+        Insert: {
+          ai_ending_message?: string | null
+          ai_instructions?: string[]
+          ai_interview_duration?: number
+          ai_questions?: string | null
+          ai_welcome_message?: string | null
+          candidate_estimated_time?: string | null
+          candidate_instructions?: string[]
+          candidate_intro_video_cover_image_url?: string | null
+          candidate_intro_video_url?: string | null
+          candidate_overview?: string[]
+          created_at?: string
+          hospital_id: string
+          id?: string
+          name: string
+          status?: Database["public"]["Enums"]["version_status"]
+          template_id: string
+          updated_at?: string
+        }
+        Update: {
+          ai_ending_message?: string | null
+          ai_instructions?: string[]
+          ai_interview_duration?: number
+          ai_questions?: string | null
+          ai_welcome_message?: string | null
+          candidate_estimated_time?: string | null
+          candidate_instructions?: string[]
+          candidate_intro_video_cover_image_url?: string | null
+          candidate_intro_video_url?: string | null
+          candidate_overview?: string[]
+          created_at?: string
+          hospital_id?: string
+          id?: string
+          name?: string
+          status?: Database["public"]["Enums"]["version_status"]
+          template_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "version_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospital"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "version_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "template"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
@@ -488,11 +626,13 @@ export type Database = {
     }
     Enums: {
       app_role: "applicant" | "user"
+      campaign_status: "archived" | "active"
       interview_stage:
         | "not_started"
         | "resume_submitted"
         | "interview_inprogress"
         | "interview_completed"
+      version_status: "archived" | "active"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -582,17 +722,3 @@ export type Enums<
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
 
-export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema["CompositeTypes"]
-    | { schema: keyof Database },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
-> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
