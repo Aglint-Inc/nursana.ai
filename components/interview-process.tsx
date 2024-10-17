@@ -329,7 +329,7 @@ export default function Interview({
                 {isInterviewStarted && (
                   <>
                     <div className='absolute bottom-0 left-0 flex w-full justify-center gap-2 bg-gradient-to-t from-[#00000050] to-transparent py-4'>
-                      <div className='flex h-[36px] items-center justify-center rounded-md bg-white px-4 text-sm text-red-600'>
+                      <div className='flex h-[36px] items-center justify-center rounded-md bg-white px-4 text-sm text-red-600 dark:bg-black dark:text-white'>
                         <StopCircle
                           className='mr-2 h-4 w-4'
                           strokeWidth={1.2}

@@ -1,10 +1,11 @@
 'use client';
 
-import { signOutAction } from 'app/actions';
+import { useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 import { useUserData } from '@/authenicated/hooks/useUserData';
+import { useLogout } from '@/common/hooks/useLogout';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -17,6 +18,8 @@ import {
 
 export default function HeaderAuth() {
   const { userData } = useUserData();
+  const { logout } = useLogout();
+  const queryClient = useQueryClient();
   const [hasIncompleteInterview, setHasIncompleteInterview] = useState(false);
 
   useEffect(() => {
@@ -58,7 +61,7 @@ export default function HeaderAuth() {
             <Link href='/dashboard'>Dashboard</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href='/' onClick={signOutAction}>
+            <Link href='/' onClick={() => logout(queryClient)}>
               Sign out
             </Link>
           </DropdownMenuItem>

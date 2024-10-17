@@ -1,34 +1,34 @@
-import dynamic from "next/dynamic";
-import { notFound, redirect } from "next/navigation";
-import { Suspense } from "react";
+import dynamic from 'next/dynamic';
+import { notFound, redirect } from 'next/navigation';
+import { Suspense } from 'react';
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from '@/utils/supabase/server';
 
 const InterviewInstructions = dynamic(
-  () => import("@/components/interview-instructions"),
+  () => import('@/components/interview-instructions'),
   {
     ssr: false,
-  }
+  },
 );
 
 const InterviewSummary = dynamic(
-  () => import("@/components/interview-summary"),
+  () => import('@/components/interview-summary'),
   {
     ssr: false,
-  }
+  },
 );
 
 const normalizeStage = (stage: string) => {
   switch (stage) {
-    case "not_started":
-      return "get-started";
-    case "resume_submitted":
-    case "interview_inprogress":
-      return "start-interview";
-    case "interview_completed":
-      return "summary";
+    case 'not_started':
+      return 'start-interview';
+    case 'resume_submitted':
+    case 'interview_inprogress':
+      return 'start-interview';
+    case 'interview_completed':
+      return 'summary';
     default:
-      return "get-started"; // Default to get-started if unknown stage
+      return 'get-started'; // Default to get-started if unknown stage
   }
 };
 
@@ -39,13 +39,13 @@ export default async function InterviewPage({
 }) {
   const supabase = createClient();
   const { data: interview, error } = await supabase
-    .from("interviews")
-    .select("*")
-    .eq("id", params.id)
+    .from('interviews')
+    .select('*')
+    .eq('id', params.id)
     .single();
 
   if (error || !interview) {
-    console.error("Error fetching interview:", error);
+    console.error('Error fetching interview:', error);
     notFound();
   }
 
@@ -54,25 +54,22 @@ export default async function InterviewPage({
 
   // Check and adjust the stage based on interview progress
   if (
-    params.stage === "summary" &&
-    interview.interview_stage !== "interview_completed"
+    params.stage === 'summary' &&
+    interview.interview_stage !== 'interview_completed'
   ) {
-    redirectStage = "start-interview";
+    redirectStage = 'start-interview';
   } else if (
-    params.stage === "start-interview" &&
-    interview.interview_stage === "not_started"
-  ) {
-    redirectStage = "get-started";
-  }
-
-  // Redirect if the requested stage doesn't match the allowed stage
-  if (params.stage !== redirectStage) {
-    return redirect(`/interview/${params.id}/${redirectStage}`);
-  }
+    params.stage === 'start-interview' &&
+    interview.interview_stage === 'not_started'
+  )
+    if (params.stage !== redirectStage) {
+      // Redirect if the requested stage doesn't match the allowed stage
+      return redirect(`/interview/${params.id}/${redirectStage}`);
+    }
 
   const renderComponent = () => {
     switch (redirectStage) {
-      case "start-interview":
+      case 'start-interview':
         return (
           <Suspense fallback={<div>Loading Instructions...</div>}>
             <InterviewInstructions
@@ -82,7 +79,7 @@ export default async function InterviewPage({
             />
           </Suspense>
         );
-      case "summary":
+      case 'summary':
         return (
           <Suspense fallback={<div>Loading Summary...</div>}>
             <InterviewSummary
@@ -93,7 +90,7 @@ export default async function InterviewPage({
           </Suspense>
         );
       default:
-        console.log("Unknown stage:", redirectStage);
+        console.log('Unknown stage:', redirectStage);
         notFound();
     }
   };
