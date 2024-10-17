@@ -8,7 +8,7 @@ import { AudioPlayer } from '@/common/components/AudioPlayer';
 import { PreferencesEdit } from '@/common/components/PreferencesEdit';
 import { PreferencesView } from '@/common/components/PreferencesView';
 import { VideoPlayer } from '@/common/components/VideoPlayer';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import Section from '@/components/section';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -57,18 +57,19 @@ export default function NurseDashboard() {
   if (!userData) return null; // Render Error if no data
 
   return (
-    <div className='container mx-auto w-full max-w-screen-xl'>
-      <span className='text-lg text-muted-foreground'>
-        Hello {userData?.user?.first_name || 'Nurse'} 👋🏻, Welcome to Nursana!
-      </span>
-      <p>Here are your next steps:</p>
-      <DashboardCTA />
-      <div className='grid w-full grid-cols-[1fr_max-content] gap-4'>
+      <Section>
+      
+      <div className='grid w-full grid-cols-[1fr_max-content] gap-4 mb-20'>
         <div className='flex flex-col'>
           <NurseHomePage />
         </div>
-        <div className='flex w-[350px] flex-col'>
-          <div className='mt-[64px] gap-4 space-y-4'>
+        <div className='flex w-[350px] flex-col '>
+          <div className='gap-4 space-y-4'>
+            <div className='h-[48px] flex flex-row justify-center gap-1 items-center bg-gradient-to-b from-purple-100 to-purple-200 text-purple-800 rounded-md'>
+              <div> Hello {userData?.user?.first_name || 'Nurse'},</div>
+              <div>Welcome to Nursana 💜</div>
+            </div>
+            <DashboardCTA/>
             {userData?.analysis?.audio_url && userData?.analysis?.video_url && (
               <Card className='overflow-hidden border-none bg-secondary shadow-none'>
                 <CardContent className='p-0'>
@@ -82,13 +83,13 @@ export default function NurseDashboard() {
               </Card>
             )}
             {userData?.resume?.error_status ? (
-              <Alert variant='destructive'>
-                <AlertCircle className='h-4 w-4' />
-                <AlertTitle>Resume Upload Issue</AlertTitle>
-                <AlertDescription>
-                  {getErrorMessage(userData.resume.error_status)}
-                </AlertDescription>
-              </Alert>
+              <div className='bg-red-50 grid grid-cols-[max-content_1fr] p-4 gap-3 rounded-md'>
+                  <AlertCircle className='h-4 w-4 text-red-600 mt-1' />
+                  <div className='flex flex-col gap-1'>
+                    <div className='text-red-600 text-medium '>Resume Upload Issue</div>
+                    <div className='text-muted-foreground'>{getErrorMessage(userData.resume.error_status)}</div>
+                  </div>
+              </div>
             ) : (
               <Card className='group my-4 border-none bg-secondary'>
                 <CardContent className='p-4'>
@@ -139,6 +140,6 @@ export default function NurseDashboard() {
           </div>
         </div>
       </div>
-    </div>
+      </Section>
   );
 }

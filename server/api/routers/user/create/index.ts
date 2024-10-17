@@ -10,10 +10,11 @@ export const schema = z.object({
   role: appRoleSchema,
   first_name: z.string(),
   last_name: z.string().optional(),
+  job_title: z.string(),
 });
 
 const mutation = async ({
-  input: { email, role, first_name, last_name },
+  input: { email, role, first_name, last_name, job_title },
 }: PublicProcedure<typeof schema>) => {
   const supabase = createPublicClient();
 
@@ -33,6 +34,7 @@ const mutation = async ({
       email,
       first_name,
       last_name,
+      job_title,
     })
     .throwOnError();
 

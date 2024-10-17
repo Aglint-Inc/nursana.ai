@@ -210,7 +210,6 @@ export const interviewTemplatesRowSchema = z.object({
   ai_questions: z.string().nullable(),
   ai_welcome_message: z.string().nullable(),
   candidate_estimated_time: z.string().nullable(),
-  candidate_form: jsonSchema.nullable(),
   candidate_instructions: z.array(z.string()).nullable(),
   candidate_intro_video_cover_image_url: z.string().nullable(),
   candidate_intro_video_url: z.string().nullable(),
@@ -232,7 +231,6 @@ export const interviewTemplatesInsertSchema = z.object({
   ai_questions: z.string().optional().nullable(),
   ai_welcome_message: z.string().optional().nullable(),
   candidate_estimated_time: z.string().optional().nullable(),
-  candidate_form: jsonSchema.optional().nullable(),
   candidate_instructions: z.array(z.string()).optional().nullable(),
   candidate_intro_video_cover_image_url: z.string().optional().nullable(),
   candidate_intro_video_url: z.string().optional().nullable(),
@@ -254,7 +252,6 @@ export const interviewTemplatesUpdateSchema = z.object({
   ai_questions: z.string().optional().nullable(),
   ai_welcome_message: z.string().optional().nullable(),
   candidate_estimated_time: z.string().optional().nullable(),
-  candidate_form: jsonSchema.optional().nullable(),
   candidate_instructions: z.array(z.string()).optional().nullable(),
   candidate_intro_video_cover_image_url: z.string().optional().nullable(),
   candidate_intro_video_url: z.string().optional().nullable(),
@@ -295,7 +292,6 @@ export const interviewsInsertSchema = z.object({
   campaign_code: z.string(),
   campaign_id: z.string().optional().nullable(),
   candidate_estimated_time: z.string().optional().nullable(),
-  candidate_form: jsonSchema.optional().nullable(),
   candidate_instructions: z.array(z.string()).optional().nullable(),
   candidate_intro_video_cover_image_url: z.string().optional().nullable(),
   candidate_intro_video_url: z.string().optional().nullable(),
@@ -317,7 +313,6 @@ export const interviewsUpdateSchema = z.object({
   campaign_code: z.string().optional(),
   campaign_id: z.string().optional().nullable(),
   candidate_estimated_time: z.string().optional().nullable(),
-  candidate_form: jsonSchema.optional().nullable(),
   candidate_instructions: z.array(z.string()).optional().nullable(),
   candidate_intro_video_cover_image_url: z.string().optional().nullable(),
   candidate_intro_video_url: z.string().optional().nullable(),
@@ -403,12 +398,7 @@ export const resumesRelationshipsSchema = z.tuple([
   }),
 ]);
 
-export const appRoleSchema = z.union([
-  z.literal("nurse"),
-  z.literal("hospital"),
-  z.literal("doctor"),
-  z.literal("therapist"),
-]);
+export const appRoleSchema = z.union([z.literal("tenant"), z.literal("user")]);
 
 export const rolesInsertSchema = z.object({
   id: z.string().optional(),
@@ -467,6 +457,7 @@ export const usersRowSchema = z.object({
   expected_salary: z.number().nullable(),
   first_name: z.string().nullable(),
   id: z.string(),
+  job_title: z.string().nullable(),
   job_type: z.string().nullable(),
   last_name: z.string().nullable(),
   phone_number: z.string().nullable(),
@@ -483,6 +474,7 @@ export const usersInsertSchema = z.object({
   expected_salary: z.number().optional().nullable(),
   first_name: z.string().optional().nullable(),
   id: z.string(),
+  job_title: z.string().optional().nullable(),
   job_type: z.string().optional().nullable(),
   last_name: z.string().optional().nullable(),
   phone_number: z.string().optional().nullable(),
@@ -499,6 +491,7 @@ export const usersUpdateSchema = z.object({
   expected_salary: z.number().optional().nullable(),
   first_name: z.string().optional().nullable(),
   id: z.string().optional(),
+  job_title: z.string().optional().nullable(),
   job_type: z.string().optional().nullable(),
   last_name: z.string().optional().nullable(),
   phone_number: z.string().optional().nullable(),
@@ -522,7 +515,6 @@ export const interviewsRowSchema = z.object({
   campaign_code: z.string(),
   campaign_id: z.string().nullable(),
   candidate_estimated_time: z.string().nullable(),
-  candidate_form: jsonSchema.nullable(),
   candidate_instructions: z.array(z.string()).nullable(),
   candidate_intro_video_cover_image_url: z.string().nullable(),
   candidate_intro_video_url: z.string().nullable(),

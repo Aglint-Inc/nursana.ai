@@ -29,7 +29,7 @@ const mutation = async ({
     .from('roles')
     .insert({
       user_id: userId,
-      role: 'hospital',
+      role: 'tenant',
     })
     .throwOnError();
 

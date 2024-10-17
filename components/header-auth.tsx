@@ -57,8 +57,8 @@ export default function HeaderAuth() {
       )}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className='cursor-pointer'>
-            <AvatarFallback>{userInitials}</AvatarFallback>
+          <Avatar className='cursor-pointer rounded-md'>
+            <AvatarFallback className='bg-purple-600 text-white rounded-md'>{userInitials}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
