@@ -92,32 +92,16 @@ export const useUploadCampaign = () => {
           const { error } = await supabase.auth.signInWithOtp({
             email: form.email,
             options: {
-              emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/confirm?interview_id=${res.id}`, 
+              emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/interview?id=${res.id}`,
             },
           });
           if (error) {
             throw new Error('Error creating interview');
           }
-
           router.push('/auth/check-email?type=interview');
-          toast({
-            description:
-              'Interview link has been sent to your email. Please check your inbox.',
-            variant: 'default',
-          });
         } else {
           throw new Error('Error creating interview');
         }
-
-        setForm({
-          first_name: '',
-          last_name: '',
-          email: '',
-          phone: '',
-          file: null,
-          role: 'nurse',
-        });
-        
       } catch (error) {
         console.log(error);
         toast({
