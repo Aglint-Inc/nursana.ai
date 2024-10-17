@@ -3,17 +3,17 @@ import React from "react";
 
 import HeaderAuth from "@/components/header-auth";
 
+import NursanaLogo from "./nursana-logo";
 import Section from "./section";
 
 const Navbar: React.FC = () => {
   return (
     <Section>
-      <nav className="w-full flex justify-center">
-        <div className="w-full flex justify-between items-center py-6">
+      <nav className="w-full flex items-center justify-center h-20">
+        <div className="w-full flex justify-between items-center">
           <div className="flex gap-5 items-center font-semibold">
-            <Link href="/" className="text-3xl font-light">
-              <span className="font-medium ">Nursana</span>
-              <span className="font-light text-purple-500">.ai</span>
+            <Link href="/" className="flex items-center justify-center">
+             <NursanaLogo variant="md"/>
             </Link>
           </div>
           <HeaderAuth />
