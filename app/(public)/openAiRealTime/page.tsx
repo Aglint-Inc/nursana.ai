@@ -1,22 +1,21 @@
-"use client";
+'use client';
 
-import { RealtimeClient } from "@openai/realtime-api-beta";
-import { type ItemType } from "@openai/realtime-api-beta/dist/lib/client.js";
-import { X, Zap } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { RealtimeClient } from '@openai/realtime-api-beta';
+import { type ItemType } from '@openai/realtime-api-beta/dist/lib/client.js';
+import { X, Zap } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { WavRecorder, WavStreamPlayer } from "@/audio/index";
-import { Button } from "@/components/ui/button";
-import { instructions } from "@/utils/audio/instructions";
+import { WavRecorder, WavStreamPlayer } from '@/audio/index';
+import { Button } from '@/components/ui/button';
 
-import VoiceRing from "../_components/VoiceRing";
+import VoiceRing from '../_components/VoiceRing';
 
 function OpenAiRealTimePage() {
   const wavRecorderRef = useRef<WavRecorder>(
-    new WavRecorder({ sampleRate: 24000 })
+    new WavRecorder({ sampleRate: 24000 }),
   );
   const wavStreamPlayerRef = useRef<WavStreamPlayer>(
-    new WavStreamPlayer({ sampleRate: 24000 })
+    new WavStreamPlayer({ sampleRate: 24000 }),
   );
 
   const WS_URL = process.env.NEXT_PUBLIC_OPENAI_WS_URL;
@@ -38,21 +37,21 @@ function OpenAiRealTimePage() {
 
     client.updateSession({
       // Set instructions
-      instructions: instructions,
+      instructions: 'help user to know their answer',
       // Set transcription, otherwise we don't get user transcriptions back
-      input_audio_transcription: { model: "whisper-1" },
-      voice: "alloy",
+      input_audio_transcription: { model: 'whisper-1' },
+      voice: 'alloy',
       turn_detection: {
-        type: "server_vad",
+        type: 'server_vad',
         threshold: 0.5,
         prefix_padding_ms: 300,
         silence_duration_ms: 1000,
       },
-      model: "gpt-4o",
+      model: 'gpt-4o',
     });
 
-    client.on("error", (event: any) => console.error(event));
-    client.on("conversation.interrupted", async () => {
+    client.on('error', (event: any) => console.error(event));
+    client.on('conversation.interrupted', async () => {
       const trackSampleOffset = await wavStreamPlayer.interrupt();
       if (trackSampleOffset?.trackId) {
         const { trackId, offset } = trackSampleOffset;
@@ -60,17 +59,17 @@ function OpenAiRealTimePage() {
       }
     });
 
-    client.on("conversation.updated", async (data: any) => {
+    client.on('conversation.updated', async (data: any) => {
       const { item, delta } = data;
       const items = client.conversation.getItems();
       if (delta?.audio) {
         wavStreamPlayer.add16BitPCM(delta.audio, item.id);
       }
-      if (item.status === "completed" && item.formatted.audio?.length) {
+      if (item.status === 'completed' && item.formatted.audio?.length) {
         const wavFile = await WavRecorder.decode(
           item.formatted.audio,
           24000,
-          24000
+          24000,
         );
         item.formatted.file = wavFile;
       }
@@ -96,7 +95,7 @@ function OpenAiRealTimePage() {
     setItems(client.conversation.getItems());
 
     // Connect to microphone
-    await wavRecorder.begin("");
+    await wavRecorder.begin('');
 
     // Connect to audio output
     await wavStreamPlayer.connect();
@@ -108,7 +107,7 @@ function OpenAiRealTimePage() {
 
     // set turn detection to server_vad
 
-    if (client.getTurnDetectionType() === "server_vad") {
+    if (client.getTurnDetectionType() === 'server_vad') {
       //@ts-ignore
       await wavRecorder.record((data) => client.appendInputAudio(data.mono));
     }
@@ -131,48 +130,48 @@ function OpenAiRealTimePage() {
   }, []);
 
   return (
-    <div className="flex h-[100vh] items-center p-4">
-      <div className="w-full max-w-4xl">
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-          <div className="p-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Conversation</h2>
+    <div className='flex h-[100vh] items-center p-4'>
+      <div className='w-full max-w-4xl'>
+        <div className='overflow-hidden rounded-lg bg-white shadow-md'>
+          <div className='p-4'>
+            <div className='mb-4 flex items-center justify-between'>
+              <h2 className='text-xl font-semibold'>Conversation</h2>
             </div>
             <VoiceRing
               wavRecorderRef={wavRecorderRef}
               wavStreamPlayerRef={wavStreamPlayerRef}
             />
           </div>
-          <div className="p-4 border-t">
-            <div className="space-y-4 max-h-[400px] overflow-auto">
+          <div className='border-t p-4'>
+            <div className='max-h-[400px] space-y-4 overflow-auto'>
               {[...items].map((message, index) => (
                 <div
                   key={index}
                   className={`flex ${
-                    message.role === "user" ? "justify-end" : "justify-start"
+                    message.role === 'user' ? 'justify-end' : 'justify-start'
                   }`}
                 >
                   <div
-                    className={`max-w-xs md:max-w-md p-4 rounded-lg ${
-                      message.role === "user"
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-200 text-gray-800"
+                    className={`max-w-xs rounded-lg p-4 md:max-w-md ${
+                      message.role === 'user'
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-gray-200 text-gray-800'
                     }`}
                   >
-                    <p className="text-sm">
-                      {!message.formatted.tool && message.role === "user" && (
+                    <p className='text-sm'>
+                      {!message.formatted.tool && message.role === 'user' && (
                         <div>
                           {message.formatted.transcript ||
                             message.formatted.text ||
-                            "Loading speech ..."}
+                            'Loading speech ...'}
                         </div>
                       )}
                       {!message.formatted.tool &&
-                        message.role === "assistant" && (
+                        message.role === 'assistant' && (
                           <div>
                             {message.formatted.transcript ||
                               message.formatted.text ||
-                              "Loading transcript..."}
+                              'Loading transcript...'}
                           </div>
                         )}
                     </p>
@@ -181,14 +180,14 @@ function OpenAiRealTimePage() {
               ))}
             </div>
           </div>
-          <div className="p-4 border-t flex justify-center items-center">
+          <div className='flex items-center justify-center border-t p-4'>
             <Button
               onClick={
                 isConnected ? disconnectConversation : connectConversation
               }
             >
-              {isConnected ? <X className="mr-2" /> : <Zap className="mr-2" />}
-              {isConnected ? "Disconnect" : "Connect"}
+              {isConnected ? <X className='mr-2' /> : <Zap className='mr-2' />}
+              {isConnected ? 'Disconnect' : 'Connect'}
             </Button>
           </div>
         </div>
