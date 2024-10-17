@@ -219,15 +219,6 @@ INSERT INTO "public"."hospital" ("id", "hospital_name", "address", "contact_pers
 
 
 --
--- Data for Name: interview_template; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO "public"."interview_template" ("id", "name", "ai_ending_message", "ai_instructions", "ai_interview_duration", "ai_questions", "ai_welcome_message", "candidate_estimated_time", "candidate_instructions", "candidate_intro_video_cover_image_url", "candidate_intro_video_url", "candidate_overview", "created_at", "updated_at", "hospital_id") VALUES
-	('b253058d-5cbc-46da-8b67-8c9b26c13b76', 'Basic Nursing Interview', 'Thank you for completing the interview.', '{"Ask follow-up questions if needed","Provide clear instructions"}', 30, 'Why did you choose nursing as a career?', 'Welcome to the nursing interview!', '30 minutes', '{"Answer all questions","Take your time"}', '/images/instructions-cover.png', 'https://resource.heygencdn.com/AIAvatars/caption.mp4', '{"This interview will assess your skills"}', '2024-10-13 10:15:35.124397+00', '2024-10-13 10:15:35.124397+00', 'e7d5ff76-fab3-444b-be00-9fca3e0185c2'),
-	('b253058d-5cbc-46da-8b67-8c9b26c13b77', 'Basic Nursing Interview', 'Thank you for completing the interview.', '{"Can you tell me about your nursing background and what inspired you to pursue a career in nursing?","What areas of nursing have you specialized in, and why did you choose those specialties?","How do you prioritize patient care when dealing with multiple patients with different levels of acuity?","Can you describe a time when you had to handle a medical emergency? What steps did you take, and what was the outcome?","How do you stay updated with the latest medical advancements and practices in nursing?","You’re working with a patient post-surgery, and they suddenly report difficulty breathing. What immediate actions would you take?","You notice that a patient’s medication dosage is incorrect on the chart. What steps would you follow to resolve this issue?","How do you handle conflict within a healthcare team, especially when it comes to differences in patient care approaches?","Can you give an example of how you''ve collaborated with doctors or other healthcare professionals to improve patient outcomes?","How do you ensure that patients feel comfortable and cared for during their hospital stay?","Describe a time when you provided emotional support to a patient or their family during a difficult situation.","What do you think is the most important quality a nurse should possess, and how do you embody that in your work?","How do you maintain work-life balance while working in a demanding healthcare environment?","What are your career goals in nursing, and how do you see yourself growing in this profession?"}', 30, 'Why did you choose nursing as a career?', 'Welcome to the nursing interview!', '30 minutes', '{"Answer all questions","Take your time"}', '/images/instructions-cover.png', 'https://resource.heygencdn.com/AIAvatars/caption.mp4', '{"This interview will assess your skills"}', '2024-10-13 10:15:35.124397+00', '2024-10-13 10:15:35.124397+00', 'e7d5ff76-fab3-444b-be00-9fca3e0185c2');
-
-
---
 -- Data for Name: template; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -248,9 +239,9 @@ INSERT INTO "public"."version" ("id", "created_at", "ai_ending_message", "ai_ins
 -- Data for Name: campaign; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."campaign" ("id", "name", "campaign_code", "template_id", "created_at", "updated_at", "description", "hospital_id", "status", "version_id") VALUES
-	('87796288-6847-4a37-aae1-26317d42c7ed', 'Summer 2023 Nurse Recruitment', 'SUMMER23NURSE', 'b253058d-5cbc-46da-8b67-8c9b26c13b76', '2024-10-13 10:15:35.124397+00', '2024-10-13 10:15:35.124397+00', NULL, 'e7d5ff76-fab3-444b-be00-9fca3e0185c2', 'archived', 'b253058d-5cbc-46da-8b67-8c9b26c13b76'),
-	('87796288-6847-4a37-aae1-26317d42c7ee', 'Summer 2024 Nurse Recruitment', 'SUMMER24NURSE', 'b253058d-5cbc-46da-8b67-8c9b26c13b77', '2024-10-13 10:15:35.124397+00', '2024-10-13 10:15:35.124397+00', NULL, 'e7d5ff76-fab3-444b-be00-9fca3e0185c2', 'archived', 'b253058d-5cbc-46da-8b67-8c9b26c13b77');
+INSERT INTO "public"."campaign" ("id", "name", "campaign_code", "created_at", "updated_at", "description", "hospital_id", "status", "version_id") VALUES
+	('87796288-6847-4a37-aae1-26317d42c7ed', 'Summer 2023 Nurse Recruitment', 'SUMMER23NURSE', '2024-10-13 10:15:35.124397+00', '2024-10-13 10:15:35.124397+00', NULL, 'e7d5ff76-fab3-444b-be00-9fca3e0185c2', 'archived', 'b253058d-5cbc-46da-8b67-8c9b26c13b76'),
+	('87796288-6847-4a37-aae1-26317d42c7ee', 'Summer 2024 Nurse Recruitment', 'SUMMER24NURSE', '2024-10-13 10:15:35.124397+00', '2024-10-13 10:15:35.124397+00', NULL, 'e7d5ff76-fab3-444b-be00-9fca3e0185c2', 'archived', 'b253058d-5cbc-46da-8b67-8c9b26c13b77');
 
 
 --
