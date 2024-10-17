@@ -61,16 +61,10 @@ export const applicantRelationshipsSchema = z.tuple([
   }),
 ]);
 
-export const campaignRowSchema = z.object({
-  campaign_code: z.string(),
-  created_at: z.string().nullable(),
-  description: z.string().nullable(),
-  hospital_id: z.string(),
-  id: z.string(),
-  name: z.string(),
-  template_id: z.string(),
-  updated_at: z.string().nullable(),
-});
+export const campaignStatusSchema = z.union([
+  z.literal("archived"),
+  z.literal("active"),
+]);
 
 export const campaignInsertSchema = z.object({
   campaign_code: z.string(),
@@ -79,8 +73,10 @@ export const campaignInsertSchema = z.object({
   hospital_id: z.string(),
   id: z.string().optional(),
   name: z.string(),
+  status: campaignStatusSchema.optional(),
   template_id: z.string(),
   updated_at: z.string().optional().nullable(),
+  version_id: z.string(),
 });
 
 export const campaignUpdateSchema = z.object({
@@ -90,11 +86,20 @@ export const campaignUpdateSchema = z.object({
   hospital_id: z.string().optional(),
   id: z.string().optional(),
   name: z.string().optional(),
+  status: campaignStatusSchema.optional(),
   template_id: z.string().optional(),
   updated_at: z.string().optional().nullable(),
+  version_id: z.string().optional(),
 });
 
 export const campaignRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("campaign_version_id_fkey"),
+    columns: z.tuple([z.literal("version_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("version"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
   z.object({
     foreignKeyName: z.literal("campaigns_hospital_id_fkey"),
     columns: z.tuple([z.literal("hospital_id")]),
@@ -174,11 +179,13 @@ export const interviewInsertSchema = z.object({
   candidate_intro_video_url: z.string().optional().nullable(),
   candidate_overview: z.array(z.string()).optional().nullable(),
   created_at: z.string().optional().nullable(),
+  hospital_id: z.string(),
   id: z.string().optional(),
   interview_stage: interviewStageSchema.optional(),
   name: z.string(),
   updated_at: z.string().optional().nullable(),
   user_id: z.string(),
+  version_id: z.string(),
 });
 
 export const interviewUpdateSchema = z.object({
@@ -194,14 +201,30 @@ export const interviewUpdateSchema = z.object({
   candidate_intro_video_url: z.string().optional().nullable(),
   candidate_overview: z.array(z.string()).optional().nullable(),
   created_at: z.string().optional().nullable(),
+  hospital_id: z.string().optional(),
   id: z.string().optional(),
   interview_stage: interviewStageSchema.optional(),
   name: z.string().optional(),
   updated_at: z.string().optional().nullable(),
   user_id: z.string().optional(),
+  version_id: z.string().optional(),
 });
 
 export const interviewRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("interview_hospital_id_fkey"),
+    columns: z.tuple([z.literal("hospital_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("hospital"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+  z.object({
+    foreignKeyName: z.literal("interview_version_id_fkey"),
+    columns: z.tuple([z.literal("version_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("version"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
   z.object({
     foreignKeyName: z.literal("interviews_campaign_id_fkey"),
     columns: z.tuple([z.literal("campaign_id")]),
@@ -219,6 +242,7 @@ export const interviewRelationshipsSchema = z.tuple([
 ]);
 
 export const interviewAnalysisRowSchema = z.object({
+  analysis_status: jsonSchema.nullable(),
   audio_url: z.string().nullable(),
   call_analysis: jsonSchema.nullable(),
   call_id: z.string().nullable(),
@@ -235,6 +259,7 @@ export const interviewAnalysisRowSchema = z.object({
 });
 
 export const interviewAnalysisInsertSchema = z.object({
+  analysis_status: jsonSchema.optional().nullable(),
   audio_url: z.string().optional().nullable(),
   call_analysis: jsonSchema.optional().nullable(),
   call_id: z.string().optional().nullable(),
@@ -251,6 +276,7 @@ export const interviewAnalysisInsertSchema = z.object({
 });
 
 export const interviewAnalysisUpdateSchema = z.object({
+  analysis_status: jsonSchema.optional().nullable(),
   audio_url: z.string().optional().nullable(),
   call_analysis: jsonSchema.optional().nullable(),
   call_id: z.string().optional().nullable(),
@@ -424,6 +450,37 @@ export const roleRelationshipsSchema = z.tuple([
   }),
 ]);
 
+export const templateRowSchema = z.object({
+  created_at: z.string(),
+  hospital_id: z.string(),
+  id: z.string(),
+  name: z.string(),
+});
+
+export const templateInsertSchema = z.object({
+  created_at: z.string().optional(),
+  hospital_id: z.string(),
+  id: z.string().optional(),
+  name: z.string(),
+});
+
+export const templateUpdateSchema = z.object({
+  created_at: z.string().optional(),
+  hospital_id: z.string().optional(),
+  id: z.string().optional(),
+  name: z.string().optional(),
+});
+
+export const templateRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("template_hospital_id_fkey"),
+    columns: z.tuple([z.literal("hospital_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("hospital"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
+
 export const userRowSchema = z.object({
   created_at: z.string(),
   email: z.string(),
@@ -468,7 +525,82 @@ export const userRelationshipsSchema = z.tuple([
   }),
 ]);
 
+export const versionStatusSchema = z.union([
+  z.literal("archived"),
+  z.literal("active"),
+]);
+
+export const versionInsertSchema = z.object({
+  ai_ending_message: z.string().optional().nullable(),
+  ai_instructions: z.array(z.string()).optional(),
+  ai_interview_duration: z.number().optional(),
+  ai_questions: z.string().optional().nullable(),
+  ai_welcome_message: z.string().optional().nullable(),
+  candidate_estimated_time: z.string().optional().nullable(),
+  candidate_instructions: z.array(z.string()).optional(),
+  candidate_intro_video_cover_image_url: z.string().optional().nullable(),
+  candidate_intro_video_url: z.string().optional().nullable(),
+  candidate_overview: z.array(z.string()).optional(),
+  created_at: z.string().optional(),
+  hospital_id: z.string(),
+  id: z.string().optional(),
+  name: z.string(),
+  status: versionStatusSchema.optional(),
+  template_id: z.string(),
+  updated_at: z.string().optional(),
+});
+
+export const versionUpdateSchema = z.object({
+  ai_ending_message: z.string().optional().nullable(),
+  ai_instructions: z.array(z.string()).optional(),
+  ai_interview_duration: z.number().optional(),
+  ai_questions: z.string().optional().nullable(),
+  ai_welcome_message: z.string().optional().nullable(),
+  candidate_estimated_time: z.string().optional().nullable(),
+  candidate_instructions: z.array(z.string()).optional(),
+  candidate_intro_video_cover_image_url: z.string().optional().nullable(),
+  candidate_intro_video_url: z.string().optional().nullable(),
+  candidate_overview: z.array(z.string()).optional(),
+  created_at: z.string().optional(),
+  hospital_id: z.string().optional(),
+  id: z.string().optional(),
+  name: z.string().optional(),
+  status: versionStatusSchema.optional(),
+  template_id: z.string().optional(),
+  updated_at: z.string().optional(),
+});
+
+export const versionRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("version_hospital_id_fkey"),
+    columns: z.tuple([z.literal("hospital_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("hospital"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+  z.object({
+    foreignKeyName: z.literal("version_template_id_fkey"),
+    columns: z.tuple([z.literal("template_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("template"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
+
 export const customAccessTokenHookReturnsSchema = jsonSchema;
+
+export const campaignRowSchema = z.object({
+  campaign_code: z.string(),
+  created_at: z.string().nullable(),
+  description: z.string().nullable(),
+  hospital_id: z.string(),
+  id: z.string(),
+  name: z.string(),
+  status: campaignStatusSchema,
+  template_id: z.string(),
+  updated_at: z.string().nullable(),
+  version_id: z.string(),
+});
 
 export const interviewRowSchema = z.object({
   ai_ending_message: z.string().nullable(),
@@ -483,15 +615,37 @@ export const interviewRowSchema = z.object({
   candidate_intro_video_url: z.string().nullable(),
   candidate_overview: z.array(z.string()).nullable(),
   created_at: z.string().nullable(),
+  hospital_id: z.string(),
   id: z.string(),
   interview_stage: interviewStageSchema,
   name: z.string(),
   updated_at: z.string().nullable(),
   user_id: z.string(),
+  version_id: z.string(),
 });
 
 export const roleRowSchema = z.object({
   id: z.string(),
   role: appRoleSchema,
   user_id: z.string(),
+});
+
+export const versionRowSchema = z.object({
+  ai_ending_message: z.string().nullable(),
+  ai_instructions: z.array(z.string()),
+  ai_interview_duration: z.number(),
+  ai_questions: z.string().nullable(),
+  ai_welcome_message: z.string().nullable(),
+  candidate_estimated_time: z.string().nullable(),
+  candidate_instructions: z.array(z.string()),
+  candidate_intro_video_cover_image_url: z.string().nullable(),
+  candidate_intro_video_url: z.string().nullable(),
+  candidate_overview: z.array(z.string()),
+  created_at: z.string(),
+  hospital_id: z.string(),
+  id: z.string(),
+  name: z.string(),
+  status: versionStatusSchema,
+  template_id: z.string(),
+  updated_at: z.string(),
 });

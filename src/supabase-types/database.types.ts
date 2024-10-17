@@ -67,8 +67,10 @@ export type Database = {
           hospital_id: string
           id: string
           name: string
+          status: Database["public"]["Enums"]["campaign_status"]
           template_id: string
           updated_at: string | null
+          version_id: string
         }
         Insert: {
           campaign_code: string
@@ -77,8 +79,10 @@ export type Database = {
           hospital_id: string
           id?: string
           name: string
+          status?: Database["public"]["Enums"]["campaign_status"]
           template_id: string
           updated_at?: string | null
+          version_id: string
         }
         Update: {
           campaign_code?: string
@@ -87,10 +91,19 @@ export type Database = {
           hospital_id?: string
           id?: string
           name?: string
+          status?: Database["public"]["Enums"]["campaign_status"]
           template_id?: string
           updated_at?: string | null
+          version_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "campaign_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "version"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "campaigns_hospital_id_fkey"
             columns: ["hospital_id"]
@@ -162,11 +175,13 @@ export type Database = {
           candidate_intro_video_url: string | null
           candidate_overview: string[] | null
           created_at: string | null
+          hospital_id: string
           id: string
           interview_stage: Database["public"]["Enums"]["interview_stage"]
           name: string
           updated_at: string | null
           user_id: string
+          version_id: string
         }
         Insert: {
           ai_ending_message?: string | null
@@ -181,11 +196,13 @@ export type Database = {
           candidate_intro_video_url?: string | null
           candidate_overview?: string[] | null
           created_at?: string | null
+          hospital_id: string
           id?: string
           interview_stage?: Database["public"]["Enums"]["interview_stage"]
           name: string
           updated_at?: string | null
           user_id: string
+          version_id: string
         }
         Update: {
           ai_ending_message?: string | null
@@ -200,13 +217,29 @@ export type Database = {
           candidate_intro_video_url?: string | null
           candidate_overview?: string[] | null
           created_at?: string | null
+          hospital_id?: string
           id?: string
           interview_stage?: Database["public"]["Enums"]["interview_stage"]
           name?: string
           updated_at?: string | null
           user_id?: string
+          version_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "interview_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospital"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interview_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "version"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "interviews_campaign_id_fkey"
             columns: ["campaign_id"]
@@ -225,6 +258,7 @@ export type Database = {
       }
       interview_analysis: {
         Row: {
+          analysis_status: Json | null
           audio_url: string | null
           call_analysis: Json | null
           call_id: string | null
@@ -240,6 +274,7 @@ export type Database = {
           video_url: string | null
         }
         Insert: {
+          analysis_status?: Json | null
           audio_url?: string | null
           call_analysis?: Json | null
           call_id?: string | null
@@ -255,6 +290,7 @@ export type Database = {
           video_url?: string | null
         }
         Update: {
+          analysis_status?: Json | null
           audio_url?: string | null
           call_analysis?: Json | null
           call_id?: string | null
@@ -422,6 +458,35 @@ export type Database = {
           },
         ]
       }
+      template: {
+        Row: {
+          created_at: string
+          hospital_id: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          hospital_id: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          hospital_id?: string
+          id?: string
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "template_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospital"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user: {
         Row: {
           created_at: string
@@ -464,6 +529,81 @@ export type Database = {
           },
         ]
       }
+      version: {
+        Row: {
+          ai_ending_message: string | null
+          ai_instructions: string[]
+          ai_interview_duration: number
+          ai_questions: string | null
+          ai_welcome_message: string | null
+          candidate_estimated_time: string | null
+          candidate_instructions: string[]
+          candidate_intro_video_cover_image_url: string | null
+          candidate_intro_video_url: string | null
+          candidate_overview: string[]
+          created_at: string
+          hospital_id: string
+          id: string
+          name: string
+          status: Database["public"]["Enums"]["version_status"]
+          template_id: string
+          updated_at: string
+        }
+        Insert: {
+          ai_ending_message?: string | null
+          ai_instructions?: string[]
+          ai_interview_duration?: number
+          ai_questions?: string | null
+          ai_welcome_message?: string | null
+          candidate_estimated_time?: string | null
+          candidate_instructions?: string[]
+          candidate_intro_video_cover_image_url?: string | null
+          candidate_intro_video_url?: string | null
+          candidate_overview?: string[]
+          created_at?: string
+          hospital_id: string
+          id?: string
+          name: string
+          status?: Database["public"]["Enums"]["version_status"]
+          template_id: string
+          updated_at?: string
+        }
+        Update: {
+          ai_ending_message?: string | null
+          ai_instructions?: string[]
+          ai_interview_duration?: number
+          ai_questions?: string | null
+          ai_welcome_message?: string | null
+          candidate_estimated_time?: string | null
+          candidate_instructions?: string[]
+          candidate_intro_video_cover_image_url?: string | null
+          candidate_intro_video_url?: string | null
+          candidate_overview?: string[]
+          created_at?: string
+          hospital_id?: string
+          id?: string
+          name?: string
+          status?: Database["public"]["Enums"]["version_status"]
+          template_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "version_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospital"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "version_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "template"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -486,11 +626,13 @@ export type Database = {
     }
     Enums: {
       app_role: "applicant" | "user"
+      campaign_status: "archived" | "active"
       interview_stage:
         | "not_started"
         | "resume_submitted"
         | "interview_inprogress"
         | "interview_completed"
+      version_status: "archived" | "active"
     }
     CompositeTypes: {
       [_ in never]: never
