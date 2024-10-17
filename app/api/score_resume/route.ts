@@ -14,9 +14,14 @@ export async function POST(
   request: NextRequestTS<{
     interview_analysis_id: string;
     resume_json: schemaType;
+    test?: boolean;
   }>,
 ) {
-  const { interview_analysis_id, resume_json } = await request.json();
+  const {
+    interview_analysis_id,
+    resume_json,
+    test = false,
+  } = await request.json();
   if (!interview_analysis_id && !resume_json) {
     return NextResponse.json(
       { error: 'Invalid interview analysis id required' },
@@ -25,34 +30,78 @@ export async function POST(
   }
 
   const supabase = createAdminClient();
+  try {
+    const error: any = {};
+    const scoreObject = await Promise.all(
+      PromptArchive.map(async (item) => {
+        try {
+          const data = item.dataMapper(resume_json);
+          if (data.error !== null) {
+            return Promise.resolve({
+              object: null,
+              usage: null,
+              key: item.key,
+              error: data.error,
+            });
+          } else {
+            const resData = await score(item.prompt, data.result, item.schema);
+            return {
+              object: resData.object,
+              usage: resData.usage,
+              key: item.key,
+            } as typeof resData & { key: string };
+          }
+        } catch (e) {
+          return Promise.resolve({
+            object: null,
+            usage: null,
+            key: item.key,
+            error: String(e),
+          });
+        }
+      }),
+    );
+    const usage = { promptTokens: 0, completionTokens: 0, totalTokens: 0 };
 
-  const scoreObject = await Promise.all(
-    PromptArchive.map((item) =>
-      score(item.prompt, item.dataMapper(resume_json), item.schema).then(
-        ({ object, usage }) => ({
-          data: {
-            [item.key]: object,
-          },
-          usage,
-        }),
-      ),
-    ),
-  );
-  const usage = { promptTokens: 0, completionTokens: 0, totalTokens: 0 };
-  const scoreJson = scoreObject.reduce((acc, item) => {
-    usage.promptTokens += item.usage.promptTokens;
-    usage.completionTokens += item.usage.completionTokens;
-    usage.totalTokens += item.usage.totalTokens;
-    return { ...acc, ...item.data };
-  }, {});
-  const data = await saveToDB(supabase, interview_analysis_id, {
-    structured_analysis: scoreJson,
-  });
-  return NextResponse.json({
-    data,
-    usage,
-    success: true,
-  });
+    const scoreJson = scoreObject.reduce((acc, item) => {
+      if (item.usage) {
+        usage.promptTokens += item.usage.promptTokens;
+        usage.completionTokens += item.usage.completionTokens;
+        usage.totalTokens += item.usage.totalTokens;
+        return { ...acc, [item.key]: item.object };
+      } else {
+        error[item.key] = item.error;
+        return acc;
+      }
+    }, {});
+    let data;
+    if (!test) {
+      data = await saveToDB(supabase, interview_analysis_id, {
+        structured_analysis: scoreJson,
+        analysis_status: error,
+      });
+    }
+    return NextResponse.json({
+      data: test ? scoreJson : data,
+      usage,
+    });
+  } catch (e) {
+    if (!test) {
+      await saveToDB(supabase, interview_analysis_id, {
+        analysis_status: {
+          score_resume_api: String(e),
+        },
+      });
+    }
+    return NextResponse.json(
+      {
+        data: null,
+        usage: null,
+        error: e.message,
+      },
+      { status: 500 },
+    );
+  }
 }
 
 const saveToDB = async (
