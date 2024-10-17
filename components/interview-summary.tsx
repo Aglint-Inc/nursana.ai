@@ -72,10 +72,10 @@ export default function InterviewSummary({
             className='w-full'
             size='lg'
             onClick={() => {
-              router.push(`/magic-link`);
+              router.push(`/dashboard`);
             }}
           >
-           View My Dashboard
+            View My Dashboard
           </Button>
         </div>
       </div>
