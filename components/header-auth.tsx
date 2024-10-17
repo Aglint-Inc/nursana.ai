@@ -1,6 +1,7 @@
 'use client';
 
 import { useQueryClient } from '@tanstack/react-query';
+import { ArrowRightIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -48,7 +49,11 @@ export default function HeaderAuth() {
   return (
     <div className='flex items-center gap-4'>
       {hasIncompleteInterview && (
-        <Badge variant='destructive'>Incomplete Interview</Badge>
+        <Link href='/interview'>
+          <Badge variant='destructive'>
+            Complete Interview <ArrowRightIcon className='ml-2 h-4 w-4' />
+          </Badge>
+        </Link>
       )}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
