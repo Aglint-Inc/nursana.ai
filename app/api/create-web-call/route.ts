@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
     // Fetch the interview data from Supabase
     const { data: interviewData, error: interviewError } = await supabase
-      .from("interviews")
+      .from("interview")
       .select("*")
       .eq("id", interviewId)
       .single();

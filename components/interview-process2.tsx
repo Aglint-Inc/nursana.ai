@@ -1,13 +1,17 @@
 'use client';
 
+import { RealtimeClient } from '@openai/realtime-api-beta';
 import { Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { RetellWebClient } from 'retell-client-js-sdk';
+import { type RetellWebClient } from 'retell-client-js-sdk';
 import { type InterviewData } from 'src/types/types';
 
+import { WavRecorder } from '@/audio/wav_recorder';
+import { WavStreamPlayer } from '@/audio/wav_stream_player';
 import { Button } from '@/components/ui/button';
 import { useVideoRecording } from '@/hooks/useVideoRecording';
+import { getInstructions } from '@/utils/audio/instructions';
 import { supabase } from '@/utils/supabase/client';
 
 import AllowCameraPermission from './allow-camera-permission';
@@ -40,6 +44,16 @@ export default function Interview({
     error: videoError,
     videoBlobRef,
   } = useVideoRecording();
+  const wavRecorderRef = useRef<WavRecorder>(
+    new WavRecorder({ sampleRate: 24000 }),
+  );
+  const wavStreamPlayerRef = useRef<WavStreamPlayer>(
+    new WavStreamPlayer({ sampleRate: 24000 }),
+  );
+  const WS_URL = process.env.NEXT_PUBLIC_OPENAI_WS_URL;
+  const client = new RealtimeClient({
+    url: WS_URL,
+  });
 
   const [isInterviewStarted, setIsInterviewStarted] = useState(false);
   // const [showCaptions, setShowCaptions] = useState(true);
@@ -49,11 +63,6 @@ export default function Interview({
   const [conversationHistory, setConversationHistory] = useState<
     ConversationTurn[]
   >([]);
-  const [callData, setCallData] = useState<{
-    accessToken: string;
-    callId: string;
-    analysisId: string;
-  } | null>(null);
 
   const [isInitializingClient, setIsInitializingClient] = useState(false);
   const retellWebClientRef = useRef<RetellWebClient | null>(null);
@@ -71,12 +80,7 @@ export default function Interview({
   }, []);
 
   const processAndUploadInterview = useCallback(async () => {
-    if (!callData?.analysisId) {
-      console.error('Analysis ID is not available');
-      setError('Analysis ID is not available. Please try again.');
-      return;
-    }
-
+    console.log(conversationHistory);
     try {
       setIsProcessing(true);
 
@@ -126,6 +130,7 @@ export default function Interview({
           .from('interview_analysis')
           .update({
             video_url: videoUrl,
+            transcript_json: conversationHistory,
           })
           .eq('interview_id', interviewId),
       ]);
@@ -149,95 +154,56 @@ export default function Interview({
     supabase,
     router,
     interviewId,
-    callData?.analysisId,
     generateFilePath,
     videoBlobRef,
+    conversationHistory,
   ]);
-
-  const setupRetellEventListeners = useCallback(
-    (retellWebClient: RetellWebClient) => {
-      retellWebClient.on('call_started', () => console.log('Call started'));
-      retellWebClient.on('call_ended', () => {
-        console.log('Call ended');
-        setIsInterviewStarted(false);
-      });
-      retellWebClient.on('agent_start_talking', () =>
-        console.log('Agent started talking'),
-      );
-      retellWebClient.on('agent_stop_talking', () =>
-        console.log('Agent stopped talking'),
-      );
-      retellWebClient.on('update', (update) => {
-        console.log('Received update:', JSON.stringify(update, null, 2));
-
-        if (update.transcript && Array.isArray(update.transcript)) {
-          const newHistory: ConversationTurn[] = update.transcript.map(
-            (turn: { role: string; content: string }) => ({
-              role: turn.role === 'agent' ? 'ai' : 'human',
-              content: turn.content,
-            }),
-          );
-
-          setConversationHistory(newHistory);
-          console.log(
-            'Updated conversation history:',
-            JSON.stringify(newHistory, null, 2),
-          );
-        }
-      });
-      retellWebClient.on('error', (error) => {
-        console.error('An error occurred:', error);
-        setError(`An error occurred: ${error}`);
-        retellWebClient.stopCall();
-      });
-    },
-    [],
-  );
 
   const handleStartInterview = useCallback(async () => {
     setError(null);
     setIsInitializingClient(true);
+    const wavRecorder = wavRecorderRef.current;
+    const wavStreamPlayer = wavStreamPlayerRef.current;
 
     try {
-      const response = await fetch('/api/create-web-call', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          interviewId: interviewId,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create web call');
-      }
-
-      const data = await response.json();
-      setCallData(data);
-
-      const retellWebClient = new RetellWebClient();
-      retellWebClientRef.current = retellWebClient;
-      setupRetellEventListeners(retellWebClient);
-
-      await retellWebClient.startCall({
-        accessToken: data.accessToken,
-        sampleRate: 24000,
-      });
-
       await startRecording();
       setIsInterviewStarted(true);
       setConversationHistory([]);
+
+      // Connect to microphone
+      await wavRecorder.begin('');
+
+      // Connect to audio output
+      await wavStreamPlayer.connect();
+
+      // Connect to realtime API
+      await client.connect();
+      // get first response
+      client.createResponse();
+
+      // set turn detection to server_vad
+
+      if (client.getTurnDetectionType() === 'server_vad') {
+        //@ts-ignore
+        await wavRecorder.record((data) => client.appendInputAudio(data.mono));
+      }
     } catch (err) {
       console.error('Error starting interview:', err);
       setError(`Failed to start interview: ${(err as Error).message}`);
     } finally {
       setIsInitializingClient(false);
     }
-  }, [interviewId, startRecording, setupRetellEventListeners]);
+  }, [interviewId, startRecording]);
 
   const handleStopInterview = useCallback(async () => {
+    client.disconnect();
+
+    const wavRecorder = wavRecorderRef.current;
+    await wavRecorder.end();
+
+    const wavStreamPlayer = wavStreamPlayerRef.current;
+    await wavStreamPlayer.interrupt();
+
     if (retellWebClientRef.current) {
       retellWebClientRef.current.stopCall();
     }
@@ -250,10 +216,87 @@ export default function Interview({
   //   setShowCaptions((prev) => !prev);
   // }, []);
 
+  /**
+   * Core RealtimeClient and audio capture setup
+   * Set all of our instructions, tools, events and more
+   */
+  useEffect(() => {
+    // Get refs
+    const wavStreamPlayer = wavStreamPlayerRef.current;
+
+    client.updateSession({
+      // Set instructions
+      instructions: getInstructions({
+        aiWelcomeMessage: interviewData.ai_welcome_message ?? '',
+        aiEndingMessage: interviewData.ai_ending_message ?? '',
+        aiQuestions: [interviewData.ai_questions || ''],
+        aiInstructions: interviewData.ai_instructions ?? [],
+      }),
+      // Set transcription, otherwise we don't get user transcriptions back
+      input_audio_transcription: { model: 'whisper-1' },
+      voice: 'alloy',
+      turn_detection: {
+        type: 'server_vad',
+        threshold: 0.5,
+        prefix_padding_ms: 300,
+        silence_duration_ms: 1000,
+      },
+    });
+
+    client.on('error', () => {
+      setError('Failed to start conversation');
+    });
+    client.on('conversation.interrupted', async () => {
+      const trackSampleOffset = await wavStreamPlayer.interrupt();
+      if (trackSampleOffset?.trackId) {
+        const { trackId, offset } = trackSampleOffset;
+        await client.cancelResponse(trackId, offset);
+      }
+    });
+
+    client.on('conversation.updated', async (data: any) => {
+      const { item, delta } = data;
+      const items = client.conversation.getItems();
+      const conversationItems = items.map((item) => {
+        return {
+          content:
+            item.formatted.transcript?.trim() || item.formatted.text?.trim(),
+          role: item.role === 'assistant' ? 'ai' : 'human',
+        } as ConversationTurn;
+      });
+      if (delta?.audio) {
+        wavStreamPlayer.add16BitPCM(delta.audio, item.id);
+      }
+      if (item.status === 'completed' && item.formatted.audio?.length) {
+        const wavFile = await WavRecorder.decode(
+          item.formatted.audio,
+          24000,
+          24000,
+        );
+        item.formatted.file = wavFile;
+      }
+      setConversationHistory(conversationItems);
+    });
+
+    // client.on('conversation.item.appended', ({ item }: any) => {
+    //   const conversationItem = {
+    //     content: item.formatted.transcript?.trim(),
+    //     text: item.formatted.text?.trim(),
+    //     role: item.role === 'assistant' ? 'ai' : 'human',
+    //   } as ConversationTurn;
+    //   setConversationHistory((prev) => [...prev, conversationItem]);
+    // });
+
+    return () => {
+      // cleanup; resets to defaults
+      client.reset();
+    };
+  }, []);
+
   if (videoError || error) {
     return <AllowCameraPermission />;
   }
-
+  console.log(conversationHistory);
   return (
     <div>
       <div className='flex h-[calc(100vh-72px)] flex-col items-center'>
@@ -261,7 +304,7 @@ export default function Interview({
           <>
             <div className='mt-6 flex flex-col items-center'>
               <NursanaLogo />
-              <h1 className='mb-2 mt-6 text-center text-3xl font-medium'>
+              <h1 className='mb-2 text-center text-3xl font-medium'>
                 Let&apos;s Start Your AI Interview
               </h1>
               <p className='mb-6 max-w-xl text-center text-muted-foreground'>
@@ -272,7 +315,7 @@ export default function Interview({
             </div>
           </>
         ) : (
-          <div className='mb-4 mt-6'>
+          <div className='mt-6'>
             <NursanaLogo />
           </div>
         )}
@@ -304,7 +347,6 @@ export default function Interview({
             {isInitializingClient ? 'Initializing...' : 'Start Interview'}
           </Button>
         )}
-
         <InterviewConversations
           conversationHistory={conversationHistory}
           isInterviewStarted={isInterviewStarted}

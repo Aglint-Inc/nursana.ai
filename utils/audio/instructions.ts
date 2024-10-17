@@ -14,8 +14,33 @@
 // - Be professional and attentive
 // - Maintain a calm and focused demeanor
 // `;
+export const getInstructions = ({
+  aiWelcomeMessage,
+  aiEndingMessage,
+  aiQuestions,
+  aiInstructions,
+}: {
+  aiWelcomeMessage: string;
+  aiEndingMessage: string;
+  aiQuestions: string[];
+  aiInstructions: string[];
+}) => {
+  return `
+        Instructions:
+        ${aiInstructions.join('\n')}
+        
+        Welcome message:
+        ${aiWelcomeMessage}
 
-export const instructions = `System settings:
-Tool use: enabled.
+        Questions:
+        ${aiQuestions.join('\n')}
 
-Instructions:Assist to user`;
+        Ending message:
+        ${aiEndingMessage}
+
+        Personality:
+        Be professional and attentive
+        Maintain a calm and focused demeanor
+        Remember: the goal is to evaluate the candidate's technical skills and cultural fit
+        `;
+};
