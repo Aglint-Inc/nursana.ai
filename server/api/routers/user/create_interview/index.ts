@@ -44,7 +44,6 @@ const mutation = async ({
       .insert({
         interview_stage: 'resume_submitted',
         name: campaign.name,
-        campaign_code,
         user_id: userId,
         ai_ending_message: campaign.interview_template.ai_ending_message,
         ai_instructions: campaign.interview_template.ai_instructions,

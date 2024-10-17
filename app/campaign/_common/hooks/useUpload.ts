@@ -70,7 +70,7 @@ export const useUploadCampaign = () => {
         const fileName = `resumes/${userId}_${Date.now()}.${fileExt}`;
 
         const { error: uploadError } = await supabase.storage
-          .from('resume')
+          .from('resumes')
           .upload(fileName, form.file, {
             cacheControl: '3600',
             upsert: false,
