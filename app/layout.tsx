@@ -11,8 +11,35 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Narsara AI',
+  title: 'Nursana',
   description: 'Connecting Nurses with the right opportunities',
+  icons: {
+    icon: '/favicon.svg',
+  },
+  openGraph: {
+    title: 'Nursana – Connecting Nurses with the Right Opportunities',
+    description:
+      'Discover top nursing jobs with AI-powered interviews and resume analysis.',
+    url: defaultUrl,
+    siteName: 'Nursana',
+    images: [
+      {
+        url: `${defaultUrl}/og-image.png`, 
+        width: 1200,
+        height: 630,
+        alt: 'Nursana homepage preview',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Nursana – Connecting Nurses with the Right Opportunities',
+    description:
+      'Discover top nursing jobs with AI-powered interviews and resume analysis.',
+    images: [`${defaultUrl}/og-image.png`],
+  },
 };
 
 export default function RootLayout({
@@ -21,14 +48,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' className={GeistSans.className} suppressHydrationWarning>
-      <body className='bg-background text-foreground'>
+    <html lang="en" className={GeistSans.className} suppressHydrationWarning>
+      <body className="bg-background text-foreground">
         <ThemeProvider
-          attribute='class'
-          defaultTheme='light'
+          attribute="class"
+          defaultTheme="light"
           disableTransitionOnChange
         >
-          <main className='flex min-h-screen flex-col items-center'>
+          <main className="flex min-h-screen flex-col items-center">
             <Providers>{children}</Providers>
           </main>
         </ThemeProvider>
