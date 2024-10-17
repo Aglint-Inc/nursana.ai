@@ -1,23 +1,24 @@
 'use client';
 
-import { Loader, Sparkle, StopCircle, User } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RetellWebClient } from 'retell-client-js-sdk';
+import { type InterviewData } from 'src/types/types';
 
-import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { useVideoRecording } from '@/hooks/useVideoRecording';
 import { supabase } from '@/utils/supabase/client';
 
 import AllowCameraPermission from './allow-camera-permission';
 import Footer from './footer';
+import InterviewConversations from './interview-conversations';
+import InterviewRecording from './interview-recording';
 import NursanaLogo from './nursana-logo';
 
 interface InterviewProps {
   interviewId: string;
-  interviewDuration: number;
+  interviewData: InterviewData;
 }
 
 interface ConversationTurn {
@@ -27,7 +28,7 @@ interface ConversationTurn {
 
 export default function Interview({
   interviewId,
-  interviewDuration,
+  interviewData,
 }: InterviewProps) {
   const {
     isRecording,
@@ -41,7 +42,6 @@ export default function Interview({
   } = useVideoRecording();
 
   const [isInterviewStarted, setIsInterviewStarted] = useState(false);
-  const [timer, setTimer] = useState(0);
   // const [showCaptions, setShowCaptions] = useState(true);
   const [showCaptions] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -193,14 +193,7 @@ export default function Interview({
     },
     [],
   );
-  const stopCamera = useCallback(() => {
-    if (videoRef.current && videoRef.current.srcObject) {
-      const stream = videoRef.current.srcObject as MediaStream;
-      const tracks = stream.getTracks();
-      tracks.forEach((track) => track.stop());
-      videoRef.current.srcObject = null;
-    }
-  }, [videoRef]);
+
   const handleStartInterview = useCallback(async () => {
     setError(null);
     setIsInitializingClient(true);
@@ -235,7 +228,6 @@ export default function Interview({
 
       await startRecording();
       setIsInterviewStarted(true);
-      setTimer(0);
       setConversationHistory([]);
     } catch (err) {
       console.error('Error starting interview:', err);
@@ -250,44 +242,13 @@ export default function Interview({
       retellWebClientRef.current.stopCall();
     }
     stopRecording();
-    stopCamera();
     setIsInterviewStarted(false);
     await processAndUploadInterview();
-  }, [stopRecording, processAndUploadInterview, stopCamera]);
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isInterviewStarted) {
-      interval = setInterval(() => {
-        setTimer((prevTimer) => {
-          const newTimer = prevTimer + 1;
-          if (newTimer >= interviewDuration) {
-            handleStopInterview();
-          }
-          return newTimer;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [isInterviewStarted, interviewDuration, handleStopInterview]);
+  }, [stopRecording, processAndUploadInterview]);
 
   // const toggleCaptions = useCallback(() => {
   //   setShowCaptions((prev) => !prev);
   // }, []);
-
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60)
-      .toString()
-      .padStart(2, '0');
-    const seconds = (time % 60).toString().padStart(2, '0');
-    return `${minutes}:${seconds}`;
-  };
-
-  useEffect(() => {
-    return () => {
-      stopCamera();
-    };
-  }, [stopCamera]);
 
   if (videoError || error) {
     return <AllowCameraPermission />;
@@ -300,7 +261,7 @@ export default function Interview({
           <>
             <div className='mt-6 flex flex-col items-center'>
               <NursanaLogo />
-              <h1 className='mb-2 text-center text-3xl font-medium mt-6'>
+              <h1 className='mb-2 mt-6 text-center text-3xl font-medium'>
                 Let&apos;s Start Your AI Interview
               </h1>
               <p className='mb-6 max-w-xl text-center text-muted-foreground'>
@@ -311,54 +272,17 @@ export default function Interview({
             </div>
           </>
         ) : (
-          <div className='mt-6 mb-4'>
+          <div className='mb-4 mt-6'>
             <NursanaLogo />
           </div>
         )}
         {!isProcessing && (
-          <Card className='mx-auto mb-4 w-[700px] overflow-hidden'>
-            <CardContent className='relative min-w-full p-0'>
-              <AspectRatio ratio={16 / 9}>
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  playsInline
-                  muted
-                  className='h-full w-full object-cover'
-                />
-                {isInterviewStarted && (
-                  <>
-                    <div className='absolute bottom-0 left-0 flex w-full justify-center gap-2 bg-gradient-to-t from-[#00000050] to-transparent py-4'>
-                      <div className='flex h-[36px] items-center justify-center rounded-md bg-white px-4 text-sm text-red-600 dark:bg-black dark:text-white'>
-                        <StopCircle
-                          className='mr-2 h-4 w-4'
-                          strokeWidth={1.2}
-                        />
-                        <span>Recording</span>
-                        <span className='ml-2 w-[36px]'>
-                          {formatTime(timer)}
-                        </span>
-                      </div>
-                      <Button
-                        variant='destructive'
-                        onClick={handleStopInterview}
-                        aria-label='Stop interview'
-                      >
-                        Stop Interview
-                      </Button>
-                      {/* <Button
-                      variant='default'
-                      onClick={toggleCaptions}
-                      aria-label='Toggle captions'
-                    >
-                      <Mic className='h-4 w-4' />
-                    </Button> */}
-                    </div>
-                  </>
-                )}
-              </AspectRatio>
-            </CardContent>
-          </Card>
+          <InterviewRecording
+            handleStopInterview={handleStopInterview}
+            isInterviewStarted={isInterviewStarted}
+            interviewDuration={interviewData.ai_interview_duration}
+            videoRef={videoRef}
+          />
         )}
 
         {isProcessing ? (
@@ -381,48 +305,12 @@ export default function Interview({
           </Button>
         )}
 
-        {showCaptions && isInterviewStarted && !isProcessing && (
-          <div className='text-md relative mt-4 flex h-[26vh] w-[700px] flex-col justify-end gap-4 overflow-hidden rounded-lg bg-gray-50 p-6'>
-            {conversationHistory.map((turn, index) => (
-              <div
-                key={index}
-                className={`pb-2 ${
-                  turn.role === 'ai' ? 'text-black' : 'text-black'
-                }`}
-              >
-                <p className='font-semibold'>
-                  {turn.role === 'ai' ? (
-                    <>
-                      <div className='mb-1 grid grid-cols-[max-content_1fr] items-center gap-2'>
-                        <div className='flex h-6 w-6 items-center justify-center rounded-sm bg-gray-200 text-muted-foreground'>
-                          <Sparkle className='' size={16} strokeWidth={1.2} />
-                        </div>
-                        <div className='text-sm font-normal'>
-                          AI Interviewer
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className='mb-1 flex items-center gap-2'>
-                        <div className='flex h-6 w-6 items-center justify-center rounded-sm bg-gray-200 font-medium text-muted-foreground'>
-                          <User
-                            className='text-muted-foreground'
-                            size={16}
-                            strokeWidth={1.2}
-                          />
-                        </div>
-                        <div className='text-sm font-normal'>You</div>
-                      </div>
-                    </>
-                  )}
-                </p>
-                <p>{turn.content}</p>
-              </div>
-            ))}
-            <div className='absolute left-0 top-0 z-10 h-[80%] w-full bg-gradient-to-b from-gray-50 to-transparent'></div>
-          </div>
-        )}
+        <InterviewConversations
+          conversationHistory={conversationHistory}
+          isInterviewStarted={isInterviewStarted}
+          isProcessing={isProcessing}
+          showCaptions={showCaptions}
+        />
       </div>
       <Footer />
     </div>

@@ -58,12 +58,13 @@ const PUBLIC_ROUTES = [
   // Starts with
   'score_resume',
   '^/auth/',
-  'campaign',
+  '/campaign',
   '/api/trpc',
   '/tenant/sign-up',
   '/api/backup-interview-data',
   '/auth/confirm',
   '/auth/interview',
+  '/openAiRealTime',
 ];
 
 const PUBLIC_ROUTES_REGEX = new RegExp(PUBLIC_ROUTES.join('|'));

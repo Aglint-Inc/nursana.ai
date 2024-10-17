@@ -57,19 +57,18 @@ export default function NurseDashboard() {
   if (!userData) return null; // Render Error if no data
 
   return (
-      <Section>
-      
-      <div className='grid w-full grid-cols-[1fr_max-content] gap-4 mb-20'>
+    <Section>
+      <div className='mb-20 grid w-full grid-cols-[1fr_max-content] gap-4'>
         <div className='flex flex-col'>
           <NurseHomePage />
         </div>
-        <div className='flex w-[350px] flex-col '>
+        <div className='flex w-[350px] flex-col'>
           <div className='gap-4 space-y-4'>
-            <div className='h-[48px] flex flex-row justify-center gap-1 items-center bg-gradient-to-b from-purple-100 to-purple-200 text-purple-800 rounded-md'>
+            <div className='flex h-[48px] flex-row items-center justify-center gap-1 rounded-md bg-gradient-to-b from-purple-100 to-purple-200 text-purple-800'>
               <div> Hello {userData?.user?.first_name || 'Nurse'},</div>
               <div>Welcome to Nursana 💜</div>
             </div>
-            <DashboardCTA/>
+            <DashboardCTA />
             {userData?.analysis?.audio_url && userData?.analysis?.video_url && (
               <Card className='overflow-hidden border-none bg-secondary shadow-none'>
                 <CardContent className='p-0'>
@@ -83,14 +82,18 @@ export default function NurseDashboard() {
               </Card>
             )}
             {userData?.resume?.error_status ? (
-              <div className='bg-red-50 grid grid-cols-[max-content_1fr] p-4 gap-3 rounded-md'>
-                  <AlertCircle className='h-4 w-4 text-red-600 mt-1' />
-                  <div className='flex flex-col gap-1'>
-                    <div className='text-red-600 text-medium '>Resume Upload Issue</div>
-                    <div className='text-muted-foreground'>{getErrorMessage(userData.resume.error_status)}</div>
+              <div className='grid grid-cols-[max-content_1fr] gap-3 rounded-md bg-red-50 p-4'>
+                <AlertCircle className='mt-1 h-4 w-4 text-red-600' />
+                <div className='flex flex-col gap-1'>
+                  <div className='text-medium text-red-600'>
+                    Resume Upload Issue
                   </div>
+                  <div className='text-muted-foreground'>
+                    {getErrorMessage(userData.resume.error_status)}
+                  </div>
+                </div>
               </div>
-            ) : (
+            ) : userData?.resume?.file_url ? (
               <Card className='group my-4 border-none bg-secondary'>
                 <CardContent className='p-4'>
                   <div className='flex items-center justify-between'>
@@ -99,6 +102,7 @@ export default function NurseDashboard() {
                         className='mr-2 h-10 w-10 text-muted-foreground'
                         strokeWidth={1}
                       />
+                      <div className='flex items-center'>{'Resume'}</div>
                     </div>
                     {userData?.resume?.file_url && (
                       <div className='group relative'>
@@ -120,7 +124,7 @@ export default function NurseDashboard() {
                   </div>
                 </CardContent>
               </Card>
-            )}
+            ) : null}
             {isEditing ? (
               <PreferencesEdit onSave={handleSave} onCancel={handleCancel} />
             ) : (
@@ -132,6 +136,6 @@ export default function NurseDashboard() {
           </div>
         </div>
       </div>
-      </Section>
+    </Section>
   );
 }

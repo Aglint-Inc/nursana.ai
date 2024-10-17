@@ -9,7 +9,8 @@
     "script/*",
     "lib/*",
     "definitions/*",
-    "constant/*"
+    "constant/*",
+    "lib/audio"
   ],
   "extends": [
     "eslint:recommended",

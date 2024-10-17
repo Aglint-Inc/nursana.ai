@@ -10,11 +10,11 @@
     "lint:fix": "next lint --fix",
     "tslint": "npm run lint && npx tsc --noEmit ",
     "supabase-type": "npx supabase gen types typescript --linked > src/supabase-types/database.types.ts && npm run fix_types && npm run generate-zod-schemas",
-    "update-types": "supabase gen types typescript --linked > supabase-types/database.types.ts",
     "generate-zod-schemas": "supabase-to-zod --input src/supabase-types/database.types.ts --output src/supabase-types/zod-schema.types.ts",
     "fix_types": "npx tsc src/script/removeJsonType.ts --skipLibCheck && node src/script/removeJsonType.js"
   },
   "dependencies": {
+    "@openai/realtime-api-beta": "github:openai/openai-realtime-api-beta",
     "@ai-sdk/openai": "^0.0.67",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
     "@radix-ui/react-avatar": "^1.1.1",
@@ -28,7 +28,7 @@
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slider": "^1.2.1",
-    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.1",
     "@radix-ui/react-toast": "^1.2.2",
