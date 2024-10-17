@@ -12,7 +12,8 @@ const defaultUrl = process.env.VERCEL_URL
 export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: 'Nursana',
-  description: 'Connecting Nurses with the right opportunities',
+  description:
+    'Empowering nurses to connect with top healthcare opportunities. Upload your resume, take AI-driven interviews, and let Nursana.ai match you with the perfect job.',
   icons: {
     icon: '/favicon.svg',
   },
@@ -48,14 +49,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' className={GeistSans.className} suppressHydrationWarning>
-      <body className='bg-background text-foreground'>
+    <html lang="en" className={GeistSans.className} suppressHydrationWarning>
+      <head>
+        <meta property="og:title" content="Nursana – Connecting Nurses with the Right Opportunities" />
+        <meta property="og:description" content="Discover top nursing jobs with AI-powered interviews and resume analysis." />
+        <meta property="og:image" content={`${defaultUrl}/og-image.png?v=1`} />
+        <meta property="og:url" content={defaultUrl} />
+        <meta property="og:site_name" content="Nursana" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Nursana – Connecting Nurses with the Right Opportunities" />
+        <meta name="twitter:description" content="Discover top nursing jobs with AI-powered interviews and resume analysis." />
+        <meta name="twitter:image" content={`${defaultUrl}/og-image.png`} />
+      </head>
+      <body className="bg-background text-foreground">
         <ThemeProvider
-          attribute='class'
-          defaultTheme='light'
+          attribute="class"
+          defaultTheme="light"
           disableTransitionOnChange
         >
-          <main className='flex min-h-screen flex-col items-center'>
+          <main className="flex min-h-screen flex-col items-center">
             <Providers>{children}</Providers>
           </main>
         </ThemeProvider>
