@@ -13,7 +13,8 @@
     "update-types": "supabase gen types typescript --linked > supabase-types/database.types.ts",
     "generate-zod-schemas": "supabase-to-zod --input src/supabase-types/database.types.ts --output src/supabase-types/zod-schema.types.ts",
     "fix_types": "npx tsc src/script/removeJsonType.ts --skipLibCheck && node src/script/removeJsonType.js",
-    "seed:local": "npx supabase db dump -f supabase/seed.sql --local --data-only",
+    "seed:local": "supabase db dump -f supabase/seed.sql --local --data-only --exclude auth.audit_log_entries,auth.flow_state,auth.sessions,auth.mfa_amr_claims,auth.one_time_tokens,auth.refresh_tokens",
+    "seed:remote": "supabase db dump -f supabase/seed.sql --data-only --exclude auth.audit_log_entries,auth.flow_state,auth.sessions,auth.mfa_amr_claims,auth.one_time_tokens,auth.refresh_tokens",
     "types:local": "npx supabase gen types --lang=typescript --local  --schema public> src/supabase-types/database.types.ts && npm run fix_types && npm run generate-zod-schemas"
   },
   "dependencies": {

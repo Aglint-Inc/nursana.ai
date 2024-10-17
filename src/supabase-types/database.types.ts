@@ -1,31 +1,6 @@
 export type Json = any;
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string
-          query?: string
-          variables?: Json
-          extensions?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       applicant: {
@@ -74,7 +49,15 @@ export type Database = {
           terms_accepted?: boolean | null
           travel_preference?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "users_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       campaign: {
         Row: {
@@ -242,7 +225,6 @@ export type Database = {
       }
       interview_analysis: {
         Row: {
-          analysis_status: Json | null
           audio_url: string | null
           call_analysis: Json | null
           call_id: string | null
@@ -258,7 +240,6 @@ export type Database = {
           video_url: string | null
         }
         Insert: {
-          analysis_status?: Json | null
           audio_url?: string | null
           call_analysis?: Json | null
           call_id?: string | null
@@ -274,7 +255,6 @@ export type Database = {
           video_url?: string | null
         }
         Update: {
-          analysis_status?: Json | null
           audio_url?: string | null
           call_analysis?: Json | null
           call_id?: string | null
@@ -432,7 +412,15 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user: {
         Row: {
@@ -465,6 +453,13 @@ export type Database = {
             columns: ["hospital_id"]
             isOneToOne: false
             referencedRelation: "hospital"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tenant_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -585,17 +580,3 @@ export type Enums<
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
 
-export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema["CompositeTypes"]
-    | { schema: keyof Database },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
-> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never

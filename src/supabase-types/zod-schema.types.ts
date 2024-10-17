@@ -51,7 +51,15 @@ export const applicantUpdateSchema = z.object({
   travel_preference: z.string().optional().nullable(),
 });
 
-export const applicantRelationshipsSchema = z.tuple([]);
+export const applicantRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("users_id_fkey"),
+    columns: z.tuple([z.literal("id")]),
+    isOneToOne: z.literal(true),
+    referencedRelation: z.literal("users"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
 
 export const campaignRowSchema = z.object({
   campaign_code: z.string(),
@@ -211,7 +219,6 @@ export const interviewRelationshipsSchema = z.tuple([
 ]);
 
 export const interviewAnalysisRowSchema = z.object({
-  analysis_status: jsonSchema.nullable(),
   audio_url: z.string().nullable(),
   call_analysis: jsonSchema.nullable(),
   call_id: z.string().nullable(),
@@ -228,7 +235,6 @@ export const interviewAnalysisRowSchema = z.object({
 });
 
 export const interviewAnalysisInsertSchema = z.object({
-  analysis_status: jsonSchema.optional().nullable(),
   audio_url: z.string().optional().nullable(),
   call_analysis: jsonSchema.optional().nullable(),
   call_id: z.string().optional().nullable(),
@@ -245,7 +251,6 @@ export const interviewAnalysisInsertSchema = z.object({
 });
 
 export const interviewAnalysisUpdateSchema = z.object({
-  analysis_status: jsonSchema.optional().nullable(),
   audio_url: z.string().optional().nullable(),
   call_analysis: jsonSchema.optional().nullable(),
   call_id: z.string().optional().nullable(),
@@ -409,7 +414,15 @@ export const roleUpdateSchema = z.object({
   user_id: z.string().optional(),
 });
 
-export const roleRelationshipsSchema = z.tuple([]);
+export const roleRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("user_roles_user_id_fkey"),
+    columns: z.tuple([z.literal("user_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("users"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
 
 export const userRowSchema = z.object({
   created_at: z.string(),
@@ -444,6 +457,13 @@ export const userRelationshipsSchema = z.tuple([
     columns: z.tuple([z.literal("hospital_id")]),
     isOneToOne: z.literal(false),
     referencedRelation: z.literal("hospital"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+  z.object({
+    foreignKeyName: z.literal("tenant_user_id_fkey"),
+    columns: z.tuple([z.literal("user_id")]),
+    isOneToOne: z.literal(true),
+    referencedRelation: z.literal("users"),
     referencedColumns: z.tuple([z.literal("id")]),
   }),
 ]);
