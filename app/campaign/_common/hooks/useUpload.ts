@@ -117,6 +117,7 @@ export const useUploadCampaign = () => {
           file: null,
           role: 'nurse',
         });
+        
       } catch (error) {
         console.log(error);
         toast({
