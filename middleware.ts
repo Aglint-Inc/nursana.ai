@@ -19,6 +19,7 @@ const PUBLIC_ROUTES = [
   '/tenant/sign-up',
   '/api/backup-interview-data',
   '/auth/confirm',
+  '/auth/interview',
 ];
 
 const PUBLIC_ROUTES_REGEX = new RegExp(PUBLIC_ROUTES.join('|'));

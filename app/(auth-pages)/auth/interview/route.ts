@@ -10,6 +10,8 @@ export async function GET(request: Request) {
   // https://supabase.com/docs/guides/auth/server-side/nextjs
   const { origin, searchParams } = new URL(request.url);
   const code = searchParams.get('code');
+  const interview_id = searchParams.get('interview_id');
+  console.log(code, interview_id);
 
   if (code) {
     const supabase = createClient();
@@ -20,7 +22,16 @@ export async function GET(request: Request) {
         `${origin}/auth/sign-in?error=${error.message}`,
       );
     }
-    return NextResponse.redirect(`${origin}/dashboard`);
+
+    if (interview_id) {
+      return NextResponse.redirect(
+        `${origin}/interview/${interview_id}/start-interview`,
+      );
+    } else {
+      return NextResponse.redirect(
+        `${origin}/auth/sign-in?error=no_interview_id`,
+      );
+    }
   }
   return NextResponse.redirect(`${origin}/auth/sign-in?error=invalid_code`);
 }
