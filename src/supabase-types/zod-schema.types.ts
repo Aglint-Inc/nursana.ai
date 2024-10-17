@@ -103,32 +103,6 @@ export const campaignRelationshipsSchema = z.tuple([
   }),
 ]);
 
-export const eventLogsRowSchema = z.object({
-  action: z.string().nullable(),
-  created_at: z.string().nullable(),
-  entity_id: z.string().nullable(),
-  entity_type: z.string().nullable(),
-  event_id: z.string(),
-});
-
-export const eventLogsInsertSchema = z.object({
-  action: z.string().optional().nullable(),
-  created_at: z.string().optional().nullable(),
-  entity_id: z.string().optional().nullable(),
-  entity_type: z.string().optional().nullable(),
-  event_id: z.string().optional(),
-});
-
-export const eventLogsUpdateSchema = z.object({
-  action: z.string().optional().nullable(),
-  created_at: z.string().optional().nullable(),
-  entity_id: z.string().optional().nullable(),
-  entity_type: z.string().optional().nullable(),
-  event_id: z.string().optional(),
-});
-
-export const eventLogsRelationshipsSchema = z.tuple([]);
-
 export const hospitalRowSchema = z.object({
   address: z.string().nullable(),
   contact_email: z.string().nullable(),
@@ -237,6 +211,7 @@ export const interviewRelationshipsSchema = z.tuple([
 ]);
 
 export const interviewAnalysisRowSchema = z.object({
+  analysis_status: jsonSchema.nullable(),
   audio_url: z.string().nullable(),
   call_analysis: jsonSchema.nullable(),
   call_id: z.string().nullable(),
@@ -253,6 +228,7 @@ export const interviewAnalysisRowSchema = z.object({
 });
 
 export const interviewAnalysisInsertSchema = z.object({
+  analysis_status: jsonSchema.optional().nullable(),
   audio_url: z.string().optional().nullable(),
   call_analysis: jsonSchema.optional().nullable(),
   call_id: z.string().optional().nullable(),
@@ -269,6 +245,7 @@ export const interviewAnalysisInsertSchema = z.object({
 });
 
 export const interviewAnalysisUpdateSchema = z.object({
+  analysis_status: jsonSchema.optional().nullable(),
   audio_url: z.string().optional().nullable(),
   call_analysis: jsonSchema.optional().nullable(),
   call_id: z.string().optional().nullable(),

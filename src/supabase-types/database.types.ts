@@ -124,30 +124,6 @@ export type Database = {
           },
         ]
       }
-      event_logs: {
-        Row: {
-          action: string | null
-          created_at: string | null
-          entity_id: string | null
-          entity_type: string | null
-          event_id: string
-        }
-        Insert: {
-          action?: string | null
-          created_at?: string | null
-          entity_id?: string | null
-          entity_type?: string | null
-          event_id?: string
-        }
-        Update: {
-          action?: string | null
-          created_at?: string | null
-          entity_id?: string | null
-          entity_type?: string | null
-          event_id?: string
-        }
-        Relationships: []
-      }
       hospital: {
         Row: {
           address: string | null
@@ -266,6 +242,7 @@ export type Database = {
       }
       interview_analysis: {
         Row: {
+          analysis_status: Json | null
           audio_url: string | null
           call_analysis: Json | null
           call_id: string | null
@@ -281,6 +258,7 @@ export type Database = {
           video_url: string | null
         }
         Insert: {
+          analysis_status?: Json | null
           audio_url?: string | null
           call_analysis?: Json | null
           call_id?: string | null
@@ -296,6 +274,7 @@ export type Database = {
           video_url?: string | null
         }
         Update: {
+          analysis_status?: Json | null
           audio_url?: string | null
           call_analysis?: Json | null
           call_id?: string | null
