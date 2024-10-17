@@ -69,7 +69,11 @@ const mutation = async ({
 
   const updatedResume = resumeResult.data;
   if (!updatedResume) throw new Error('Error uploading resume');
-  getResumeJson(updatedResume.id, resume_url);
+  try {
+    getResumeJson(updatedResume.id, resume_url);
+  } catch {
+    //
+  }
 
   const interview = interviewResult.data;
   if (!interview) throw new Error('Error creating interview');

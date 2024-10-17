@@ -43,7 +43,9 @@ export default function Signup() {
     last_name: '',
   });
 
-  const { mutateAsync: createUser } = api.tenant.signup.useMutation();
+  const { mutateAsync: createUser, isPending } =
+    api.tenant.signup.useMutation();
+
   const handleSubmitUser = async () => {
     if (!user.email || !user.password || !user.first_name) return;
 
@@ -70,16 +72,10 @@ export default function Signup() {
     }
   };
 
-  const { mutateAsync: createHospital } =
-    api.tenant.create_hospital.useMutation();
+  const { mutateAsync: updateHospital, isPending: isPendingHospital } =
+    api.tenant.update_hospital.useMutation();
   const handleHospitalSubmit = async () => {
-    if (
-      !hospital.name ||
-      !hospital.address ||
-      !hospital.contact_person ||
-      !hospital.contact_email ||
-      !hospital.contact_number
-    )
+    if (!hospital.name || !hospital.contact_person || !hospital.contact_email)
       return;
     const { data } = await supabase.auth.getSession();
 
@@ -87,19 +83,20 @@ export default function Signup() {
       router.push('/tenant/sign-up');
       return toast({ title: 'User not found', variant: 'destructive' });
     }
-    const res = await createHospital({
+    const res = await updateHospital({
       hospital_name: hospital.name,
       address: hospital.address,
       contact_email: hospital.contact_email,
       contact_person: hospital.contact_person,
       contact_number: hospital.contact_number,
       created_by: data.session?.user?.id,
+      user_id: data?.session?.user?.id,
     });
     if (res.success) {
       await supabase.auth.refreshSession();
       router.push('/dashboard');
     } else {
-      toast({ title: 'Error ', variant: 'destructive' });
+      toast({ title: 'Error updating details', variant: 'destructive' });
     }
   };
 
@@ -172,6 +169,7 @@ export default function Signup() {
             value={hospital.address}
           />
           <UIButton
+            isLoading={isPendingHospital}
             onClick={() => {
               handleHospitalSubmit();
             }}
@@ -234,6 +232,7 @@ export default function Signup() {
               value={user.last_name}
             />
             <UIButton
+              isLoading={isPending}
               className='mt-4'
               onClick={() => {
                 handleSubmitUser();

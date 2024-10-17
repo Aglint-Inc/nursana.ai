@@ -15,6 +15,20 @@ const mutation = async ({
   input: { userId, email, first_name, last_name },
 }: PublicProcedure<typeof schema>) => {
   const db = createPublicClient();
+
+  const res = (
+    await db
+      .from('hospital')
+      .insert({
+        hospital_name: '',
+      })
+      .select('id')
+      .single()
+      .throwOnError()
+  ).data;
+
+  if (!res?.id) throw new Error('Failed to create hospital');
+
   await db
     .from('user')
     .insert({
@@ -22,7 +36,7 @@ const mutation = async ({
       email,
       first_name,
       last_name,
-      hospital_id: '',
+      hospital_id: res.id,
     })
     .throwOnError();
 
@@ -34,7 +48,7 @@ const mutation = async ({
     })
     .throwOnError();
 
-  return { success: true };
+  return { success: true, hospital_id: res.id };
 };
 
 export const tenantSignup = publicProcedure.input(schema).mutation(mutation);
