@@ -1,8 +1,11 @@
 import { campaign } from './routers/campaign';
 import { example } from './routers/example';
 import { hospital } from './routers/hospital';
+import { interview } from './routers/interview';
+import { interviewAnalysis } from './routers/interview_analysis';
 import { tenant } from './routers/tenant';
 import { user } from './routers/user';
+import { supabase_storage } from './supabse_storage';
 import { createCallerFactory, createTRPCRouter } from './trpc';
 
 /**
@@ -16,6 +19,9 @@ export const appRouter = createTRPCRouter({
   campaign,
   tenant,
   hospital,
+  interview,
+  interviewAnalysis,
+  supabase_storage,
 });
 
 // export type definition of API

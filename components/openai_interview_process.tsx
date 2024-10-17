@@ -1,6 +1,10 @@
 'use client';
 
 import { RealtimeClient } from '@openai/realtime-api-beta';
+import {
+  useUpdateInterviews,
+  useUpdateInterviewsAnalysis,
+} from 'app/interview/_common/hooks';
 import { Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -44,6 +48,8 @@ export default function Interview({
     error: videoError,
     videoBlobRef,
   } = useVideoRecording();
+  const { updateInterview } = useUpdateInterviews();
+  const { updateInterviewAnalysis } = useUpdateInterviewsAnalysis();
   const wavRecorderRef = useRef<WavRecorder>(
     new WavRecorder({ sampleRate: 24000 }),
   );
@@ -120,19 +126,15 @@ export default function Interview({
       const videoUrl = data.publicUrl;
 
       const [updateInterviewResult, updateAnalysisResult] = await Promise.all([
-        supabase
-          .from('interview')
-          .update({
-            interview_stage: 'interview_completed',
-          })
-          .eq('id', interviewId),
-        supabase
-          .from('interview_analysis')
-          .update({
-            video_url: videoUrl,
-            transcript_json: conversationHistory,
-          })
-          .eq('interview_id', interviewId),
+        updateInterview({
+          id: interviewId,
+          interview_stage: 'interview_completed',
+        }),
+        updateInterviewAnalysis({
+          interview_id: interviewId ?? '',
+          video_url: videoUrl ?? '',
+          transcript_json: conversationHistory,
+        }),
       ]);
 
       if (updateInterviewResult.error) throw updateInterviewResult.error;
