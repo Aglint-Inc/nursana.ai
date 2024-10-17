@@ -300,7 +300,7 @@ export default function Interview({
           <>
             <div className='mt-6 flex flex-col items-center'>
               <NursanaLogo />
-              <h1 className='mb-2 text-center text-3xl font-medium'>
+              <h1 className='mb-2 text-center text-3xl font-medium mt-6'>
                 Let&apos;s Start Your AI Interview
               </h1>
               <p className='mb-6 max-w-xl text-center text-muted-foreground'>
@@ -311,7 +311,7 @@ export default function Interview({
             </div>
           </>
         ) : (
-          <div className='mt-6'>
+          <div className='mt-6 mb-4'>
             <NursanaLogo />
           </div>
         )}
