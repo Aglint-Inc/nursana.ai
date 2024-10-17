@@ -15,7 +15,7 @@ import Footer from './footer';
 import NursanaLogo from './nursana-logo';
 import Section from './section';
 
-const mode = 'openAI' as 'openAI' | 'retell';
+const mode = 'retell' as 'openAI' | 'retell';
 const InterviewProcess = dynamic(
   () =>
     mode === 'openAI'
