@@ -1,10 +1,14 @@
 'use client';
 
 import { useToast } from 'hooks/use-toast';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { api } from 'trpc/client';
 
+import Footer from '@/components/footer';
+import NursanaLogo from '@/components/nursana-logo';
+import Section from '@/components/section';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -72,79 +76,92 @@ export default function SignIn() {
   };
 
   return (
-    <div className='flex min-h-screen flex-col items-center justify-center px-4'>
-      <Tabs
-        defaultValue='nurse'
-        onValueChange={(value) => setRole(value as 'nurse' | 'company')}
-        className='w-[300px]'
-      >
-        <TabsList className='mb-4 grid w-full grid-cols-2'>
-          <TabsTrigger value='nurse'>Individual</TabsTrigger>
-          <TabsTrigger value='company'>Company</TabsTrigger>
-        </TabsList>
-        <TabsContent value='nurse'>
-          <form onSubmit={handleSubmit} className='space-y-4'>
-            <div className='flex flex-col gap-2'>
-              <label
-                htmlFor='email'
-                className='text-sm font-medium leading-none'
-              >
-                Email
-              </label>
-              <Input
-                id='email'
-                type='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder='Enter your email'
-                required
-              />
-            </div>
-            <Button type='submit' className='w-full' disabled={isLoading}>
-              {isLoading ? 'Sending...' : 'Get Magic Link to Sign In'}
-            </Button>
-          </form>
-        </TabsContent>
-        <TabsContent value='company'>
-          <form onSubmit={handleSubmit} className='space-y-4'>
-            <div className='flex flex-col gap-2'>
-              <label
-                htmlFor='email'
-                className='text-sm font-medium leading-none'
-              >
-                Email
-              </label>
-              <Input
-                id='email'
-                type='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder='Enter your email'
-                required
-              />
-            </div>
-            <div className='flex flex-col gap-2'>
-              <label
-                htmlFor='password'
-                className='text-sm font-medium leading-none'
-              >
-                Password
-              </label>
-              <Input
-                id='password'
-                type='password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder='Enter your password'
-                required
-              />
-            </div>
-            <Button type='submit' className='w-full' disabled={isLoading}>
-              {isLoading ? 'Signing In...' : 'Sign In'}
-            </Button>
-          </form>
-        </TabsContent>
-      </Tabs>
-    </div>
+    <Section>
+      <div className='flex min-h-screen flex-col items-center justify-between pt-6 '>
+        <NursanaLogo />
+        <div className='grid h-[500px] w-[800px] grid-cols-2 border border-gray-200 rounded-lg overflow-hidden bg-white'>
+          <div className='flex flex-col items-center justify-center'>
+            <div className='mb-6 text-xl font-medium'>Sign In to Nursana</div>
+            <Tabs
+              defaultValue='nurse'
+              onValueChange={(value) => setRole(value as 'nurse' | 'company')}
+              className='w-[300px]'
+            >
+              <TabsList className='mb-4 grid w-full grid-cols-2'>
+                <TabsTrigger value='nurse'>Individual</TabsTrigger>
+                <TabsTrigger value='company'>Company</TabsTrigger>
+              </TabsList>
+              <TabsContent value='nurse'>
+                <form onSubmit={handleSubmit} className='space-y-4'>
+                  <div className='flex flex-col gap-2'>
+                    <label
+                      htmlFor='email'
+                      className='text-sm font-medium leading-none'
+                    >
+                      Email
+                    </label>
+                    <Input
+                      id='email'
+                      type='email'
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder='Enter your email'
+                      required
+                    />
+                  </div>
+                  <Button type='submit' className='w-full' disabled={isLoading}>
+                    {isLoading ? 'Sending...' : 'Get Magic Link to Sign In'}
+                  </Button>
+                </form>
+              </TabsContent>
+              <TabsContent value='company'>
+                <form onSubmit={handleSubmit} className='space-y-4'>
+                  <div className='flex flex-col gap-2'>
+                    <label
+                      htmlFor='email'
+                      className='text-sm font-medium leading-none'
+                    >
+                      Email
+                    </label>
+                    <Input
+                      id='email'
+                      type='email'
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder='Enter your email'
+                      required
+                    />
+                  </div>
+                  <div className='flex flex-col gap-2'>
+                    <label
+                      htmlFor='password'
+                      className='text-sm font-medium leading-none'
+                    >
+                      Password
+                    </label>
+                    <Input
+                      id='password'
+                      type='password'
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder='Enter your password'
+                      required
+                    />
+                  </div>
+                  <Button type='submit' className='w-full' disabled={isLoading}>
+                    {isLoading ? 'Signing In...' : 'Sign In'}
+                  </Button>
+                </form>
+              </TabsContent>
+            </Tabs>
+          </div>
+          <div className='h-[500px] bg-gray-100'>
+              <Image alt='nursana' src={'/images/nurse-cover.jpg'}  objectFit='cover' width={400} height={500}/>
+          </div>
+        </div>
+
+        <Footer />
+      </div>
+    </Section>
   );
 }
