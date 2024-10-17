@@ -103,32 +103,6 @@ export const campaignRelationshipsSchema = z.tuple([
   }),
 ]);
 
-export const eventLogsRowSchema = z.object({
-  action: z.string().nullable(),
-  created_at: z.string().nullable(),
-  entity_id: z.string().nullable(),
-  entity_type: z.string().nullable(),
-  event_id: z.string(),
-});
-
-export const eventLogsInsertSchema = z.object({
-  action: z.string().optional().nullable(),
-  created_at: z.string().optional().nullable(),
-  entity_id: z.string().optional().nullable(),
-  entity_type: z.string().optional().nullable(),
-  event_id: z.string().optional(),
-});
-
-export const eventLogsUpdateSchema = z.object({
-  action: z.string().optional().nullable(),
-  created_at: z.string().optional().nullable(),
-  entity_id: z.string().optional().nullable(),
-  entity_type: z.string().optional().nullable(),
-  event_id: z.string().optional(),
-});
-
-export const eventLogsRelationshipsSchema = z.tuple([]);
-
 export const hospitalRowSchema = z.object({
   address: z.string().nullable(),
   contact_email: z.string().nullable(),
