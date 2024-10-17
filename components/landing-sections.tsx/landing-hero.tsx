@@ -1,13 +1,16 @@
+"use client"
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
 import Section from '../section';
 import { Button } from '../ui/button';
+// import MultiStepLoader from '../multi-step.loader';
 
 function LandingHero() {
   return (
     <Section>
+      {/* <MultiStepLoader /> */}
       <div className='flex flex-col items-center justify-center gap-8 text-center'>
         <div className='flex flex-col items-center justify-center gap-4'>
           <h1 className='max-w-4xl text-5xl font-medium leading-tight'>

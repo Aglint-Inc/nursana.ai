@@ -1,7 +1,11 @@
 'use client';
 
+import { MailCheck } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import Footer from '@/components/footer';
+import NursanaLogo from '@/components/nursana-logo';
+import Section from '@/components/section';
 import { Button } from '@/components/ui/button';
 
 export default function CheckEmail() {
@@ -11,18 +15,29 @@ export default function CheckEmail() {
   const type = searchParams.get('type') as string;
 
   return (
-    <div className='flex min-h-screen flex-col items-center justify-center px-4'>
-      <h1 className='mb-4 text-2xl font-bold'>Check Your Email</h1>
-      <p className='mb-6 text-center'>
-        {type === 'interview'
-          ? `We've sent a interview link to your email address. Please check your inbox
+    <Section>
+      <div className='flex h-[100vh] flex-col items-center justify-between pt-6'>
+        <NursanaLogo />
+        <div className='flex flex-col items-center justify-center px-4'>
+          <MailCheck
+            size={60}
+            strokeWidth={1.2}
+            className='mb-4 text-purple-600'
+          />
+          <h1 className='mb-4 text-2xl font-medium'>Check Your Inbox</h1>
+          <p className='mb-1 text-center'>
+            {type === 'interview'
+              ? `We've sent a interview link to your email address. Please check your inbox
         and click on the link to start your interview.`
-          : `We've sent a login link to your email address. Please check your inbox.`}
-      </p>
-      <p className='mb-8 text-sm text-muted-foreground'>
-        {`If you don't see the email, check your spam folder.`}
-      </p>
-      <Button onClick={() => router.push('/')}>Back to Home Page</Button>
-    </div>
+              : `We've sent a login link to your email address. Please check your inbox.`}
+          </p>
+          <p className='mb-8 text-sm text-muted-foreground'>
+            {`If you don't see the email, check your spam folder.`}
+          </p>
+          <Button onClick={() => router.push('/')}>Back to Home Page</Button>
+        </div>
+        <Footer />
+      </div>
+    </Section>
   );
 }
