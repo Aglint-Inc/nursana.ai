@@ -18,6 +18,8 @@ const PUBLIC_ROUTES = [
   '/api/trpc',
   '/tenant/sign-up',
   '/api/backup-interview-data',
+  '/auth/confirm',
+  '/auth/interview',
   '/openAiRealTime',
 ];
 
