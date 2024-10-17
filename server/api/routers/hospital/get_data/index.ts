@@ -9,7 +9,7 @@ const query = async ({ ctx: { user_id, role } }: PrivateProcedure) => {
 
   const tenant = (
     await db
-      .from('tenant')
+      .from('user')
       .select('*')
       .eq('user_id', user_id)
       .single()
@@ -22,7 +22,7 @@ const query = async ({ ctx: { user_id, role } }: PrivateProcedure) => {
 
   const hospital = (
     await db
-      .from('hospitals')
+      .from('hospital')
       .select('*')
       .eq('id', tenant?.hospital_id)
       .single()

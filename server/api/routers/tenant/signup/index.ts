@@ -16,20 +16,21 @@ const mutation = async ({
 }: PublicProcedure<typeof schema>) => {
   const db = createPublicClient();
   await db
-    .from('tenant')
+    .from('user')
     .insert({
       user_id: userId,
       email,
       first_name,
       last_name,
+      hospital_id: '',
     })
     .throwOnError();
 
   await db
-    .from('roles')
+    .from('role')
     .insert({
       user_id: userId,
-      role: 'tenant',
+      role: 'user',
     })
     .throwOnError();
 

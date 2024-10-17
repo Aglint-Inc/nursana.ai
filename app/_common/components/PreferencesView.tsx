@@ -5,7 +5,7 @@ import type { Database } from 'src/supabase-types/database.types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-type NurseRow = Database['public']['Tables']['users']['Row'];
+type NurseRow = Database['public']['Tables']['applicant']['Row'];
 
 type PreferencesViewProps = {
   nurseData: NurseRow | null;

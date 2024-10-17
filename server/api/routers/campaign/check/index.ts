@@ -12,7 +12,7 @@ const query = async ({ input: { code } }: PublicProcedure<typeof schema>) => {
   const db = createPublicClient();
   const campaign = (
     await db
-      .from("campaigns")
+      .from("campaign")
       .select("*")
       .eq("campaign_code", code)
       .single()

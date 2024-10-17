@@ -98,14 +98,6 @@ export default function NurseDashboard() {
                         className='mr-2 h-10 w-10 text-muted-foreground'
                         strokeWidth={1}
                       />
-                      <div>
-                        <p className='text-md font-medium'>
-                          {userData?.resume?.file_name || 'Untitled'}
-                        </p>
-                        <p className='text-sm text-muted-foreground'>
-                          {userData?.resume?.file_size || '-- KB'}
-                        </p>
-                      </div>
                     </div>
                     {userData?.resume?.file_url && (
                       <div className='group relative'>

@@ -14,13 +14,13 @@ const mutation = async ({
 }: PublicProcedure<typeof schema>) => {
   const db = createPublicClient();
   const user = (
-    await db.from("users").select("*").eq("email", email).throwOnError()
+    await db.from("applicant").select("*").eq("email", email).throwOnError()
   ).data;
 
   const resume = user?.length
     ? (
         await db
-          .from("resumes")
+          .from("resume")
           .select("*")
           .eq("campaign_id", campaign_id)
           .eq("user_id", user[0].id)

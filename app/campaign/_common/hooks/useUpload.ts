@@ -55,7 +55,7 @@ export const useUploadCampaign = () => {
             email: form.email,
             first_name: form.first_name,
             last_name: form.last_name,
-            role: 'user',
+            role: 'applicant',
             job_title: form.role,
           });
           if (resUser.error)
@@ -69,7 +69,7 @@ export const useUploadCampaign = () => {
         const fileName = `resumes/${userId}_${Date.now()}.${fileExt}`;
 
         const { error: uploadError } = await supabase.storage
-          .from('resumes')
+          .from('resume')
           .upload(fileName, form.file, {
             cacheControl: '3600',
             upsert: false,
@@ -79,7 +79,7 @@ export const useUploadCampaign = () => {
 
         const {
           data: { publicUrl },
-        } = supabase.storage.from('resumes').getPublicUrl(fileName);
+        } = supabase.storage.from('resume').getPublicUrl(fileName);
 
         const res = await createInterview({
           campaign_code,

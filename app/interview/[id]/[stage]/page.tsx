@@ -39,7 +39,7 @@ export default async function InterviewPage({
 }) {
   const supabase = createClient();
   const { data: interview, error } = await supabase
-    .from('interviews')
+    .from('interview')
     .select('*')
     .eq('id', params.id)
     .single();

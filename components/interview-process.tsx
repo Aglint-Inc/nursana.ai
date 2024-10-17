@@ -117,7 +117,7 @@ export default function Interview({
 
       const [updateInterviewResult, updateAnalysisResult] = await Promise.all([
         supabase
-          .from('interviews')
+          .from('interview')
           .update({
             interview_stage: 'interview_completed',
           })
