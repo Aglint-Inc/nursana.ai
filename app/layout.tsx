@@ -11,8 +11,35 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Narsara AI',
+  title: 'Nursana',
   description: 'Connecting Nurses with the right opportunities',
+  icons: {
+    icon: '/favicon.svg',
+  },
+  openGraph: {
+    title: 'Nursana – Connecting Nurses with the Right Opportunities',
+    description:
+      'Discover top nursing jobs with AI-powered interviews and resume analysis.',
+    url: defaultUrl,
+    siteName: 'Nursana',
+    images: [
+      {
+        url: `${defaultUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Nursana homepage preview',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Nursana – Connecting Nurses with the Right Opportunities',
+    description:
+      'Discover top nursing jobs with AI-powered interviews and resume analysis.',
+    images: [`${defaultUrl}/og-image.png`],
+  },
 };
 
 export default function RootLayout({

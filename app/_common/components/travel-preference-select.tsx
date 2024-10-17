@@ -32,8 +32,6 @@ const TRAVEL_PREFERENCES: TravelPreference[] = [
 
 export function TravelPreferenceSelect() {
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [preferences, setPreferences] =
-    React.useState<TravelPreference[]>(TRAVEL_PREFERENCES);
   const [openCombobox, setOpenCombobox] = React.useState(false);
   const [inputValue, setInputValue] = React.useState<string>('');
   const [selectedPreferences, setSelectedPreferences] = React.useState<
@@ -85,7 +83,7 @@ export function TravelPreferenceSelect() {
             />
             <CommandList>
               <CommandGroup className='max-h-[145px] overflow-auto'>
-                {preferences.map((preference) => {
+                {TRAVEL_PREFERENCES.map((preference) => {
                   const isActive = selectedPreferences.includes(preference);
                   return (
                     <CommandItem

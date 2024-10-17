@@ -30,16 +30,22 @@ export default function NurseHomePage() {
         {userData?.analysis?.structured_analysis ? (
           <InterviewAnalysis />
         ) : (
-          
-          <div className='w-full h-[calc(100vh-164px)] border border-gray-200 rounded-lg flex flex-col items-center justify-center gap-2'>
-            <Image alt='interview analysis' src={'/images/interview-analysis.png'} width={200} height={100}/>
-            <div className=' flex flex-col gap-2 items-center justify-center'>
+          <div className='flex h-[calc(100vh-164px)] w-full flex-col items-center justify-center gap-2 rounded-lg border border-gray-200'>
+            <Image
+              alt='interview analysis'
+              src={'/images/interview-analysis.png'}
+              width={200}
+              height={100}
+            />
+            <div className='flex flex-col items-center justify-center gap-2'>
               <div className='grid grid-cols-[max-content_1fr] gap-2'>
-                            <Loader/>
-                            <p className=''>Interview analysis is not yet complete.</p>
+                <Loader />
+                <p className=''>Interview analysis is not yet complete.</p>
               </div>
-              <p className='text-sm text-muted-foreground'>Please wait while we analyze your resume and provide the best possible recommendations.</p>
-
+              <p className='text-sm text-muted-foreground'>
+                Please wait while we analyze your resume and provide the best
+                possible recommendations.
+              </p>
             </div>
           </div>
         )}
@@ -48,7 +54,12 @@ export default function NurseHomePage() {
         {userData?.analysis?.transcript_json ? (
           <InterviewTranscript />
         ) : (
-          <p>No interview transcript available.</p>
+          <div className='flex h-[calc(100vh-164px)] w-full flex-col items-center justify-center gap-2 rounded-lg border border-gray-200'>
+            <div className='grid grid-cols-[max-content_1fr] gap-2'>
+              <Loader />
+              <p className=''>Loading interview transcript.</p>
+            </div>
+          </div>
         )}
       </TabsContent>
     </Tabs>

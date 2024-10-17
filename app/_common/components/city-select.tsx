@@ -32,7 +32,6 @@ const CITIES: City[] = [
 
 export function CitySelect() {
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [cities, setCities] = React.useState<City[]>(CITIES);
   const [openCombobox, setOpenCombobox] = React.useState(false);
   const [inputValue, setInputValue] = React.useState<string>('');
   const [selectedCities, setSelectedCities] = React.useState<City[]>([]);
@@ -82,7 +81,7 @@ export function CitySelect() {
             />
             <CommandList>
               <CommandGroup className='max-h-[145px] overflow-auto'>
-                {cities.map((city) => {
+                {CITIES.map((city) => {
                   const isActive = selectedCities.includes(city);
                   return (
                     <CommandItem

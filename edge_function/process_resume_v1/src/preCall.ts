@@ -49,7 +49,6 @@ export const handlerResumeToText = async (
           errorType: 'TEXT_EXTRACTION_FAILED',
         };
       }
-      throw new Error('No text or images found in response');
       return { text, error, errorType: error_type };
     })
     .catch((error) => {
