@@ -55,7 +55,8 @@ export const useUploadCampaign = () => {
             email: form.email,
             first_name: form.first_name,
             last_name: form.last_name,
-            role: form.role,
+            role: 'user',
+            job_title: form.role,
           });
           if (resUser.error)
             throw new Error(resUser.error.message || resUser.error.code);

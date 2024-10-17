@@ -398,12 +398,7 @@ export const resumesRelationshipsSchema = z.tuple([
   }),
 ]);
 
-export const appRoleSchema = z.union([
-  z.literal("nurse"),
-  z.literal("hospital"),
-  z.literal("doctor"),
-  z.literal("therapist"),
-]);
+export const appRoleSchema = z.union([z.literal("tenant"), z.literal("user")]);
 
 export const rolesInsertSchema = z.object({
   id: z.string().optional(),
@@ -462,6 +457,7 @@ export const usersRowSchema = z.object({
   expected_salary: z.number().nullable(),
   first_name: z.string().nullable(),
   id: z.string(),
+  job_title: z.string().nullable(),
   job_type: z.string().nullable(),
   last_name: z.string().nullable(),
   phone_number: z.string().nullable(),
@@ -478,6 +474,7 @@ export const usersInsertSchema = z.object({
   expected_salary: z.number().optional().nullable(),
   first_name: z.string().optional().nullable(),
   id: z.string(),
+  job_title: z.string().optional().nullable(),
   job_type: z.string().optional().nullable(),
   last_name: z.string().optional().nullable(),
   phone_number: z.string().optional().nullable(),
@@ -494,6 +491,7 @@ export const usersUpdateSchema = z.object({
   expected_salary: z.number().optional().nullable(),
   first_name: z.string().optional().nullable(),
   id: z.string().optional(),
+  job_title: z.string().optional().nullable(),
   job_type: z.string().optional().nullable(),
   last_name: z.string().optional().nullable(),
   phone_number: z.string().optional().nullable(),

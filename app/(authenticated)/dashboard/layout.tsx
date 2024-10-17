@@ -19,7 +19,7 @@ export default async function Layout({
   return (
     <HydrateClient>
       {children}
-      {role === 'hospital' ? company : user}
+      {role === 'tenant' ? company : user}
     </HydrateClient>
   );
 }

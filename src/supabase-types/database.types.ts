@@ -483,6 +483,7 @@ export type Database = {
           expected_salary: number | null
           first_name: string | null
           id: string
+          job_title: string | null
           job_type: string | null
           last_name: string | null
           phone_number: string | null
@@ -498,6 +499,7 @@ export type Database = {
           expected_salary?: number | null
           first_name?: string | null
           id: string
+          job_title?: string | null
           job_type?: string | null
           last_name?: string | null
           phone_number?: string | null
@@ -513,6 +515,7 @@ export type Database = {
           expected_salary?: number | null
           first_name?: string | null
           id?: string
+          job_title?: string | null
           job_type?: string | null
           last_name?: string | null
           phone_number?: string | null
@@ -545,7 +548,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "nurse" | "hospital" | "doctor" | "therapist"
+      app_role: "tenant" | "user"
       interview_stage:
         | "not_started"
         | "resume_submitted"
