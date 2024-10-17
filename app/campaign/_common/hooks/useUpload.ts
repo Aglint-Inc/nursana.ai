@@ -1,4 +1,5 @@
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { api } from 'trpc/client';
 
@@ -11,6 +12,7 @@ import { useCampaign } from './useCampaign';
 export const useUploadCampaign = () => {
   const { toast } = useToast();
   const { data } = useCampaign();
+  const router = useRouter();
   const [form, setForm] = useState<FormCampaign>({
     first_name: '',
     last_name: '',
@@ -97,6 +99,8 @@ export const useUploadCampaign = () => {
           if (error) {
             throw new Error('Error creating interview');
           }
+
+          router.push('/auth/check-email?type=interview');
           toast({
             description:
               'Interview link has been sent to your email. Please check your inbox.',
