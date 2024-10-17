@@ -32,7 +32,6 @@ const JOB_TITLES: JobTitle[] = [
 
 export function JobTitleSelect() {
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [jobTitles, setJobTitles] = React.useState<JobTitle[]>(JOB_TITLES);
   const [openCombobox, setOpenCombobox] = React.useState(false);
   const [inputValue, setInputValue] = React.useState<string>('');
   const [selectedTitles, setSelectedTitles] = React.useState<JobTitle[]>([]);
@@ -82,7 +81,7 @@ export function JobTitleSelect() {
             />
             <CommandList>
               <CommandGroup className='max-h-[145px] overflow-auto'>
-                {jobTitles.map((title) => {
+                {JOB_TITLES.map((title) => {
                   const isActive = selectedTitles.includes(title);
                   return (
                     <CommandItem
