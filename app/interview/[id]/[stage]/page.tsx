@@ -1,8 +1,7 @@
 import dynamic from 'next/dynamic';
 import { notFound, redirect } from 'next/navigation';
 import { Suspense } from 'react';
-
-import { createClient } from '@/utils/supabase/server';
+import { api } from 'trpc/server';
 
 const InterviewInstructions = dynamic(
   () => import('@/components/interview-instructions'),
@@ -37,17 +36,9 @@ export default async function InterviewPage({
 }: {
   params: { id: string; stage: string };
 }) {
-  const supabase = createClient();
-  const { data: interview, error } = await supabase
-    .from('interview')
-    .select('*')
-    .eq('id', params.id)
-    .single();
-
-  if (error || !interview) {
-    console.error('Error fetching interview:', error);
-    notFound();
-  }
+  const interview = await api.interview.getInterviewDetails({
+    interview_id: params.id,
+  });
 
   const normalizedStage = normalizeStage(interview.interview_stage);
   let redirectStage = normalizedStage;
