@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { Footer } from 'react-day-picker';
 
+import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
 import Section from '@/components/section';
 import { Button } from '@/components/ui/button';
