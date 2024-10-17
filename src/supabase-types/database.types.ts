@@ -228,7 +228,6 @@ export type Database = {
           ai_questions: string | null
           ai_welcome_message: string | null
           candidate_estimated_time: string | null
-          candidate_form: Json | null
           candidate_instructions: string[] | null
           candidate_intro_video_cover_image_url: string | null
           candidate_intro_video_url: string | null
@@ -249,7 +248,6 @@ export type Database = {
           ai_questions?: string | null
           ai_welcome_message?: string | null
           candidate_estimated_time?: string | null
-          candidate_form?: Json | null
           candidate_instructions?: string[] | null
           candidate_intro_video_cover_image_url?: string | null
           candidate_intro_video_url?: string | null
@@ -270,7 +268,6 @@ export type Database = {
           ai_questions?: string | null
           ai_welcome_message?: string | null
           candidate_estimated_time?: string | null
-          candidate_form?: Json | null
           candidate_instructions?: string[] | null
           candidate_intro_video_cover_image_url?: string | null
           candidate_intro_video_url?: string | null
@@ -304,7 +301,6 @@ export type Database = {
           campaign_code: string
           campaign_id: string | null
           candidate_estimated_time: string | null
-          candidate_form: Json | null
           candidate_instructions: string[] | null
           candidate_intro_video_cover_image_url: string | null
           candidate_intro_video_url: string | null
@@ -325,7 +321,6 @@ export type Database = {
           campaign_code: string
           campaign_id?: string | null
           candidate_estimated_time?: string | null
-          candidate_form?: Json | null
           candidate_instructions?: string[] | null
           candidate_intro_video_cover_image_url?: string | null
           candidate_intro_video_url?: string | null
@@ -346,7 +341,6 @@ export type Database = {
           campaign_code?: string
           campaign_id?: string | null
           candidate_estimated_time?: string | null
-          candidate_form?: Json | null
           candidate_instructions?: string[] | null
           candidate_intro_video_cover_image_url?: string | null
           candidate_intro_video_url?: string | null

@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
-import { z } from "zod";
+import { z } from 'zod';
 
-import { type PublicProcedure, publicProcedure } from "@/server/api/trpc";
-import { createPublicClient } from "@/server/db";
-import { getResumeJson } from "@/utils/resume";
+import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
+import { createPublicClient } from '@/server/db';
+import { getResumeJson } from '@/utils/resume';
 
 export const schema = z.object({
   resume_url: z.string(),
@@ -17,18 +17,18 @@ const mutation = async ({
   const db = createPublicClient();
   const campaign = (
     await db
-      .from("campaigns")
-      .select("*,interview_templates!inner(*)")
-      .eq("campaign_code", campaign_code)
+      .from('campaigns')
+      .select('*,interview_templates!inner(*)')
+      .eq('campaign_code', campaign_code)
       .single()
       .throwOnError()
   ).data;
 
-  if (!campaign) throw new Error("Campaign not found");
+  if (!campaign) throw new Error('Campaign not found');
 
   const [resumeResult, _user, interviewResult] = await Promise.all([
     db
-      .from("resumes")
+      .from('resumes')
       .insert({
         user_id: userId,
         file_url: resume_url,
@@ -40,16 +40,16 @@ const mutation = async ({
       .throwOnError(),
 
     db
-      .from("users")
+      .from('users')
       .update({
-        profile_status: "resume_uploaded",
+        profile_status: 'resume_uploaded',
       })
-      .eq("id", userId),
+      .eq('id', userId),
 
     db
-      .from("interviews")
+      .from('interviews')
       .insert({
-        interview_stage: "resume_submitted",
+        interview_stage: 'resume_submitted',
         name: campaign.name,
         campaign_code,
         user_id: userId,
@@ -62,7 +62,6 @@ const mutation = async ({
         campaign_id: campaign.id,
         candidate_estimated_time:
           campaign.interview_templates.candidate_estimated_time,
-        candidate_form: campaign.interview_templates.candidate_form,
         candidate_instructions:
           campaign.interview_templates.candidate_instructions,
         candidate_intro_video_cover_image_url:
@@ -77,11 +76,11 @@ const mutation = async ({
   ]);
 
   const updatedResume = resumeResult.data;
-  if (!updatedResume) throw new Error("Error uploading resume");
+  if (!updatedResume) throw new Error('Error uploading resume');
   getResumeJson(updatedResume.id, resume_url);
 
   const interview = interviewResult.data;
-  if (!interview) throw new Error("Error creating interview");
+  if (!interview) throw new Error('Error creating interview');
 
   return interview;
 };
