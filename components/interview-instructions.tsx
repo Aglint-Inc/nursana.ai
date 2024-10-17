@@ -19,8 +19,8 @@ const mode = 'openAI' as 'openAI' | 'retell';
 const InterviewProcess = dynamic(
   () =>
     mode === 'openAI'
-      ? import('@/components/interview-process2')
-      : import('@/components/interview-process'),
+      ? import('@/components/openai_interview_process')
+      : import('@/components/retell_interview-process'),
   {
     ssr: false,
   },
