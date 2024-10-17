@@ -24,7 +24,7 @@ export const metadata = {
     siteName: 'Nursana',
     images: [
       {
-        url: `${defaultUrl}/og-image.png`,
+        url: `${defaultUrl}/og-image.png?v=1`,
         width: 1200,
         height: 630,
         alt: 'Nursana homepage preview',
