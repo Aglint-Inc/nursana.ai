@@ -36,12 +36,10 @@ const SALARY_RANGES: SalaryRange[] = [
 
 export function SalaryRangeSelect() {
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [salaryRanges, setSalaryRanges] =
-    React.useState<SalaryRange[]>(SALARY_RANGES);
+
   const [openCombobox, setOpenCombobox] = React.useState(false);
   const [inputValue, setInputValue] = React.useState<string>('');
   const [selectedRanges, setSelectedRanges] = React.useState<SalaryRange[]>([]);
-
   const toggleRange = (range: SalaryRange) => {
     setSelectedRanges((currentRanges) =>
       !currentRanges.includes(range)
@@ -87,7 +85,7 @@ export function SalaryRangeSelect() {
             />
             <CommandList>
               <CommandGroup className='max-h-[145px] overflow-auto'>
-                {salaryRanges.map((range) => {
+                {SALARY_RANGES.map((range) => {
                   const isActive = selectedRanges.includes(range);
                   return (
                     <CommandItem

@@ -31,7 +31,6 @@ const JOB_TYPES: JobType[] = [
 
 export function JobTypeSelect() {
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [jobTypes, setJobTypes] = React.useState<JobType[]>(JOB_TYPES);
   const [openCombobox, setOpenCombobox] = React.useState(false);
   const [inputValue, setInputValue] = React.useState<string>('');
   const [selectedTypes, setSelectedTypes] = React.useState<JobType[]>([]);
@@ -81,7 +80,7 @@ export function JobTypeSelect() {
             />
             <CommandList>
               <CommandGroup className='max-h-[145px] overflow-auto'>
-                {jobTypes.map((type) => {
+                {JOB_TYPES.map((type) => {
                   const isActive = selectedTypes.includes(type);
                   return (
                     <CommandItem
