@@ -10,10 +10,11 @@ export const schema = z.object({
   role: appRoleSchema,
   first_name: z.string(),
   last_name: z.string().optional(),
+  job_title: z.string(),
 });
 
 const mutation = async ({
-  input: { email, role, first_name, last_name },
+  input: { email, role, first_name, last_name, job_title },
 }: PublicProcedure<typeof schema>) => {
   const supabase = createPublicClient();
 
@@ -27,17 +28,18 @@ const mutation = async ({
   if (!userId) throw new Error('User not created');
 
   await supabase
-    .from('users')
+    .from('applicant')
     .insert({
       id: userId,
       email,
       first_name,
       last_name,
+      job_title,
     })
     .throwOnError();
 
   await supabase
-    .from('roles')
+    .from('role')
     .insert({
       user_id: userId,
       role: role,

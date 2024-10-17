@@ -1,6 +1,8 @@
-import { createServerClient } from "@supabase/ssr";
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
-import { cookies } from "next/headers";
+import { createServerClient } from '@supabase/ssr';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { cookies } from 'next/headers';
+
+import type { Database } from '@/supabase-types/database.types';
 
 export const createClient = () => {
   const cookieStore = cookies();
@@ -24,13 +26,13 @@ export const createClient = () => {
           }
         },
       },
-    }
+    },
   );
 };
 
 export function createAdminClient() {
-  return createSupabaseClient(
+  return createSupabaseClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 }

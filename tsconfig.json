@@ -25,7 +25,7 @@
     "baseUrl": ".",
     "paths": {
       "@/common/*": ["./app/_common/*"],
-      "@/trpc/*": ["./src/trpc/*"],
+      "@/trpc/*": ["./app/trpc/*"],
       "@/components/*": ["./components/*"],
       "@/utils/*": ["./utils/*"],
       "@/supabase-types/*": ["src/supabase-types/*"],
@@ -34,6 +34,7 @@
       "@/audio/*": [
         "./lib/audio/*"
       ],
+      "@/authenicated/*": ["./app/(authenticated)/_common/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

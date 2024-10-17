@@ -28,7 +28,55 @@ export type Database = {
   }
   public: {
     Tables: {
-      campaigns: {
+      applicant: {
+        Row: {
+          created_at: string | null
+          email: string
+          expected_salary: number | null
+          first_name: string | null
+          id: string
+          job_title: string | null
+          job_type: string | null
+          last_name: string | null
+          phone_number: string | null
+          preferred_job_titles: string[] | null
+          preferred_locations: string[] | null
+          terms_accepted: boolean | null
+          travel_preference: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          expected_salary?: number | null
+          first_name?: string | null
+          id: string
+          job_title?: string | null
+          job_type?: string | null
+          last_name?: string | null
+          phone_number?: string | null
+          preferred_job_titles?: string[] | null
+          preferred_locations?: string[] | null
+          terms_accepted?: boolean | null
+          travel_preference?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          expected_salary?: number | null
+          first_name?: string | null
+          id?: string
+          job_title?: string | null
+          job_type?: string | null
+          last_name?: string | null
+          phone_number?: string | null
+          preferred_job_titles?: string[] | null
+          preferred_locations?: string[] | null
+          terms_accepted?: boolean | null
+          travel_preference?: string | null
+        }
+        Relationships: []
+      }
+      campaign: {
         Row: {
           campaign_code: string
           created_at: string | null
@@ -37,7 +85,6 @@ export type Database = {
           id: string
           name: string
           template_id: string
-          template_version: number
           updated_at: string | null
         }
         Insert: {
@@ -48,7 +95,6 @@ export type Database = {
           id?: string
           name: string
           template_id: string
-          template_version: number
           updated_at?: string | null
         }
         Update: {
@@ -59,7 +105,6 @@ export type Database = {
           id?: string
           name?: string
           template_id?: string
-          template_version?: number
           updated_at?: string | null
         }
         Relationships: [
@@ -67,14 +112,14 @@ export type Database = {
             foreignKeyName: "campaigns_hospital_id_fkey"
             columns: ["hospital_id"]
             isOneToOne: false
-            referencedRelation: "hospitals"
+            referencedRelation: "hospital"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "campaigns_template_id_fkey"
             columns: ["template_id"]
             isOneToOne: false
-            referencedRelation: "interview_templates"
+            referencedRelation: "interview_template"
             referencedColumns: ["id"]
           },
         ]
@@ -103,7 +148,7 @@ export type Database = {
         }
         Relationships: []
       }
-      hospitals: {
+      hospital: {
         Row: {
           address: string | null
           contact_email: string | null
@@ -139,172 +184,20 @@ export type Database = {
             foreignKeyName: "hospitals_created_by_fkey"
             columns: ["created_by"]
             isOneToOne: false
-            referencedRelation: "tenant"
+            referencedRelation: "user"
             referencedColumns: ["user_id"]
           },
         ]
       }
-      interview_analysis: {
-        Row: {
-          audio_url: string | null
-          call_analysis: Json | null
-          call_id: string | null
-          created_at: string | null
-          duration: number | null
-          hospital_id: string | null
-          id: string
-          interview_id: string
-          structured_analysis: Json | null
-          transcript: string | null
-          transcript_json: Json[] | null
-          transcript_url: string | null
-          updated_at: string | null
-          user_id: string
-          video_url: string | null
-        }
-        Insert: {
-          audio_url?: string | null
-          call_analysis?: Json | null
-          call_id?: string | null
-          created_at?: string | null
-          duration?: number | null
-          hospital_id?: string | null
-          id?: string
-          interview_id: string
-          structured_analysis?: Json | null
-          transcript?: string | null
-          transcript_json?: Json[] | null
-          transcript_url?: string | null
-          updated_at?: string | null
-          user_id: string
-          video_url?: string | null
-        }
-        Update: {
-          audio_url?: string | null
-          call_analysis?: Json | null
-          call_id?: string | null
-          created_at?: string | null
-          duration?: number | null
-          hospital_id?: string | null
-          id?: string
-          interview_id?: string
-          structured_analysis?: Json | null
-          transcript?: string | null
-          transcript_json?: Json[] | null
-          transcript_url?: string | null
-          updated_at?: string | null
-          user_id?: string
-          video_url?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fk_hospital"
-            columns: ["hospital_id"]
-            isOneToOne: false
-            referencedRelation: "hospitals"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_interview"
-            columns: ["interview_id"]
-            isOneToOne: true
-            referencedRelation: "interviews"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "interview_analysis_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      interview_templates: {
+      interview: {
         Row: {
           ai_ending_message: string | null
           ai_instructions: string[] | null
-          ai_interview_duration: number | null
+          ai_interview_duration: number
           ai_questions: string | null
           ai_welcome_message: string | null
+          campaign_id: string
           candidate_estimated_time: string | null
-          candidate_form: Json | null
-          candidate_instructions: string[] | null
-          candidate_intro_video_cover_image_url: string | null
-          candidate_intro_video_url: string | null
-          candidate_overview: string[] | null
-          created_at: string | null
-          hospital_id: string
-          id: string
-          name: string
-          published_version: number | null
-          status: string
-          updated_at: string | null
-          version: number
-        }
-        Insert: {
-          ai_ending_message?: string | null
-          ai_instructions?: string[] | null
-          ai_interview_duration?: number | null
-          ai_questions?: string | null
-          ai_welcome_message?: string | null
-          candidate_estimated_time?: string | null
-          candidate_form?: Json | null
-          candidate_instructions?: string[] | null
-          candidate_intro_video_cover_image_url?: string | null
-          candidate_intro_video_url?: string | null
-          candidate_overview?: string[] | null
-          created_at?: string | null
-          hospital_id: string
-          id?: string
-          name: string
-          published_version?: number | null
-          status: string
-          updated_at?: string | null
-          version: number
-        }
-        Update: {
-          ai_ending_message?: string | null
-          ai_instructions?: string[] | null
-          ai_interview_duration?: number | null
-          ai_questions?: string | null
-          ai_welcome_message?: string | null
-          candidate_estimated_time?: string | null
-          candidate_form?: Json | null
-          candidate_instructions?: string[] | null
-          candidate_intro_video_cover_image_url?: string | null
-          candidate_intro_video_url?: string | null
-          candidate_overview?: string[] | null
-          created_at?: string | null
-          hospital_id?: string
-          id?: string
-          name?: string
-          published_version?: number | null
-          status?: string
-          updated_at?: string | null
-          version?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "interview_templates_hospital_id_fkey"
-            columns: ["hospital_id"]
-            isOneToOne: false
-            referencedRelation: "hospitals"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      interviews: {
-        Row: {
-          ai_ending_message: string | null
-          ai_instructions: string[] | null
-          ai_interview_duration: number | null
-          ai_questions: string | null
-          ai_welcome_message: string | null
-          campaign_code: string
-          campaign_id: string | null
-          candidate_estimated_time: string | null
-          candidate_form: Json | null
           candidate_instructions: string[] | null
           candidate_intro_video_cover_image_url: string | null
           candidate_intro_video_url: string | null
@@ -319,13 +212,11 @@ export type Database = {
         Insert: {
           ai_ending_message?: string | null
           ai_instructions?: string[] | null
-          ai_interview_duration?: number | null
+          ai_interview_duration?: number
           ai_questions?: string | null
           ai_welcome_message?: string | null
-          campaign_code: string
-          campaign_id?: string | null
+          campaign_id: string
           candidate_estimated_time?: string | null
-          candidate_form?: Json | null
           candidate_instructions?: string[] | null
           candidate_intro_video_cover_image_url?: string | null
           candidate_intro_video_url?: string | null
@@ -340,13 +231,11 @@ export type Database = {
         Update: {
           ai_ending_message?: string | null
           ai_instructions?: string[] | null
-          ai_interview_duration?: number | null
+          ai_interview_duration?: number
           ai_questions?: string | null
           ai_welcome_message?: string | null
-          campaign_code?: string
-          campaign_id?: string | null
+          campaign_id?: string
           candidate_estimated_time?: string | null
-          candidate_form?: Json | null
           candidate_instructions?: string[] | null
           candidate_intro_video_cover_image_url?: string | null
           candidate_intro_video_url?: string | null
@@ -363,50 +252,169 @@ export type Database = {
             foreignKeyName: "interviews_campaign_id_fkey"
             columns: ["campaign_id"]
             isOneToOne: false
-            referencedRelation: "campaigns"
+            referencedRelation: "campaign"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "interviews_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "applicant"
             referencedColumns: ["id"]
           },
         ]
       }
-      resumes: {
+      interview_analysis: {
         Row: {
-          campaign_id: string | null
+          audio_url: string | null
+          call_analysis: Json | null
+          call_id: string | null
+          created_at: string | null
+          id: string
+          interview_id: string
+          structured_analysis: Json | null
+          transcript: string | null
+          transcript_json: Json[] | null
+          transcript_url: string | null
+          updated_at: string | null
+          user_id: string
+          video_url: string | null
+        }
+        Insert: {
+          audio_url?: string | null
+          call_analysis?: Json | null
+          call_id?: string | null
+          created_at?: string | null
+          id?: string
+          interview_id: string
+          structured_analysis?: Json | null
+          transcript?: string | null
+          transcript_json?: Json[] | null
+          transcript_url?: string | null
+          updated_at?: string | null
+          user_id: string
+          video_url?: string | null
+        }
+        Update: {
+          audio_url?: string | null
+          call_analysis?: Json | null
+          call_id?: string | null
+          created_at?: string | null
+          id?: string
+          interview_id?: string
+          structured_analysis?: Json | null
+          transcript?: string | null
+          transcript_json?: Json[] | null
+          transcript_url?: string | null
+          updated_at?: string | null
+          user_id?: string
+          video_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_interview"
+            columns: ["interview_id"]
+            isOneToOne: true
+            referencedRelation: "interview"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interview_analysis_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "applicant"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      interview_template: {
+        Row: {
+          ai_ending_message: string | null
+          ai_instructions: string[] | null
+          ai_interview_duration: number
+          ai_questions: string | null
+          ai_welcome_message: string | null
+          candidate_estimated_time: string | null
+          candidate_instructions: string[] | null
+          candidate_intro_video_cover_image_url: string | null
+          candidate_intro_video_url: string | null
+          candidate_overview: string[] | null
+          created_at: string | null
+          hospital_id: string
+          id: string
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          ai_ending_message?: string | null
+          ai_instructions?: string[] | null
+          ai_interview_duration?: number
+          ai_questions?: string | null
+          ai_welcome_message?: string | null
+          candidate_estimated_time?: string | null
+          candidate_instructions?: string[] | null
+          candidate_intro_video_cover_image_url?: string | null
+          candidate_intro_video_url?: string | null
+          candidate_overview?: string[] | null
+          created_at?: string | null
+          hospital_id: string
+          id?: string
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          ai_ending_message?: string | null
+          ai_instructions?: string[] | null
+          ai_interview_duration?: number
+          ai_questions?: string | null
+          ai_welcome_message?: string | null
+          candidate_estimated_time?: string | null
+          candidate_instructions?: string[] | null
+          candidate_intro_video_cover_image_url?: string | null
+          candidate_intro_video_url?: string | null
+          candidate_overview?: string[] | null
+          created_at?: string | null
+          hospital_id?: string
+          id?: string
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "interview_templates_hospital_id_fkey"
+            columns: ["hospital_id"]
+            isOneToOne: false
+            referencedRelation: "hospital"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      resume: {
+        Row: {
+          campaign_id: string
           created_at: string | null
           error_status: Json | null
-          file_name: string | null
-          file_size: string | null
-          file_url: string | null
+          file_url: string
           id: string
           structured_resume: Json | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
-          campaign_id?: string | null
+          campaign_id: string
           created_at?: string | null
           error_status?: Json | null
-          file_name?: string | null
-          file_size?: string | null
-          file_url?: string | null
+          file_url: string
           id?: string
           structured_resume?: Json | null
           updated_at?: string | null
           user_id: string
         }
         Update: {
-          campaign_id?: string | null
+          campaign_id?: string
           created_at?: string | null
           error_status?: Json | null
-          file_name?: string | null
-          file_size?: string | null
-          file_url?: string | null
+          file_url?: string
           id?: string
           structured_resume?: Json | null
           updated_at?: string | null
@@ -417,19 +425,19 @@ export type Database = {
             foreignKeyName: "resumes_campaign_id_fkey"
             columns: ["campaign_id"]
             isOneToOne: false
-            referencedRelation: "campaigns"
+            referencedRelation: "campaign"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "resumes_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "users"
+            isOneToOne: false
+            referencedRelation: "applicant"
             referencedColumns: ["id"]
           },
         ]
       }
-      roles: {
+      role: {
         Row: {
           id: string
           role: Database["public"]["Enums"]["app_role"]
@@ -447,12 +455,12 @@ export type Database = {
         }
         Relationships: []
       }
-      tenant: {
+      user: {
         Row: {
           created_at: string
           email: string
           first_name: string
-          hospital_id: string | null
+          hospital_id: string
           last_name: string | null
           user_id: string
         }
@@ -460,7 +468,7 @@ export type Database = {
           created_at?: string
           email: string
           first_name: string
-          hospital_id?: string | null
+          hospital_id: string
           last_name?: string | null
           user_id: string
         }
@@ -468,7 +476,7 @@ export type Database = {
           created_at?: string
           email?: string
           first_name?: string
-          hospital_id?: string | null
+          hospital_id?: string
           last_name?: string | null
           user_id?: string
         }
@@ -477,58 +485,10 @@ export type Database = {
             foreignKeyName: "tenant_hospital_id_fkey"
             columns: ["hospital_id"]
             isOneToOne: false
-            referencedRelation: "hospitals"
+            referencedRelation: "hospital"
             referencedColumns: ["id"]
           },
         ]
-      }
-      users: {
-        Row: {
-          created_at: string | null
-          email: string
-          expected_salary: number | null
-          first_name: string | null
-          id: string
-          job_type: string | null
-          last_name: string | null
-          phone_number: string | null
-          preferred_job_titles: string[] | null
-          preferred_locations: string[] | null
-          profile_status: string | null
-          terms_accepted: boolean | null
-          travel_preference: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          email: string
-          expected_salary?: number | null
-          first_name?: string | null
-          id: string
-          job_type?: string | null
-          last_name?: string | null
-          phone_number?: string | null
-          preferred_job_titles?: string[] | null
-          preferred_locations?: string[] | null
-          profile_status?: string | null
-          terms_accepted?: boolean | null
-          travel_preference?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          email?: string
-          expected_salary?: number | null
-          first_name?: string | null
-          id?: string
-          job_type?: string | null
-          last_name?: string | null
-          phone_number?: string | null
-          preferred_job_titles?: string[] | null
-          preferred_locations?: string[] | null
-          profile_status?: string | null
-          terms_accepted?: boolean | null
-          travel_preference?: string | null
-        }
-        Relationships: []
       }
     }
     Views: {
@@ -551,7 +511,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "nurse" | "hospital" | "doctor" | "therapist"
+      app_role: "applicant" | "user"
       interview_stage:
         | "not_started"
         | "resume_submitted"

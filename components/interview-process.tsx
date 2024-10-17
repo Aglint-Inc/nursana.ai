@@ -117,7 +117,7 @@ export default function Interview({
 
       const [updateInterviewResult, updateAnalysisResult] = await Promise.all([
         supabase
-          .from('interviews')
+          .from('interview')
           .update({
             interview_stage: 'interview_completed',
           })
@@ -300,7 +300,7 @@ export default function Interview({
           <>
             <div className='mt-6 flex flex-col items-center'>
               <NursanaLogo />
-              <h1 className='mb-2 text-center text-3xl font-medium'>
+              <h1 className='mb-2 text-center text-3xl font-medium mt-6'>
                 Let&apos;s Start Your AI Interview
               </h1>
               <p className='mb-6 max-w-xl text-center text-muted-foreground'>
@@ -311,7 +311,7 @@ export default function Interview({
             </div>
           </>
         ) : (
-          <div className='mt-6'>
+          <div className='mt-6 mb-4'>
             <NursanaLogo />
           </div>
         )}
@@ -329,7 +329,7 @@ export default function Interview({
                 {isInterviewStarted && (
                   <>
                     <div className='absolute bottom-0 left-0 flex w-full justify-center gap-2 bg-gradient-to-t from-[#00000050] to-transparent py-4'>
-                      <div className='flex h-[36px] items-center justify-center rounded-md bg-white px-4 text-sm text-red-600'>
+                      <div className='flex h-[36px] items-center justify-center rounded-md bg-white px-4 text-sm text-red-600 dark:bg-black dark:text-white'>
                         <StopCircle
                           className='mr-2 h-4 w-4'
                           strokeWidth={1.2}

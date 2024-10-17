@@ -8,7 +8,7 @@ import PoweredBy from "./landing-sections.tsx/powerd-by";
 import WhyUS from "./landing-sections.tsx/why-us";
 import Navbar from "./navbar";
 
-function InvalidCampagin() {
+function HomePage() {
   return (
     <div>
       <Navbar />
@@ -24,4 +24,4 @@ function InvalidCampagin() {
   );
 }
 
-export default InvalidCampagin;
+export default HomePage;

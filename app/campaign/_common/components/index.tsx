@@ -4,6 +4,8 @@ import { UIButton } from '@/common/components/UIButton';
 import UISelectDropDown from '@/common/components/UISelectDropDown';
 import UITextField from '@/common/components/UITextField';
 import { capitalize } from '@/common/utils/capitalize';
+import Footer from '@/components/footer';
+import NursanaLogo from '@/components/nursana-logo';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 
 import Section from '../../../../components/section';
@@ -16,12 +18,15 @@ export default function FormCampaign() {
 
   return (
     <Section>
-      <div className='flex w-full flex-col items-center gap-16'>
-        <div className='flex max-w-screen-xl flex-col items-center gap-2'>
-          <h1 className='text-5xl font-medium'>
+      <div className='flex w-full h-[calc(100vh-72px)] flex-col items-center gap-8'>
+
+      
+        <div className='flex max-w-screen-xl flex-col items-center gap-1 mt-6'>
+        <NursanaLogo/>
+          <h1 className='text-2xl font-medium mt-4'>
             Let Nursana&apos;s AI find your next opportunity.
           </h1>
-          <h1 className='text-5xl font-medium'>Get started now!</h1>
+          <h1 className='text-2xl font-medium'>Get started now!</h1>
         </div>
 
         <Card className='max-w-lg bg-muted'>
@@ -111,6 +116,7 @@ export default function FormCampaign() {
           </CardFooter>
         </Card>
       </div>
+      <Footer/>
     </Section>
   );
 }

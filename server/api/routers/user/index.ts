@@ -4,6 +4,7 @@ import { createUser } from "./create";
 import { createInterview } from "./create_interview";
 import { getAuth } from "./get_auth";
 import { getData } from "./get_data";
+import { updatePreferences } from "./update_preferences";
 
 export const user = createTRPCRouter({
   create_interview: createInterview,
@@ -11,4 +12,5 @@ export const user = createTRPCRouter({
   create: createUser,
   get_data: getData,
   auth: getAuth,
+  updatePreferences: updatePreferences,
 });

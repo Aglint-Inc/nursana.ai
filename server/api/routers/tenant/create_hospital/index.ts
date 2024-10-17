@@ -26,7 +26,7 @@ const mutation = async ({
 
   const res = (
     await db
-      .from('hospitals')
+      .from('hospital')
       .insert({
         hospital_name,
         address,
@@ -43,9 +43,9 @@ const mutation = async ({
   if (!res) throw new Error('Hospital not created');
 
   await db
-    .from('tenant')
+    .from('user')
     .update({
-      hospital_id: res.id,
+      hospital_id: '',
     })
     .eq('user_id', created_by)
     .throwOnError();

@@ -1,4 +1,4 @@
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { api } from 'trpc/client';
 
@@ -11,6 +11,7 @@ import { useCampaign } from './useCampaign';
 export const useUploadCampaign = () => {
   const { toast } = useToast();
   const { data } = useCampaign();
+  const router = useRouter();
   const [form, setForm] = useState<FormCampaign>({
     first_name: '',
     last_name: '',
@@ -55,7 +56,8 @@ export const useUploadCampaign = () => {
             email: form.email,
             first_name: form.first_name,
             last_name: form.last_name,
-            role: form.role,
+            role: 'applicant',
+            job_title: form.role,
           });
           if (resUser.error)
             throw new Error(resUser.error.message || resUser.error.code);
@@ -78,7 +80,7 @@ export const useUploadCampaign = () => {
 
         const {
           data: { publicUrl },
-        } = supabase.storage.from('resumes').getPublicUrl(fileName);
+        } = supabase.storage.from('resume').getPublicUrl(fileName);
 
         const res = await createInterview({
           campaign_code,
@@ -96,6 +98,8 @@ export const useUploadCampaign = () => {
           if (error) {
             throw new Error('Error creating interview');
           }
+
+          router.push('/auth/check-email?type=interview');
           toast({
             description:
               'Interview link has been sent to your email. Please check your inbox.',

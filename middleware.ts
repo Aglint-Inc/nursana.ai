@@ -12,7 +12,7 @@ const PUBLIC_ROUTES = [
   '^/contact$',
   // Folders (everything under these paths)
   // Starts with
-
+  'score_resume',
   '^/auth/',
   'campaign',
   '/api/trpc',

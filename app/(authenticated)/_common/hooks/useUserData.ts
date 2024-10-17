@@ -1,10 +1,10 @@
 import { api } from 'trpc/client';
 
-export function useNurseData() {
+export function useUserData() {
   const { data, isLoading, error, refetch } = api.user.get_data.useQuery();
 
   return {
-    nurseData: data,
+    userData: data,
     isLoading,
     error,
     refetch,
