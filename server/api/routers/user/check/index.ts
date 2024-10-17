@@ -16,7 +16,7 @@ const mutation = async ({
   if (role === 'nurse') {
     const user = (
       await db
-        .from('users')
+        .from('applicant')
         .select('*')
         .eq('email', email)
         .single()
@@ -31,7 +31,7 @@ const mutation = async ({
   } else {
     const tenant = (
       await db
-        .from('tenant')
+        .from('user')
         .select('*')
         .eq('email', email)
         .single()

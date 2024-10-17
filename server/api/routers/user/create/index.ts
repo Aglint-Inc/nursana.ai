@@ -28,7 +28,7 @@ const mutation = async ({
   if (!userId) throw new Error('User not created');
 
   await supabase
-    .from('users')
+    .from('applicant')
     .insert({
       id: userId,
       email,
@@ -39,7 +39,7 @@ const mutation = async ({
     .throwOnError();
 
   await supabase
-    .from('roles')
+    .from('role')
     .insert({
       user_id: userId,
       role: role,

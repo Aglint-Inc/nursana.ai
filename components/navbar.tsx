@@ -1,22 +1,21 @@
-import Link from "next/link";
-import React from "react";
+import Link from 'next/link';
+import React from 'react';
 
-import HeaderAuth from "@/components/header-auth";
-
-import Section from "./section";
+import NursanaLogo from './nursana-logo';
+import Section from './section';
+import { Button } from './ui/button';
 
 const Navbar: React.FC = () => {
   return (
     <Section>
-      <nav className="w-full flex justify-center">
-        <div className="w-full flex justify-between items-center py-6">
-          <div className="flex gap-5 items-center font-semibold">
-            <Link href="/" className="text-3xl font-light">
-              <span className="font-medium ">Nursana</span>
-              <span className="font-light text-purple-500">.ai</span>
+      <nav className='flex h-20 w-full items-center justify-center'>
+        <div className='flex w-full items-center justify-between'>
+          <div className='flex items-center gap-5 font-semibold'>
+            <Link href='/' className='flex items-center justify-center'>
+              <NursanaLogo variant='md' />
             </Link>
           </div>
-          <HeaderAuth />
+          <GetStarted />
         </div>
       </nav>
     </Section>
@@ -24,3 +23,12 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+function GetStarted() {
+  return (
+    <div className='flex gap-2'>
+      <Button asChild variant={'default'}>
+        <Link href='/campaign/?campaign_code=SUMMER23NURSE'>Get Started</Link>
+      </Button>
+    </div>
+  );
+}

@@ -27,11 +27,12 @@ export function DashboardCTA() {
     user?.expected_salary;
 
   const hasCompletedInterview =
-    userData.interview?.interview_stage ?? null === 'completed';
+    userData.interview?.interview_stage ?? null === 'interview_completed';
   const hasAnyInterview = userData.interview?.interview_stage ?? null !== null;
 
   return (
     <div className='my-4 space-y-4'>
+      {/* {!false && ( */}
       {!hasCompletedInterview && (
         <Alert>
           <AlertCircle className='h-4 w-4' />
@@ -39,7 +40,7 @@ export function DashboardCTA() {
             {hasAnyInterview ? 'Interview In Progress' : 'Start Your Interview'}
           </AlertTitle>
           <AlertDescription>
-            <div className='flex flex-row justify-between space-x-4'>
+            <div className='flex flex-col justify-between gap-4'>
               {hasAnyInterview
                 ? 'You have an ongoing interview. Continue to complete it and receive your feedback.'
                 : 'Start your first interview to get personalized feedback and improve your chances of landing your dream job.'}
@@ -58,7 +59,7 @@ export function DashboardCTA() {
           </AlertDescription>
         </Alert>
       )}
-
+      {/* {!true && ( */}
       {!isProfileComplete && (
         <Alert>
           <Terminal className='h-4 w-4' />

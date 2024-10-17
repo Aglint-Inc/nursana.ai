@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useUserData } from '@/authenicated/hooks/useUserData';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 
 const RatingBar: React.FC<{
@@ -29,10 +29,7 @@ export function InterviewAnalysis() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Interview Analysis</CardTitle>
-      </CardHeader>
-      <CardContent className='flex flex-col gap-8'>
+      <CardContent className='flex flex-col gap-8 pt-6'>
         <div className='space-y-4'>
           <h3 className='text-lg font-semibold'>
             Education and Certifications

@@ -1,6 +1,6 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from '@/utils/supabase/client';
 
 export default async function InterviewLayout({
   children,
@@ -9,16 +9,15 @@ export default async function InterviewLayout({
   children: React.ReactNode;
   params: { id: string };
 }) {
-  const supabase = createClient();
   const { data: interview, error } = await supabase
-    .from("interviews")
-    .select("*")
-    .eq("id", params.id)
+    .from('interview')
+    .select('*')
+    .eq('id', params.id)
     .single();
 
   if (error || !interview) {
     notFound();
   }
 
-  return <div className="">{children}</div>;
+  return <div className=''>{children}</div>;
 }
