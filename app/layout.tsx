@@ -24,7 +24,7 @@ export const metadata = {
     siteName: 'Nursana',
     images: [
       {
-        url: `${defaultUrl}/og-image.png`, 
+        url: `${defaultUrl}/og-image.png`,
         width: 1200,
         height: 630,
         alt: 'Nursana homepage preview',
@@ -48,14 +48,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <body className="bg-background text-foreground">
+    <html lang='en' className={GeistSans.className} suppressHydrationWarning>
+      <body className='bg-background text-foreground'>
         <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
+          attribute='class'
+          defaultTheme='light'
           disableTransitionOnChange
         >
-          <main className="flex min-h-screen flex-col items-center">
+          <main className='flex min-h-screen flex-col items-center'>
             <Providers>{children}</Providers>
           </main>
         </ThemeProvider>
