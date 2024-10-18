@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { Suspense } from 'react';
 import { useCampaign } from '../hooks/useCampaign';
 import { useCampaignParams } from '../hooks/useCurrentCampaign';
+import { Input } from '@/components/ui/input';
 
 const Comp = () => {
   const campaign = useCampaign();
