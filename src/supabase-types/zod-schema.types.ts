@@ -6,60 +6,52 @@ export const jsonSchema = z.any();
 export const applicantRowSchema = z.object({
   created_at: z.string().nullable(),
   email: z.string(),
-  expected_salary: z.number().nullable(),
+  expected_salary: z.string().nullable(),
   first_name: z.string().nullable(),
   id: z.string(),
   job_title: z.string().nullable(),
-  job_type: z.string().nullable(),
+  job_type: z.array(z.string()).nullable(),
   last_name: z.string().nullable(),
   phone_number: z.string().nullable(),
   preferred_job_titles: z.array(z.string()).nullable(),
   preferred_locations: z.array(z.string()).nullable(),
   terms_accepted: z.boolean().nullable(),
-  travel_preference: z.string().nullable(),
+  travel_preference: z.array(z.string()).nullable(),
 });
 
 export const applicantInsertSchema = z.object({
   created_at: z.string().optional().nullable(),
   email: z.string(),
-  expected_salary: z.number().optional().nullable(),
+  expected_salary: z.string().optional().nullable(),
   first_name: z.string().optional().nullable(),
   id: z.string(),
   job_title: z.string().optional().nullable(),
-  job_type: z.string().optional().nullable(),
+  job_type: z.array(z.string()).optional().nullable(),
   last_name: z.string().optional().nullable(),
   phone_number: z.string().optional().nullable(),
   preferred_job_titles: z.array(z.string()).optional().nullable(),
   preferred_locations: z.array(z.string()).optional().nullable(),
   terms_accepted: z.boolean().optional().nullable(),
-  travel_preference: z.string().optional().nullable(),
+  travel_preference: z.array(z.string()).optional().nullable(),
 });
 
 export const applicantUpdateSchema = z.object({
   created_at: z.string().optional().nullable(),
   email: z.string().optional(),
-  expected_salary: z.number().optional().nullable(),
+  expected_salary: z.string().optional().nullable(),
   first_name: z.string().optional().nullable(),
   id: z.string().optional(),
   job_title: z.string().optional().nullable(),
-  job_type: z.string().optional().nullable(),
+  job_type: z.array(z.string()).optional().nullable(),
   last_name: z.string().optional().nullable(),
   phone_number: z.string().optional().nullable(),
   preferred_job_titles: z.array(z.string()).optional().nullable(),
   preferred_locations: z.array(z.string()).optional().nullable(),
   terms_accepted: z.boolean().optional().nullable(),
-  travel_preference: z.string().optional().nullable(),
+  travel_preference: z.array(z.string()).optional().nullable(),
 });
 
-export const applicantRelationshipsSchema = z.tuple([
-  z.object({
-    foreignKeyName: z.literal("users_id_fkey"),
-    columns: z.tuple([z.literal("id")]),
-    isOneToOne: z.literal(true),
-    referencedRelation: z.literal("users"),
-    referencedColumns: z.tuple([z.literal("id")]),
-  }),
-]);
+export const applicantRelationshipsSchema = z.tuple([]);
 
 export const campaignStatusSchema = z.union([
   z.literal("archived"),
@@ -300,12 +292,28 @@ export const interviewAnalysisRelationshipsSchema = z.tuple([
   }),
 ]);
 
+export const interviewAnalysisIdRowSchema = z.object({
+  id: z.string().nullable(),
+});
+
+export const interviewAnalysisIdInsertSchema = z.object({
+  id: z.string().optional().nullable(),
+});
+
+export const interviewAnalysisIdUpdateSchema = z.object({
+  id: z.string().optional().nullable(),
+});
+
+export const interviewAnalysisIdRelationshipsSchema = z.tuple([]);
+
 export const resumeRowSchema = z.object({
   campaign_id: z.string(),
   created_at: z.string().nullable(),
   error_status: jsonSchema.nullable(),
   file_url: z.string(),
   id: z.string(),
+  processing_status: jsonSchema.nullable(),
+  resume_feedback: jsonSchema.nullable(),
   structured_resume: jsonSchema.nullable(),
   updated_at: z.string().nullable(),
   user_id: z.string(),
@@ -317,6 +325,8 @@ export const resumeInsertSchema = z.object({
   error_status: jsonSchema.optional().nullable(),
   file_url: z.string(),
   id: z.string().optional(),
+  processing_status: jsonSchema.optional().nullable(),
+  resume_feedback: jsonSchema.optional().nullable(),
   structured_resume: jsonSchema.optional().nullable(),
   updated_at: z.string().optional().nullable(),
   user_id: z.string(),
@@ -328,6 +338,8 @@ export const resumeUpdateSchema = z.object({
   error_status: jsonSchema.optional().nullable(),
   file_url: z.string().optional(),
   id: z.string().optional(),
+  processing_status: jsonSchema.optional().nullable(),
+  resume_feedback: jsonSchema.optional().nullable(),
   structured_resume: jsonSchema.optional().nullable(),
   updated_at: z.string().optional().nullable(),
   user_id: z.string().optional(),
@@ -367,15 +379,7 @@ export const roleUpdateSchema = z.object({
   user_id: z.string().optional(),
 });
 
-export const roleRelationshipsSchema = z.tuple([
-  z.object({
-    foreignKeyName: z.literal("user_roles_user_id_fkey"),
-    columns: z.tuple([z.literal("user_id")]),
-    isOneToOne: z.literal(false),
-    referencedRelation: z.literal("users"),
-    referencedColumns: z.tuple([z.literal("id")]),
-  }),
-]);
+export const roleRelationshipsSchema = z.tuple([]);
 
 export const templateRowSchema = z.object({
   created_at: z.string(),
@@ -441,13 +445,6 @@ export const userRelationshipsSchema = z.tuple([
     columns: z.tuple([z.literal("hospital_id")]),
     isOneToOne: z.literal(false),
     referencedRelation: z.literal("hospital"),
-    referencedColumns: z.tuple([z.literal("id")]),
-  }),
-  z.object({
-    foreignKeyName: z.literal("tenant_user_id_fkey"),
-    columns: z.tuple([z.literal("user_id")]),
-    isOneToOne: z.literal(true),
-    referencedRelation: z.literal("users"),
     referencedColumns: z.tuple([z.literal("id")]),
   }),
 ]);

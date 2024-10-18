@@ -2,15 +2,15 @@ import {
   type HttpFunction,
   type Request,
   type Response,
-} from "@google-cloud/functions-framework";
+} from '@google-cloud/functions-framework';
 
-import { handlerResumeToText } from "./preCall";
-import { processResumeToJson } from "./textToJson";
-import { type ErrorType, getResponse as getResponse, saveToDB } from "./utils";
+import { handlerResumeToText } from './preCall';
+import { processResumeToJson } from './textToJson';
+import { type ErrorType, getResponse as getResponse, saveToDB } from './utils';
 
 export const hello: HttpFunction = async (req: Request, res: Response) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  if (req.method === "POST") {
+  res.set('Access-Control-Allow-Origin', '*');
+  if (req.method === 'POST') {
     const {
       application_id,
       resume,
@@ -32,10 +32,9 @@ export const hello: HttpFunction = async (req: Request, res: Response) => {
           })}`,
           application_id,
           test,
-        })
+        }),
       );
     }
-    // setToProcess(application_id, retry);
     try {
       const data = await handlerResumeToText(resume);
       const resume_text = data.resume_text;
@@ -44,20 +43,19 @@ export const hello: HttpFunction = async (req: Request, res: Response) => {
         : await processResumeToJson(resume_text);
       if (!test && json) {
         await saveToDB({
-          table: "resumes",
-          data: { structured_resume: json },
+          data: { structured_resume: json, error_status: null },
           id: application_id,
         });
       }
       return res
         .status(200)
         .json(
-          getResponse({ data: { resume_text, json }, application_id, test })
+          getResponse({ data: { resume_text, json }, application_id, test }),
         );
     } catch (error) {
-      let errorMessage = "Internal Server Error at: process_resume.";
-      let errorType = "SYSTEM_ERROR";
-      if (typeof error === "string") {
+      let errorMessage = 'Internal Server Error at: process_resume.';
+      let errorType = 'SYSTEM_ERROR';
+      if (typeof error === 'string') {
         errorMessage = error.toUpperCase();
       } else if (error instanceof Error) {
         errorType = error.name;
@@ -69,23 +67,23 @@ export const hello: HttpFunction = async (req: Request, res: Response) => {
           application_id,
           type: errorType as ErrorType,
           test,
-        })
+        }),
       );
     }
-  } else if (req.method === "OPTIONS") {
+  } else if (req.method === 'OPTIONS') {
     // Send response to OPTIONS requests
-    res.set("Access-Control-Allow-Methods", "GET");
-    res.set("Access-Control-Allow-Headers", "Content-Type");
-    res.set("Access-Control-Max-Age", "3600");
-    res.status(204).send("");
+    res.set('Access-Control-Allow-Methods', 'GET');
+    res.set('Access-Control-Allow-Headers', 'Content-Type');
+    res.set('Access-Control-Max-Age', '3600');
+    res.status(204).send('');
   } else {
-    res.setHeader("Allow", "POST");
+    res.setHeader('Allow', 'POST');
     res.status(405).send(
       getResponse({
-        error: "Method Not Allowed!",
-        type: "SYSTEM_ERROR",
+        error: 'Method Not Allowed!',
+        type: 'SYSTEM_ERROR',
         test: false,
-      })
+      }),
     );
     return;
   }
