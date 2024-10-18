@@ -7,12 +7,10 @@ if (!RESUME_TO_JSON) {
 }
 
 export const getResumeJson = async (id: string, resume: string) => {
-  console.log('@Score calling api', id);
   const { data } = await axios.post<ResumeJsonType>(RESUME_TO_JSON, {
     application_id: id,
     resume: resume,
   });
-  console.log('@Score api call done', RESUME_TO_JSON);
   return data;
 };
 
