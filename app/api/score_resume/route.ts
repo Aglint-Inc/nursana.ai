@@ -104,14 +104,14 @@ export async function POST(
 
 const saveToDB = async (
   supabase: SupdabasClientType,
-  interview_analysis_id: string,
+  resume_id: string,
   data: any,
 ) => {
   return (
     await supabase
       .from('resume')
       .update(data)
-      .eq('id', interview_analysis_id)
+      .eq('id', resume_id)
       .select('resume_feedback')
       .single()
       .throwOnError()

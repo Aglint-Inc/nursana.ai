@@ -39,6 +39,8 @@ const scoringAspectsSchema = {
       rating: z.number(),
       comments: z.string(),
     }),
+    feedback: z.string(),
+    suggestions: z.string(),
   }),
   experience: z.object({
     years_of_experience: z.object({
@@ -57,6 +59,8 @@ const scoringAspectsSchema = {
       rating: z.number(),
       comments: z.string(),
     }),
+    feedback: z.string(),
+    suggestions: z.string(),
   }),
   technical_skills: z.object({
     software: z.object({
@@ -71,6 +75,8 @@ const scoringAspectsSchema = {
       rating: z.number(),
       comments: z.string(),
     }),
+    feedback: z.string(),
+    suggestions: z.string(),
   }),
 };
 
