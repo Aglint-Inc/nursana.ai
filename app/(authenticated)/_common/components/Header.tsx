@@ -6,7 +6,7 @@ import { SignOut } from './SignOut';
 
 export const Header = (props: PropsWithChildren) => {
   return (
-    <header className='dark:bg-blackshadow-sm flex flex-row items-center bg-white px-4 py-2 dark:bg-black'>
+    <header className='dark:bg-blackshadow-sm mt-8 flex flex-row items-center bg-white px-16 dark:bg-black'>
       {props.children}
       <SignOut />
     </header>
