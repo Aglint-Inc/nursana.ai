@@ -137,7 +137,7 @@ export default function EditProfileForm() {
                     <FormItem>
                       <FormLabel>Phone Number</FormLabel>
                       <FormControl>
-                        <UIPhoneInput  {...field} />
+                        <UIPhoneInput {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -310,7 +310,7 @@ export default function EditProfileForm() {
           </CardContent>
           <CardFooter>
             <UIButton isLoading={isPending} type='submit' className='w-full'>
-              Save Changes
+              {isPending ? 'Saving...' : 'Save Changes'}
             </UIButton>
           </CardFooter>
         </Card>
