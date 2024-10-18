@@ -17,8 +17,9 @@
     "types:local": "npx supabase gen types --lang=typescript --local  --schema public> src/supabase-types/database.types.ts && npm run fix_types && npm run generate-zod-schemas"
   },
   "dependencies": {
-    "@openai/realtime-api-beta": "github:openai/openai-realtime-api-beta",
     "@ai-sdk/openai": "^0.0.67",
+    "@hookform/resolvers": "^3.9.0",
+    "@openai/realtime-api-beta": "github:openai/openai-realtime-api-beta",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-checkbox": "^1.1.1",
@@ -62,7 +63,9 @@
     "react-day-picker": "^9.1.4",
     "react-dom": "^18.3.1",
     "react-error-boundary": "^4.1.0",
+    "react-hook-form": "^7.53.0",
     "react-phone-input-2": "^2.15.1",
+    "react-phone-number-input": "^3.4.9",
     "resend": "^4.0.0",
     "retell-client-js-sdk": "^2.0.4",
     "superjson": "^2.2.1",
