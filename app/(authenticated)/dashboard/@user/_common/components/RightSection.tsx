@@ -3,7 +3,6 @@ import { AlertCircle, ExternalLink, FileText } from 'lucide-react';
 import { useState } from 'react';
 
 import { useUserData } from '@/authenicated/hooks/useUserData';
-import { AudioPlayer } from '@/common/components/AudioPlayer';
 import { PreferencesEdit } from '@/common/components/PreferencesEdit';
 import { PreferencesView } from '@/common/components/PreferencesView';
 import { VideoPlayer } from '@/common/components/VideoPlayer';
@@ -37,8 +36,7 @@ function RightSection() {
       <DashboardCTA />
       <Card className='overflow-hidden border-none bg-secondary shadow-none'>
         <CardContent className='p-0'>
-          <VideoPlayer videoUrl={userData.analysis?.video_url ?? ''} />
-          <AudioPlayer audioUrl={userData.analysis?.audio_url ?? ''} />
+          <VideoPlayer  videoUrl={userData.analysis?.video_url ?? ''} audioUrl={userData.analysis?.audio_url ?? ''} />
         </CardContent>
       </Card>
       {userData?.resume?.error_status ? (
