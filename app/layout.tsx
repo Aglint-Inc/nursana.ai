@@ -12,7 +12,8 @@ const defaultUrl = process.env.VERCEL_URL
 export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: 'Nursana',
-  description: 'Connecting Nurses with the right opportunities',
+  description:
+    'Empowering nurses to connect with top healthcare opportunities. Upload your resume, take AI-driven interviews, and let Nursana.ai match you with the perfect job.',
   icons: {
     icon: '/favicon.svg',
   },
@@ -24,7 +25,7 @@ export const metadata = {
     siteName: 'Nursana',
     images: [
       {
-        url: `${defaultUrl}/og-image.png`,
+        url: `${defaultUrl}/og-image.png?v=1`,
         width: 1200,
         height: 630,
         alt: 'Nursana homepage preview',
@@ -49,17 +50,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en' className={GeistSans.className} suppressHydrationWarning>
-      <body className='bg-background text-foreground'>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='light'
-          disableTransitionOnChange
-        >
-          <main className='flex min-h-screen flex-col items-center'>
-            <Providers>{children}</Providers>
-          </main>
-        </ThemeProvider>
-      </body>
-    </html>
+    <body className='bg-background text-foreground'>
+      <ThemeProvider
+        attribute='class'
+        defaultTheme='light'
+        disableTransitionOnChange
+      >
+        <main className='flex min-h-screen flex-col items-center'>
+          <Providers>{children}</Providers>
+        </main>
+      </ThemeProvider>
+    </body>
+  </html>
   );
 }

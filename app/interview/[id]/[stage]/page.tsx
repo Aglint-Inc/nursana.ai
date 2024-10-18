@@ -27,7 +27,7 @@ const normalizeStage = (stage: string) => {
     case 'interview_completed':
       return 'summary';
     default:
-      return 'get-started'; // Default to get-started if unknown stage
+      return 'start-interview'; // Default to get-started if unknown stage
   }
 };
 
