@@ -74,7 +74,7 @@ const mutation = async ({
     if (!updatedResume) throw new Error('Error uploading resume');
     resume_id = resumeResult.data.id;
     try {
-      getResumeJson(resume_id, resume_url);
+      await getResumeJson(resume_id, resume_url);
     } catch (e: any) {
       console.warn(String(e));
     }

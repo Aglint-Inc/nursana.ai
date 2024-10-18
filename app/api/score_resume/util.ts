@@ -1,6 +1,6 @@
 import { openai } from '@ai-sdk/openai';
 import { generateObject } from 'ai';
-import { z, z as zod } from 'zod';
+import { z } from 'zod';
 // import { zodToJsonSchema } from "zod-to-json-schema";
 
 export async function score<T extends z.ZodSchema>(
@@ -231,176 +231,176 @@ export const PromptArchive: {
   },
 ];
 
-export const schema = zod.object({
-  basics: zod.object({
-    currentJobTitle: zod
+export const schema = z.object({
+  basics: z.object({
+    currentJobTitle: z
       .string()
       .describe(
         'Extract the current job title from resume text (e.g., Registered Nurse, Nurse Practitioner)',
       ),
-    currentCompany: zod
+    currentCompany: z
       .string()
       .describe('Extract the current healthcare institution or hospital name'),
-    professionalSummary: zod
+    professionalSummary: z
       .string()
       .nullable()
       .describe('Extract a professional summary from the resume'),
-    firstName: zod.string(),
-    lastName: zod.string(),
-    email: zod.string().nullable(),
-    phone: zod.string().nullable(),
-    linkedIn: zod.string().nullable(),
-    social: zod.array(zod.string()),
-    location: zod
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string().nullable(),
+    phone: z.string().nullable(),
+    linkedIn: z.string().nullable(),
+    social: z.array(z.string()),
+    location: z
       .object({
-        city: zod.string(),
-        state: zod.string(),
-        country: zod.string(),
+        city: z.string(),
+        state: z.string(),
+        country: z.string(),
       })
       .nullable()
       .describe(
         'Extract the current working location from resume text (e.g., city and state of the healthcare institution)',
       ),
-    totalExperienceInMonths: zod
+    totalExperienceInMonths: z
       .number()
       .nullable()
       .describe('Total experience in months working as a nurse'),
   }),
-  skills: zod.array(
-    zod
+  skills: z.array(
+    z
       .string()
       .describe(
         'Skills specific to nursing, e.g., Patient Care, Emergency Room, IV Therapy',
       ),
   ),
-  specializations: zod.array(
-    zod
+  specializations: z.array(
+    z
       .string()
       .describe('Nursing specializations (e.g., Pediatric Nurse, ICU Nurse)'),
   ),
-  positions: zod.array(
-    zod.object({
-      org: zod
+  positions: z.array(
+    z.object({
+      org: z
         .string()
         .describe('Name of the hospital or healthcare institution'),
-      title: zod.string().describe('Nursing position title'),
-      description: zod
+      title: z.string().describe('Nursing position title'),
+      description: z
         .string()
         .describe(
           'Return full description of duties and responsibilities as a nurse',
         ),
-      location: zod.string().describe('Location of the healthcare facility'),
-      start: zod.object({
-        year: zod.number().nullable(),
-        month: zod.number().nullable(),
+      location: z.string().describe('Location of the healthcare facility'),
+      start: z.object({
+        year: z.number().nullable(),
+        month: z.number().nullable(),
       }),
-      level: zod.enum([
+      level: z.enum([
         'Fresher-level',
         'Associate-level',
         'Mid-level',
         'Senior-level',
         'Executive-level',
       ]),
-      end: zod.object({
-        year: zod.number().nullable(),
-        month: zod.number().nullable(),
+      end: z.object({
+        year: z.number().nullable(),
+        month: z.number().nullable(),
       }),
     }),
   ),
-  clinicalExperience: zod.array(
-    zod.object({
-      department: zod
+  clinicalExperience: z.array(
+    z.object({
+      department: z
         .string()
         .describe('Specific clinical department or unit (e.g., ICU, ER)'),
-      durationInMonths: zod
+      durationInMonths: z
         .number()
         .nullable()
         .describe('Duration of clinical experience in this area'),
     }),
   ),
-  volunteerWork: zod.array(
-    zod.object({
-      organization: zod.string().describe('Name of the volunteer organization'),
-      role: zod.string().describe('Role or position as a volunteer'),
-      description: zod
+  volunteerWork: z.array(
+    z.object({
+      organization: z.string().describe('Name of the volunteer organization'),
+      role: z.string().describe('Role or position as a volunteer'),
+      description: z
         .string()
         .describe('Description of volunteer duties related to nursing'),
-      durationInMonths: zod
+      durationInMonths: z
         .number()
         .nullable()
         .describe('Total duration of volunteer work'),
     }),
   ),
-  achievements: zod.array(
-    zod
+  achievements: z.array(
+    z
       .string()
       .describe(
         'Nursing-related awards or recognitions (e.g., Nurse of the Year)',
       ),
   ),
-  schools: zod.array(
-    zod.object({
-      institution: zod.string(),
-      degree: zod
+  schools: z.array(
+    z.object({
+      institution: z.string(),
+      degree: z
         .string()
         .describe('Degree or certification in nursing (e.g., BSN, MSN)'),
-      gpa: zod.number().nullable(),
-      field: zod.string().describe('Field of study (e.g., Nursing)'),
-      start: zod.object({
-        year: zod.number().nullable(),
-        month: zod.number().nullable(),
+      gpa: z.number().nullable(),
+      field: z.string().describe('Field of study (e.g., Nursing)'),
+      start: z.object({
+        year: z.number().nullable(),
+        month: z.number().nullable(),
       }),
-      end: zod.object({
-        year: zod.number().nullable(),
-        month: zod.number().nullable(),
+      end: z.object({
+        year: z.number().nullable(),
+        month: z.number().nullable(),
       }),
     }),
   ),
-  licenses: zod.array(
-    zod.object({
-      licenseType: zod
+  licenses: z.array(
+    z.object({
+      licenseType: z
         .string()
         .describe('Type of nursing license (e.g., RN, LPN)'),
-      issuingAuthority: zod
+      issuingAuthority: z
         .string()
         .describe('Issuing authority of the nursing license'),
-      state: zod.string().describe('State where the license is valid'),
-      issueDate: zod
+      state: z.string().describe('State where the license is valid'),
+      issueDate: z
         .object({
-          year: zod.number().nullable(),
-          month: zod.number().nullable(),
+          year: z.number().nullable(),
+          month: z.number().nullable(),
         })
         .nullable(),
-      expirationDate: zod
+      expirationDate: z
         .object({
-          year: zod.number().nullable(),
-          month: zod.number().nullable(),
+          year: z.number().nullable(),
+          month: z.number().nullable(),
         })
         .nullable(),
     }),
   ),
-  languages: zod.array(
-    zod
+  languages: z.array(
+    z
       .string()
       .describe(
         'Languages spoken, which could be relevant for patient communication',
       ),
   ),
-  certificates: zod.array(
-    zod.object({
-      title: zod
+  certificates: z.array(
+    z.object({
+      title: z
         .string()
         .describe('Title of the certificate (e.g., BLS, ACLS, CCRN)'),
-      issuingAuthority: zod
+      issuingAuthority: z
         .string()
         .describe('Issuing authority of the certificate'),
-      dateObtained: zod
+      dateObtained: z
         .object({
-          year: zod.number().nullable(),
-          month: zod.number().nullable(),
+          year: z.number().nullable(),
+          month: z.number().nullable(),
         })
         .nullable(),
     }),
   ),
 });
-export type schemaType = zod.infer<typeof schema>;
+export type schemaType = z.infer<typeof schema>;

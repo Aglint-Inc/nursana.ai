@@ -12,6 +12,7 @@ export const getResumeJson = async (id: string, resume: string) => {
     application_id: id,
     resume: resume,
   });
+  console.log('@Score api call done', RESUME_TO_JSON);
   return data;
 };
 
