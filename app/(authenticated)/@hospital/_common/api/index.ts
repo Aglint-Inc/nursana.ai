@@ -2,10 +2,10 @@ import { createTRPCRouter } from '@/server/api/trpc';
 
 import { read } from './read';
 import { user } from './user';
-import { campaign } from './camapign';
+import { campaigns } from './campaigns';
 
 export const hospital = createTRPCRouter({
   read,
   user,
-  campaign,
+  campaigns,
 });

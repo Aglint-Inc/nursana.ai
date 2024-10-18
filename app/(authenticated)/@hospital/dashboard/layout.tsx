@@ -5,7 +5,8 @@ import { getRole } from '@/authenticated/utils/getRole';
 
 const Layout = async (props: PropsWithChildren) => {
   const role = await getRole();
-  if (role === 'user') void api.authenticated.hospital.campaign.read.prefetch();
+  if (role === 'user')
+    void api.authenticated.hospital.campaigns.read.prefetch();
   return <HydrateClient>{props.children}</HydrateClient>;
 };
 
