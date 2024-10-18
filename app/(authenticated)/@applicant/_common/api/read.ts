@@ -1,4 +1,4 @@
-import { applicantProcedure, type ApplicantProcedure } from '@/server/api/trpc';
+import { type ApplicantProcedure, applicantProcedure } from '@/server/api/trpc';
 
 const query = ({ ctx }: ApplicantProcedure) => ctx.applicant;
 
