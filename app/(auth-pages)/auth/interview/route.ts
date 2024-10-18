@@ -26,9 +26,7 @@ export async function GET(request: Request) {
         console.log(
           `Redirecting to: ${origin}/interview/${interview_id}/start-interview`,
         );
-        return NextResponse.redirect(
-          `${origin}/interview/${interview_id}/start-interview`,
-        );
+        return NextResponse.redirect(`${origin}/dashboard`);
       } else {
         return NextResponse.redirect(
           `${origin}/auth/sign-in?error=no_interview_id`,
