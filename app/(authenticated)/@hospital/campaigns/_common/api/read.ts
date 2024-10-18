@@ -1,6 +1,7 @@
-import { HospitalProcedure, hospitalProcedure } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
 import { TRPCError } from '@trpc/server';
+
+import { type HospitalProcedure, hospitalProcedure } from '@/server/api/trpc';
+import { createPrivateClient } from '@/server/db';
 
 const query = async ({ ctx }: HospitalProcedure) => {
   const db = createPrivateClient();

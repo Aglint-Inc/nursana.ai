@@ -5,7 +5,6 @@ import { Header } from '@/authenticated/components/Header';
 import { Navigation } from '@/authenticated/components/Navigation';
 import { type Routes } from '@/authenticated/types';
 import { getRole } from '@/authenticated/utils/getRole';
-import Footer from '@/components/footer';
 
 export default async function Layout(props: PropsWithChildren<Routes>) {
   void api.authenticated.role.prefetch();
@@ -23,7 +22,6 @@ export default async function Layout(props: PropsWithChildren<Routes>) {
           {role === 'applicant' ? props.applicant : props.hospital}
         </main>
       </div>
-      <Footer />
     </HydrateClient>
   );
 }

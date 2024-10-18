@@ -1,4 +1,4 @@
 'use client';
-import { Campaigns } from '@/hospital/components/Campaigns';
+import { Campaigns } from '@/campaigns/components';
 
 export default Campaigns;
