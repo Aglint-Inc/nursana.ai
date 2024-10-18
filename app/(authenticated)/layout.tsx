@@ -1,3 +1,4 @@
+import { unstable_noStore } from 'next/cache';
 import { type PropsWithChildren } from 'react';
 import { api, HydrateClient } from 'trpc/server';
 
@@ -7,6 +8,7 @@ import { type Routes } from '@/authenticated/types';
 import { getRole } from '@/authenticated/utils/getRole';
 
 export default async function Layout(props: PropsWithChildren<Routes>) {
+  unstable_noStore();
   void api.authenticated.role.prefetch();
   const role = await getRole();
   return (

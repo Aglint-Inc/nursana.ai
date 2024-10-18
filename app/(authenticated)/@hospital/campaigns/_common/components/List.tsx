@@ -1,3 +1,7 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+
 import { Badge } from '@/components/ui/badge';
 import {
   Card,
@@ -21,9 +25,9 @@ type CampaignType = ReturnType<typeof useCampaigns>[number];
 export const List = () => {
   const campaigns = useCampaigns();
   return (
-    <Card x-chunk='dashboard-01-chunk-4'>
+    <Card className='flex-grow'>
       <CardHeader className='flex flex-row items-center'>
-        <div className='grid gap-2'>
+        <div className='flex flex-col gap-2'>
           <CardTitle>Campaigns</CardTitle>
           <CardDescription>List of recent campaigns.</CardDescription>
         </div>
@@ -49,8 +53,9 @@ export const List = () => {
 };
 
 const Campaign = (props: CampaignType) => {
+  const { push } = useRouter();
   return (
-    <TableRow>
+    <TableRow onClick={() => push(`/campaigns/${props.id}`)}>
       <Name {...props} />
       <Code {...props} />
       <Status {...props} />
