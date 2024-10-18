@@ -32,8 +32,10 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
     if (userData?.user) {
       setSelectedJobTitles(userData.user.preferred_job_titles || []);
       setSelectedLocations(userData.user.preferred_locations || []);
-      setJobType(userData.user.job_type || '');
-      setTravelPreference(userData.user.travel_preference || '');
+      // setJobType(userData.user.job_type || '');
+      // setTravelPreference(userData.user.travel_preference || '');
+      setJobType('');
+      setTravelPreference('');
       setExpectedSalary(userData.user.expected_salary?.toString() || '');
     }
   }, [userData]);

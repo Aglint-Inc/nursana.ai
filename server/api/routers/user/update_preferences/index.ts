@@ -20,9 +20,9 @@ const mutation = async ({ ctx, input }: PrivateProcedure<typeof schema>) => {
     .update({
       preferred_job_titles: input.preferred_job_titles,
       preferred_locations: input.preferred_locations,
-      job_type: input.job_type,
-      travel_preference: input.travel_preference,
-      expected_salary: input.expected_salary,
+      // job_type: input.job_type,
+      // travel_preference: input.travel_preference,
+      // expected_salary: input.expected_salary,
       profile_status: 'preferences_updated',
     })
     .eq('id', user_id)

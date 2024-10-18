@@ -7,7 +7,6 @@ if (!RESUME_TO_JSON) {
 }
 
 export const getResumeJson = async (id: string, resume: string) => {
-  console.log('callAPI', id, resume);
   const { data } = await axios.post<ResumeJsonType>(RESUME_TO_JSON, {
     application_id: id,
     resume: resume,
