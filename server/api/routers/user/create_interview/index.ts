@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
 import { createPublicClient } from '@/server/db';
-import { getResumeJson } from '@/utils/resume';
+// import { getResumeJson } from '@/utils/resume';
 
 export const schema = z.object({
   resume_url: z.string(),
@@ -74,8 +74,8 @@ const mutation = async ({
     if (!updatedResume) throw new Error('Error uploading resume');
     resume_id = resumeResult.data.id;
     try {
-      getResumeJson(resume_id, resume_url);
-      await new Promise((resolve) => setTimeout(resolve, 75));
+      // getResumeJson(resume_id, resume_url);
+      // await new Promise((resolve) => setTimeout(resolve, 100));
     } catch (e: any) {
       console.warn(String(e));
     }
