@@ -1,13 +1,13 @@
 'use client';
 
-import { View } from '@/campaigns/components/View';
+import { Edit } from '@/campaigns/components/Edit';
 import { List } from '@/campaigns/components/List';
 
 const Page = () => {
   return (
     <>
       <List />
-      <View />
+      <Edit />
     </>
   );
 };
