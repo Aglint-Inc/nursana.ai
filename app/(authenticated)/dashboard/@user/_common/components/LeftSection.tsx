@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { useUserData } from '@/authenicated/hooks/useUserData';
+import { useUserData } from '@/authenticated/hooks/useUserData';
 import { InterviewAnalysis } from '@/common/components/InterviewAnalysis';
 import { InterviewTranscript } from '@/common/components/InterviewTranscript';
 import { Loader } from '@/common/components/Loader';

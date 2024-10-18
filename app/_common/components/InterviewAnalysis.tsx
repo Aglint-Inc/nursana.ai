@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useUserData } from '@/authenicated/hooks/useUserData';
+import { useUserData } from '@/authenticated/hooks/useUserData';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 

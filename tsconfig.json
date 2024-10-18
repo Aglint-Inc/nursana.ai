@@ -31,10 +31,10 @@
       "@/supabase-types/*": ["src/supabase-types/*"],
       "@/server/*": ["./server/*"],
       "@/hooks/*": ["./hooks/*"],
-      "@/audio/*": [
-        "./lib/audio/*"
-      ],
-      "@/authenicated/*": ["./app/(authenticated)/_common/*"]
+      "@/audio/*": ["./lib/audio/*"],
+      "@/authenticated/*": ["./app/(authenticated)/_common/*"],
+      "@/applicant/*": ["./app/(authenticated)/@applicant/_common/*"],
+      "@/hospital/*": ["./app/(authenticated)/@hospital/_common/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

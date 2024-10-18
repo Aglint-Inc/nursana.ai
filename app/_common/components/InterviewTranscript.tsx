@@ -1,7 +1,7 @@
 import { Sparkle, User } from 'lucide-react';
 import React from 'react';
 
-import { useUserData } from '@/authenicated/hooks/useUserData';
+import { useUserData } from '@/authenticated/hooks/useUserData';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface Message {

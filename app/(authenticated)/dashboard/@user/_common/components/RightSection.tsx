@@ -2,7 +2,7 @@
 import { AlertCircle, ExternalLink, FileText } from 'lucide-react';
 import { useState } from 'react';
 
-import { useUserData } from '@/authenicated/hooks/useUserData';
+import { useUserData } from '@/authenticated/hooks/useUserData';
 import { AudioPlayer } from '@/common/components/AudioPlayer';
 import { PreferencesEdit } from '@/common/components/PreferencesEdit';
 import { PreferencesView } from '@/common/components/PreferencesView';
