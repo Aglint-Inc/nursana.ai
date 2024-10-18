@@ -24,7 +24,7 @@ function isMessageArray(arr: any): arr is Message[] {
 }
 
 export function InterviewTranscript() {
-  const { userData } = useUserData();
+  const userData = useUserData();
   const transcriptData = userData?.analysis?.transcript_json;
 
   const transcript: Message[] | undefined =

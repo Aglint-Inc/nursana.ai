@@ -20,7 +20,7 @@ const RatingBar: React.FC<{
 );
 
 export function InterviewAnalysis() {
-  const { userData } = useUserData();
+  const userData = useUserData();
   const analysis = userData?.analysis?.structured_analysis;
 
   if (!analysis) {

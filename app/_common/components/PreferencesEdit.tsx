@@ -19,7 +19,7 @@ type PreferencesEditProps = {
 };
 
 export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
-  const { userData, refetch } = useUserData();
+  const userData = useUserData();
   const updatePreferences = api.user.updatePreferences.useMutation();
 
   const [selectedJobTitles, setSelectedJobTitles] = useState<string[]>([]);
@@ -47,7 +47,6 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
         travel_preference: travelPreference,
         expected_salary: expectedSalary ? parseInt(expectedSalary) : null,
       });
-      await refetch();
       onSave();
     } catch (error) {
       console.error('Error updating preferences:', error);

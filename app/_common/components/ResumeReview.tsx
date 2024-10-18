@@ -40,7 +40,7 @@ export interface ResumeData {
 }
 
 export function ResumeReview() {
-  const { userData } = useUserData();
+  const userData = useUserData();
   const resumeData = userData?.resume?.structured_resume;
 
   // Type guard function to check if the data matches ResumeData structure

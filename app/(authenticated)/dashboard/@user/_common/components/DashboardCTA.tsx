@@ -7,7 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 
 export function DashboardCTA() {
-  const { userData } = useUserData();
+  const userData = useUserData();
 
   if (!userData) return null; // Return null if data is not available
 
