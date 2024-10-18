@@ -1,6 +1,5 @@
-import { Link } from 'lucide-react';
-
 import NursanaLogo from '@/components/nursana-logo';
+import Link from 'next/link';
 
 export const Logo = () => {
   return (

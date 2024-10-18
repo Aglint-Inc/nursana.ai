@@ -6,11 +6,11 @@ import { createClient } from '@/utils/supabase/server';
 
 export default async function Layout({
   children,
-  company,
+
   user,
 }: {
   children: React.ReactNode;
-  company: React.ReactNode;
+
   user: React.ReactNode;
 }) {
   api.user.get_data.prefetch();
@@ -19,7 +19,7 @@ export default async function Layout({
   return (
     <HydrateClient>
       {children}
-      {role === 'user' ? company : user}
+      {role === 'user' ? <></> : user}
     </HydrateClient>
   );
 }
