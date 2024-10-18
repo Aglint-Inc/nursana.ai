@@ -6,8 +6,9 @@ import { Brand } from '@/hospital/components/Brand';
 
 const Page = () => {
   const role = useRole();
-  if (role === 'applicant') return <Logo />;
-  return <Brand />;
+  return (
+    <div className='mr-auto'>{role === 'applicant' ? <Logo /> : <Brand />}</div>
+  );
 };
 
 export default Page;

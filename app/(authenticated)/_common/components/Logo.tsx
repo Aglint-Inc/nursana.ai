@@ -1,5 +1,6 @@
-import NursanaLogo from '@/components/nursana-logo';
 import Link from 'next/link';
+
+import NursanaLogo from '@/components/nursana-logo';
 
 export const Logo = () => {
   return (
