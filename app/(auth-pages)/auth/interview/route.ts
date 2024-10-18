@@ -18,13 +18,13 @@ export async function GET(request: Request) {
       if (error) {
         console.error('Error exchanging code for session:', error.message);
         return NextResponse.redirect(
-          `${origin}/auth/sign-in?error=${encodeURIComponent(error.message)}`,
+          `${origin}/auth/sign-in?error=${error.message}`,
         );
       }
 
       if (interview_id) {
         return NextResponse.redirect(
-          `${origin}/interview/${encodeURIComponent(interview_id)}/start-interview`,
+          `${origin}/interview/${interview_id}/start-interview`,
         );
       } else {
         return NextResponse.redirect(
