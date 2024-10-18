@@ -82,7 +82,6 @@ const mutation = async ({
     const interview = interviewResult.data;
     if (!interview) throw new Error('Error creating interview');
     interview_id = interview.id;
-
     return interview;
   } catch (e) {
     if (resume_id) {
