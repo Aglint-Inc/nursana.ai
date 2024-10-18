@@ -18,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useCampaigns } from '@/hospital/hooks/useCampaigns';
+import { useCampaigns } from '@/campaigns/hooks/useCampaigns';
 
 type CampaignType = ReturnType<typeof useCampaigns>[number];
 

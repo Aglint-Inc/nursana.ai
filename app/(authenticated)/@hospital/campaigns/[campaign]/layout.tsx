@@ -3,13 +3,16 @@ import type { PropsWithChildren } from 'react';
 import { api, HydrateClient } from 'trpc/server';
 
 import { getRole } from '@/authenticated/utils/getRole';
-import type { Routes } from '@/campaigns/types';
 
-const Layout = async (props: PropsWithChildren<Routes>) => {
+const Layout = async (
+  props: PropsWithChildren<{ params: { campaign: string } }>,
+) => {
   unstable_noStore();
   const role = await getRole();
   if (role === 'user')
-    void api.authenticated.hospital.campaigns.read.prefetch();
+    void api.authenticated.hospital.campaigns.campaign.read.prefetch({
+      id: props.params.campaign,
+    });
   return (
     <HydrateClient>
       <div className='flex flex-grow flex-row gap-2'>{props.children}</div>
