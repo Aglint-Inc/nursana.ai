@@ -1,8 +1,8 @@
 import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
 
 import { type HospitalProcedure, hospitalProcedure } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
-import { z } from 'zod';
 
 const schema = z.object({
   id: z.string(),
@@ -13,7 +13,7 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
   const campaign = (
     await db
       .from('campaign')
-      .select('id, name, description, campaign_code, status')
+      .select()
       .eq('id', input.id)
       .eq('hospital_id', ctx.hospital.id)
       .single()
