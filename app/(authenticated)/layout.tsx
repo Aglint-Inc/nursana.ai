@@ -13,7 +13,6 @@ export default async function Layout(props: PropsWithChildren<Routes>) {
   return (
     <HydrateClient>
       <div className='flex min-h-[calc(100vh-156px)] w-full flex-col gap-20'>
-        {props.children}
         <Header>
           <Navigation>
             <>{props.brand}</>
