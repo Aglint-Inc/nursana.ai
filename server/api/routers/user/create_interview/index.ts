@@ -75,8 +75,8 @@ const mutation = async ({
     resume_id = resumeResult.data.id;
     try {
       getResumeJson(resume_id, resume_url);
-    } catch {
-      //
+    } catch (e: any) {
+      console.warn(String(e));
     }
 
     const interview = interviewResult.data;
