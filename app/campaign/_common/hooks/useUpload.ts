@@ -30,10 +30,14 @@ export const useUploadCampaign = () => {
 
   const { mutateAsync } = api.campaign.check_user.useMutation();
 
+  const campaign_id = data?.id;
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (form.file && form.role && form.first_name && form.email) {
+      let uploadUrl = '';
+      const bucketName = 'resumes';
       try {
         setSaving(true);
 
@@ -67,10 +71,10 @@ export const useUploadCampaign = () => {
         }
 
         const fileExt = form.file.name.split('.').pop();
-        const fileName = `resumes/${userId}_${Date.now()}.${fileExt}`;
+        const fileName = `${campaign_id}/${userId}_${Date.now()}.${fileExt}`;
 
         const { error: uploadError } = await supabase.storage
-          .from('resumes')
+          .from(bucketName)
           .upload(fileName, form.file, {
             cacheControl: '3600',
             upsert: false,
@@ -78,9 +82,11 @@ export const useUploadCampaign = () => {
 
         if (uploadError) throw uploadError;
 
+        uploadUrl = fileName;
+
         const {
           data: { publicUrl },
-        } = supabase.storage.from('resume').getPublicUrl(fileName);
+        } = supabase.storage.from(bucketName).getPublicUrl(fileName);
 
         const res = await createInterview({
           campaign_code,
@@ -92,7 +98,7 @@ export const useUploadCampaign = () => {
           const { error } = await supabase.auth.signInWithOtp({
             email: form.email,
             options: {
-              emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/interview?id=${encodeURIComponent(res.id)}`,
+              emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/interview?id=${res.id}`,
             },
           });
           if (error) {
@@ -103,6 +109,9 @@ export const useUploadCampaign = () => {
           throw new Error('Error creating interview');
         }
       } catch (error) {
+        if (uploadUrl) {
+          await supabase.storage.from(bucketName).remove([uploadUrl]);
+        }
         console.log(error);
         toast({
           description:

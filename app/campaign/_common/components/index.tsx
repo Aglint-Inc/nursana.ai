@@ -18,12 +18,10 @@ export default function FormCampaign() {
 
   return (
     <Section>
-      <div className='flex w-full h-[calc(100vh-72px)] flex-col items-center gap-8'>
-
-      
-        <div className='flex max-w-screen-xl flex-col items-center gap-1 mt-6'>
-        <NursanaLogo/>
-          <h1 className='text-2xl font-medium mt-4'>
+      <div className='flex h-[calc(100vh-72px)] w-full flex-col items-center gap-8'>
+        <div className='mt-6 flex max-w-screen-xl flex-col items-center gap-1'>
+          <NursanaLogo />
+          <h1 className='mt-4 text-2xl font-medium'>
             Let Nursana&apos;s AI find your next opportunity.
           </h1>
           <h1 className='text-2xl font-medium'>Get started now!</h1>
@@ -116,7 +114,7 @@ export default function FormCampaign() {
           </CardFooter>
         </Card>
       </div>
-      <Footer/>
+      <Footer />
     </Section>
   );
 }
