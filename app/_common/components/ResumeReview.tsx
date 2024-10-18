@@ -33,9 +33,9 @@ export interface ResumeData {
     description?: string;
   }>;
   certificates?: Array<{
-    name?: string;
-    institution?: string;
-    date?: { year?: number; month?: number };
+    title?: string;
+    issuingAuthority?: string;
+    dateObtained?: string;
   }>;
 }
 
@@ -53,7 +53,12 @@ export function ResumeReview() {
   }
 
   const { basics, skills, schools, positions, certificates } = resumeData;
-
+  console.log(resumeData);
+  console.log(basics);
+  console.log(skills);
+  console.log(schools);
+  console.log(positions);
+  console.log(certificates);
   return (
     <Card>
       <CardContent className='flex flex-col gap-10 p-6'>
@@ -190,10 +195,12 @@ export function ResumeReview() {
                 </div>
                 <div className='flex flex-col gap-0.5'>
                   <div className='text-md font-medium'>
-                    {cert.name} - {cert.institution}
+                    {cert.title} - {cert.issuingAuthority}
                   </div>
                   <div className='text-md text-muted-foreground'>
-                    {cert.date?.month}/{cert.date?.year}
+                    {cert.dateObtained != null
+                      ? cert.dateObtained
+                      : 'Not Available'}
                   </div>
                 </div>
               </div>
