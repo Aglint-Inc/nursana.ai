@@ -1,63 +1,80 @@
 export type Json = any;
 
 export type Database = {
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          operationName?: string
+          query?: string
+          variables?: Json
+          extensions?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       applicant: {
         Row: {
           created_at: string | null
           email: string
-          expected_salary: number | null
+          expected_salary: string | null
           first_name: string | null
           id: string
           job_title: string | null
-          job_type: string | null
+          job_type: string[] | null
           last_name: string | null
           phone_number: string | null
           preferred_job_titles: string[] | null
           preferred_locations: string[] | null
           terms_accepted: boolean | null
-          travel_preference: string | null
+          travel_preference: string[] | null
         }
         Insert: {
           created_at?: string | null
           email: string
-          expected_salary?: number | null
+          expected_salary?: string | null
           first_name?: string | null
           id: string
           job_title?: string | null
-          job_type?: string | null
+          job_type?: string[] | null
           last_name?: string | null
           phone_number?: string | null
           preferred_job_titles?: string[] | null
           preferred_locations?: string[] | null
           terms_accepted?: boolean | null
-          travel_preference?: string | null
+          travel_preference?: string[] | null
         }
         Update: {
           created_at?: string | null
           email?: string
-          expected_salary?: number | null
+          expected_salary?: string | null
           first_name?: string | null
           id?: string
           job_title?: string | null
-          job_type?: string | null
+          job_type?: string[] | null
           last_name?: string | null
           phone_number?: string | null
           preferred_job_titles?: string[] | null
           preferred_locations?: string[] | null
           terms_accepted?: boolean | null
-          travel_preference?: string | null
+          travel_preference?: string[] | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "users_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       campaign: {
         Row: {
@@ -312,6 +329,18 @@ export type Database = {
           },
         ]
       }
+      interview_analysis_id: {
+        Row: {
+          id: string | null
+        }
+        Insert: {
+          id?: string | null
+        }
+        Update: {
+          id?: string | null
+        }
+        Relationships: []
+      }
       resume: {
         Row: {
           campaign_id: string
@@ -319,6 +348,8 @@ export type Database = {
           error_status: Json | null
           file_url: string
           id: string
+          processing_status: Json | null
+          resume_feedback: Json | null
           structured_resume: Json | null
           updated_at: string | null
           user_id: string
@@ -329,6 +360,8 @@ export type Database = {
           error_status?: Json | null
           file_url: string
           id?: string
+          processing_status?: Json | null
+          resume_feedback?: Json | null
           structured_resume?: Json | null
           updated_at?: string | null
           user_id: string
@@ -339,6 +372,8 @@ export type Database = {
           error_status?: Json | null
           file_url?: string
           id?: string
+          processing_status?: Json | null
+          resume_feedback?: Json | null
           structured_resume?: Json | null
           updated_at?: string | null
           user_id?: string
@@ -376,15 +411,7 @@ export type Database = {
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "user_roles_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       template: {
         Row: {
@@ -446,13 +473,6 @@ export type Database = {
             columns: ["hospital_id"]
             isOneToOne: false
             referencedRelation: "hospital"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "tenant_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -650,3 +670,17 @@ export type Enums<
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
 
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never

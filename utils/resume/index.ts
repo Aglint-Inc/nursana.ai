@@ -1,12 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 
 const RESUME_TO_JSON = process.env.NEXT_PUBLIC_RESUME_TO_JSON;
 if (!RESUME_TO_JSON) {
-  console.log("RESUME_TO_JSON not set", process.env);
-  throw new Error("RESUME_TO_JSON not set");
+  console.log('RESUME_TO_JSON not set', process.env);
+  throw new Error('RESUME_TO_JSON not set');
 }
 
 export const getResumeJson = async (id: string, resume: string) => {
+  console.log('callAPI', id, resume);
   const { data } = await axios.post<ResumeJsonType>(RESUME_TO_JSON, {
     application_id: id,
     resume: resume,

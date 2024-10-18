@@ -73,7 +73,6 @@ export const handlerResumeToText = async (
       throw temp;
     });
   if (error) {
-    console.log('Error: ', error, 'type:', errorType);
     const tempError = new Error(error);
     tempError.name = errorType || 'SYSTEM_ERROR';
     throw tempError;

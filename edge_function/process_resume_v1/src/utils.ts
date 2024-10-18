@@ -1,16 +1,16 @@
-import { supabase } from "./client/supabaseClient";
+import { supabase } from './client/supabaseClient';
 export type ErrorType =
-  | "SYSTEM_ERROR"
-  | "UNSUPPORTED_FORMAT"
-  | "AI_ERROR"
-  | "DB_ERROR"
-  | "PARSING_ERROR";
+  | 'SYSTEM_ERROR'
+  | 'UNSUPPORTED_FORMAT'
+  | 'AI_ERROR'
+  | 'DB_ERROR'
+  | 'PARSING_ERROR';
 export const getResponse = ({
   data,
   saved = false,
   error,
   application_id,
-  type = "SYSTEM_ERROR",
+  type = 'SYSTEM_ERROR',
   test,
 }: {
   data?: any;
@@ -22,7 +22,7 @@ export const getResponse = ({
 }) => {
   if (!test && error && application_id) {
     logs(application_id, {
-      step: "process_resume_v1",
+      step: 'process_resume_v1',
       message: error,
       type,
     });
@@ -31,23 +31,19 @@ export const getResponse = ({
 };
 
 export const saveToDB = async ({
-  table,
   data,
   id,
 }: {
-  table: "resumes";
-  data: { structured_resume: any };
+  data: { structured_resume?: any; error_status?: any };
   id: string;
 }) => {
-  if (id.trim() === "") return false;
   const { error } = await supabase
-    .from(table)
+    .from('resume')
     .update({ ...data })
-    .eq("id", id);
-  if (error) {
-    console.error(error);
-  }
-  return !error;
+    .eq('id', id);
+  // .throwOnError()
+  if (error) throw new Error(`saveToDB: 'resume' error:${error.message}`);
+  return;
 };
 
 export const logs = async (
@@ -56,22 +52,22 @@ export const logs = async (
     step: string;
     message: string;
     type: ErrorType;
-  }
+  },
 ) => {
-  console.log("Logging Error: ", error_status);
-  return await supabase
-    .from("resumes")
-    .update({
+  console.error('Logging Error: ', error_status);
+  return await saveToDB({
+    id,
+    data: {
       error_status,
-    })
-    .eq("id", id);
+    },
+  });
 };
 
 export const newAbortSignal = (timeoutMs: number, funcName: string) => {
   const abortController = new AbortController();
   setTimeout(() => {
     abortController.abort();
-    console.log("Aborting Signal for:", funcName);
+    console.log('Aborting Signal for:', funcName);
   }, timeoutMs || 0);
   return abortController.signal;
 };

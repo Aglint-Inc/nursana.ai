@@ -12,19 +12,15 @@ interface NextRequestTS<T> extends NextRequest {
 
 export async function POST(
   request: NextRequestTS<{
-    interview_analysis_id: string;
+    resume_id: string;
     resume_json: schemaType;
     test?: boolean;
   }>,
 ) {
-  const {
-    interview_analysis_id,
-    resume_json,
-    test = false,
-  } = await request.json();
-  if (!interview_analysis_id && !resume_json) {
+  const { resume_id, resume_json, test = false } = await request.json();
+  if (!resume_id || !resume_json) {
     return NextResponse.json(
-      { error: 'Invalid interview analysis id required' },
+      { error: 'Invalid Request interview analysis id required' },
       { status: 400 },
     );
   }
@@ -76,20 +72,22 @@ export async function POST(
     }, {});
     let data;
     if (!test) {
-      data = await saveToDB(supabase, interview_analysis_id, {
-        structured_analysis: scoreJson,
-        analysis_status: error,
+      data = await saveToDB(supabase, resume_id, {
+        resume_feedback: scoreJson,
+        processing_status: {
+          score_resume_api: { status: 'success', error: error },
+        },
       });
     }
     return NextResponse.json({
       data: test ? scoreJson : data,
       usage,
     });
-  } catch (e) {
+  } catch (e: any) {
     if (!test) {
-      await saveToDB(supabase, interview_analysis_id, {
-        analysis_status: {
-          score_resume_api: String(e),
+      await saveToDB(supabase, resume_id, {
+        processing_status: {
+          score_resume_api: { status: 'error', error: String(e) },
         },
       });
     }
@@ -111,10 +109,10 @@ const saveToDB = async (
 ) => {
   return (
     await supabase
-      .from('interview_analysis')
+      .from('resume')
       .update(data)
       .eq('id', interview_analysis_id)
-      .select('structured_analysis')
+      .select('resume_feedback')
       .single()
       .throwOnError()
   ).data!;

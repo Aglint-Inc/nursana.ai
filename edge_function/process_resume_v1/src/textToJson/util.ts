@@ -1,4 +1,4 @@
-import { supabase } from "./client";
+import { supabase } from './client';
 
 export const getResponse = ({
   json,
@@ -30,18 +30,17 @@ export const saveToDB = async ({
   data,
   id,
 }: {
-  table: "applications" | "candidate_files" | "candidates";
+  table: 'applications' | 'candidate_files' | 'candidates';
   data: any;
   id: string;
 }) => {
-  console.log({ saveToDB: { table, data, id } });
-  if (!id && id.trim() === "") return false;
+  if (!id && id.trim() === '') return false;
   const { error } = await supabase
     .from(table)
     .update({ ...data })
-    .eq("id", id);
+    .eq('id', id);
   if (error) {
     console.error({ error });
   }
-  return !Boolean(error);
+  return !error;
 };
