@@ -26,9 +26,20 @@ const scoringAspects = [
 
 const scoringAspectsSchema = {
   education_and_certifications: z.object({
-    degree: z.string(),
-    certifications: z.array(z.string()),
-    specializations: z.array(z.string()),
+    degree: z.object({
+      rating: z.number(),
+      comments: z.string(),
+    }),
+    certifications: z.object({
+      rating: z.number(),
+      comments: z.string(),
+    }),
+    specializations: z.object({
+      rating: z.number(),
+      comments: z.string(),
+    }),
+    feedback: z.string(),
+    suggestions: z.string(),
   }),
   licensure: z.object({
     active_license: z.object({
@@ -404,3 +415,157 @@ export const schema = z.object({
   ),
 });
 export type schemaType = z.infer<typeof schema>;
+export type scoringSchemaType = {
+  [key in (typeof scoringAspects)[number]]: z.infer<
+    (typeof scoringAspectsSchema)[key]
+  > & { sectionScore?: number };
+};
+
+export const calculateAllSectionScore = (inData: scoringSchemaType) => {
+  const data = structuredClone(inData);
+  let totalScore = 0;
+  let sectionCalculated = 0;
+  const aspects = Object.keys(data) as unknown as typeof scoringAspects;
+  aspects.forEach((aspect) => {
+    if (data?.[aspect]) {
+      const temp = calculateSectionScore(aspect, data[aspect] || {}) || 0;
+      totalScore += temp;
+      sectionCalculated += 1;
+      data[aspect]['sectionScore'] = temp;
+    }
+  });
+  return {
+    scoredSections: data,
+    overallScore: totalScore / scoringAspects.length,
+  };
+};
+
+function calculateSectionScore<T extends (typeof scoringAspects)[number]>(
+  key: T,
+  section: scoringSchemaType[T],
+) {
+  switch (key) {
+    case 'education_and_certifications': {
+      const { degree, certifications, specializations } =
+        section as unknown as z.infer<
+          (typeof scoringAspectsSchema)['education_and_certifications']
+        >;
+      return (
+        (((degree.rating || 1) +
+          (certifications.rating || 1) +
+          (specializations.rating || 1)) /
+          25) *
+        100
+      );
+    }
+    case 'licensure': {
+      const { active_license, expiration_date } = section as unknown as z.infer<
+        (typeof scoringAspectsSchema)['licensure']
+      >;
+      return (
+        (((active_license.rating || 1) + (active_license.rating || 1)) / 15) *
+        100
+      );
+    }
+    case 'experience': {
+      const {
+        years_of_experience,
+        healthcare_settings,
+        leadership_roles,
+        specialties,
+      } = section as unknown as z.infer<
+        (typeof scoringAspectsSchema)['experience']
+      >;
+      return (
+        (((years_of_experience.rating || 1) +
+          (healthcare_settings.rating || 1) +
+          (leadership_roles.rating || 1) +
+          (specialties.rating || 1)) /
+          25) *
+        100
+      );
+    }
+    case 'technical_skills': {
+      const { equipment, software, telemedicine } =
+        section as unknown as z.infer<
+          (typeof scoringAspectsSchema)['technical_skills']
+        >;
+      return (
+        (((equipment.rating || 1) +
+          (software.rating || 1) +
+          (telemedicine.rating || 1)) /
+          13) *
+        100
+      );
+    }
+    default:
+      return null;
+  }
+}
+
+const professionalSummarySchema = {
+  summary: z.object({
+    summary: z.string(),
+  }),
+  // professional_summary: z.object({
+  //   professional_summary: z.string(),
+  // }),
+} as const;
+
+export type professionalSummaryType = {
+  [K in keyof typeof professionalSummarySchema]: z.infer<
+    (typeof professionalSummarySchema)[K]
+  >;
+};
+
+export const professionalSummaryPromptArchive: {
+  prompt: string;
+  key: keyof typeof professionalSummarySchema;
+  dataMapper: (_: {
+    score_json: scoringSchemaType;
+    json: schemaType;
+  }) => { error: null; result: string } | { error: string; result: null };
+  schema: (typeof professionalSummarySchema)[keyof typeof professionalSummarySchema];
+}[] = [
+  {
+    key: 'summary',
+    dataMapper: ({ score_json }) => {
+      try {
+        const st = Object.keys(score_json).reduce((acc, key) => {
+          let temp = '';
+          const curr = score_json[key as keyof typeof score_json];
+          if (curr) {
+            if (curr.feedback) {
+              //@ts-ignore
+              curr.feedback = undefined;
+            }
+            if (curr.suggestions) {
+              //@ts-ignore
+              curr.suggestions = undefined;
+            }
+            temp = JSON.stringify(curr);
+          }
+          return acc + temp;
+        }, '');
+        return { result: st, error: null };
+      } catch (e: any) {
+        return { result: null, error: String(e) };
+      }
+    },
+    prompt: `You will receive the evaluation results of a nurse's resume in JSON format, which includes the assessments for licensure, experience, and education & certifications. Summarize the information for recruiter. Don't mention ratings in summary`,
+    schema: professionalSummarySchema['summary'],
+  },
+  // {
+  //   key: 'professional_summary',
+  //   dataMapper: ({ json }) => {
+  //     try {
+  //       const st = JSON.stringify(json.basics);
+  //       return { result: st, error: null };
+  //     } catch (e: any) {
+  //       return { result: null, error: String(e) };
+  //     }
+  //   },
+  //   prompt: `...`,
+  //   schema: professionalSummarySchema['summary'],
+  // },
+];

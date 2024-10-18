@@ -12,25 +12,25 @@ export const hello: HttpFunction = async (req: Request, res: Response) => {
   res.set('Access-Control-Allow-Origin', '*');
   if (req.method === 'POST') {
     const {
-      application_id,
+      resume_id,
       resume,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       retry = 0,
       test = false,
     } = req.body as {
-      application_id: string;
+      resume_id: string;
       resume: string;
       retry: number;
       test?: boolean;
     };
-    if (!application_id || !resume) {
+    if (!resume_id || !resume) {
       return res.status(400).send(
         getResponse({
           error: `Invalid request. Required payload missing. ${JSON.stringify({
-            application_id,
+            resume_id,
             resume,
           })}`,
-          application_id,
+          resume_id,
           test,
         }),
       );
@@ -44,14 +44,12 @@ export const hello: HttpFunction = async (req: Request, res: Response) => {
       if (!test && json) {
         await saveToDB({
           data: { structured_resume: json, error_status: null },
-          id: application_id,
+          id: resume_id,
         });
       }
       return res
         .status(200)
-        .json(
-          getResponse({ data: { resume_text, json }, application_id, test }),
-        );
+        .json(getResponse({ data: { resume_text, json }, resume_id, test }));
     } catch (error) {
       let errorMessage = 'Internal Server Error at: process_resume.';
       let errorType = 'SYSTEM_ERROR';
@@ -64,7 +62,7 @@ export const hello: HttpFunction = async (req: Request, res: Response) => {
       return res.status(500).json(
         getResponse({
           error: errorMessage,
-          application_id,
+          resume_id,
           type: errorType as ErrorType,
           test,
         }),

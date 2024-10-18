@@ -14,8 +14,7 @@ CREATE OR REPLACE FUNCTION public.score_resume_trigger_function()
  LANGUAGE plpgsql
 AS $function$BEGIN
         PERFORM net.http_post(
-            -- url := 'https://nursana.ai/api/score_resume',
-            url := 'https://0d41-2405-201-d041-58e6-54da-73e5-de3d-f136.ngrok-free.app/api/score_resume',
+            url := 'https://nursana.ai/api/score_resume',
             headers := '{"Content-Type": "application/json"}'::jsonb,
             body := json_build_object('resume_id', NEW.id, 'resume_json', NEW.structured_resume)::jsonb
         );
