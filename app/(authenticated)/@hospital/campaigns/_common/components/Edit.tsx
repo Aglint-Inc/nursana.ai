@@ -55,7 +55,6 @@ export const Edit = () => {
 
 const schema = campaignUpdateSchema.pick({
   campaign_code: true,
-  description: true,
   name: true,
 });
 
@@ -95,19 +94,6 @@ const EditForm = () => {
               <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input placeholder='Name' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='description'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Decription</FormLabel>
-              <FormControl>
-                <Input placeholder='Description' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
