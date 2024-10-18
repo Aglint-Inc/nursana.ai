@@ -20,7 +20,7 @@ export default async function Layout(props: PropsWithChildren<Routes>) {
             <>{props.navigation}</>
           </Navigation>
         </Header>
-        {role === 'applicant' ? props.applicant : props.hospital}
+        <main>{role === 'applicant' ? props.applicant : props.hospital}</main>
       </div>
       <Footer />
     </HydrateClient>
