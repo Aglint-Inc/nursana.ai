@@ -6,11 +6,11 @@ import { type SupdabasClientType } from '@/utils/supabase/type';
 import {
   calculateAllSectionScore,
   professionalSummaryPromptArchive,
-  professionalSummaryType,
+  type professionalSummaryType,
   PromptArchive,
   type schemaType,
   score,
-  scoringSchemaType,
+  type scoringSchemaType,
 } from './util';
 
 // @ts-ignore

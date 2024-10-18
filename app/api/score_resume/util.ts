@@ -424,13 +424,11 @@ export type scoringSchemaType = {
 export const calculateAllSectionScore = (inData: scoringSchemaType) => {
   const data = structuredClone(inData);
   let totalScore = 0;
-  let sectionCalculated = 0;
   const aspects = Object.keys(data) as unknown as typeof scoringAspects;
   aspects.forEach((aspect) => {
     if (data?.[aspect]) {
       const temp = calculateSectionScore(aspect, data[aspect] || {}) || 0;
       totalScore += temp;
-      sectionCalculated += 1;
       data[aspect]['sectionScore'] = temp;
     }
   });
@@ -463,7 +461,7 @@ function calculateSectionScore<T extends (typeof scoringAspects)[number]>(
         (typeof scoringAspectsSchema)['licensure']
       >;
       return (
-        (((active_license.rating || 1) + (active_license.rating || 1)) / 15) *
+        (((active_license.rating || 1) + (expiration_date.rating || 1)) / 15) *
         100
       );
     }
