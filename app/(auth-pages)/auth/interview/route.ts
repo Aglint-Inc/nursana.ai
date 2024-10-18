@@ -23,14 +23,12 @@ export async function GET(request: Request) {
       }
 
       if (interview_id) {
-        return NextResponse.redirect(
-          `${origin}/interview/${interview_id}/start-interview`,
-        );
-      } else {
-        return NextResponse.redirect(
-          `${origin}/auth/sign-in?error=no_interview_id`,
-        );
+        return NextResponse.redirect(`${origin}/dashboard`);
       }
+
+      return NextResponse.redirect(
+        `${origin}/auth/sign-in?error=no_interview_id`,
+      );
     }
     return NextResponse.redirect(`${origin}/auth/sign-in?error=invalid_code`);
   } catch (err) {
