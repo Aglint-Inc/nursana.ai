@@ -5,6 +5,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -13,6 +14,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "useUnknownInCatchVariables": false,
+    "noErrorTruncation": true,
     "incremental": true,
     "plugins": [
       {
@@ -21,11 +24,19 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@/components/*": ["./components/*"]
+      "@/common/*": ["./app/_common/*"],
+      "@/trpc/*": ["./app/trpc/*"],
+      "@/components/*": ["./components/*"],
+      "@/utils/*": ["./utils/*"],
+      "@/supabase-types/*": ["src/supabase-types/*"],
+      "@/server/*": ["./server/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/audio/*": [
+        "./lib/audio/*"
+      ],
+      "@/authenicated/*": ["./app/(authenticated)/_common/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "edge_function"]
-  // "strictNullChecks": true
+  "exclude": ["node_modules", ".next", "edge_function"]
 }

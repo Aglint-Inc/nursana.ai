@@ -1,9 +1,10 @@
 "use server";
 
-import { encodedRedirect } from "@/utils/utils";
-import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+
+import { createClient } from "@/utils/supabase/server";
+import { encodedRedirect } from "@/utils/utils";
 
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
@@ -101,6 +102,7 @@ export const resetPasswordAction = async (formData: FormData) => {
     );
   }
 
+  // eslint-disable-next-line security/detect-possible-timing-attacks
   if (password !== confirmPassword) {
     encodedRedirect(
       "error",
@@ -127,5 +129,5 @@ export const resetPasswordAction = async (formData: FormData) => {
 export const signOutAction = async () => {
   const supabase = createClient();
   await supabase.auth.signOut();
-  return redirect("/sign-in");
+  return redirect("/");
 };

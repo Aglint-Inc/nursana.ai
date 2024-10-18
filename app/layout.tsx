@@ -1,18 +1,46 @@
-import { GeistSans } from "geist/font/sans";
-import { ThemeProvider } from "next-themes";
-import "./globals.css";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
-import Providers from "./providers";
+import './globals.css';
+
+import { GeistSans } from 'geist/font/sans';
+import { ThemeProvider } from 'next-themes';
+
+import Providers from './providers';
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+  : 'http://localhost:3000';
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Narsura AI",
-  description: "Connecting Nurses with the right opportunities",
+  title: 'Nursana',
+  description:
+    'Empowering nurses to connect with top healthcare opportunities. Upload your resume, take AI-driven interviews, and let Nursana.ai match you with the perfect job.',
+  icons: {
+    icon: '/favicon.svg',
+  },
+  openGraph: {
+    title: 'Nursana – Connecting Nurses with the Right Opportunities',
+    description:
+      'Discover top nursing jobs with AI-powered interviews and resume analysis.',
+    url: defaultUrl,
+    siteName: 'Nursana',
+    images: [
+      {
+        url: `${defaultUrl}/og-image.png?v=1`,
+        width: 1200,
+        height: 630,
+        alt: 'Nursana homepage preview',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Nursana – Connecting Nurses with the Right Opportunities',
+    description:
+      'Discover top nursing jobs with AI-powered interviews and resume analysis.',
+    images: [`${defaultUrl}/og-image.png`],
+  },
 };
 
 export default function RootLayout({
@@ -21,25 +49,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <body className="bg-background text-foreground">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <main className="min-h-screen flex flex-col items-center">
-            <div className="flex-1 w-full flex flex-col items-center">
-              <Navbar />
-              <div className="flex w-full flex-col gap-20 min-h-[calc(100vh-156px)]">
-                <Providers>{children}</Providers>
-              </div>
-              <Footer />
-            </div>
-          </main>
-        </ThemeProvider>
-      </body>
-    </html>
+    <html lang='en' className={GeistSans.className} suppressHydrationWarning>
+    <body className='bg-background text-foreground'>
+      <ThemeProvider
+        attribute='class'
+        defaultTheme='light'
+        disableTransitionOnChange
+      >
+        <main className='flex min-h-screen flex-col items-center'>
+          <Providers>{children}</Providers>
+        </main>
+      </ThemeProvider>
+    </body>
+  </html>
   );
 }

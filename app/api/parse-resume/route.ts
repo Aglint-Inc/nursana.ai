@@ -1,6 +1,7 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase/server';
+import { NextResponse } from "next/server";
 import { z } from "zod";
+
+import { createClient } from "@/utils/supabase/server";
 
 // Define a Zod schema for the expected structured output
 const ResumeSchema = z.object({
@@ -22,19 +23,19 @@ async function generateMockResumeData(resumeUrl: string, resumeId: string) {
     phone: "123-456-7890",
     education: [
       "Bachelor of Science in Nursing, University of Healthcare, 2015-2019",
-      "Associate Degree in Nursing, Community College, 2013-2015"
+      "Associate Degree in Nursing, Community College, 2013-2015",
     ],
     experience: [
       "Registered Nurse, City Hospital, 2019-Present",
-      "Nursing Intern, Rural Clinic, Summer 2018"
+      "Nursing Intern, Rural Clinic, Summer 2018",
     ],
     skills: [
       "Patient care",
       "Medical record management",
       "IV administration",
       "CPR certified",
-      "Excellent communication skills"
-    ]
+      "Excellent communication skills",
+    ],
   };
 
   try {
@@ -69,10 +70,14 @@ export async function POST(req: Request) {
     // Generate mock resume data and update Supabase
     const parsedOutput = await generateMockResumeData(resumeUrl, resumeId);
 
-    return NextResponse.json({ success: true, message: "Resume parsed successfully", data: parsedOutput });
+    return NextResponse.json({
+      success: true,
+      message: "Resume parsed successfully",
+      data: parsedOutput,
+    });
   } catch (error) {
     console.error("Error parsing resume:", error);
-    
+
     const supabase = createClient();
     // Update the parsing_status to "failed" in case of an error
     await supabase
@@ -82,6 +87,9 @@ export async function POST(req: Request) {
       })
       .eq("id", resumeId);
 
-    return NextResponse.json({ success: false, message: "Failed to parse resume" }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: "Failed to parse resume" },
+      { status: 500 }
+    );
   }
 }

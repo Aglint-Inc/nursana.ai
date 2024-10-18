@@ -1,38 +1,33 @@
-import { createClient } from "@/utils/supabase/server";
-import { notFound, redirect } from "next/navigation";
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
-import HowItWorks from "@/components/landing-sections.tsx/how-it-works";
-
-const ResumeUpload = dynamic(() => import("@/components/resume-upload"), {
-  ssr: false,
-});
+import dynamic from 'next/dynamic';
+import { notFound, redirect } from 'next/navigation';
+import { Suspense } from 'react';
+import { api } from 'trpc/server';
 
 const InterviewInstructions = dynamic(
-  () => import("@/components/interview-instructions"),
+  () => import('@/components/interview-instructions'),
   {
     ssr: false,
-  }
+  },
 );
 
 const InterviewSummary = dynamic(
-  () => import("@/components/interview-summary"),
+  () => import('@/components/interview-summary'),
   {
     ssr: false,
-  }
+  },
 );
 
 const normalizeStage = (stage: string) => {
   switch (stage) {
-    case "not_started":
-      return "get-started";
-    case "resume_submitted":
-    case "interview_inprogress":
-      return "start-interview";
-    case "interview_completed":
-      return "summary";
+    case 'not_started':
+      return 'start-interview';
+    case 'resume_submitted':
+    case 'interview_inprogress':
+      return 'start-interview';
+    case 'interview_completed':
+      return 'summary';
     default:
-      return "get-started"; // Default to get-started if unknown stage
+      return 'start-interview'; // Default to get-started if unknown stage
   }
 };
 
@@ -41,55 +36,31 @@ export default async function InterviewPage({
 }: {
   params: { id: string; stage: string };
 }) {
-  const supabase = createClient();
-  const { data: interview, error } = await supabase
-    .from("interviews")
-    .select("*")
-    .eq("id", params.id)
-    .single();
-
-  if (error || !interview) {
-    console.error("Error fetching interview:", error);
-    notFound();
-  }
+  const interview = await api.interview.getInterviewDetails({
+    interview_id: params.id,
+  });
 
   const normalizedStage = normalizeStage(interview.interview_stage);
   let redirectStage = normalizedStage;
 
   // Check and adjust the stage based on interview progress
   if (
-    params.stage === "summary" &&
-    interview.interview_stage !== "interview_completed"
+    params.stage === 'summary' &&
+    interview.interview_stage !== 'interview_completed'
   ) {
-    redirectStage = "start-interview";
+    redirectStage = 'start-interview';
   } else if (
-    params.stage === "start-interview" &&
-    interview.interview_stage === "not_started"
-  ) {
-    redirectStage = "get-started";
-  }
-
-  // Redirect if the requested stage doesn't match the allowed stage
-  if (params.stage !== redirectStage) {
-    return redirect(`/interview/${params.id}/${redirectStage}`);
-  }
+    params.stage === 'start-interview' &&
+    interview.interview_stage === 'not_started'
+  )
+    if (params.stage !== redirectStage) {
+      // Redirect if the requested stage doesn't match the allowed stage
+      return redirect(`/interview/${params.id}/${redirectStage}`);
+    }
 
   const renderComponent = () => {
     switch (redirectStage) {
-      case "get-started":
-        return (
-          <Suspense fallback={<div>Loading Resume Upload...</div>}>
-            <div className="flex flex-col gap-36 items-center">
-            <HowItWorks/>
-            <ResumeUpload
-              key={params.id}
-              userId={interview.nurse_id}
-              interviewId={params.id}
-            />
-            </div>
-          </Suspense>
-        );
-      case "start-interview":
+      case 'start-interview':
         return (
           <Suspense fallback={<div>Loading Instructions...</div>}>
             <InterviewInstructions
@@ -99,7 +70,7 @@ export default async function InterviewPage({
             />
           </Suspense>
         );
-      case "summary":
+      case 'summary':
         return (
           <Suspense fallback={<div>Loading Summary...</div>}>
             <InterviewSummary
@@ -110,7 +81,7 @@ export default async function InterviewPage({
           </Suspense>
         );
       default:
-        console.log("Unknown stage:", redirectStage);
+        console.log('Unknown stage:', redirectStage);
         notFound();
     }
   };
