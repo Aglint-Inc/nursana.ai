@@ -22,7 +22,6 @@ export async function middleware(req: NextRequest) {
     };
     return NextResponse.json({}, { headers: preflightHeaders });
   }
-  
 
   // Check if the current path matches any public route pattern
   if (PUBLIC_ROUTES_REGEX.test(pathname)) {
@@ -60,6 +59,8 @@ const PUBLIC_ROUTES = [
   '^/auth/',
   '/campaign',
   '/api/trpc',
+  '/api/score_resume',
+  '/api/score_call',
   '/tenant/sign-up',
   '/api/backup-interview-data',
   '/auth/confirm',
