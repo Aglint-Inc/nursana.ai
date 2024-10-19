@@ -10,12 +10,7 @@ import {
 import { UIButton } from '@/common/components/UIButton';
 import { UIMultiSelect } from '@/common/components/UIMultiSelect';
 import UIPhoneInput from '@/common/components/UIPhoneInput';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -312,13 +307,6 @@ export default function EditProfileForm({
             </div>
             <div className='flex justify-end gap-4'>
               <div className='flex gap-2'>
-                <UIButton
-                  onClick={() => setEdit(false)}
-                  type='button'
-                  variant='outline'
-                >
-                  Cancel
-                </UIButton>
                 <UIButton isLoading={isPending} type='submit'>
                   {isPending ? 'Saving' : 'Save'}
                 </UIButton>
