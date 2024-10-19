@@ -18,7 +18,7 @@ export default function CheckEmail() {
     <Section>
       <div className='flex h-[100vh] flex-col items-center justify-between pt-6'>
         <NursanaLogo />
-        <div className='flex flex-col items-center justify-center px-4'>
+        <div className='flex max-w-[400px] flex-col items-center justify-center px-4'>
           <MailCheck
             size={60}
             strokeWidth={1.2}

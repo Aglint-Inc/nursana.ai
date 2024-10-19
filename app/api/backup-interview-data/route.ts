@@ -70,7 +70,7 @@ export async function POST(
       file: audioFile,
       contentType: mimeType,
     });
-    const audioFileUrl = `${process.env.SUPABASE_URL}/storage/v1/object/public/audio/${fileName}`;
+    const audioFileUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/audio/${fileName}`;
     setInterviewAnalysis(supabase, interview_analysis_id, {
       audio_url: audioFileUrl,
       call_analysis,
