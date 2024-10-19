@@ -105,72 +105,73 @@ export default function InterviewInstructions({
           <br />
           <span>{interviewData.name}</span>
         </h1>
-
-        <div className='relative mb-4 w-full max-w-3xl overflow-hidden rounded-lg'>
-          <AspectRatio ratio={16 / 9}>
-            {showCover ? (
-              <>
-                <Image
-                  src={
-                    interviewData.candidate_intro_video_cover_image_url ?? '/'
-                  }
-                  alt='Video cover'
-                  className='h-full w-full object-cover'
-                  width={600}
-                  height={338}
-                />
-                <div className='absolute inset-0 flex items-center justify-center'>
-                  <Button
-                    variant='default'
-                    className='h-16 w-16 rounded-full bg-opacity-75 transition-all hover:bg-opacity-100'
-                    onClick={showVideo}
-                  >
-                    <Play className='text-navy-900 h-8 w-8' />
-                    <span className='sr-only'>Show video</span>
-                  </Button>
-                </div>
-              </>
-            ) : (
-              <>
-                <video
-                  ref={videoRef}
-                  src={interviewData.candidate_intro_video_url ?? '/'}
-                  className='h-full w-full object-cover'
-                  onTimeUpdate={handleTimeUpdate}
-                  onEnded={() => setIsPlaying(false)}
-                />
-                <div className='absolute bottom-0 left-0 right-0 flex items-center bg-black bg-opacity-50 p-2'>
-                  <Button
-                    variant='ghost'
-                    onClick={togglePlay}
-                    className='text-white'
-                  >
-                    {isPlaying ? (
-                      <Pause className='h-6 w-6' />
-                    ) : (
-                      <Play className='h-6 w-6' />
-                    )}
-                  </Button>
-                  <Button
-                    variant='ghost'
-                    onClick={handleReplay}
-                    className='text-white'
-                  >
-                    <Repeat className='h-6 w-6' />
-                  </Button>
-                  <input
-                    type='range'
-                    min='0'
-                    max='100'
-                    value={progress}
-                    onChange={handleSeek}
-                    className='mx-2 flex-grow'
+        {interviewData.candidate_intro_video_cover_image_url && (
+          <div className='relative mb-4 w-full max-w-3xl overflow-hidden rounded-lg'>
+            <AspectRatio ratio={16 / 9}>
+              {showCover ? (
+                <>
+                  <Image
+                    src={
+                      interviewData.candidate_intro_video_cover_image_url ?? '/'
+                    }
+                    alt='Video cover'
+                    className='h-full w-full object-cover'
+                    width={600}
+                    height={338}
                   />
-                </div>
-              </>
-            )}
-          </AspectRatio>
-        </div>
+                  <div className='absolute inset-0 flex items-center justify-center'>
+                    <Button
+                      variant='default'
+                      className='h-16 w-16 rounded-full bg-opacity-75 transition-all hover:bg-opacity-100'
+                      onClick={showVideo}
+                    >
+                      <Play className='text-navy-900 h-8 w-8' />
+                      <span className='sr-only'>Show video</span>
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <video
+                    ref={videoRef}
+                    src={interviewData.candidate_intro_video_url ?? '/'}
+                    className='h-full w-full object-cover'
+                    onTimeUpdate={handleTimeUpdate}
+                    onEnded={() => setIsPlaying(false)}
+                  />
+                  <div className='absolute bottom-0 left-0 right-0 flex items-center bg-black bg-opacity-50 p-2'>
+                    <Button
+                      variant='ghost'
+                      onClick={togglePlay}
+                      className='text-white'
+                    >
+                      {isPlaying ? (
+                        <Pause className='h-6 w-6' />
+                      ) : (
+                        <Play className='h-6 w-6' />
+                      )}
+                    </Button>
+                    <Button
+                      variant='ghost'
+                      onClick={handleReplay}
+                      className='text-white'
+                    >
+                      <Repeat className='h-6 w-6' />
+                    </Button>
+                    <input
+                      type='range'
+                      min='0'
+                      max='100'
+                      value={progress}
+                      onChange={handleSeek}
+                      className='mx-2 flex-grow'
+                    />
+                  </div>
+                </>
+              )}
+            </AspectRatio>
+          </div>
+        )}
 
         <div className='flex w-full max-w-3xl flex-col gap-4'>
           <Card>
