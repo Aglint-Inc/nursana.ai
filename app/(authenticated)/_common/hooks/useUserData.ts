@@ -8,7 +8,9 @@ export const useUpdateUserData = () => {
   const utils = api.useUtils();
   const updateMutation = api.user.updateUser.useMutation({
     onSuccess: () => {
-      utils.user.get_data.invalidate();
+      utils.user.get_data.invalidate().then(() => {
+        console.log('object');
+      });
       toast({
         title: 'Profile updated',
         description: 'Your profile has been updated',

@@ -1,21 +1,11 @@
-'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import {
-  useUpdateUserData,
-  useUserData,
-} from '@/authenicated/hooks/useUserData';
+import { useUserData } from '@/authenicated/hooks/useUserData';
 import { UIButton } from '@/common/components/UIButton';
-import { UIMultiSelect } from '@/common/components/UIMultiSelect';
-import UIPhoneInput from '@/common/components/UIPhoneInput';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -24,22 +14,9 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { capitalizeFirstLetter } from '@/utils/utils';
 
-import {
-  CITIES,
-  JOB_TITLES,
-  JOB_TYPES,
-  SALARY_RANGES,
-  TRAVEL_PREFERENCES,
-} from '../constant';
+import { JOB_TITLES, SALARY_RANGES } from '../constant';
 export const userProfileSchema = z.object({
   first_name: z.string().min(2, 'First name is required'),
   last_name: z.string().min(1, 'Last name is required').nullable().optional(),
@@ -60,7 +37,8 @@ export default function EditProfileForm({
   setEdit: (_edit: boolean) => void;
 }) {
   const { user } = useUserData();
-  const { updateUserDetails, isPending } = useUpdateUserData();
+
+  console.log(user);
   const form = useForm<ProfileData>({
     resolver: zodResolver(userProfileSchema),
     defaultValues: {
@@ -75,37 +53,40 @@ export default function EditProfileForm({
       job_type: user?.job_type || [],
     },
   });
-  const { control, register, setValue, clearErrors } = form;
-  const onSubmitForm = async (data: ProfileData) => {
-    await updateUserDetails({
-      ...data,
-      last_name: data.last_name || null,
-    });
-    setEdit(false);
-  };
 
+  const { control } = form;
+
+  if (!user) {
+    return null;
+  }
   return (
     <Form {...form}>
-      <form className='w-full' onSubmit={form.handleSubmit(onSubmitForm)}>
+      <form className='w-full'>
         <Card className='w-full'>
           <CardHeader>
-            <CardTitle>Edit Profile Information</CardTitle>
+            <div className='flex flex-row items-center justify-between'>
+              <CardTitle>Profile Information</CardTitle>
+              <UIButton
+                onClick={() => setEdit(true)}
+                type='button'
+                variant='outline'
+                size={'sm'}
+              >
+                Edit
+              </UIButton>
+            </div>
           </CardHeader>
           <CardContent className='space-y-4'>
             <div className='grid grid-cols-3 gap-4'>
               <div className='space-y-2'>
                 <FormField
-                  control={control}
                   name='first_name'
-                  render={({ field }) => (
+                  control={control}
+                  render={({ field: { value } }) => (
                     <FormItem>
                       <FormLabel>First Name</FormLabel>
                       <FormControl>
-                        <Input
-                          id='first_name'
-                          placeholder='Please enter your first name'
-                          {...field}
-                        />
+                        <p>{value || '--'}</p>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -114,18 +95,13 @@ export default function EditProfileForm({
               </div>
               <div className='space-y-2'>
                 <FormField
-                  control={control}
                   name='last_name'
-                  render={({ field }) => (
+                  control={control}
+                  render={({ field: { value } }) => (
                     <FormItem>
                       <FormLabel>Last Name</FormLabel>
                       <FormControl>
-                        <Input
-                          id='last_name'
-                          placeholder='Please enter your last name'
-                          {...field}
-                          value={field.value || ''}
-                        />
+                        <p>{value || '--'}</p>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -134,13 +110,13 @@ export default function EditProfileForm({
               </div>
               <div className='space-y-2'>
                 <FormField
-                  control={control}
                   name='phone_number'
-                  render={({ field }) => (
+                  control={control}
+                  render={({ field: { value } }) => (
                     <FormItem>
                       <FormLabel>Phone Number</FormLabel>
                       <FormControl>
-                        <UIPhoneInput {...field} />
+                        <p>{value || '--'}</p>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -152,31 +128,18 @@ export default function EditProfileForm({
             <div className='grid grid-cols-2 gap-4'>
               <div className='space-y-2'>
                 <FormField
-                  control={control}
                   name='job_title'
+                  control={control}
                   render={({ field: { value } }) => (
                     <FormItem>
                       <FormLabel>Current Job Title</FormLabel>
                       <FormControl>
-                        <Select
-                          {...register('job_title')}
-                          onValueChange={(value) => {
-                            clearErrors('job_title');
-                            setValue('job_title', value);
-                          }}
-                          value={value || ''}
-                        >
-                          <SelectTrigger id='job_title'>
-                            <SelectValue placeholder='Select current job title' />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {JOB_TITLES.map((item) => (
-                              <SelectItem key={item.value} value={item.value}>
-                                {item.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        {
+                          <p>
+                            {JOB_TITLES.find((x) => x?.value === value)
+                              ?.label ?? '--'}
+                          </p>
+                        }
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -185,31 +148,16 @@ export default function EditProfileForm({
               </div>
               <div className='space-y-2'>
                 <FormField
-                  control={control}
                   name='expected_salary'
+                  control={control}
                   render={({ field: { value } }) => (
                     <FormItem>
                       <FormLabel>Expected Salary</FormLabel>
                       <FormControl>
-                        <Select
-                          {...register('expected_salary')}
-                          onValueChange={(value) => {
-                            clearErrors('expected_salary');
-                            setValue('expected_salary', value);
-                          }}
-                          value={value || ''}
-                        >
-                          <SelectTrigger id='expected_salary'>
-                            <SelectValue placeholder='Select expected salary' />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {SALARY_RANGES.map((item) => (
-                              <SelectItem key={item.value} value={item.value}>
-                                {item.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        <p>
+                          {SALARY_RANGES.find((x) => x?.value === value)
+                            ?.label ?? '--'}
+                        </p>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -220,21 +168,25 @@ export default function EditProfileForm({
             <div className='grid grid-cols-2 gap-4'>
               <div className='space-y-2'>
                 <FormField
-                  control={control}
                   name='job_type'
+                  control={control}
                   render={({ field: { value } }) => (
                     <FormItem>
                       <FormLabel>Job Types</FormLabel>
                       <FormControl>
-                        <UIMultiSelect
-                          listItems={JOB_TYPES}
-                          onChange={(value) => {
-                            clearErrors('job_type');
-                            setValue('job_type', value);
-                          }}
-                          defaultValue={value ?? []}
-                          level='Job Types'
-                        />
+                        <div className='flex flex-wrap gap-1'>
+                          {value && value.length > 0
+                            ? value.map((item, index) => {
+                                return (
+                                  <Badge key={index} variant='secondary'>
+                                    {capitalizeFirstLetter(
+                                      item.split('-').join(' '),
+                                    )}
+                                  </Badge>
+                                );
+                              })
+                            : '--'}
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -243,20 +195,25 @@ export default function EditProfileForm({
               </div>
               <div className='space-y-2'>
                 <FormField
-                  control={control}
                   name='preferred_job_titles'
+                  control={control}
                   render={({ field: { value } }) => (
                     <FormItem>
                       <FormLabel>Preferred Job Titles</FormLabel>
                       <FormControl>
-                        <UIMultiSelect
-                          listItems={JOB_TITLES}
-                          onChange={(value) =>
-                            setValue('preferred_job_titles', value)
-                          }
-                          defaultValue={value ?? []}
-                          level='Job Titles'
-                        />
+                        <div className='flex flex-wrap gap-1'>
+                          {value && value.length > 0
+                            ? value.map((item, index) => {
+                                return (
+                                  <Badge key={index} variant='secondary'>
+                                    {capitalizeFirstLetter(
+                                      item.split('-').join(' '),
+                                    )}
+                                  </Badge>
+                                );
+                              })
+                            : '--'}
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -267,20 +224,25 @@ export default function EditProfileForm({
             <div className='grid grid-cols-2 gap-4'>
               <div className='space-y-2'>
                 <FormField
-                  control={control}
                   name='preferred_locations'
+                  control={control}
                   render={({ field: { value } }) => (
                     <FormItem>
                       <FormLabel>Preferred Locations</FormLabel>
                       <FormControl>
-                        <UIMultiSelect
-                          listItems={CITIES}
-                          onChange={(value) =>
-                            setValue('preferred_locations', value)
-                          }
-                          defaultValue={value ?? []}
-                          level='Preferred Locations'
-                        />
+                        <div className='flex flex-wrap gap-1'>
+                          {value && value.length > 0
+                            ? value.map((item, index) => {
+                                return (
+                                  <Badge key={index} variant='secondary'>
+                                    {capitalizeFirstLetter(
+                                      item.split('-').join(' '),
+                                    )}
+                                  </Badge>
+                                );
+                              })
+                            : '--'}
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -289,39 +251,30 @@ export default function EditProfileForm({
               </div>
               <div className='space-y-2'>
                 <FormField
-                  control={control}
                   name='travel_preference'
+                  control={control}
                   render={({ field: { value } }) => (
                     <FormItem>
                       <FormLabel>Preferred Travel Preference</FormLabel>
                       <FormControl>
-                        <UIMultiSelect
-                          listItems={TRAVEL_PREFERENCES}
-                          onChange={(value) =>
-                            setValue('travel_preference', value)
-                          }
-                          defaultValue={value ?? []}
-                          level='Travel Preferences'
-                        />
+                        <div className='flex flex-wrap gap-1'>
+                          {value && value.length > 0
+                            ? value.map((item, index) => {
+                                return (
+                                  <Badge key={index} variant='secondary'>
+                                    {capitalizeFirstLetter(
+                                      item.split('-').join(' '),
+                                    )}
+                                  </Badge>
+                                );
+                              })
+                            : '--'}
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </div>
-            </div>
-            <div className='flex justify-end gap-4'>
-              <div className='flex gap-2'>
-                <UIButton
-                  onClick={() => setEdit(false)}
-                  type='button'
-                  variant='outline'
-                >
-                  Cancel
-                </UIButton>
-                <UIButton isLoading={isPending} type='submit'>
-                  {isPending ? 'Saving' : 'Save'}
-                </UIButton>
               </div>
             </div>
           </CardContent>
