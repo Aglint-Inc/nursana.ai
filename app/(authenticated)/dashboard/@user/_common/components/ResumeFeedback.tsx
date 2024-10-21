@@ -47,7 +47,7 @@ export function ResumeFeedback({ feedbackData }: ResumeFeedbackProps) {
           <h3 className='mb-2 text-lg font-semibold'>Overall Score</h3>
           <Progress value={overallScore} max={50} className='h-2 w-full' />
           <p className='mt-1 text-sm text-muted-foreground'>
-            {overallScore} / 50
+            {Math.floor(overallScore + 1.55)} / 50
           </p>
         </div>
 

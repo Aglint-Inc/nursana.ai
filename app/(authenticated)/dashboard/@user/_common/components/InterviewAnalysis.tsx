@@ -57,11 +57,6 @@ export function InterviewAnalysis() {
 
   return (
     <Card className='p-0'>
-      {/* <CardHeader className='bg-purple-50 px-4 py-2'>
-        <CardTitle className='text-xl font-bold text-purple-800'>
-          Interview Analysis
-        </CardTitle>
-      </CardHeader> */}
       <CardContent className='space-y-6 p-0'>
         <div className='grid grid-cols-[1fr,2fr] items-center gap-6 bg-purple-50 p-4'>
           <div className='h-48 w-48'>
