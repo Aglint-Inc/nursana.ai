@@ -81,6 +81,15 @@ CREATE TYPE "public"."app_role" AS ENUM (
 ALTER TYPE "public"."app_role" OWNER TO "postgres";
 
 
+CREATE TYPE "public"."campaign_status" AS ENUM (
+    'archived',
+    'active'
+);
+
+
+ALTER TYPE "public"."campaign_status" OWNER TO "postgres";
+
+
 CREATE TYPE "public"."interview_stage" AS ENUM (
     'not_started',
     'resume_submitted',
@@ -90,6 +99,31 @@ CREATE TYPE "public"."interview_stage" AS ENUM (
 
 
 ALTER TYPE "public"."interview_stage" OWNER TO "postgres";
+
+
+CREATE TYPE "public"."version_status" AS ENUM (
+    'archived',
+    'active'
+);
+
+
+ALTER TYPE "public"."version_status" OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."call_analysis_trigger_function"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$
+BEGIN
+    PERFORM net.http_post(
+        url := 'https://nursana.ai/api/score_call',
+        headers := '{"Content-Type": "application/json"}'::jsonb,
+        body := json_build_object('analysis_id', NEW.id, 'transcript_json', NEW.transcript_json)::jsonb
+    );
+    RETURN NEW;
+END;$$;
+
+
+ALTER FUNCTION "public"."call_analysis_trigger_function"() OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."create_interview_v2"("p_campaign_code" "text", "p_nurse_id" "text", "p_interview_stage" "text") RETURNS "uuid"
@@ -252,22 +286,33 @@ END;$$;
 ALTER FUNCTION "public"."post_process_interview"() OWNER TO "postgres";
 
 
-CREATE OR REPLACE FUNCTION "public"."score_resume_trigger_function"() RETURNS "trigger"
+CREATE OR REPLACE FUNCTION "public"."resume_to_json_trigger_function"() RETURNS "trigger"
     LANGUAGE "plpgsql"
     AS $$
-    DECLARE
-        interview_analysis_id UUID;
-    BEGIN
-        SELECT interview_analysis.id
-        INTO interview_analysis_id FROM public.interviews JOIN public.interview_analysis ON public.interview_analysis.interview_id = public.interviews.id WHERE public.interviews.user_id = NEW.user_id;
+BEGIN
+        PERFORM net.http_post(
+            url := 'https://northamerica-northeast2-aglint-cloud-381414.cloudfunctions.net/nursera_ai_process_resume_v1',
+            headers := '{"Content-Type": "application/json"}'::jsonb,
+            body := json_build_object('resume_id', NEW.id, 'resume', NEW.file_url)::jsonb
+        );
+    RETURN NEW;
+END
+$$;
+
+
+ALTER FUNCTION "public"."resume_to_json_trigger_function"() OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."score_resume_trigger_function"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$BEGIN
         PERFORM net.http_post(
             url := 'https://nursana.ai/api/score_resume',
             headers := '{"Content-Type": "application/json"}'::jsonb,
-            body := json_build_object('interview_analysis_id', interview_analysis_id, 'resume_json', new.structured_resume)::jsonb
+            body := json_build_object('resume_id', NEW.id, 'resume_json', NEW.structured_resume)::jsonb
         );
     RETURN NEW;
-END;
-$$;
+END;$$;
 
 
 ALTER FUNCTION "public"."score_resume_trigger_function"() OWNER TO "postgres";
@@ -300,9 +345,9 @@ CREATE TABLE IF NOT EXISTS "public"."applicant" (
     "terms_accepted" boolean DEFAULT false,
     "preferred_job_titles" "text"[] DEFAULT '{}'::"text"[],
     "preferred_locations" "text"[] DEFAULT '{}'::"text"[],
-    "job_type" "text",
-    "travel_preference" "text",
-    "expected_salary" numeric,
+    "job_type" "text"[],
+    "travel_preference" "text"[],
+    "expected_salary" "text",
     "job_title" "text"
 );
 
@@ -314,11 +359,12 @@ CREATE TABLE IF NOT EXISTS "public"."campaign" (
     "id" "uuid" DEFAULT "extensions"."uuid_generate_v4"() NOT NULL,
     "name" "text" NOT NULL,
     "campaign_code" "text" NOT NULL,
-    "template_id" "uuid" NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"(),
     "updated_at" timestamp with time zone DEFAULT "now"(),
     "description" "text",
-    "hospital_id" "uuid" NOT NULL
+    "hospital_id" "uuid" NOT NULL,
+    "status" "public"."campaign_status" DEFAULT 'archived'::"public"."campaign_status" NOT NULL,
+    "version_id" "uuid" NOT NULL
 );
 
 
@@ -358,6 +404,8 @@ CREATE TABLE IF NOT EXISTS "public"."interview" (
     "created_at" timestamp with time zone DEFAULT "now"(),
     "updated_at" timestamp with time zone DEFAULT "now"(),
     "interview_stage" "public"."interview_stage" DEFAULT 'not_started'::"public"."interview_stage" NOT NULL,
+    "hospital_id" "uuid" NOT NULL,
+    "version_id" "uuid" NOT NULL,
     CONSTRAINT "check_valid_stages" CHECK (("interview_stage" = ANY (ARRAY['not_started'::"public"."interview_stage", 'resume_submitted'::"public"."interview_stage", 'interview_inprogress'::"public"."interview_stage", 'interview_completed'::"public"."interview_stage"])))
 );
 
@@ -378,33 +426,20 @@ CREATE TABLE IF NOT EXISTS "public"."interview_analysis" (
     "interview_id" "uuid" NOT NULL,
     "call_analysis" "jsonb",
     "transcript" "text",
-    "transcript_json" "jsonb"[]
+    "transcript_json" "jsonb"[],
+    "analysis_status" "jsonb"
 );
 
 
 ALTER TABLE "public"."interview_analysis" OWNER TO "postgres";
 
 
-CREATE TABLE IF NOT EXISTS "public"."interview_template" (
-    "id" "uuid" DEFAULT "extensions"."uuid_generate_v4"() NOT NULL,
-    "name" "text" NOT NULL,
-    "ai_ending_message" "text",
-    "ai_instructions" "text"[],
-    "ai_interview_duration" integer DEFAULT 30 NOT NULL,
-    "ai_questions" "text",
-    "ai_welcome_message" "text",
-    "candidate_estimated_time" "text",
-    "candidate_instructions" "text"[],
-    "candidate_intro_video_cover_image_url" "text",
-    "candidate_intro_video_url" "text",
-    "candidate_overview" "text"[],
-    "created_at" timestamp with time zone DEFAULT "now"(),
-    "updated_at" timestamp with time zone DEFAULT "now"(),
-    "hospital_id" "uuid" NOT NULL
+CREATE TABLE IF NOT EXISTS "public"."interview_analysis_id" (
+    "id" "uuid"
 );
 
 
-ALTER TABLE "public"."interview_template" OWNER TO "postgres";
+ALTER TABLE "public"."interview_analysis_id" OWNER TO "postgres";
 
 
 CREATE TABLE IF NOT EXISTS "public"."resume" (
@@ -415,7 +450,9 @@ CREATE TABLE IF NOT EXISTS "public"."resume" (
     "created_at" timestamp with time zone DEFAULT "now"(),
     "updated_at" timestamp with time zone DEFAULT "now"(),
     "error_status" "jsonb",
-    "campaign_id" "uuid" NOT NULL
+    "campaign_id" "uuid" NOT NULL,
+    "processing_status" "jsonb",
+    "resume_feedback" "jsonb"
 );
 
 
@@ -432,6 +469,17 @@ CREATE TABLE IF NOT EXISTS "public"."role" (
 ALTER TABLE "public"."role" OWNER TO "postgres";
 
 
+CREATE TABLE IF NOT EXISTS "public"."template" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "name" "text" NOT NULL,
+    "hospital_id" "uuid" NOT NULL
+);
+
+
+ALTER TABLE "public"."template" OWNER TO "postgres";
+
+
 CREATE TABLE IF NOT EXISTS "public"."user" (
     "user_id" "uuid" NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
@@ -443,6 +491,30 @@ CREATE TABLE IF NOT EXISTS "public"."user" (
 
 
 ALTER TABLE "public"."user" OWNER TO "postgres";
+
+
+CREATE TABLE IF NOT EXISTS "public"."version" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "ai_ending_message" "text",
+    "ai_instructions" "text"[] DEFAULT '{}'::"text"[] NOT NULL,
+    "ai_interview_duration" integer DEFAULT 30 NOT NULL,
+    "ai_questions" "text",
+    "ai_welcome_message" "text",
+    "candidate_estimated_time" "text",
+    "candidate_instructions" "text"[] DEFAULT '{}'::"text"[] NOT NULL,
+    "candidate_intro_video_cover_image_url" "text",
+    "candidate_intro_video_url" "text",
+    "candidate_overview" "text"[] DEFAULT '{}'::"text"[] NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "hospital_id" "uuid" NOT NULL,
+    "template_id" "uuid" NOT NULL,
+    "status" "public"."version_status" DEFAULT 'active'::"public"."version_status" NOT NULL,
+    "name" "text" NOT NULL
+);
+
+
+ALTER TABLE "public"."version" OWNER TO "postgres";
 
 
 ALTER TABLE ONLY "public"."campaign"
@@ -457,11 +529,6 @@ ALTER TABLE ONLY "public"."campaign"
 
 ALTER TABLE ONLY "public"."hospital"
     ADD CONSTRAINT "hospitals_pkey" PRIMARY KEY ("id");
-
-
-
-ALTER TABLE ONLY "public"."interview_template"
-    ADD CONSTRAINT "interview_templates_pkey" PRIMARY KEY ("id");
 
 
 
@@ -482,6 +549,11 @@ ALTER TABLE ONLY "public"."interview_analysis"
 
 ALTER TABLE ONLY "public"."applicant"
     ADD CONSTRAINT "nurses_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."template"
+    ADD CONSTRAINT "template_pkey" PRIMARY KEY ("id");
 
 
 
@@ -515,7 +587,20 @@ ALTER TABLE ONLY "public"."applicant"
 
 
 
+ALTER TABLE ONLY "public"."version"
+    ADD CONSTRAINT "version_pkey" PRIMARY KEY ("id");
+
+
+
+CREATE OR REPLACE TRIGGER "call_analysis_trigger" AFTER INSERT OR UPDATE OF "transcript_json" ON "public"."interview_analysis" FOR EACH ROW WHEN ((("new"."transcript_json" IS NOT NULL) AND ("new"."structured_analysis" IS NULL))) EXECUTE FUNCTION "public"."call_analysis_trigger_function"();
+
+
+
 CREATE OR REPLACE TRIGGER "interview_analysis" AFTER UPDATE OF "video_url" ON "public"."interview_analysis" FOR EACH ROW EXECUTE FUNCTION "public"."post_process_interview"();
+
+
+
+CREATE OR REPLACE TRIGGER "resume_to_json_trigger" AFTER INSERT OR UPDATE OF "file_url" ON "public"."resume" FOR EACH ROW WHEN ((("new"."file_url" = ''::"text") AND ("new"."structured_resume" IS NULL))) EXECUTE FUNCTION "public"."resume_to_json_trigger_function"();
 
 
 
@@ -532,12 +617,12 @@ CREATE OR REPLACE TRIGGER "update_resumes_modtime" BEFORE UPDATE ON "public"."re
 
 
 ALTER TABLE ONLY "public"."campaign"
-    ADD CONSTRAINT "campaigns_hospital_id_fkey" FOREIGN KEY ("hospital_id") REFERENCES "public"."hospital"("id") ON DELETE CASCADE;
+    ADD CONSTRAINT "campaign_version_id_fkey" FOREIGN KEY ("version_id") REFERENCES "public"."version"("id") ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 
 ALTER TABLE ONLY "public"."campaign"
-    ADD CONSTRAINT "campaigns_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "public"."interview_template"("id");
+    ADD CONSTRAINT "campaigns_hospital_id_fkey" FOREIGN KEY ("hospital_id") REFERENCES "public"."hospital"("id") ON DELETE CASCADE;
 
 
 
@@ -556,8 +641,13 @@ ALTER TABLE ONLY "public"."interview_analysis"
 
 
 
-ALTER TABLE ONLY "public"."interview_template"
-    ADD CONSTRAINT "interview_templates_hospital_id_fkey" FOREIGN KEY ("hospital_id") REFERENCES "public"."hospital"("id") ON DELETE CASCADE;
+ALTER TABLE ONLY "public"."interview"
+    ADD CONSTRAINT "interview_hospital_id_fkey" FOREIGN KEY ("hospital_id") REFERENCES "public"."hospital"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."interview"
+    ADD CONSTRAINT "interview_version_id_fkey" FOREIGN KEY ("version_id") REFERENCES "public"."version"("id") ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 
@@ -581,6 +671,11 @@ ALTER TABLE ONLY "public"."resume"
 
 
 
+ALTER TABLE ONLY "public"."template"
+    ADD CONSTRAINT "template_hospital_id_fkey" FOREIGN KEY ("hospital_id") REFERENCES "public"."hospital"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+
 ALTER TABLE ONLY "public"."user"
     ADD CONSTRAINT "tenant_hospital_id_fkey" FOREIGN KEY ("hospital_id") REFERENCES "public"."hospital"("id") ON DELETE CASCADE;
 
@@ -598,6 +693,16 @@ ALTER TABLE ONLY "public"."role"
 
 ALTER TABLE ONLY "public"."applicant"
     ADD CONSTRAINT "users_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."version"
+    ADD CONSTRAINT "version_hospital_id_fkey" FOREIGN KEY ("hospital_id") REFERENCES "public"."hospital"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."version"
+    ADD CONSTRAINT "version_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "public"."template"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 
@@ -804,6 +909,15 @@ GRANT USAGE ON SCHEMA "public" TO "supabase_auth_admin";
 
 
 
+
+
+
+GRANT ALL ON FUNCTION "public"."call_analysis_trigger_function"() TO "anon";
+GRANT ALL ON FUNCTION "public"."call_analysis_trigger_function"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."call_analysis_trigger_function"() TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."create_interview_v2"("p_campaign_code" "text", "p_nurse_id" "text", "p_interview_stage" "text") TO "anon";
 GRANT ALL ON FUNCTION "public"."create_interview_v2"("p_campaign_code" "text", "p_nurse_id" "text", "p_interview_stage" "text") TO "authenticated";
 GRANT ALL ON FUNCTION "public"."create_interview_v2"("p_campaign_code" "text", "p_nurse_id" "text", "p_interview_stage" "text") TO "service_role";
@@ -811,6 +925,8 @@ GRANT ALL ON FUNCTION "public"."create_interview_v2"("p_campaign_code" "text", "
 
 
 REVOKE ALL ON FUNCTION "public"."custom_access_token_hook"("event" "jsonb") FROM PUBLIC;
+GRANT ALL ON FUNCTION "public"."custom_access_token_hook"("event" "jsonb") TO "anon";
+GRANT ALL ON FUNCTION "public"."custom_access_token_hook"("event" "jsonb") TO "authenticated";
 GRANT ALL ON FUNCTION "public"."custom_access_token_hook"("event" "jsonb") TO "service_role";
 GRANT ALL ON FUNCTION "public"."custom_access_token_hook"("event" "jsonb") TO "supabase_auth_admin";
 
@@ -825,6 +941,12 @@ GRANT ALL ON FUNCTION "public"."increment_template_version"() TO "service_role";
 GRANT ALL ON FUNCTION "public"."post_process_interview"() TO "anon";
 GRANT ALL ON FUNCTION "public"."post_process_interview"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."post_process_interview"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."resume_to_json_trigger_function"() TO "anon";
+GRANT ALL ON FUNCTION "public"."resume_to_json_trigger_function"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."resume_to_json_trigger_function"() TO "service_role";
 
 
 
@@ -885,9 +1007,9 @@ GRANT ALL ON TABLE "public"."interview_analysis" TO "service_role";
 
 
 
-GRANT ALL ON TABLE "public"."interview_template" TO "anon";
-GRANT ALL ON TABLE "public"."interview_template" TO "authenticated";
-GRANT ALL ON TABLE "public"."interview_template" TO "service_role";
+GRANT ALL ON TABLE "public"."interview_analysis_id" TO "anon";
+GRANT ALL ON TABLE "public"."interview_analysis_id" TO "authenticated";
+GRANT ALL ON TABLE "public"."interview_analysis_id" TO "service_role";
 
 
 
@@ -902,9 +1024,21 @@ GRANT ALL ON TABLE "public"."role" TO "supabase_auth_admin";
 
 
 
+GRANT ALL ON TABLE "public"."template" TO "anon";
+GRANT ALL ON TABLE "public"."template" TO "authenticated";
+GRANT ALL ON TABLE "public"."template" TO "service_role";
+
+
+
 GRANT ALL ON TABLE "public"."user" TO "anon";
 GRANT ALL ON TABLE "public"."user" TO "authenticated";
 GRANT ALL ON TABLE "public"."user" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."version" TO "anon";
+GRANT ALL ON TABLE "public"."version" TO "authenticated";
+GRANT ALL ON TABLE "public"."version" TO "service_role";
 
 
 
@@ -963,3 +1097,8 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TAB
 
 
 RESET ALL;
+
+--
+-- Dumped schema changes for auth and storage
+--
+
