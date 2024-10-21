@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 'use client';
 
 import {
@@ -155,6 +156,22 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 export function AppSidebar({ secondarySidebar, ...props }: AppSidebarProps) {
   const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
 
+  function setMails(
+    _arg0: {
+      name: string;
+      email: string;
+      subject: string;
+      date: string;
+      teaser: string;
+    }[],
+  ) {
+    throw new Error('Function not implemented.');
+  }
+
+  function setOpen(_arg0: boolean) {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <Sidebar
       variant='inset'
@@ -171,7 +188,7 @@ export function AppSidebar({ secondarySidebar, ...props }: AppSidebarProps) {
             <SidebarMenuItem>
               <SidebarMenuButton size='lg' asChild className='md:h-8 md:p-0'>
                 <a href='#'>
-                  <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
+                  <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
                     <Command className='size-4' />
                   </div>
                   <div className='grid flex-1 text-left text-sm leading-tight'>

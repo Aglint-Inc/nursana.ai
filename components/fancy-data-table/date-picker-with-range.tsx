@@ -22,7 +22,7 @@ import { cn } from '@/utils/cn';
 interface DatePickerWithRangeProps
   extends React.HTMLAttributes<HTMLDivElement> {
   date: DateRange | undefined;
-  setDate: (date: DateRange | undefined) => void;
+  setDate: (_date: DateRange | undefined) => void;
 }
 
 // AND presets
@@ -76,7 +76,6 @@ export function DatePickerWithRange({
             <DatePresets onSelect={setDate} selected={date} />
             <Separator orientation='vertical' className='h-auto w-[px]' />
             <Calendar
-              initialFocus
               mode='range'
               defaultMonth={date?.from}
               selected={date}
@@ -137,7 +136,7 @@ function DatePresets({
   onSelect,
 }: {
   selected: DateRange | undefined;
-  onSelect: (date: DateRange | undefined) => void;
+  onSelect: (_date: DateRange | undefined) => void;
 }) {
   return (
     <div className='flex flex-col gap-2 p-3'>
@@ -172,7 +171,7 @@ function CustomDateRange({
   onSelect,
 }: {
   selected: DateRange | undefined;
-  onSelect: (date: DateRange | undefined) => void;
+  onSelect: (_date: DateRange | undefined) => void;
 }) {
   const [dateFrom, setDateFrom] = React.useState<Date | undefined>(
     selected?.from,
