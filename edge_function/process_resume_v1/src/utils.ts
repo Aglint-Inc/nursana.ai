@@ -62,7 +62,8 @@ export const logs = async (
     data: {
       processing_status: {
         resume_to_json_api: {
-          error: error_status.message,
+          error: error_status.type,
+          error_message: error_status.message,
           timestamp: new Date().toISOString(),
           status: 'error',
         },
