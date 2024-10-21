@@ -1,4 +1,4 @@
-import { FileText, MessageSquare, MoveUpRight } from 'lucide-react';
+import { FileText, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
