@@ -10,6 +10,8 @@ import { createPrivateClient } from '@/server/db';
 
 const schema = z.object({
   id: z.string(),
+  size: z.number().default(30),
+  start: z.number().default(0),
 });
 
 const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
@@ -22,6 +24,8 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
       )
       .eq('campaign_id', input.id)
       .eq('hospital_id', ctx.hospital.id)
+      .limit(input.size)
+      .range(input.start, input.start + input.size)
   ).data;
   if (!data)
     throw new TRPCError({

@@ -1,17 +1,22 @@
 import * as React from 'react';
+import { api } from 'trpc/server';
 
 import { columns } from './columns';
-import { data, filterFields } from './constants';
+import { filterFields } from './constants';
 import { DataTable } from './data-table';
 import { searchParamsCache } from './search-params';
 import { Skeleton } from './skeleton';
 
-export function Table({
-  searchParams,
-}: {
+type Props = {
+  params: { campaign: string };
   searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const search = searchParamsCache.parse(searchParams);
+};
+
+export const Table = async (props: Props) => {
+  const search = searchParamsCache.parse(props.searchParams);
+  const data = await api.authenticated.hospital.campaigns.campaign.interviews({
+    id: props.params.campaign,
+  });
   return (
     <React.Suspense fallback={<Skeleton />}>
       <DataTable
@@ -27,4 +32,4 @@ export function Table({
       />
     </React.Suspense>
   );
-}
+};
