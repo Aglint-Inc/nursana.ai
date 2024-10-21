@@ -7,6 +7,7 @@ import {
   useUpdateUserData,
   useUserData,
 } from '@/authenicated/hooks/useUserData';
+import { Loader } from '@/common/components/Loader';
 import { UIMultiSelect } from '@/common/components/UIMultiSelect';
 import UIPhoneInput from '@/common/components/UIPhoneInput';
 import { Button } from '@/components/ui/button';
@@ -27,7 +28,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { capitalizeFirstLetter } from '@/utils/utils';
 
 import {
   CITIES,
@@ -71,7 +71,13 @@ export default function EditProfileForm({
       job_type: user?.job_type || [],
     },
   });
-  const { control, register, setValue, clearErrors } = form;
+  const {
+    control,
+    register,
+    setValue,
+    clearErrors,
+    formState: { isDirty },
+  } = form;
   const onSubmitForm = async (data: ProfileData) => {
     await updateUserDetails({
       ...data,
@@ -90,10 +96,20 @@ export default function EditProfileForm({
                 Edit Basic Information
               </CardTitle>
               <div className='flex gap-2'>
-                <Button variant={'outline'} size={'sm'}>
+                <Button
+                  type='button'
+                  variant={'outline'}
+                  size={'sm'}
+                  onClick={() => setEdit(false)}
+                >
                   Cancel
                 </Button>
-                <Button disabled={isPending} type='submit' size={'sm'}>
+                <Button
+                  disabled={isPending || !isDirty}
+                  type='submit'
+                  size={'sm'}
+                >
+                  {isPending && <Loader />}
                   {isPending ? 'Saving' : 'Save Changes'}
                 </Button>
               </div>
@@ -160,7 +176,9 @@ export default function EditProfileForm({
                         {...register('expected_salary')}
                         onValueChange={(value) => {
                           clearErrors('expected_salary');
-                          setValue('expected_salary', value);
+                          setValue('expected_salary', value, {
+                            shouldDirty: true,
+                          });
                         }}
                         value={value || ''}
                       >
@@ -168,18 +186,7 @@ export default function EditProfileForm({
                           <SelectValue placeholder='Select expected salary' />
                         </SelectTrigger>
                         <SelectContent>
-                          {(value
-                            ? [
-                                {
-                                  value: user?.expected_salary || '',
-                                  label: capitalizeFirstLetter(
-                                    user?.expected_salary || '',
-                                  ),
-                                },
-                                ...SALARY_RANGES,
-                              ]
-                            : SALARY_RANGES
-                          ).map((item) => (
+                          {SALARY_RANGES.map((item) => (
                             <SelectItem key={item.value} value={item.value}>
                               {item.label}
                             </SelectItem>
@@ -203,7 +210,7 @@ export default function EditProfileForm({
                           {...register('job_title')}
                           onValueChange={(value) => {
                             clearErrors('job_title');
-                            setValue('job_title', value);
+                            setValue('job_title', value, { shouldDirty: true });
                           }}
                           value={value || ''}
                         >
@@ -211,18 +218,7 @@ export default function EditProfileForm({
                             <SelectValue placeholder='Select current job title' />
                           </SelectTrigger>
                           <SelectContent>
-                            {(value
-                              ? [
-                                  {
-                                    value: user?.job_title ?? '',
-                                    label: capitalizeFirstLetter(
-                                      user?.job_title ?? '',
-                                    ),
-                                  },
-                                  ...JOB_TITLES,
-                                ]
-                              : JOB_TITLES
-                            ).map((item) => (
+                            {JOB_TITLES.map((item) => (
                               <SelectItem key={item.value} value={item.value}>
                                 {item.label}
                               </SelectItem>
@@ -247,7 +243,7 @@ export default function EditProfileForm({
                           listItems={JOB_TYPES}
                           onChange={(value) => {
                             clearErrors('job_type');
-                            setValue('job_type', value);
+                            setValue('job_type', value, { shouldDirty: true });
                           }}
                           defaultValue={value ?? []}
                           level='Job Types'
@@ -269,7 +265,9 @@ export default function EditProfileForm({
                         <UIMultiSelect
                           listItems={JOB_TITLES}
                           onChange={(value) =>
-                            setValue('preferred_job_titles', value)
+                            setValue('preferred_job_titles', value, {
+                              shouldDirty: true,
+                            })
                           }
                           defaultValue={value ?? []}
                           level='Job Titles'
@@ -291,7 +289,9 @@ export default function EditProfileForm({
                         <UIMultiSelect
                           listItems={CITIES}
                           onChange={(value) =>
-                            setValue('preferred_locations', value)
+                            setValue('preferred_locations', value, {
+                              shouldDirty: true,
+                            })
                           }
                           defaultValue={value ?? []}
                           level='Preferred Locations'
@@ -314,7 +314,9 @@ export default function EditProfileForm({
                         <UIMultiSelect
                           listItems={TRAVEL_PREFERENCES}
                           onChange={(value) =>
-                            setValue('travel_preference', value)
+                            setValue('travel_preference', value, {
+                              shouldDirty: true,
+                            })
                           }
                           defaultValue={value ?? []}
                           level='Travel Preferences'

@@ -28,14 +28,11 @@ interface FeedbackData {
   overallScore: number;
 }
 
-interface ResumeFeedbackProps {
-  feedbackData: FeedbackData;
-}
-
 export function ResumeFeedback() {
   const { resume } = useUserData();
 
-  const { summary, breakdown, overallScore } = resume?.resume_feedback;
+  const { summary, breakdown, overallScore } =
+    resume?.resume_feedback as FeedbackData;
   const userData = useUserData();
   return (
     <div className='mb-6'>

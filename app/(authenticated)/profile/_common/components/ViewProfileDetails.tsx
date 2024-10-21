@@ -1,4 +1,3 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -38,21 +37,7 @@ export default function ViewProfileDetails({
 }) {
   const { user } = useUserData();
 
-  console.log(user);
-  const form = useForm<ProfileData>({
-    resolver: zodResolver(userProfileSchema),
-    defaultValues: {
-      first_name: user?.first_name || '',
-      last_name: user?.last_name || '',
-      phone_number: user?.phone_number || '',
-      preferred_job_titles: user?.preferred_job_titles || [],
-      preferred_locations: user?.preferred_locations || [],
-      travel_preference: user?.travel_preference || [],
-      expected_salary: user?.expected_salary || '',
-      job_title: user?.job_title || '',
-      job_type: user?.job_type || [],
-    },
-  });
+  const form = useForm<ProfileData>();
 
   const { control } = form;
 
@@ -83,13 +68,13 @@ export default function ViewProfileDetails({
               <FormField
                 name='first_name'
                 control={control}
-                render={({ field: { value } }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel className='text-sm font-normal text-muted-foreground'>
                       First Name
                     </FormLabel>
                     <FormControl>
-                      <p className='text-md'>{value || '--'}</p>
+                      <p className='text-md'>{user?.first_name || '--'}</p>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -98,13 +83,13 @@ export default function ViewProfileDetails({
               <FormField
                 name='last_name'
                 control={control}
-                render={({ field: { value } }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel className='text-sm font-normal text-muted-foreground'>
                       Last Name
                     </FormLabel>
                     <FormControl>
-                      <p>{value || '--'}</p>
+                      <p>{user?.last_name || '--'}</p>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -113,13 +98,13 @@ export default function ViewProfileDetails({
               <FormField
                 name='phone_number'
                 control={control}
-                render={({ field: { value } }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel className='text-sm font-normal text-muted-foreground'>
                       Phone Number
                     </FormLabel>
                     <FormControl>
-                      <p>{value || '--'}</p>
+                      <p>{user?.phone_number || '--'}</p>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -128,7 +113,7 @@ export default function ViewProfileDetails({
               <FormField
                 name='job_title'
                 control={control}
-                render={({ field: { value } }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel className='text-sm font-normal text-muted-foreground'>
                       Current Job Title
@@ -136,8 +121,8 @@ export default function ViewProfileDetails({
                     <FormControl>
                       {
                         <p>
-                          {JOB_TITLES.find((x) => x?.value === value)?.label ??
-                            '--'}
+                          {JOB_TITLES.find((x) => x?.value === user?.job_title)
+                            ?.label ?? '--'}
                         </p>
                       }
                     </FormControl>
@@ -148,15 +133,16 @@ export default function ViewProfileDetails({
               <FormField
                 name='expected_salary'
                 control={control}
-                render={({ field: { value } }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel className='text-sm font-normal text-muted-foreground'>
                       Expected Salary
                     </FormLabel>
                     <FormControl>
                       <p>
-                        {SALARY_RANGES.find((x) => x?.value === value)?.label ??
-                          '--'}
+                        {SALARY_RANGES.find(
+                          (x) => x?.value === user?.expected_salary,
+                        )?.label ?? '--'}
                       </p>
                     </FormControl>
                     <FormMessage />
@@ -166,15 +152,15 @@ export default function ViewProfileDetails({
               <FormField
                 name='job_type'
                 control={control}
-                render={({ field: { value } }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel className='text-sm font-normal text-muted-foreground'>
                       Job Types
                     </FormLabel>
                     <FormControl>
                       <div className='flex flex-wrap gap-1'>
-                        {value && value.length > 0
-                          ? value.map((item, index) => {
+                        {user.job_type && user.job_type.length > 0
+                          ? user.job_type.map((item, index) => {
                               return (
                                 <Badge
                                   key={index}
@@ -198,15 +184,16 @@ export default function ViewProfileDetails({
                 <FormField
                   name='preferred_job_titles'
                   control={control}
-                  render={({ field: { value } }) => (
+                  render={() => (
                     <FormItem>
                       <FormLabel className='text-sm font-normal text-muted-foreground'>
                         Preferred Job Titles
                       </FormLabel>
                       <FormControl>
                         <div className='flex flex-wrap gap-1'>
-                          {value && value.length > 0
-                            ? value.map((item, index) => {
+                          {user.preferred_job_titles &&
+                          user.preferred_job_titles.length > 0
+                            ? user.preferred_job_titles.map((item, index) => {
                                 return (
                                   <Badge
                                     key={index}
@@ -231,15 +218,16 @@ export default function ViewProfileDetails({
                 <FormField
                   name='preferred_locations'
                   control={control}
-                  render={({ field: { value } }) => (
+                  render={() => (
                     <FormItem>
                       <FormLabel className='text-sm font-normal text-muted-foreground'>
                         Preferred Locations
                       </FormLabel>
                       <FormControl>
                         <div className='flex flex-wrap gap-1'>
-                          {value && value.length > 0
-                            ? value.map((item, index) => {
+                          {user.preferred_locations &&
+                          user.preferred_locations.length > 0
+                            ? user.preferred_locations.map((item, index) => {
                                 return (
                                   <Badge
                                     key={index}
@@ -264,15 +252,16 @@ export default function ViewProfileDetails({
                 <FormField
                   name='travel_preference'
                   control={control}
-                  render={({ field: { value } }) => (
+                  render={() => (
                     <FormItem>
                       <FormLabel className='text-sm font-normal text-muted-foreground'>
                         Preferred Travel Preference
                       </FormLabel>
                       <FormControl>
                         <div className='flex flex-wrap gap-1'>
-                          {value && value.length > 0
-                            ? value.map((item, index) => {
+                          {user.travel_preference &&
+                          user.travel_preference.length > 0
+                            ? user.travel_preference.map((item, index) => {
                                 return (
                                   <Badge
                                     key={index}
