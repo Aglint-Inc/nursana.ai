@@ -68,12 +68,12 @@ export function NurseSidebar() {
                 <SidebarMenuSub>
                   <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
-                      <Link href={'/profile'}>Basic Information</Link>
+                      <Link href={'/profile/basic-information'}>Basic Information</Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                   <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
-                      <Link href={'/profile'}>My Resume</Link>
+                      <Link href={'/profile/resume'}>My Resume</Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                 </SidebarMenuSub>
