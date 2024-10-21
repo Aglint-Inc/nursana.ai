@@ -5,12 +5,15 @@ function MultiStepLoader() {
   const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveStep((prevStep) => (prevStep + 1) % steps.length); 
-    }, 1500);
+    if (activeStep < steps.length - 2) {
+      // Stop before the last element
+      const interval = setInterval(() => {
+        setActiveStep((prevStep) => prevStep + 1);
+      }, 1500);
 
-    return () => clearInterval(interval); 
-  }, []);
+      return () => clearInterval(interval);
+    }
+  }, [activeStep]);
 
   const steps = [
     'Finishing up interview',
@@ -20,8 +23,8 @@ function MultiStepLoader() {
     'Redirecting to dashboard..',
   ];
 
-  const yOffset = activeStep * -40; 
-  const nextStep = (activeStep + 1) % steps.length; 
+  const yOffset = activeStep * -40;
+  const nextStep = (activeStep + 1) % steps.length;
   const isRemainingStep = (index: number) =>
     index > nextStep ||
     (nextStep < activeStep && index > nextStep && index < activeStep);
@@ -29,14 +32,14 @@ function MultiStepLoader() {
   return (
     <div className='flex h-[100vh] w-[100vw] items-center justify-center'>
       <div className='relative flex h-[400px] w-[240px] items-center justify-center overflow-hidden'>
-        <div className='absolute top-0 left-0 z-20 h-[160px] bg-gradient-to-b from-white to-transparent w-full'></div>
-        <div className='absolute bottom-0 left-0 z-20 h-[310px] bg-gradient-to-t from-white to-transparent w-full'></div>
+        <div className='absolute left-0 top-0 z-20 h-[160px] w-full bg-gradient-to-b from-white to-transparent'></div>
+        <div className='absolute bottom-0 left-0 z-20 h-[310px] w-full bg-gradient-to-t from-white to-transparent'></div>
         <div
-          className='absolute z-10 left-0 top-0 flex h-full w-full flex-col items-start justify-center gap-2 transition-transform duration-500'
+          className='absolute scale-y-0  left-0 top-0 z-10 flex h-full w-full flex-col items-start justify-center gap-2 transition-transform duration-500'
           style={{ transform: `translateY(${yOffset}px)` }}
         >
           {steps.map((text, index) => (
-            <div key={index} className='flex items-center gap-2 h-[40]'>
+            <div key={index} className='flex h-[40] items-center gap-2'>
               <div
                 className={`relative h-8 w-8 transition-all duration-500 ${
                   index <= activeStep
