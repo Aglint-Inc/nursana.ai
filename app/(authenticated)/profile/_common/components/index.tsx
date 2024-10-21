@@ -1,9 +1,7 @@
 'use client';
 
 import { File, User } from 'lucide-react';
-import { useState } from 'react';
 
-import { useUserData } from '@/authenicated/hooks/useUserData';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -27,8 +25,6 @@ import EditProfileForm from './EditProfileForm';
 import ViewResume from './ViewResume';
 
 function UserProfile() {
-  const userDetails = useUserData();
-  const [_, setEdit] = useState(false);
   return (
     <div className='container flex max-w-screen-xl'>
       <SidebarProvider className='items-start'>
@@ -75,8 +71,8 @@ function UserProfile() {
             </div>
           </header>
           <div className='flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0'>
-            <EditProfileForm setEdit={setEdit} />
-            <ViewResume data={userDetails.resume?.structured_resume} />
+            <EditProfileForm />
+            <ViewResume />
           </div>
         </main>
       </SidebarProvider>

@@ -8,17 +8,16 @@ import {
   Phone,
 } from 'lucide-react';
 
+import { useUserData } from '@/authenicated/hooks/useUserData';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
 import { type ResumeDetailsType } from '../types';
 
-export default function ViewResume({
-  data: resume,
-}: {
-  data: ResumeDetailsType;
-}) {
+export default function ViewResume() {
+  const { resume: data } = useUserData();
+  const resume = data?.structured_resume as ResumeDetailsType;
   return (
     <Card className='w-full'>
       <CardHeader className='flex flex-row items-center gap-4'>

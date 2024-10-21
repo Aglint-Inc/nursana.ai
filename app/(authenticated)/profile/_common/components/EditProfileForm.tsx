@@ -49,11 +49,7 @@ export const userProfileSchema = z.object({
 
 type ProfileData = z.infer<typeof userProfileSchema>;
 
-export default function EditProfileForm({
-  setEdit,
-}: {
-  setEdit: (_edit: boolean) => void;
-}) {
+export default function EditProfileForm() {
   const { user } = useUserData();
   const { updateUserDetails, isPending } = useUpdateUserData();
   const form = useForm<ProfileData>({
@@ -76,7 +72,6 @@ export default function EditProfileForm({
       ...data,
       last_name: data.last_name || null,
     });
-    setEdit(false);
   };
 
   return (
