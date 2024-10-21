@@ -1,5 +1,9 @@
 'use client';
 
-import { View } from '@/campaign/components/View';
+import { Layout } from '@/campaign/components/Layout';
 
-export default View;
+const Page = () => {
+  return <>LLLL</>;
+};
+
+export default Page;

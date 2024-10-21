@@ -1,17 +1,17 @@
 import NextLink from 'next/link';
 import type { PropsWithChildren } from 'react';
 
-import type { useCampaigns } from '@/campaigns/hooks/useCampaigns';
-import { Badge as UIBadge } from '@/components/ui/badge';
+import { Campaigns } from '@/campaigns/types';
+import { CampaignBadge } from '@/campaigns/components/CampaignBadge';
 
-type Campaign = ReturnType<typeof useCampaigns>[number];
+type Campaign = Campaigns[number];
 
 export const Card = (props: Campaign) => {
   return (
     <Link {...props}>
       <div className='flex w-full flex-row items-center justify-between'>
         <Title {...props} />
-        <Badge {...props} />
+        <CampaignBadge {...props} />
       </div>
       <Description {...props} />
     </Link>
@@ -21,22 +21,11 @@ export const Card = (props: Campaign) => {
 const Link = (props: PropsWithChildren<Pick<Campaign, 'id'>>) => {
   return (
     <NextLink
-      href={`/campaign/${props.id}`}
+      href={`/campaigns/${props.id}`}
       className='flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
     >
       {props.children}
     </NextLink>
-  );
-};
-
-const Badge = (props: Pick<Campaign, 'status'>) => {
-  return (
-    <UIBadge
-      variant={props.status === 'active' ? 'outline' : 'default'}
-      className='capitalize'
-    >
-      {props.status}
-    </UIBadge>
   );
 };
 

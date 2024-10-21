@@ -1,6 +1,10 @@
 import { TRPCError } from '@trpc/server';
 
-import { type HospitalProcedure, hospitalProcedure } from '@/server/api/trpc';
+import {
+  type HospitalProcedure,
+  hospitalProcedure,
+  ProcedureDefinition,
+} from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
 
 const query = async ({ ctx }: HospitalProcedure) => {
@@ -21,3 +25,5 @@ const query = async ({ ctx }: HospitalProcedure) => {
 };
 
 export const read = hospitalProcedure.query(query);
+
+export type Read = ProcedureDefinition<typeof read>;
