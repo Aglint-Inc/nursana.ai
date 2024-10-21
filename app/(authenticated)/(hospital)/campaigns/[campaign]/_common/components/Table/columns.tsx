@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 
 import { tagsColor } from './constants';
 import { isArrayOfDates } from './utils';
+import { Check, Minus } from 'lucide-react';
 
 export const columns: ColumnDef<ColumnSchema>[] = [
   {
@@ -55,6 +56,22 @@ export const columns: ColumnDef<ColumnSchema>[] = [
       if (typeof value === 'string') return array.includes(value);
       // up to the user to define either `.some` or `.every`
       if (Array.isArray(value)) return value.some((i) => array.includes(i));
+      return false;
+    },
+  },
+  {
+    accessorKey: 'terms_accepted',
+    header: 'Terms accepted',
+    cell: ({ row }) => {
+      const value = row.getValue('terms_accepted');
+      if (value) return <Check className='h-4 w-4' />;
+      return <Minus className='h-4 w-4 text-muted-foreground/50' />;
+    },
+    filterFn: (row, id, value) => {
+      const rowValue = row.getValue(id);
+      if (typeof value === 'string') return value === String(rowValue);
+      if (typeof value === 'boolean') return value === rowValue;
+      if (Array.isArray(value)) return value.includes(rowValue);
       return false;
     },
   },

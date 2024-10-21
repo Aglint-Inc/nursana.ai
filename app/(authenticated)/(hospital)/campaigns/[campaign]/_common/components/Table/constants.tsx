@@ -41,6 +41,8 @@ export const data = [
     interview_stage: 'not_started',
     id: 'abc',
     updated_at: subHours(new Date(), 10).toISOString(),
+    expected_salary: '2000',
+    terms_accepted: false,
   },
   {
     email: 'def@gmail.com',
@@ -49,6 +51,8 @@ export const data = [
     interview_stage: 'interview_inprogress',
     job_title: 'DEF',
     updated_at: subHours(new Date(), 10).toISOString(),
+    expected_salary: '2000',
+    terms_accepted: true,
   },
 ] satisfies ColumnSchema[];
 
@@ -85,5 +89,14 @@ export const filterFields = [
       );
     },
     options: INTERVIEW_STAGES.map((tag) => ({ label: tag, value: tag })),
+  },
+  {
+    label: 'Terms accepted',
+    value: 'terms_accepted',
+    type: 'checkbox',
+    options: [true, false].map((bool) => ({
+      label: `${bool}` as any as string,
+      value: bool,
+    })),
   },
 ] satisfies DataTableFilterField<ColumnSchema>[];

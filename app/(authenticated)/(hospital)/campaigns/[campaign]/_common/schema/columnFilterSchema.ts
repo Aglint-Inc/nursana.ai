@@ -21,6 +21,7 @@ export const inputSchema = z.object({
     .array()
     .optional(),
   updated_at: z.coerce.date().array().max(2).optional(),
+  terms_accepted: z.boolean().optional(),
   size: z.number().default(10),
   start: z.number().default(0),
 });
@@ -44,6 +45,11 @@ export const columnFilterSchema = inputSchema
         .string()
         .transform((val) => val.split(RANGE_DELIMITER).map(Number))
         .pipe(inputSchema.shape.updated_at)
+        .optional(),
+      terms_accepted: z
+        .string()
+        .transform((val) => val.split(ARRAY_DELIMITER))
+        .pipe(inputSchema.shape.terms_accepted)
         .optional(),
     }),
   );

@@ -2,6 +2,7 @@ import {
   createParser,
   createSearchParamsCache,
   parseAsArrayOf,
+  parseAsBoolean,
   parseAsInteger,
   parseAsString,
   parseAsStringLiteral,
@@ -36,6 +37,7 @@ export const searchParamsParser = {
     ARRAY_DELIMITER,
   ),
   updated_at: parseAsArrayOf(parseAsTimestamp, RANGE_DELIMITER),
+  terms_accepted: parseAsArrayOf(parseAsBoolean, ARRAY_DELIMITER),
   size: parseAsInteger.withDefault(10),
   start: parseAsInteger.withDefault(0),
 };
