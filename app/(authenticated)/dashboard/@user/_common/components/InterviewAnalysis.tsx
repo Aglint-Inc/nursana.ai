@@ -1,8 +1,11 @@
 'use client';
 import {
   Brain,
+  ExternalLink,
+  FileText,
   Lightbulb,
   MessageCircle,
+  MessageSquare,
   Puzzle,
   UserCheck,
   Zap,
@@ -18,6 +21,10 @@ import {
 import { useUserData } from '@/authenicated/hooks/useUserData';
 // import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import Link from 'next/link';
+import { Card, CardContent } from '@/components/ui/card';
+import ProgressBarCard from './ProgressBarCard';
+import RadialProgress from './RadialProgress';
 
 const RatingBar: React.FC<{
   label: string;
@@ -57,64 +64,45 @@ export function InterviewAnalysis() {
       name: 'Score',
       value: analysis.overall_score,
       fill: '#8b5cf6',
+       path:'#ddd6fe'
     },
   ];
 
   return (
     <div className='p-0'>
-      <div className='flex flex-col gap-10'>
-        <div className='flex flex-col gap-2 rounded-lg bg-purple-50 p-6'>
-          <div className='flex flex-col'>
-            <div className='ml-[-32px] h-48 w-48'>
-              <ResponsiveContainer width='100%' height='100%'>
-                <RadialBarChart
-                  cx='50%'
-                  cy='50%'
-                  innerRadius='60%'
-                  outerRadius='80%'
-                  barSize={10}
-                  data={chartData}
-                  startAngle={180}
-                  endAngle={-180}
-                >
-                  <PolarAngleAxis
-                    type='number'
-                    domain={[0, 100]}
-                    angleAxisId={0}
-                    tick={false}
-                  />
-                  <RadialBar
-                    background
-                    dataKey='value'
-                    angleAxisId={0}
-                    data={chartData}
-                    cornerRadius={5}
-                  />
-                  <text
-                    x='50%'
-                    y='50%'
-                    textAnchor='middle'
-                    dominantBaseline='middle'
-                    className='fill-purple-800 text-2xl font-bold'
-                  >
-                    {analysis.overall_score.toFixed(1)}
-                  </text>
-                </RadialBarChart>
-              </ResponsiveContainer>
-            </div>
-            <div className='mt-[-16px] flex items-center'>
-              {/* <Sparkle className='text-purple-700'/> */}
-              <h3 className='text-xl font-medium text-purple-800'>
-                Overall Score - {analysis.overall_score?.toFixed(1) || 'N/A'}
-                /100
-              </h3>
-            </div>
-          </div>
+      <div className='text-xl font-medium mb-6'>Interview Feedback</div>
+    <div className='flex flex-col gap-2 mb-16'>
 
-          <p className=''>
-            {analysis.overall_summary || 'No summary available.'}
-          </p>
-        </div>
+
+
+        <ProgressBarCard summary= {analysis.overall_summary || 'No summary available.'} color='purple'>
+        <RadialProgress chartData={chartData} size={200}  />
+        </ProgressBarCard>
+        <Link
+          href={'/interview-transcript'}
+        >
+          <Card className='group  border-border shadow-none duration-300 hover:bg-muted'>
+            <CardContent className='p-4'>
+              <div className='flex items-center justify-between'>
+                <div className='flex items-center'>
+                  <MessageSquare
+                    className='mr-2 h-6 w-6 text-muted-foreground'
+                    strokeWidth={1}
+                  />
+                  <div className='flex items-center'>View my interview</div>
+                </div>
+                <div className='group relative'>
+                  <ExternalLink className='mr-4 h-4 w-4' />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+    </div>
+      
+     
+      <div className='flex flex-col gap-10'>
+       
 
         <div className='flex flex-col gap-8'>
           {analysis.articulation && (

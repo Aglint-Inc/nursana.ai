@@ -11,6 +11,7 @@ interface RadialProgressProps {
     name: string;
     value: number;
     fill: string;
+    path?: string; 
   }[];
   size?: number; // Optional prop for size (defaults to 48px if not provided)
 }
@@ -21,6 +22,13 @@ const RadialProgress: React.FC<RadialProgressProps> = ({ chartData, size = 48 })
     height: `${size}px`,
   };
 
+  // Update chartData to include default 'path' if not provided
+  const updatedChartData = chartData.map(item => ({
+    ...item,
+    fill: `${item.fill}`,
+    path: item.path || '#E2E8F0' 
+  }));
+
   return (
     <div style={containerStyle}>
       <ResponsiveContainer width="100%" height="100%">
@@ -30,7 +38,7 @@ const RadialProgress: React.FC<RadialProgressProps> = ({ chartData, size = 48 })
           innerRadius="60%"
           outerRadius="80%"
           barSize={10}
-          data={chartData}
+          data={updatedChartData}
           startAngle={180}
           endAngle={-180}
         >
@@ -41,10 +49,10 @@ const RadialProgress: React.FC<RadialProgressProps> = ({ chartData, size = 48 })
             tick={false}
           />
           <RadialBar
-            background
+            background={{ fill: updatedChartData[0].path }} // Use 'path' color for background
             dataKey="value"
             angleAxisId={0}
-            data={chartData}
+            data={updatedChartData}
             cornerRadius={5}
           />
           <text
@@ -52,7 +60,7 @@ const RadialProgress: React.FC<RadialProgressProps> = ({ chartData, size = 48 })
             y="50%"
             textAnchor="middle"
             dominantBaseline="middle"
-            style={{ fill: '#6B46C1', fontSize: '24px', fontWeight: 'bold' }}
+            style={{ fill: chartData[0].fill, fontSize: '24px', fontWeight: 'bold' }} // Dynamically use the fill color from chartData
           >
             {chartData[0].value.toFixed(1)}
           </text>

@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { useUserData } from '@/authenicated/hooks/useUserData';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import RadialProgress from './RadialProgress';
+import path from 'path';
+import ProgressBarCard from './ProgressBarCard';
 
 interface FeedbackData {
   summary: string;
@@ -35,18 +38,35 @@ interface ResumeFeedbackProps {
 export function ResumeFeedback() {
   const { resume } = useUserData();
 
-  const { summary, breakdown, overallScore } = resume?.resume_feedback;
+  const { summary, breakdown, overallScore, } = resume?.resume_feedback;
   const userData = useUserData();
+
+  const ResumeScore = [
+    {
+      name: 'Score',
+      value: overallScore,  
+      fill: '#db2777',
+      path:'#fbcfe8'
+    },
+
+  ];
   return (
     <div className='mb-6'>
-      <div className='text-xl font-medium'>Resume Review</div>
+      <div className='text-xl font-medium mb-6'>Resume Review</div>
+<div className='flex flex-col gap-2 mb-10'>
+      <ProgressBarCard 
+      summary={summary}
+      color='pink'
+      >
+      <RadialProgress chartData={ResumeScore} size={200}  />
+      </ProgressBarCard>
       {!userData?.resume?.error_status && userData?.resume?.file_url ? (
         <Link
           href={userData?.resume?.file_url}
           rel='noopener noreferrer'
           target='_blank'
         >
-          <Card className='group my-4 border-none bg-secondary duration-300 hover:bg-secondary-foreground/10'>
+          <Card className='group border-border shadow-none duration-300 hover:bg-muted'>
             <CardContent className='p-4'>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center'>
@@ -64,20 +84,23 @@ export function ResumeFeedback() {
           </Card>
         </Link>
       ) : null}
+      </div>
 
       <div className='flex flex-col gap-10'>
-        <div>
+
+        {/* <div>
           <h3 className='mb-2 text-lg font-medium'>Summary</h3>
           <p className='text-muted-foreground'>{summary}</p>
         </div>
 
         <div>
           <h3 className='mb-2 text-lg font-medium'>Overall Score</h3>
+          
           <Progress value={overallScore} max={50} className='h-2 w-full' />
           <p className='mt-1 text-sm text-muted-foreground'>
             {Math.floor(overallScore + 1.55)} / 50
           </p>
-        </div>
+        </div> */}
 
         <div>
           <h3 className='mb-2 text-lg font-medium'>Experience</h3>
