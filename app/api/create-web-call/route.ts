@@ -1,13 +1,14 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from 'next/server';
 
-import { createClient } from "@/utils/supabase/server";
+import { getInstructions } from '@/utils/audio/instructions';
+import { createClient } from '@/utils/supabase/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const { interviewId } = await request.json();
+    const { interviewId, resumeData } = await request.json();
 
     if (!interviewId) {
-      throw new Error("Interview ID is required");
+      throw new Error('Interview ID is required');
     }
 
     // Create a Supabase client using the custom function
@@ -15,15 +16,15 @@ export async function POST(request: NextRequest) {
 
     // Fetch the interview data from Supabase
     const { data: interviewData, error: interviewError } = await supabase
-      .from("interview")
-      .select("*")
-      .eq("id", interviewId)
+      .from('interview')
+      .select('*')
+      .eq('id', interviewId)
       .single();
 
     if (interviewError) throw interviewError;
-    if (!interviewData) throw new Error("Interview not found");
+    if (!interviewData) throw new Error('Interview not found');
 
-    console.log("interviewData", interviewData);
+    console.log('interviewData', interviewData);
 
     const {
       ai_welcome_message,
@@ -34,65 +35,60 @@ export async function POST(request: NextRequest) {
 
     // Null checks
     if (!ai_welcome_message) {
-      throw new Error("Welcome message is required");
+      throw new Error('Welcome message is required');
     }
     if (!ai_questions) {
-      throw new Error("Questions array is required and must not be empty");
+      throw new Error('Questions array is required and must not be empty');
     }
     if (!ai_interview_duration) {
-      throw new Error("Interview duration is required");
+      throw new Error('Interview duration is required');
     }
     if (!ai_ending_message) {
-      throw new Error("Ending message is required");
+      throw new Error('Ending message is required');
     }
 
-    console.log(
-      interviewId,
-      ai_welcome_message,
-      ai_questions,
-      ai_interview_duration,
-      ai_ending_message
-    );
-
     const response = await fetch(
-      "https://api.retellai.com/v2/create-web-call",
+      'https://api.retellai.com/v2/create-web-call',
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${process.env.RETELL_API_KEY}`,
         },
         body: JSON.stringify({
-          agent_id: "agent_6cdac8db05543d4e26f6f9dd7a",
+          agent_id: 'agent_6cdac8db05543d4e26f6f9dd7a',
           metadata: {
             interviewId,
           },
           retell_llm_dynamic_variables: {
-            welcome_message: ai_welcome_message,
-            questions: ai_questions,
-            interview_duration: ai_interview_duration.toString(),
-            ending_message: ai_ending_message,
+            prompt: getInstructions({
+              aiEndingMessage: ai_ending_message ?? '',
+              aiInstructions: [ai_questions ?? ''],
+              aiQuestions: interviewData.ai_instructions || [],
+              aiWelcomeMessage: ai_welcome_message ?? '',
+              resume: `${resumeData}`,
+            }),
           },
           max_duration: ai_interview_duration * 60,
         }),
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Retell API error:", response.status, errorText);
+      console.error('Retell API error:', response.status, errorText);
       throw new Error(`Retell API error: ${response.status} ${errorText}`);
     }
 
     const data = await response.json();
-    console.log("Retell API response:", data);
+    console.log('Retell API response:', data);
 
     // Get the call_id from the Retell API response
     const call_id = data.call_id;
 
     // Update the interview_analysis table with the call_id
     const { error: insertError } = await supabase
-      .from("interview_analysis")
+      .from('interview_analysis')
       .upsert(
         {
           call_id,
@@ -100,9 +96,9 @@ export async function POST(request: NextRequest) {
           user_id: interviewData.user_id,
         },
         {
-          onConflict: "interview_id",
+          onConflict: 'interview_id',
           ignoreDuplicates: false,
-        }
+        },
       );
 
     if (insertError) throw insertError;
@@ -113,10 +109,10 @@ export async function POST(request: NextRequest) {
       analysisId: interviewId,
     });
   } catch (error) {
-    console.error("Error creating web call:", error);
+    console.error('Error creating web call:', error);
     return NextResponse.json(
-      { error: "Failed to create web call", details: (error as Error).message },
-      { status: 500 }
+      { error: 'Failed to create web call', details: (error as Error).message },
+      { status: 500 },
     );
   }
 }

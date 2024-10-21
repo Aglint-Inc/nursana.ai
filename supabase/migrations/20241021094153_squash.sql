@@ -600,7 +600,7 @@ CREATE OR REPLACE TRIGGER "interview_analysis" AFTER UPDATE OF "video_url" ON "p
 
 
 
-CREATE OR REPLACE TRIGGER "resume_to_json_trigger" AFTER INSERT OR UPDATE OF "file_url" ON "public"."resume" FOR EACH ROW WHEN ((("new"."file_url" = ''::"text") AND ("new"."structured_resume" IS NULL))) EXECUTE FUNCTION "public"."resume_to_json_trigger_function"();
+CREATE OR REPLACE TRIGGER "resume_to_json_trigger" AFTER INSERT OR UPDATE OF "file_url" ON "public"."resume" FOR EACH ROW WHEN ((("new"."file_url" != ''::"text") AND ("new"."structured_resume" IS NULL))) EXECUTE FUNCTION "public"."resume_to_json_trigger_function"();
 
 
 

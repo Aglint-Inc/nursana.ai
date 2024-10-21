@@ -1,5 +1,6 @@
 'use client';
 
+import { type ResumeDetailsType } from 'app/(authenticated)/profile/_common/types';
 import {
   useUpdateInterviews,
   useUpdateInterviewsAnalysis,
@@ -23,6 +24,7 @@ import NursanaLogo from './nursana-logo';
 interface InterviewProps {
   interviewId: string;
   interviewData: InterviewData;
+  resumeData: ResumeDetailsType;
 }
 
 interface ConversationTurn {
@@ -33,6 +35,7 @@ interface ConversationTurn {
 export default function Interview({
   interviewId,
   interviewData,
+  resumeData,
 }: InterviewProps) {
   const {
     isRecording,
@@ -215,6 +218,7 @@ export default function Interview({
         },
         body: JSON.stringify({
           interviewId: interviewId,
+          resumeData: `${JSON.stringify(resumeData)}`,
         }),
       });
 

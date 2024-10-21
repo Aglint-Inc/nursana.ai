@@ -19,24 +19,29 @@ export const getInstructions = ({
   aiEndingMessage,
   aiQuestions,
   aiInstructions,
+  resume,
 }: {
   aiWelcomeMessage: string;
   aiEndingMessage: string;
   aiQuestions: string[];
   aiInstructions: string[];
+  resume: string;
 }) => {
   return `
         Instructions:
-        ${aiInstructions.join('\n')}
+        ${aiInstructions ? aiInstructions.join('\n') : null}
         
         Welcome message:
         ${aiWelcomeMessage}
 
         Questions:
-        ${aiQuestions.join('\n')}
+        ${aiQuestions ? aiQuestions.join('\n') : null}
 
         Ending message:
         ${aiEndingMessage}
+
+        Candidate Resume Details:
+        ${resume}
 
         Personality:
         Be professional and attentive
