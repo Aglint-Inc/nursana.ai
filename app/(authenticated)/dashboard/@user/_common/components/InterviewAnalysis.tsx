@@ -73,6 +73,7 @@ export function InterviewAnalysis() {
   ];
 
   return (
+<<<<<<< HEAD:app/_common/components/InterviewAnalysis.tsx
     <div className='p-0'>
       {/* <CardHeader className='bg-purple-50 px-4 py-2'>
         <CardTitle className='text-xl font-bold text-purple-800'>
@@ -90,6 +91,33 @@ export function InterviewAnalysis() {
                   innerRadius='60%'
                   outerRadius='80%'
                   barSize={10}
+=======
+    <Card className='p-0'>
+      <CardContent className='space-y-6 p-0'>
+        <div className='grid grid-cols-[1fr,2fr] items-center gap-6 bg-purple-50 p-4'>
+          <div className='h-48 w-48'>
+            <ResponsiveContainer width='100%' height='100%'>
+              <RadialBarChart
+                cx='50%'
+                cy='50%'
+                innerRadius='60%'
+                outerRadius='80%'
+                barSize={10}
+                data={chartData}
+                startAngle={180}
+                endAngle={-180}
+              >
+                <PolarAngleAxis
+                  type='number'
+                  domain={[0, 100]}
+                  angleAxisId={0}
+                  tick={false}
+                />
+                <RadialBar
+                  background
+                  dataKey='value'
+                  angleAxisId={0}
+>>>>>>> 49074584f15a2aec4e08255a5c77ceac27fdc7f0:app/(authenticated)/dashboard/@user/_common/components/InterviewAnalysis.tsx
                   data={chartData}
                   startAngle={180}
                   endAngle={-180}

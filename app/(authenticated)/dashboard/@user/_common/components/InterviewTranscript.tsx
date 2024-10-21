@@ -4,7 +4,11 @@ import React from 'react';
 import { useUserData } from '@/authenicated/hooks/useUserData';
 import { Card, CardContent } from '@/components/ui/card';
 
+<<<<<<< HEAD:app/_common/components/InterviewTranscript.tsx
 import { VideoPlayer } from './VideoPlayer';
+=======
+import { VideoPlayer } from '../../../../../_common/components/VideoPlayer';
+>>>>>>> 49074584f15a2aec4e08255a5c77ceac27fdc7f0:app/(authenticated)/dashboard/@user/_common/components/InterviewTranscript.tsx
 
 interface Message {
   role: 'agent' | 'user';
@@ -39,6 +43,7 @@ export function InterviewTranscript() {
   }
 
   return (
+<<<<<<< HEAD:app/_common/components/InterviewTranscript.tsx
     <div className='min-h-[calc(100vh-164px)]'>
       <div className='flex flex-col gap-12'>
 
@@ -48,6 +53,18 @@ export function InterviewTranscript() {
         </CardContent>
       </Card>
 
+=======
+    <Card className='min-h-[calc(100vh-164px)]'>
+      <CardContent className='flex flex-col gap-6 p-6'>
+        <Card className='overflow-hidden border-none bg-secondary shadow-none'>
+          <CardContent className='p-0'>
+            <VideoPlayer
+              videoUrl={userData.analysis?.video_url ?? ''}
+              audioUrl={userData.analysis?.audio_url ?? ''}
+            />
+          </CardContent>
+        </Card>
+>>>>>>> 49074584f15a2aec4e08255a5c77ceac27fdc7f0:app/(authenticated)/dashboard/@user/_common/components/InterviewTranscript.tsx
         <div className='flex flex-col gap-6'>
           {transcript.map((message, index) => (
             <div key={index} className='flex justify-start'>
