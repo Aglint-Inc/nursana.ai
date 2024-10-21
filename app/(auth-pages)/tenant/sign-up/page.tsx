@@ -4,10 +4,10 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { api } from 'trpc/client';
 
-import { UIButton } from '@/common/components/UIButton';
 import { UIPhoneInput } from '@/common/components/UIPhoneInput/PhoneInput';
 import { UITextArea } from '@/common/components/UITextArea';
 import UITextField from '@/common/components/UITextField';
+import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/utils/supabase/client';
 
@@ -168,14 +168,14 @@ export default function Signup() {
             }}
             value={hospital.address}
           />
-          <UIButton
-            isLoading={isPendingHospital}
+          <Button
+            disabled={isPendingHospital}
             onClick={() => {
               handleHospitalSubmit();
             }}
           >
             Continue
-          </UIButton>
+          </Button>
         </div>
       ) : (
         <div>
@@ -231,15 +231,15 @@ export default function Signup() {
               }}
               value={user.last_name}
             />
-            <UIButton
-              isLoading={isPending}
+            <Button
+              disabled={isPending}
               className='mt-4'
               onClick={() => {
                 handleSubmitUser();
               }}
             >
               Sign up
-            </UIButton>
+            </Button>
           </div>
         </div>
       )}

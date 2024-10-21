@@ -5,7 +5,7 @@ import {
   useUpdateInterviewsAnalysis,
 } from 'app/interview/_common/hooks';
 import { Loader } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RetellWebClient } from 'retell-client-js-sdk';
 import { type InterviewData } from 'src/types/types';
@@ -145,7 +145,6 @@ export default function Interview({
           (error as Error).message
         }`,
       );
-    } finally {
       setIsProcessing(false);
     }
   }, [
@@ -156,6 +155,13 @@ export default function Interview({
     generateFilePath,
     videoBlobRef,
   ]);
+
+  const param = useParams();
+  useEffect(() => {
+    if (param.stage === 'summary') {
+      setIsProcessing(false);
+    }
+  }, [param.stage]);
 
   const setupRetellEventListeners = useCallback(
     (retellWebClient: RetellWebClient) => {

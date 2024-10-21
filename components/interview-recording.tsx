@@ -45,7 +45,7 @@ function InterviewRecording({
       interval = setInterval(() => {
         setTimer((prevTimer) => {
           const newTimer = prevTimer + 1;
-          if (newTimer >= interviewDuration) {
+          if (newTimer >= interviewDuration * 60) {
             handleStopInterview();
           }
           return newTimer;

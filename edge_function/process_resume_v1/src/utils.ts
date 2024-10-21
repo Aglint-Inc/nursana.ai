@@ -9,19 +9,19 @@ export const getResponse = ({
   data,
   saved = false,
   error,
-  application_id,
+  resume_id,
   type = 'SYSTEM_ERROR',
   test,
 }: {
   data?: any;
   saved?: boolean;
   error?: string;
-  application_id?: string;
+  resume_id?: string;
   type?: ErrorType;
   test: boolean;
 }) => {
-  if (!test && error && application_id) {
-    logs(application_id, {
+  if (!test && error && resume_id) {
+    logs(resume_id, {
       step: 'process_resume_v1',
       message: error,
       type,

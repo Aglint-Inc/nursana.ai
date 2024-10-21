@@ -9,11 +9,12 @@
     "typescriptreact"
   ],
   "cSpell.words": [
-    "supabase",
-    "TRPC",
     "langchain",
     "OPENAI",
+    "supabase",
     "SUPABASE",
-    "tesseract"
+    "telemedicine",
+    "tesseract",
+    "TRPC"
   ]
 }

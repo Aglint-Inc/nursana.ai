@@ -1,11 +1,11 @@
 'use client';
 
-import { UIButton } from '@/common/components/UIButton';
 import UISelectDropDown from '@/common/components/UISelectDropDown';
 import UITextField from '@/common/components/UITextField';
 import { capitalize } from '@/common/utils/capitalize';
 import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 
 import Section from '../../../../components/section';
@@ -88,16 +88,15 @@ export default function FormCampaign() {
                 />
               </div>
 
-              <UIButton
+              <Button
                 className='mt-4 w-full'
                 type='submit'
-                isLoading={saving}
                 disabled={
                   !form.email || !form.role || !form.first_name || !form.file
                 }
               >
                 Get Interview Link
-              </UIButton>
+              </Button>
             </form>
           </CardContent>
           <CardFooter className='flex flex-col items-center'>

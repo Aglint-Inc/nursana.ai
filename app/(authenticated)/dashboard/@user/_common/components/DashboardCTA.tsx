@@ -65,11 +65,14 @@ export function DashboardCTA() {
           <Terminal className='h-4 w-4' />
           <AlertTitle>Profile Incomplete</AlertTitle>
           <AlertDescription>
-            <div className='flex flex-row justify-between space-x-4'>
+            <div className='flex flex-col gap-4'>
               <p>
                 Your profile is not complete. Please provide all necessary
                 information to get the most out of our platform.
               </p>
+              <Button variant='default' className='w-fit' asChild>
+                <Link href='/profile'>Complete Profile</Link>
+              </Button>
             </div>
           </AlertDescription>
         </Alert>
