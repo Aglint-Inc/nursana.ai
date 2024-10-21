@@ -1,10 +1,10 @@
-import { type PropsWithChildren } from 'react';
-import { api } from 'trpc/server';
+import { unstable_noStore } from 'next/cache';
+import { api, HydrateClient } from 'trpc/server';
 
-function Layout({ children }: { children: PropsWithChildren }) {
+function Layout({ children }: { children: React.ReactNode }) {
+  unstable_noStore();
   void api.user.get_data.prefetch();
-
-  return children;
+  return <HydrateClient>{children}</HydrateClient>;
 }
 
 export default Layout;

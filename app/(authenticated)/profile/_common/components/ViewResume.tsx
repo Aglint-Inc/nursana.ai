@@ -8,17 +8,16 @@ import {
   Phone,
 } from 'lucide-react';
 
+import { useUserData } from '@/authenicated/hooks/useUserData';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
 import { type ResumeDetailsType } from '../types';
 
-export default function ViewResume({
-  data: resume,
-}: {
-  data: ResumeDetailsType;
-}) {
+export default function ViewResume() {
+  const { resume: data } = useUserData();
+  const resume = data?.structured_resume as ResumeDetailsType;
   return (
     <Card className='w-full'>
       <CardHeader className='flex flex-row items-center gap-4'>
@@ -80,7 +79,7 @@ export default function ViewResume({
                   {position.title} at {position.org}
                 </h3>
                 <p className='text-sm text-muted-foreground'>
-                  {position.start.year} - {position.end.year} •{' '}
+                  {position.start?.year} - {position.end?.year} •{' '}
                   {position.location}
                 </p>
                 <p className='mt-2'>{position.description}</p>
@@ -101,7 +100,8 @@ export default function ViewResume({
                   {school.degree}
                 </h3>
                 <p className='text-sm text-muted-foreground'>
-                  {school.institution} • {school.start.year} - {school.end.year}
+                  {school.institution} • {school.start?.year} -{' '}
+                  {school.end?.year}
                 </p>
               </div>
             ))}
@@ -139,7 +139,7 @@ export default function ViewResume({
                   {license.licenseType}
                 </h3>
                 <p className='text-sm text-muted-foreground'>
-                  {license.issuingAuthority} • Issued: {license.issueDate.year}
+                  {license.issuingAuthority} • Issued: {license.issueDate?.year}
                 </p>
               </div>
             ))}

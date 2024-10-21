@@ -27,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { capitalizeFirstLetter } from '@/utils/utils';
 
 import {
   CITIES,
@@ -49,11 +50,7 @@ export const userProfileSchema = z.object({
 
 type ProfileData = z.infer<typeof userProfileSchema>;
 
-export default function EditProfileForm({
-  setEdit,
-}: {
-  setEdit: (_edit: boolean) => void;
-}) {
+export default function EditProfileForm() {
   const { user } = useUserData();
   const { updateUserDetails, isPending } = useUpdateUserData();
   const form = useForm<ProfileData>({
@@ -76,7 +73,6 @@ export default function EditProfileForm({
       ...data,
       last_name: data.last_name || null,
     });
-    setEdit(false);
   };
 
   return (
@@ -165,7 +161,18 @@ export default function EditProfileForm({
                             <SelectValue placeholder='Select current job title' />
                           </SelectTrigger>
                           <SelectContent>
-                            {JOB_TITLES.map((item) => (
+                            {(value
+                              ? [
+                                  {
+                                    value: user?.job_title ?? '',
+                                    label: capitalizeFirstLetter(
+                                      user?.job_title ?? '',
+                                    ),
+                                  },
+                                  ...JOB_TITLES,
+                                ]
+                              : JOB_TITLES
+                            ).map((item) => (
                               <SelectItem key={item.value} value={item.value}>
                                 {item.label}
                               </SelectItem>
@@ -198,7 +205,18 @@ export default function EditProfileForm({
                             <SelectValue placeholder='Select expected salary' />
                           </SelectTrigger>
                           <SelectContent>
-                            {SALARY_RANGES.map((item) => (
+                            {(value
+                              ? [
+                                  {
+                                    value: user?.expected_salary || '',
+                                    label: capitalizeFirstLetter(
+                                      user?.expected_salary || '',
+                                    ),
+                                  },
+                                  ...SALARY_RANGES,
+                                ]
+                              : SALARY_RANGES
+                            ).map((item) => (
                               <SelectItem key={item.value} value={item.value}>
                                 {item.label}
                               </SelectItem>
