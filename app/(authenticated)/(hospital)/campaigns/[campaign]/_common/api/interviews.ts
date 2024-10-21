@@ -1,7 +1,6 @@
 import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
 
-import { columnFilterSchema } from '@/campaign/schema/columnFilterSchema';
+import { inputSchema as schema } from '@/campaign/schema/columnFilterSchema';
 import {
   type HospitalProcedure,
   hospitalProcedure,
@@ -9,25 +8,31 @@ import {
 } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
 
-const schema = columnFilterSchema.merge(
-  z.object({
-    id: z.string(),
-  }),
-);
-
 const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
   const db = createPrivateClient();
-  const data = (
-    await db
-      .from('interview')
-      .select(
-        'id, interview_stage, updated_at, applicant!interviews_user_id_fkey!inner(first_name, last_name, email, job_title)',
-      )
-      .eq('campaign_id', input.id)
-      .eq('hospital_id', ctx.hospital.id)
-      .limit(input.size)
-      .range(input.start, input.start + input.size)
-  ).data;
+  const query = db
+    .from('interview')
+    .select(
+      'id, interview_stage, updated_at, applicant!interviews_user_id_fkey!inner(first_name, last_name, email, job_title)',
+    )
+    .eq('campaign_id', input.id)
+    .eq('hospital_id', ctx.hospital.id)
+    .limit(input.size)
+    .range(input.start, input.start + input.size);
+
+  if (input.email) query.eq('applicant.email', input.email);
+
+  if (input.job_title) query.eq('applicant.job_title', input.job_title);
+
+  if (input.interview_stage && input.interview_stage.length)
+    query.in('interview_stage', input.interview_stage);
+
+  if (input.updated_at && input.updated_at.length === 2) {
+    query.gte('updated_at', input.updated_at[0]);
+    query.lte('updated_at', input.updated_at[1]);
+  }
+
+  const { data } = await query;
   if (!data)
     throw new TRPCError({
       code: 'NOT_FOUND',

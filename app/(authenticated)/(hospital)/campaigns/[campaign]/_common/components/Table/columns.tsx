@@ -12,6 +12,14 @@ import { isArrayOfDates } from './utils';
 
 export const columns: ColumnDef<ColumnSchema>[] = [
   {
+    accessorKey: 'id',
+    header: 'ID',
+    cell: ({ row }) => {
+      const value = row.getValue('id');
+      return <div className='max-w-[200px] truncate'>{`${value}`}</div>;
+    },
+  },
+  {
     accessorKey: 'name',
     header: 'Name',
     enableHiding: false,

@@ -2,6 +2,7 @@ import {
   createParser,
   createSearchParamsCache,
   parseAsArrayOf,
+  parseAsInteger,
   parseAsString,
   parseAsStringLiteral,
   parseAsTimestamp,
@@ -27,12 +28,16 @@ export const parseAsSort = createParser({
 
 export const searchParamsParser = {
   // FILTERS
+  name: parseAsString,
   email: parseAsString,
+  job_title: parseAsString,
   interview_stage: parseAsArrayOf(
     parseAsStringLiteral(INTERVIEW_STAGES),
     ARRAY_DELIMITER,
   ),
   updated_at: parseAsArrayOf(parseAsTimestamp, RANGE_DELIMITER),
+  size: parseAsInteger.withDefault(10),
+  start: parseAsInteger.withDefault(0),
 };
 
 export const searchParamsCache = createSearchParamsCache(searchParamsParser);
