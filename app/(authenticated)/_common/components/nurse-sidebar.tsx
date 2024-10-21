@@ -1,10 +1,18 @@
 'use client';
-import { File, Home, MessageSquare, Sparkle, UserSquare } from 'lucide-react';
+import {
+  File,
+  Home,
+  LogOut,
+  MessageSquare,
+  Sparkle,
+  UserSquare,
+} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 // import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
+import { Button } from '@/components/ui/button';
 import {
   Sidebar,
   SidebarContent,
@@ -20,6 +28,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
+import { supabase } from '@/utils/supabase/client';
 
 const items = [
   {
@@ -103,6 +112,17 @@ export function NurseSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <footer className='flex w-full flex-col gap-2 p-3 text-xs text-muted-foreground'>
+          <Button
+            onClick={() => {
+              supabase.auth.signOut();
+              localStorage.clear();
+              window.location.reload();
+            }}
+            variant={'ghost'}
+          >
+            <span>Logout</span>
+            <LogOut className='ml-2' />
+          </Button>
           <div className='flex gap-2'>
             <p>Powered by</p>
             <Link
