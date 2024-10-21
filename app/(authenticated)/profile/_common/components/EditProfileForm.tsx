@@ -50,7 +50,11 @@ export const userProfileSchema = z.object({
 
 type ProfileData = z.infer<typeof userProfileSchema>;
 
-export default function EditProfileForm() {
+export default function EditProfileForm({
+  setEdit,
+}: {
+  setEdit: (_edit: boolean) => void;
+}) {
   const { user } = useUserData();
   const { updateUserDetails, isPending } = useUpdateUserData();
   const form = useForm<ProfileData>({
@@ -73,75 +77,121 @@ export default function EditProfileForm() {
       ...data,
       last_name: data.last_name || null,
     });
+    setEdit(false);
   };
 
   return (
     <Form {...form}>
       <form className='w-full' onSubmit={form.handleSubmit(onSubmitForm)}>
-        <Card className='w-full'>
-          <CardHeader>
-            <CardTitle>Edit Profile Information</CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <div className='grid grid-cols-3 gap-4'>
-              <div className='space-y-2'>
-                <FormField
-                  control={control}
-                  name='first_name'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>First Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          id='first_name'
-                          placeholder='Please enter your first name'
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='space-y-2'>
-                <FormField
-                  control={control}
-                  name='last_name'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Last Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          id='last_name'
-                          placeholder='Please enter your last name'
-                          {...field}
-                          value={field.value || ''}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='space-y-2'>
-                <FormField
-                  control={control}
-                  name='phone_number'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
-                      <FormControl>
-                        <UIPhoneInput {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+        <Card className='w-full bg-gray-50'>
+          <CardHeader className='p-4'>
+            <div className='flex flex-row items-center justify-between'>
+              <CardTitle className='text-lg font-medium'>
+                Edit Basic Information
+              </CardTitle>
+              <div className='flex gap-2'>
+                <Button variant={'outline'} size={'sm'}>
+                  Cancel
+                </Button>
+                <Button disabled={isPending} type='submit' size={'sm'}>
+                  {isPending ? 'Saving' : 'Save Changes'}
+                </Button>
               </div>
             </div>
-
+          </CardHeader>
+          <CardContent className='p-4 pt-0'>
             <div className='grid grid-cols-2 gap-4'>
-              <div className='space-y-2'>
+              <FormField
+                control={control}
+                name='first_name'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        id='first_name'
+                        placeholder='Please enter your first name'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name='last_name'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        id='last_name'
+                        placeholder='Please enter your last name'
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name='phone_number'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone Number</FormLabel>
+                    <FormControl>
+                      <UIPhoneInput {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name='expected_salary'
+                render={({ field: { value } }) => (
+                  <FormItem>
+                    <FormLabel>Expected Salary</FormLabel>
+                    <FormControl>
+                      <Select
+                        {...register('expected_salary')}
+                        onValueChange={(value) => {
+                          clearErrors('expected_salary');
+                          setValue('expected_salary', value);
+                        }}
+                        value={value || ''}
+                      >
+                        <SelectTrigger id='expected_salary'>
+                          <SelectValue placeholder='Select expected salary' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {(value
+                            ? [
+                                {
+                                  value: user?.expected_salary || '',
+                                  label: capitalizeFirstLetter(
+                                    user?.expected_salary || '',
+                                  ),
+                                },
+                                ...SALARY_RANGES,
+                              ]
+                            : SALARY_RANGES
+                          ).map((item) => (
+                            <SelectItem key={item.value} value={item.value}>
+                              {item.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className='col-span-2'>
                 <FormField
                   control={control}
                   name='job_title'
@@ -185,53 +235,7 @@ export default function EditProfileForm() {
                   )}
                 />
               </div>
-              <div className='space-y-2'>
-                <FormField
-                  control={control}
-                  name='expected_salary'
-                  render={({ field: { value } }) => (
-                    <FormItem>
-                      <FormLabel>Expected Salary</FormLabel>
-                      <FormControl>
-                        <Select
-                          {...register('expected_salary')}
-                          onValueChange={(value) => {
-                            clearErrors('expected_salary');
-                            setValue('expected_salary', value);
-                          }}
-                          value={value || ''}
-                        >
-                          <SelectTrigger id='expected_salary'>
-                            <SelectValue placeholder='Select expected salary' />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {(value
-                              ? [
-                                  {
-                                    value: user?.expected_salary || '',
-                                    label: capitalizeFirstLetter(
-                                      user?.expected_salary || '',
-                                    ),
-                                  },
-                                  ...SALARY_RANGES,
-                                ]
-                              : SALARY_RANGES
-                            ).map((item) => (
-                              <SelectItem key={item.value} value={item.value}>
-                                {item.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-            <div className='grid grid-cols-2 gap-4'>
-              <div className='space-y-2'>
+              <div className='col-span-2'>
                 <FormField
                   control={control}
                   name='job_type'
@@ -254,7 +258,7 @@ export default function EditProfileForm() {
                   )}
                 />
               </div>
-              <div className='space-y-2'>
+              <div className='col-span-2'>
                 <FormField
                   control={control}
                   name='preferred_job_titles'
@@ -276,9 +280,7 @@ export default function EditProfileForm() {
                   )}
                 />
               </div>
-            </div>
-            <div className='grid grid-cols-2 gap-4'>
-              <div className='space-y-2'>
+              <div className='col-span-2'>
                 <FormField
                   control={control}
                   name='preferred_locations'
@@ -300,7 +302,8 @@ export default function EditProfileForm() {
                   )}
                 />
               </div>
-              <div className='space-y-2'>
+
+              <div className='col-span-2'>
                 <FormField
                   control={control}
                   name='travel_preference'
@@ -321,13 +324,6 @@ export default function EditProfileForm() {
                     </FormItem>
                   )}
                 />
-              </div>
-            </div>
-            <div className='flex justify-end gap-4'>
-              <div className='flex gap-2'>
-                <Button disabled={isPending} type='submit'>
-                  {isPending ? 'Saving' : 'Save'}
-                </Button>
               </div>
             </div>
           </CardContent>

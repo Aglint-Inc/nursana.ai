@@ -31,7 +31,7 @@ export const userProfileSchema = z.object({
 
 type ProfileData = z.infer<typeof userProfileSchema>;
 
-export default function EditProfileForm({
+export default function ViewProfileDetails({
   setEdit,
 }: {
   setEdit: (_edit: boolean) => void;
@@ -63,9 +63,11 @@ export default function EditProfileForm({
     <Form {...form}>
       <form className='w-full'>
         <Card className='w-full'>
-          <CardHeader>
+          <CardHeader className='p-4'>
             <div className='flex flex-row items-center justify-between'>
-              <CardTitle>Profile Information</CardTitle>
+              <CardTitle className='text-lg font-medium'>
+                Basic Information
+              </CardTitle>
               <Button
                 onClick={() => setEdit(true)}
                 type='button'
@@ -76,136 +78,141 @@ export default function EditProfileForm({
               </Button>
             </div>
           </CardHeader>
-          <CardContent className='space-y-4'>
-            <div className='grid grid-cols-3 gap-4'>
-              <div className='space-y-2'>
-                <FormField
-                  name='first_name'
-                  control={control}
-                  render={({ field: { value } }) => (
-                    <FormItem>
-                      <FormLabel>First Name</FormLabel>
-                      <FormControl>
-                        <p>{value || '--'}</p>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='space-y-2'>
-                <FormField
-                  name='last_name'
-                  control={control}
-                  render={({ field: { value } }) => (
-                    <FormItem>
-                      <FormLabel>Last Name</FormLabel>
-                      <FormControl>
-                        <p>{value || '--'}</p>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='space-y-2'>
-                <FormField
-                  name='phone_number'
-                  control={control}
-                  render={({ field: { value } }) => (
-                    <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
-                      <FormControl>
-                        <p>{value || '--'}</p>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            <div className='grid grid-cols-2 gap-4'>
-              <div className='space-y-2'>
-                <FormField
-                  name='job_title'
-                  control={control}
-                  render={({ field: { value } }) => (
-                    <FormItem>
-                      <FormLabel>Current Job Title</FormLabel>
-                      <FormControl>
-                        {
-                          <p>
-                            {JOB_TITLES.find((x) => x?.value === value)
-                              ?.label ?? '--'}
-                          </p>
-                        }
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='space-y-2'>
-                <FormField
-                  name='expected_salary'
-                  control={control}
-                  render={({ field: { value } }) => (
-                    <FormItem>
-                      <FormLabel>Expected Salary</FormLabel>
-                      <FormControl>
+          <CardContent className='p-4 pt-0'>
+            <div className='grid grid-cols-2 gap-6'>
+              <FormField
+                name='first_name'
+                control={control}
+                render={({ field: { value } }) => (
+                  <FormItem>
+                    <FormLabel className='text-sm font-normal text-muted-foreground'>
+                      First Name
+                    </FormLabel>
+                    <FormControl>
+                      <p className='text-md'>{value || '--'}</p>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name='last_name'
+                control={control}
+                render={({ field: { value } }) => (
+                  <FormItem>
+                    <FormLabel className='text-sm font-normal text-muted-foreground'>
+                      Last Name
+                    </FormLabel>
+                    <FormControl>
+                      <p>{value || '--'}</p>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name='phone_number'
+                control={control}
+                render={({ field: { value } }) => (
+                  <FormItem>
+                    <FormLabel className='text-sm font-normal text-muted-foreground'>
+                      Phone Number
+                    </FormLabel>
+                    <FormControl>
+                      <p>{value || '--'}</p>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name='job_title'
+                control={control}
+                render={({ field: { value } }) => (
+                  <FormItem>
+                    <FormLabel className='text-sm font-normal text-muted-foreground'>
+                      Current Job Title
+                    </FormLabel>
+                    <FormControl>
+                      {
                         <p>
-                          {SALARY_RANGES.find((x) => x?.value === value)
-                            ?.label ?? '--'}
+                          {JOB_TITLES.find((x) => x?.value === value)?.label ??
+                            '--'}
                         </p>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-            <div className='grid grid-cols-2 gap-4'>
-              <div className='space-y-2'>
-                <FormField
-                  name='job_type'
-                  control={control}
-                  render={({ field: { value } }) => (
-                    <FormItem>
-                      <FormLabel>Job Types</FormLabel>
-                      <FormControl>
-                        <div className='flex flex-wrap gap-1'>
-                          {value && value.length > 0
-                            ? value.map((item, index) => {
-                                return (
-                                  <Badge key={index} variant='secondary'>
-                                    {capitalizeFirstLetter(
-                                      item.split('-').join(' '),
-                                    )}
-                                  </Badge>
-                                );
-                              })
-                            : '--'}
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='space-y-2'>
+                      }
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name='expected_salary'
+                control={control}
+                render={({ field: { value } }) => (
+                  <FormItem>
+                    <FormLabel className='text-sm font-normal text-muted-foreground'>
+                      Expected Salary
+                    </FormLabel>
+                    <FormControl>
+                      <p>
+                        {SALARY_RANGES.find((x) => x?.value === value)?.label ??
+                          '--'}
+                      </p>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name='job_type'
+                control={control}
+                render={({ field: { value } }) => (
+                  <FormItem>
+                    <FormLabel className='text-sm font-normal text-muted-foreground'>
+                      Job Types
+                    </FormLabel>
+                    <FormControl>
+                      <div className='flex flex-wrap gap-1'>
+                        {value && value.length > 0
+                          ? value.map((item, index) => {
+                              return (
+                                <Badge
+                                  key={index}
+                                  variant='secondary'
+                                  className='rounded-md text-sm font-normal'
+                                >
+                                  {capitalizeFirstLetter(
+                                    item.split('-').join(' '),
+                                  )}
+                                </Badge>
+                              );
+                            })
+                          : '--'}
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className='col-span-2'>
                 <FormField
                   name='preferred_job_titles'
                   control={control}
                   render={({ field: { value } }) => (
                     <FormItem>
-                      <FormLabel>Preferred Job Titles</FormLabel>
+                      <FormLabel className='text-sm font-normal text-muted-foreground'>
+                        Preferred Job Titles
+                      </FormLabel>
                       <FormControl>
                         <div className='flex flex-wrap gap-1'>
                           {value && value.length > 0
                             ? value.map((item, index) => {
                                 return (
-                                  <Badge key={index} variant='secondary'>
+                                  <Badge
+                                    key={index}
+                                    variant='secondary'
+                                    className='rounded-md text-sm font-normal'
+                                  >
                                     {capitalizeFirstLetter(
                                       item.split('-').join(' '),
                                     )}
@@ -220,21 +227,25 @@ export default function EditProfileForm({
                   )}
                 />
               </div>
-            </div>
-            <div className='grid grid-cols-2 gap-4'>
-              <div className='space-y-2'>
+              <div className='col-span-2'>
                 <FormField
                   name='preferred_locations'
                   control={control}
                   render={({ field: { value } }) => (
                     <FormItem>
-                      <FormLabel>Preferred Locations</FormLabel>
+                      <FormLabel className='text-sm font-normal text-muted-foreground'>
+                        Preferred Locations
+                      </FormLabel>
                       <FormControl>
                         <div className='flex flex-wrap gap-1'>
                           {value && value.length > 0
                             ? value.map((item, index) => {
                                 return (
-                                  <Badge key={index} variant='secondary'>
+                                  <Badge
+                                    key={index}
+                                    variant='secondary'
+                                    className='rounded-md text-sm font-normal'
+                                  >
                                     {capitalizeFirstLetter(
                                       item.split('-').join(' '),
                                     )}
@@ -249,19 +260,25 @@ export default function EditProfileForm({
                   )}
                 />
               </div>
-              <div className='space-y-2'>
+              <div className='col-span-2'>
                 <FormField
                   name='travel_preference'
                   control={control}
                   render={({ field: { value } }) => (
                     <FormItem>
-                      <FormLabel>Preferred Travel Preference</FormLabel>
+                      <FormLabel className='text-sm font-normal text-muted-foreground'>
+                        Preferred Travel Preference
+                      </FormLabel>
                       <FormControl>
                         <div className='flex flex-wrap gap-1'>
                           {value && value.length > 0
                             ? value.map((item, index) => {
                                 return (
-                                  <Badge key={index} variant='secondary'>
+                                  <Badge
+                                    key={index}
+                                    variant='secondary'
+                                    className='rounded-md text-sm font-normal'
+                                  >
                                     {capitalizeFirstLetter(
                                       item.split('-').join(' '),
                                     )}
