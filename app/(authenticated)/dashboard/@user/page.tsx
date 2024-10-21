@@ -9,10 +9,11 @@ import Section from '@/components/section';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import { DashboardCTA } from './_common/components/DashboardCTA';
-import { ResumeFeedback } from './_common/components/ResumeFeedback';
 import { InterviewAnalysis } from './_common/components/InterviewAnalysis';
 import { InterviewTranscript } from './_common/components/InterviewTranscript';
+import { ResumeFeedback } from './_common/components/ResumeFeedback';
 export default function NurseDashboard() {
   const userData = useUserData();
 

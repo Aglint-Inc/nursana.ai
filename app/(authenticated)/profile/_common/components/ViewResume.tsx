@@ -79,7 +79,7 @@ export default function ViewResume() {
                   {position.title} at {position.org}
                 </h3>
                 <p className='text-sm text-muted-foreground'>
-                  {position.start.year} - {position.end.year} •{' '}
+                  {position.start?.year} - {position.end?.year} •{' '}
                   {position.location}
                 </p>
                 <p className='mt-2'>{position.description}</p>
@@ -100,7 +100,8 @@ export default function ViewResume() {
                   {school.degree}
                 </h3>
                 <p className='text-sm text-muted-foreground'>
-                  {school.institution} • {school.start.year} - {school.end.year}
+                  {school.institution} • {school.start?.year} -{' '}
+                  {school.end?.year}
                 </p>
               </div>
             ))}
@@ -138,7 +139,7 @@ export default function ViewResume() {
                   {license.licenseType}
                 </h3>
                 <p className='text-sm text-muted-foreground'>
-                  {license.issuingAuthority} • Issued: {license.issueDate.year}
+                  {license.issuingAuthority} • Issued: {license.issueDate?.year}
                 </p>
               </div>
             ))}

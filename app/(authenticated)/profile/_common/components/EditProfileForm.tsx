@@ -27,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { capitalizeFirstLetter } from '@/utils/utils';
 
 import {
   CITIES,
@@ -160,7 +161,18 @@ export default function EditProfileForm() {
                             <SelectValue placeholder='Select current job title' />
                           </SelectTrigger>
                           <SelectContent>
-                            {JOB_TITLES.map((item) => (
+                            {(value
+                              ? [
+                                  {
+                                    value: user?.job_title ?? '',
+                                    label: capitalizeFirstLetter(
+                                      user?.job_title ?? '',
+                                    ),
+                                  },
+                                  ...JOB_TITLES,
+                                ]
+                              : JOB_TITLES
+                            ).map((item) => (
                               <SelectItem key={item.value} value={item.value}>
                                 {item.label}
                               </SelectItem>
@@ -193,7 +205,18 @@ export default function EditProfileForm() {
                             <SelectValue placeholder='Select expected salary' />
                           </SelectTrigger>
                           <SelectContent>
-                            {SALARY_RANGES.map((item) => (
+                            {(value
+                              ? [
+                                  {
+                                    value: user?.expected_salary || '',
+                                    label: capitalizeFirstLetter(
+                                      user?.expected_salary || '',
+                                    ),
+                                  },
+                                  ...SALARY_RANGES,
+                                ]
+                              : SALARY_RANGES
+                            ).map((item) => (
                               <SelectItem key={item.value} value={item.value}>
                                 {item.label}
                               </SelectItem>

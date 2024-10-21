@@ -1,5 +1,4 @@
 import { unstable_noStore } from 'next/cache';
-import { type PropsWithChildren } from 'react';
 import { api, HydrateClient } from 'trpc/server';
 
 function Layout({ children }: { children: React.ReactNode }) {
