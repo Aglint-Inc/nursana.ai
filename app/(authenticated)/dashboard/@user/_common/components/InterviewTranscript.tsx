@@ -2,9 +2,9 @@ import { Sparkle, User } from 'lucide-react';
 import React from 'react';
 
 import { useUserData } from '@/authenicated/hooks/useUserData';
+import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { Card, CardContent } from '@/components/ui/card';
 
-import { VideoPlayer } from '../../../../../_common/components/VideoPlayer';
 
 interface Message {
   role: 'agent' | 'user';
@@ -39,16 +39,15 @@ export function InterviewTranscript() {
   }
 
   return (
-    <Card className='min-h-[calc(100vh-164px)]'>
-      <CardContent className='flex flex-col gap-6 p-6'>
-        <Card className='overflow-hidden border-none bg-secondary shadow-none'>
-          <CardContent className='p-0'>
-            <VideoPlayer
-              videoUrl={userData.analysis?.video_url ?? ''}
-              audioUrl={userData.analysis?.audio_url ?? ''}
-            />
-          </CardContent>
-        </Card>
+    <div className='min-h-[calc(100vh-164px)]'>
+      <div className='flex flex-col gap-12'>
+
+      <Card className='overflow-hidden border-none bg-secondary shadow-none'>
+        <CardContent className='p-0'>
+          <VideoPlayer  videoUrl={userData.analysis?.video_url ?? ''} audioUrl={userData.analysis?.audio_url ?? ''} />
+        </CardContent>
+      </Card>
+
         <div className='flex flex-col gap-6'>
           {transcript.map((message, index) => (
             <div key={index} className='flex justify-start'>
@@ -85,7 +84,7 @@ export function InterviewTranscript() {
             </div>
           ))}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
