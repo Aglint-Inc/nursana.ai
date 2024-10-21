@@ -1,4 +1,4 @@
-import { File, Home, MessageSquare, Sparkle, UserSquare } from 'lucide-react';
+import { File, Home, MessageSquare, Sparkle, User, UserSquare } from 'lucide-react';
 import Link from 'next/link';
 
 // import Footer from '@/components/footer';
@@ -64,7 +64,7 @@ export function NurseSidebar() {
                 </SidebarMenuItem>
               ))}
               <SidebarMenuItem>
-                <SidebarMenuButton>My Profile</SidebarMenuButton>
+                <SidebarMenuButton><User/><span>My Profile</span> </SidebarMenuButton>
                 <SidebarMenuSub>
                   <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
