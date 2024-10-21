@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
-import { type Interviews } from '@/campaign/api/interviews';
-
-import { ARRAY_DELIMITER, RANGE_DELIMITER, SLIDER_DELIMITER } from './utils';
-
-export type ColumnSchema = Interviews['output'][number];
+import {
+  ARRAY_DELIMITER,
+  RANGE_DELIMITER,
+  SLIDER_DELIMITER,
+} from '@/campaign/constants';
 
 export const columnFilterSchema = z.object({
   name: z.string().optional(),
@@ -34,6 +34,6 @@ export const columnFilterSchema = z.object({
     .transform((val) => val.split(RANGE_DELIMITER).map(Number))
     .pipe(z.coerce.date().array())
     .optional(),
+  size: z.number().default(30),
+  start: z.number().default(0),
 });
-
-export type ColumnFilterSchema = z.infer<typeof columnFilterSchema>;

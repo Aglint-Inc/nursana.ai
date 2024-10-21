@@ -3,11 +3,11 @@
 import type { ColumnDef } from '@tanstack/react-table';
 import { format, isSameDay } from 'date-fns';
 
+import type { ColumnSchema } from '@/campaign/types';
 import { DataTableColumnHeader } from '@/components/fancy-data-table/data-table-column-header';
 import { Badge } from '@/components/ui/badge';
 
 import { tagsColor } from './constants';
-import type { ColumnSchema } from './schema';
 import { isArrayOfDates } from './utils';
 
 export const columns: ColumnDef<ColumnSchema>[] = [

@@ -2,14 +2,13 @@
 
 import { subHours } from 'date-fns';
 
+import { INTERVIEW_STAGES } from '@/campaign/constants';
+import type { ColumnSchema } from '@/campaign/types';
 import type {
   DataTableFilterField,
   Option,
 } from '@/components/fancy-data-table/types';
 import { cn } from '@/utils/cn';
-
-import { type ColumnSchema } from './schema';
-import { INTERVIEW_STAGES } from './utils';
 
 export const tagsColor = {
   not_started: {

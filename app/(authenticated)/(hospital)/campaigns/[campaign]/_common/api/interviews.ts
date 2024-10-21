@@ -1,6 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
+import { columnFilterSchema } from '@/campaign/schema/columnFilterSchema';
 import {
   type HospitalProcedure,
   hospitalProcedure,
@@ -8,11 +9,11 @@ import {
 } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
 
-const schema = z.object({
-  id: z.string(),
-  size: z.number().default(30),
-  start: z.number().default(0),
-});
+const schema = columnFilterSchema.merge(
+  z.object({
+    id: z.string(),
+  }),
+);
 
 const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
   const db = createPrivateClient();

@@ -21,6 +21,7 @@ import {
 import { useQueryStates } from 'nuqs';
 import * as React from 'react';
 
+import { columnFilterSchema } from '@/campaign/schema/columnFilterSchema';
 import { DataTableFilterCommand } from '@/components/fancy-data-table/data-table-filter-command';
 import { DataTableFilterControls } from '@/components/fancy-data-table/data-table-filter-controls';
 import { DataTablePagination } from '@/components/fancy-data-table/data-table-pagination';
@@ -37,7 +38,6 @@ import {
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { cn } from '@/utils/cn';
 
-import { columnFilterSchema } from './schema';
 import { searchParamsParser } from './search-params';
 
 export interface DataTableProps<TData, TValue> {
