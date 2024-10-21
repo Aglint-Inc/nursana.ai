@@ -7,9 +7,9 @@ import {
   useUpdateUserData,
   useUserData,
 } from '@/authenicated/hooks/useUserData';
-import { UIButton } from '@/common/components/UIButton';
 import { UIMultiSelect } from '@/common/components/UIMultiSelect';
 import UIPhoneInput from '@/common/components/UIPhoneInput';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
@@ -307,9 +307,9 @@ export default function EditProfileForm({
             </div>
             <div className='flex justify-end gap-4'>
               <div className='flex gap-2'>
-                <UIButton isLoading={isPending} type='submit'>
+                <Button disabled={isPending} type='submit'>
                   {isPending ? 'Saving' : 'Save'}
-                </UIButton>
+                </Button>
               </div>
             </div>
           </CardContent>

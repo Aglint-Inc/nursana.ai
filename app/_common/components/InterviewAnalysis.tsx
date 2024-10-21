@@ -15,9 +15,8 @@ import {
 } from 'recharts';
 
 import { useUserData } from '@/authenicated/hooks/useUserData';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Separator } from '@/components/ui/separator';
 
 const RatingBar: React.FC<{
   label: string;

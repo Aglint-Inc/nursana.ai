@@ -39,7 +39,7 @@ function UserProfile() {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild isActive={true}>
-                      <a href='/profile'>
+                      <a href='/profile/basic-information'>
                         <User />
                         <span>Basic Information</span>
                       </a>
@@ -47,7 +47,7 @@ function UserProfile() {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild isActive={true}>
-                      <a href='/profile'>
+                      <a href='/profile/resume'>
                         <File />
                         <span>Resume</span>
                       </a>

@@ -1,18 +1,17 @@
-import React from "react";
+import React from 'react';
 
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-
-import { UIButton } from "../UIButton";
+} from '@/components/ui/dialog';
 
 function UIDialog({
   slotButtons,
-  title = "Title",
+  title = 'Title',
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onClose = () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -21,7 +20,7 @@ function UIDialog({
   onClickSecondary = () => {},
   children,
   open,
-  size = "md",
+  size = 'md',
   isPrimaryActionLoading = false,
 }: {
   slotButtons?: React.ReactNode;
@@ -31,14 +30,14 @@ function UIDialog({
   onClickSecondary?: () => void;
   children?: React.ReactNode;
   open: boolean;
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   isPrimaryActionLoading?: boolean;
 }) {
   const sizeClasses = {
-    sm: "max-w-sm",
-    md: "max-w-lg",
-    lg: "max-w-xl",
-    xl: "max-w-3xl",
+    sm: 'max-w-sm',
+    md: 'max-w-lg',
+    lg: 'max-w-xl',
+    xl: 'max-w-3xl',
   };
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -53,21 +52,17 @@ function UIDialog({
         <DialogFooter>
           {slotButtons ?? (
             <>
-              <UIButton
-                variant="secondary"
-                size="sm"
-                onClick={onClickSecondary}
-              >
+              <Button variant='secondary' size='sm' onClick={onClickSecondary}>
                 Cancel
-              </UIButton>
-              <UIButton
-                variant="default"
-                size="sm"
+              </Button>
+              <Button
+                variant='default'
+                size='sm'
                 onClick={onClickPrimary}
-                isLoading={isPrimaryActionLoading}
+                disabled={isPrimaryActionLoading}
               >
                 Confirm
-              </UIButton>
+              </Button>
             </>
           )}
         </DialogFooter>

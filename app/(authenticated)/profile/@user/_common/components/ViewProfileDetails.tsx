@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { useUserData } from '@/authenicated/hooks/useUserData';
-import { UIButton } from '@/common/components/UIButton';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
@@ -66,14 +66,14 @@ export default function EditProfileForm({
           <CardHeader>
             <div className='flex flex-row items-center justify-between'>
               <CardTitle>Profile Information</CardTitle>
-              <UIButton
+              <Button
                 onClick={() => setEdit(true)}
                 type='button'
                 variant='outline'
                 size={'sm'}
               >
                 Edit
-              </UIButton>
+              </Button>
             </div>
           </CardHeader>
           <CardContent className='space-y-4'>
