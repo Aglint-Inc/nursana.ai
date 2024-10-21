@@ -31,10 +31,6 @@ interface FeedbackData {
   overallScore: number;
 }
 
-interface ResumeFeedbackProps {
-  feedbackData: FeedbackData;
-}
-
 export function ResumeFeedback() {
   const { resume } = useUserData();
 

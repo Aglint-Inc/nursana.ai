@@ -1,6 +1,7 @@
 'use client';
 import { File, Home, MessageSquare, Sparkle, UserSquare } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 // import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
@@ -19,12 +20,6 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
-import {
-  useParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from 'next/navigation';
 
 const items = [
   {
@@ -70,7 +65,6 @@ const items = [
 
 export function NurseSidebar() {
   const params = usePathname();
-  console.log(params);
   return (
     <Sidebar>
       <SidebarHeader className='p-4'>
