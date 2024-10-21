@@ -5,11 +5,7 @@ import { api, HydrateClient } from 'trpc/server';
 const Layout = async (props: PropsWithChildren) => {
   unstable_noStore();
   void api.authenticated.hospital.campaigns.read.prefetch();
-  return (
-    <HydrateClient>
-      <div className='flex flex-grow flex-row gap-2'>{props.children}</div>
-    </HydrateClient>
-  );
+  return <HydrateClient>{props.children}</HydrateClient>;
 };
 
 export default Layout;

@@ -2,6 +2,7 @@ import { unstable_noStore } from 'next/cache';
 import type { PropsWithChildren } from 'react';
 import { api, HydrateClient } from 'trpc/server';
 
+import { AppSidebar } from '@/components/sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import type { Routes } from '@/hospital/types';
 
@@ -11,14 +12,8 @@ const Layout = (props: PropsWithChildren<Routes>) => {
   void api.authenticated.hospital.user.prefetch();
   return (
     <HydrateClient>
-      <SidebarProvider
-        style={
-          {
-            '--sidebar-width': '350px',
-          } as React.CSSProperties
-        }
-      >
-        {props.subNavigation}
+      <SidebarProvider>
+        <AppSidebar secondarySidebar={props.subNavigation} />
         {props.children}
       </SidebarProvider>
     </HydrateClient>

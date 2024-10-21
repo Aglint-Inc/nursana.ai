@@ -153,7 +153,10 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   secondarySidebar?: ReactNode;
 }
 
-export function AppSidebar({ secondarySidebar, ...props }: AppSidebarProps) {
+export function AppSidebar({
+  secondarySidebar = <></>,
+  ...props
+}: AppSidebarProps) {
   const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
 
   function setMails(

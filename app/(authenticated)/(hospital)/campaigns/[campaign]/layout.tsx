@@ -9,11 +9,7 @@ const Layout = async (
   void api.authenticated.hospital.campaigns.campaign.read.prefetch({
     id: props.params.campaign,
   });
-  return (
-    <HydrateClient>
-      <div className='flex flex-grow flex-row gap-2'>{props.children}</div>
-    </HydrateClient>
-  );
+  return <HydrateClient>{props.children}</HydrateClient>;
 };
 
 export default Layout;
