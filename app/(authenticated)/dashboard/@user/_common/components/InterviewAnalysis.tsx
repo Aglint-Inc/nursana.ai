@@ -1,3 +1,4 @@
+'use client';
 import {
   Brain,
   Lightbulb,
@@ -39,26 +40,13 @@ const RatingBar: React.FC<{
 
       <p className='text-muted-foreground'>{explanation}</p>
     </div>
-
-    {/* <div className='grid grid-cols-[1fr,2fr] items-end gap-4'>
-      <div className='space-y-2 pb-2'>
-        <div className='flex items-start space-x-2'>
-          {icon}
-          <span className='font-semibold'>{label}</span>
-        </div>
-        <div className='flex items-center space-x-2'>
-          <Progress value={score * 20} className='h-2 w-full' />
-          <span className='text-sm font-medium'>{score}/5</span>
-        </div>
-      </div>
-      <p className='ml-6 text-sm text-muted-foreground'>{explanation}</p>
-    </div> */}
   </>
 );
 
 export function InterviewAnalysis() {
   const userData = useUserData();
   const analysis = userData?.analysis?.structured_analysis;
+  console.log('analysis', analysis);
 
   if (!analysis) {
     return <div>No analysis available.</div>;
@@ -74,11 +62,6 @@ export function InterviewAnalysis() {
 
   return (
     <div className='p-0'>
-      {/* <CardHeader className='bg-purple-50 px-4 py-2'>
-        <CardTitle className='text-xl font-bold text-purple-800'>
-          Interview Analysis
-        </CardTitle>
-      </CardHeader> */}
       <div className='flex flex-col gap-10'>
         <div className='flex flex-col gap-2 rounded-lg bg-purple-50 p-6'>
           <div className='flex flex-col'>

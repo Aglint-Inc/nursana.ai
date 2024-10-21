@@ -1,10 +1,4 @@
-'use client';
-
-
-
-import UserDashboard from './_common/components';
+import UserLanding from './_common/components/UserLanding';
 export default function NurseDashboard() {
-
-  return  <UserDashboard/>
-
+  return <UserLanding />;
 }

@@ -3,7 +3,7 @@
 
 import { SidebarProvider } from '@/components/ui/sidebar';
 
-import { NurseSidebar } from './nurse-sidebar';
+import { NurseSidebar } from './_common/components/nurse-sidebar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

@@ -1,3 +1,4 @@
+'use client';
 import { Sparkle, User } from 'lucide-react';
 import React from 'react';
 
@@ -41,12 +42,14 @@ export function InterviewTranscript() {
   return (
     <div className='min-h-[calc(100vh-164px)]'>
       <div className='flex flex-col gap-12'>
-
-      <Card className='overflow-hidden border-none bg-secondary shadow-none'>
-        <CardContent className='p-0'>
-          <VideoPlayer  videoUrl={userData.analysis?.video_url ?? ''} audioUrl={userData.analysis?.audio_url ?? ''} />
-        </CardContent>
-      </Card>
+        <Card className='overflow-hidden border-none bg-secondary shadow-none'>
+          <CardContent className='p-0'>
+            <VideoPlayer
+              videoUrl={userData.analysis?.video_url ?? ''}
+              audioUrl={userData.analysis?.audio_url ?? ''}
+            />
+          </CardContent>
+        </Card>
 
         <div className='flex flex-col gap-6'>
           {transcript.map((message, index) => (

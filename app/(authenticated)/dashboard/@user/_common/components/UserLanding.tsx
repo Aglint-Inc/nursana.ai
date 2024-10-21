@@ -1,3 +1,4 @@
+'use client';
 import { FileText, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
@@ -53,24 +54,33 @@ function UserLanding() {
           <Button className='w-full'>View Detail</Button>
         </div>
         <div className='grid grid-cols-1 grid-rows-2 gap-4'>
-          <div className='flex flex-col gap-2 rounded-lg bg-muted p-4 justify-between'>
+          <div className='flex flex-col justify-between gap-2 rounded-lg bg-muted p-4'>
             <div className='flex flex-col gap-1'>
-            <FileText className='w-8 h-8 text-purple-600' strokeWidth={1.5}/>
-            <span>my-resume-nurse.pdf</span>
+              <FileText className='h-8 w-8 text-purple-600' strokeWidth={1.5} />
+              <span>my-resume-nurse.pdf</span>
             </div>
-            <Link href='/profile' className='flex items-center gap-2 text-sm text-blue-600'>
-            <span>Edit Resume Details</span>
-           
+            <Link
+              href='/profile'
+              className='flex items-center gap-2 text-sm text-blue-600'
+            >
+              <span>Edit Resume Details</span>
             </Link>
           </div>
-          <div className='flex flex-col gap-2 rounded-lg bg-muted p-4 justify-between'>
-          <div className='flex flex-col gap-1'>
-            <MessageSquare className='w-8 h-8 text-purple-600' strokeWidth={1.5}/>
-            <span className='text-sm'>Interview completed on Monday 17 Oct 2024</span>
+          <div className='flex flex-col justify-between gap-2 rounded-lg bg-muted p-4'>
+            <div className='flex flex-col gap-1'>
+              <MessageSquare
+                className='h-8 w-8 text-purple-600'
+                strokeWidth={1.5}
+              />
+              <span className='text-sm'>
+                Interview completed on Monday 17 Oct 2024
+              </span>
             </div>
-            <Link href='/profile' className='flex items-center gap-2 text-sm text-blue-600'>
-            <span>Replay Interview</span>
-    
+            <Link
+              href='/profile'
+              className='flex items-center gap-2 text-sm text-blue-600'
+            >
+              <span>Replay Interview</span>
             </Link>
           </div>
         </div>
