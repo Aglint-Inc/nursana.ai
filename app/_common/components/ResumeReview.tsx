@@ -1,9 +1,9 @@
-import { Building2, Medal, School } from 'lucide-react';
+// import { Building2, Medal, School } from 'lucide-react';
 import React from 'react';
 
 import { useUserData } from '@/authenicated/hooks/useUserData';
-import { Card, CardContent } from '@/components/ui/card';
 
+// import { Card, CardContent } from '@/components/ui/card';
 import { ResumeFeedback } from './ResumeFeedback';
 
 export interface ResumeData {
@@ -68,7 +68,7 @@ export function ResumeReview() {
   return (
     <>
       {feedbackData && <ResumeFeedback feedbackData={feedbackData} />}
-      <Card>
+      {/* <Card>
         <CardContent className='flex flex-col gap-10 p-6'>
           <div>
             <h2 className='mb-4 text-sm text-muted-foreground'>
@@ -241,7 +241,7 @@ export function ResumeReview() {
             </div>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
     </>
   );
 }
