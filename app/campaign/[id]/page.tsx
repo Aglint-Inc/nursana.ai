@@ -19,7 +19,7 @@ import { CampaignForm } from './../_common/components/CampaignForm';
 import { useCampaign } from './../_common/hooks/useCampaign';
 
 const Campaign = () => {
-  const { data: campaign, isLoading } = useCampaign();
+  const { isLoading } = useCampaign();
   const [isEditing, setIsEditing] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
 

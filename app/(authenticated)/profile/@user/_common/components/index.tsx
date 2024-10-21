@@ -3,7 +3,7 @@
 import { File, User } from 'lucide-react';
 import { useState } from 'react';
 
-import { useUserData } from '@/authenicated/hooks/useUserData';
+import { useUserData } from '@/authenticated/hooks/useUserData';
 import {
   Breadcrumb,
   BreadcrumbItem,

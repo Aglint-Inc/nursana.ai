@@ -8,18 +8,18 @@ export type Option = {
 };
 
 export type Input = {
-  type: "input";
+  type: 'input';
   options?: Option[];
 };
 
 export type Checkbox = {
-  type: "checkbox";
-  component?: (props: Option) => JSX.Element | null;
+  type: 'checkbox';
+  component?: (_props: Option) => JSX.Element | null;
   options?: Option[];
 };
 
 export type Slider = {
-  type: "slider";
+  type: 'slider';
   min: number;
   max: number;
   // if options is undefined, we will provide all the steps between min and max
@@ -27,7 +27,7 @@ export type Slider = {
 };
 
 export type Timerange = {
-  type: "timerange";
+  type: 'timerange';
   options?: Option[]; // required for TS
 };
 

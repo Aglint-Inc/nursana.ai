@@ -1,15 +1,17 @@
-"use client";
+'use client';
 
-import useUpdateSearchParams from "@/hooks/use-update-search-params";
-import type { Table } from "@tanstack/react-table";
-import { useRouter } from "next/navigation";
-import { useCallback } from "react";
-import type { DataTableSliderFilterField } from "./types";
-import { InputWithAddons } from "@/components/ui/input-with-addons";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
-import { isArrayOfNumbers } from "./utils";
-import { SLIDER_DELIMITER } from "./schema";
+import type { Table } from '@tanstack/react-table';
+import { useRouter } from 'next/navigation';
+import { useCallback } from 'react';
+
+import { InputWithAddons } from '@/components/ui/input-with-addons';
+import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
+import useUpdateSearchParams from '@/hooks/use-update-search-params';
+
+import { SLIDER_DELIMITER } from './schema';
+import type { DataTableSliderFilterField } from './types';
+import { isArrayOfNumbers } from './utils';
 
 type DataTableFilterSliderProps<TData> = DataTableSliderFilterField<TData> & {
   table: Table<TData>;
@@ -31,35 +33,35 @@ export function DataTableFilterSlider<TData>({
   const filterValue = column?.getFilterValue();
 
   const filters =
-    typeof filterValue === "number"
+    typeof filterValue === 'number'
       ? [filterValue, filterValue]
       : Array.isArray(filterValue) && isArrayOfNumbers(filterValue)
-      ? filterValue
-      : undefined;
+        ? filterValue
+        : undefined;
 
   const updatePageSearchParams = useCallback(
     (values: Record<string, string | null>) => {
       const newSearchParams = updateSearchParams(values);
       router.replace(`?${newSearchParams}`, { scroll: false });
     },
-    [router, updateSearchParams]
+    [router, updateSearchParams],
   );
 
   return (
-    <div className="grid gap-2">
-      <div className="flex items-center gap-4">
-        <div className="grid w-full gap-1.5">
+    <div className='grid gap-2'>
+      <div className='flex items-center gap-4'>
+        <div className='grid w-full gap-1.5'>
           <Label
             htmlFor={`min-${value}`}
-            className="px-2 text-muted-foreground"
+            className='px-2 text-muted-foreground'
           >
             Min.
           </Label>
           <InputWithAddons
-            placeholder="from"
-            trailing="ms"
-            containerClassName="mb-2 h-9 rounded-lg"
-            type="number"
+            placeholder='from'
+            trailing='ms'
+            containerClassName='mb-2 h-9 rounded-lg'
+            type='number'
             name={`min-${value}`}
             id={`min-${value}`}
             value={`${filters?.[0] ?? min}`}
@@ -78,18 +80,18 @@ export function DataTableFilterSlider<TData>({
             }}
           />
         </div>
-        <div className="grid w-full gap-1.5">
+        <div className='grid w-full gap-1.5'>
           <Label
             htmlFor={`max-${value}`}
-            className="px-2 text-muted-foreground"
+            className='px-2 text-muted-foreground'
           >
             Max.
           </Label>
           <InputWithAddons
-            placeholder="to"
-            trailing="ms"
-            containerClassName="mb-2 h-9 rounded-lg"
-            type="number"
+            placeholder='to'
+            trailing='ms'
+            containerClassName='mb-2 h-9 rounded-lg'
+            type='number'
             name={`max-${value}`}
             id={`max-${value}`}
             value={`${filters?.[1] ?? max}`}

@@ -1,14 +1,16 @@
-"use client";
+'use client';
 
-import useUpdateSearchParams from "@/hooks/use-update-search-params";
-import type { Table } from "@tanstack/react-table";
-import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
-import type { DataTableTimerangeFilterField } from "./types";
-import { isArrayOfDates } from "./utils";
-import { DatePickerWithRange } from "./date-picker-with-range";
-import type { DateRange } from "react-day-picker";
-import { RANGE_DELIMITER } from "./schema";
+import type { Table } from '@tanstack/react-table';
+import { useRouter } from 'next/navigation';
+import { useCallback, useMemo } from 'react';
+import type { DateRange } from 'react-day-picker';
+
+import useUpdateSearchParams from '@/hooks/use-update-search-params';
+
+import { DatePickerWithRange } from './date-picker-with-range';
+import { RANGE_DELIMITER } from './schema';
+import type { DataTableTimerangeFilterField } from './types';
+import { isArrayOfDates } from './utils';
 
 type DataTableFilterTimerangeProps<TData> =
   DataTableTimerangeFilterField<TData> & {
@@ -33,7 +35,7 @@ export function DataTableFilterTimerange<TData>({
       const newSearchParams = updateSearchParams(values);
       router.replace(`?${newSearchParams}`, { scroll: false });
     },
-    [router, updateSearchParams]
+    [router, updateSearchParams],
   );
 
   const date: DateRange | undefined = useMemo(
@@ -41,9 +43,9 @@ export function DataTableFilterTimerange<TData>({
       filterValue instanceof Date
         ? { from: filterValue, to: undefined }
         : Array.isArray(filterValue) && isArrayOfDates(filterValue)
-        ? { from: filterValue[0], to: filterValue[1] }
-        : undefined,
-    [filterValue]
+          ? { from: filterValue[0], to: filterValue[1] }
+          : undefined,
+    [filterValue],
   );
 
   const setDate = (date: DateRange | undefined) => {

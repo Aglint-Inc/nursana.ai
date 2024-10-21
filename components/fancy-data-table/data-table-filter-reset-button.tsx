@@ -1,11 +1,13 @@
-"use client";
+'use client';
 
-import useUpdateSearchParams from "@/hooks/use-update-search-params";
-import type { Table } from "@tanstack/react-table";
-import { useRouter } from "next/navigation";
-import type { DataTableFilterField } from "./types";
-import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import type { Table } from '@tanstack/react-table';
+import { X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
+import { Button } from '@/components/ui/button';
+import useUpdateSearchParams from '@/hooks/use-update-search-params';
+
+import type { DataTableFilterField } from './types';
 
 type DataTableFilterResetButtonProps<TData> = DataTableFilterField<TData> & {
   table: Table<TData>;
@@ -37,8 +39,8 @@ export function DataTableFilterResetButton<TData>({
 
   return (
     <Button
-      variant="outline"
-      className="h-5 rounded-full px-1.5 py-1 font-mono text-[10px]"
+      variant='outline'
+      className='h-5 rounded-full px-1.5 py-1 font-mono text-[10px]'
       onClick={(e) => {
         e.stopPropagation();
         column?.setFilterValue(undefined);
@@ -47,9 +49,9 @@ export function DataTableFilterResetButton<TData>({
       asChild
     >
       {/* REMINDER: `AccordionTrigger` is also a button(!) and we get Hydration error when rendering button within button */}
-      <div role="button">
+      <div role='button'>
         <span>{filters.length}</span>
-        <X className="ml-1 h-2.5 w-2.5 text-muted-foreground" />
+        <X className='ml-1 h-2.5 w-2.5 text-muted-foreground' />
       </div>
     </Button>
   );

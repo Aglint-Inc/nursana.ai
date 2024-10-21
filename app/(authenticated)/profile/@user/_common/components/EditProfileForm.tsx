@@ -6,7 +6,7 @@ import { z } from 'zod';
 import {
   useUpdateUserData,
   useUserData,
-} from '@/authenicated/hooks/useUserData';
+} from '@/authenticated/hooks/useUserData';
 import { UIMultiSelect } from '@/common/components/UIMultiSelect';
 import UIPhoneInput from '@/common/components/UIPhoneInput';
 import { Button } from '@/components/ui/button';
