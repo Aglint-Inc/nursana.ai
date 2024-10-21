@@ -1,9 +1,9 @@
 'use client';
 
-import { Layout } from '@/campaign/components/Layout';
+import { Body } from '@/campaign/components/Body';
 
 const Page = () => {
-  return <Layout>LLLL</Layout>;
+  return <Body>LLLL</Body>;
 };
 
 export default Page;
