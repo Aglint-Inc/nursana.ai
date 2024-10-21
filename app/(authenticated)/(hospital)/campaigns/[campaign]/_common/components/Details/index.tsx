@@ -23,7 +23,7 @@ const Details = () => {
           Details
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className='min-w-[480px]'>
         <Content />
       </SheetContent>
     </Sheet>

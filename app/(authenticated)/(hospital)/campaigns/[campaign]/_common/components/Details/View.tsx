@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/sheet';
 
 import { useDetails } from './Context';
+import type { PropsWithChildren } from 'react';
 
 export const View = () => {
   return (
@@ -22,11 +23,20 @@ export const View = () => {
 const Header = () => {
   return (
     <SheetHeader className='translate-y-[-16px]'>
-      <SheetTitle className='flex flex-row items-center gap-2'>
-        Campaign
+      <Title>
         <Settings />
-      </SheetTitle>
+      </Title>
     </SheetHeader>
+  );
+};
+
+const Title = (props: PropsWithChildren) => {
+  const campaign = useCampaign();
+  return (
+    <SheetTitle className='flex flex-row items-center gap-2 capitalize'>
+      {campaign.name}
+      {props.children}
+    </SheetTitle>
   );
 };
 
