@@ -1,14 +1,13 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useCampaign } from '../hooks/useCampaign';
-import { Suspense } from 'react';
-import { Loader } from '@/common/components/Loader';
 import { Settings } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useCampaignParams } from '../hooks/useCurrentCampaign';
 
-const Comp = () => {
+import { useCampaign } from '@/campaign/hooks/useCampaign';
+import { useCampaignParams } from '@/campaign/hooks/useCurrentCampaign';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+export const View = () => {
   const campaign = useCampaign();
   const params = useCampaignParams();
   const { push } = useRouter();
@@ -26,15 +25,5 @@ const Comp = () => {
         {JSON.stringify(campaign)}
       </CardContent>
     </Card>
-  );
-};
-
-export const View = () => {
-  return (
-    <div className='flex flex-grow basis-2/3'>
-      <Suspense fallback={<Loader />}>
-        <Comp />
-      </Suspense>
-    </div>
   );
 };

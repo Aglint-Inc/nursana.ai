@@ -1,6 +1,6 @@
 import { api } from 'trpc/client';
 
-import { type Edit } from '@/campaigns/api/campaign/edit';
+import type { Edit } from '@/campaign/api/edit';
 
 import { useCampaignParams } from './useCurrentCampaign';
 

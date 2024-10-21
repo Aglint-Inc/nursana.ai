@@ -1,7 +1,9 @@
+import { campaign } from '@/campaign/api';
 import { createTRPCRouter } from '@/server/api/trpc';
 
 import { read } from './read';
 
-export const applicant = createTRPCRouter({
+export const campaigns = createTRPCRouter({
   read,
+  campaign,
 });

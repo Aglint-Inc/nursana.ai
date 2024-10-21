@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
+import { useCampaigns } from '@/campaigns/hooks/useCampaigns';
 import { Badge } from '@/components/ui/badge';
 import {
   Card,
@@ -18,7 +19,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useCampaigns } from '@/campaigns/hooks/useCampaigns';
 
 type CampaignType = ReturnType<typeof useCampaigns>[number];
 

@@ -7,6 +7,9 @@ import { Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 import { type z } from 'zod';
 
+import { useCampaign } from '@/campaign/hooks/useCampaign';
+import { useCampaignEdit } from '@/campaign/hooks/useCampaignEdit';
+import { useCampaignParams } from '@/campaign/hooks/useCurrentCampaign';
 import { Loader } from '@/common/components/Loader';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,10 +23,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { campaignUpdateSchema } from '@/supabase-types/zod-schema.types';
-
-import { useCampaign } from '../hooks/useCampaign';
-import { useCampaignEdit } from '../hooks/useCampaignEdit';
-import { useCampaignParams } from '../hooks/useCurrentCampaign';
 
 const Comp = () => {
   const params = useCampaignParams();

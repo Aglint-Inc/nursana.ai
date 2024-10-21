@@ -33,9 +33,11 @@
       "@/hooks/*": ["./hooks/*"],
       "@/audio/*": ["./lib/audio/*"],
       "@/authenticated/*": ["./app/(authenticated)/_common/*"],
-      "@/applicant/*": ["./app/(authenticated)/@applicant/_common/*"],
-      "@/hospital/*": ["./app/(authenticated)/@hospital/_common/*"],
-      "@/campaigns/*": ["./app/(authenticated)/@hospital/campaigns/_common/*"]
+      "@/hospital/*": ["./app/(authenticated)/(hospital)/_common/*"],
+      "@/campaigns/*": ["./app/(authenticated)/(hospital)/campaigns/_common/*"],
+      "@/campaign/*": [
+        "./app/(authenticated)/(hospital)/campaigns/[campaign]/_common/*"
+      ]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
