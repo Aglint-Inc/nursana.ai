@@ -1,5 +1,7 @@
 'use client';
 
-import { List } from '@/campaigns/components/List';
+const Page = () => {
+  return <></>;
+};
 
-export default List;
+export default Page;

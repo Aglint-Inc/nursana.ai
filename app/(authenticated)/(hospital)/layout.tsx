@@ -12,7 +12,13 @@ const Layout = (props: PropsWithChildren<Routes>) => {
   void api.authenticated.hospital.user.prefetch();
   return (
     <HydrateClient>
-      <SidebarProvider>
+      <SidebarProvider
+        style={
+          {
+            '--sidebar-width': '450px',
+          } as React.CSSProperties
+        }
+      >
         <AppSidebar secondarySidebar={props.subNavigation} />
         {props.children}
       </SidebarProvider>
