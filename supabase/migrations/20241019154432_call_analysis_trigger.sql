@@ -12,4 +12,4 @@ BEGIN
 END;$function$
 ;
 
-CREATE OR REPLACE TRIGGER "call_analysis_trigger" AFTER insert or update OF "transcript_json" ON "public"."interview_analysis" FOR EACH ROW WHEN ((NEW.transcript_json IS NOT NULL AND NEW.structured_analysis IS NOT NULL)) EXECUTE FUNCTION "public"."call_analysis_trigger_function"();
+CREATE OR REPLACE TRIGGER "call_analysis_trigger" AFTER insert or update OF "transcript_json" ON "public"."interview_analysis" FOR EACH ROW WHEN ((NEW.transcript_json IS NOT NULL AND NEW.structured_analysis IS NULL)) EXECUTE FUNCTION "public"."call_analysis_trigger_function"();
