@@ -5,11 +5,16 @@ import {
   useState,
 } from 'react';
 
+import { useCampaignEdit } from '@/campaign/hooks/useCampaignEdit';
+
 const useDetailsContext = () => {
   const [mode, setMode] = useState<'edit' | 'view'>('view');
+  const { mutate, isPending } = useCampaignEdit();
   return {
     mode,
     setMode,
+    mutate,
+    isPending,
   };
 };
 

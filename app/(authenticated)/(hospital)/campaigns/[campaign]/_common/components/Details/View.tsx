@@ -1,5 +1,6 @@
 import { Settings as SettingsIcon } from 'lucide-react';
 
+import { useCampaign } from '@/campaign/hooks/useCampaign';
 import { Button } from '@/components/ui/button';
 import {
   SheetDescription,
@@ -39,5 +40,6 @@ const Settings = () => {
 };
 
 const Body = () => {
-  return <SheetDescription>KLKL</SheetDescription>;
+  const campaign = useCampaign();
+  return <SheetDescription>{JSON.stringify(campaign)}</SheetDescription>;
 };
