@@ -85,7 +85,7 @@ export function DataTable<TData, TValue>({
     getFacetedUniqueValues: (table: TTable<TData>, columnId: string) => () => {
       const map = getFacetedUniqueValues<TData>()(table, columnId)();
       // TODO: it would be great to do it dynamically, if we recognize the row to be Array.isArray
-      if (['regions', 'tags'].includes(columnId)) {
+      if (['interview_stage'].includes(columnId)) {
         const rowValues = table
           .getGlobalFacetedRowModel()
           .flatRows.map((row) => row.getValue(columnId) as string[]);

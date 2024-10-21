@@ -28,20 +28,15 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
       code: 'NOT_FOUND',
       message: 'Interviews not found',
     });
-  return data.map(({ applicant, ...rest }) => ({ ...applicant, ...rest }));
+  return data.map(
+    ({ applicant: { first_name, last_name, ...applicant }, ...rest }) => ({
+      ...applicant,
+      ...rest,
+      name: `${first_name} ${last_name}`.trim(),
+    }),
+  );
 };
 
 export const interviews = hospitalProcedure.input(schema).query(query);
 
 export type Interviews = ProcedureDefinition<typeof interviews>;
-
-// id: string;
-// first_name: string | null;
-// last_name: string | null;
-// email: string;
-// interview_stage: 'not_started' |
-//   'resume_submitted' |
-//   'interview_inprogress' |
-//   'interview_completed';
-// updated_at: string | null;
-// job_title: string | null;

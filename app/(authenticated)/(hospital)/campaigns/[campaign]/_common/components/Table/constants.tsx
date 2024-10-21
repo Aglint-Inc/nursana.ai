@@ -36,8 +36,7 @@ export const tagsColor = {
 
 export const data = [
   {
-    first_name: 'Mr.A',
-    last_name: 'BC',
+    name: 'Mr.A BC',
     email: 'abc@gmail.com',
     job_title: 'ABC',
     interview_stage: 'not_started',
@@ -46,18 +45,17 @@ export const data = [
   },
   {
     email: 'def@gmail.com',
-    first_name: 'Mr.D',
+    name: 'Mr.D EF',
     id: 'def',
     interview_stage: 'interview_inprogress',
     job_title: 'DEF',
-    last_name: 'EF',
     updated_at: subHours(new Date(), 10).toISOString(),
   },
 ] satisfies ColumnSchema[];
 
 export const filterFields = [
   {
-    label: 'Time Range',
+    label: 'Updated At',
     value: 'updated_at',
     type: 'timerange',
     defaultOpen: true,

@@ -7,8 +7,7 @@ import { ARRAY_DELIMITER, RANGE_DELIMITER, SLIDER_DELIMITER } from './utils';
 export type ColumnSchema = Interviews['output'][number];
 
 export const columnFilterSchema = z.object({
-  first_name: z.string().optional(),
-  last_name: z.string().optional(),
+  name: z.string().optional(),
   email: z.string().optional(),
   job_title: z.string().optional(),
   interview_stage: z

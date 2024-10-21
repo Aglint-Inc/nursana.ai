@@ -12,13 +12,9 @@ import { isArrayOfDates } from './utils';
 
 export const columns: ColumnDef<ColumnSchema>[] = [
   {
-    accessorKey: 'first_name',
-    header: 'First Name',
+    accessorKey: 'name',
+    header: 'Name',
     enableHiding: false,
-  },
-  {
-    accessorKey: 'last_name',
-    header: 'Last Name',
   },
   {
     accessorKey: 'email',
