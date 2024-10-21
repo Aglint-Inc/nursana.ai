@@ -10,7 +10,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       <SidebarProvider>
         <NurseSidebar />
-        <main className='w-full'>{children}</main>
+        <main className='w-full'>
+          <div className='max-w-3xl mx-auto py-12'>
+          {children}
+          </div>
+          
+          </main>
       </SidebarProvider>
     </>
   );
