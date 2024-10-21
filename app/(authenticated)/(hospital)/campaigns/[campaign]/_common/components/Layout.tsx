@@ -1,19 +1,41 @@
+import type { PropsWithChildren } from 'react';
+
 import { SidebarTrigger } from '@/components/ui/sidebar';
+
 import { Details } from './Details';
 import { Title } from './Title';
-import type { PropsWithChildren } from 'react';
 
 export const Layout = (props: PropsWithChildren) => {
   return (
-    <div className='flex flex-col p-4'>
-      <div className='flex flex-row justify-between gap-2'>
-        <div className='flex flex-col items-center gap-2'>
-          <SidebarTrigger />
-          <Title />
-        </div>
-        <Details />
-      </div>
+    <div className='flex w-full flex-col p-4'>
+      <Header />
       {props.children}
     </div>
+  );
+};
+
+const Header = () => {
+  return (
+    <div className='flex w-full flex-row items-center justify-between'>
+      <Left />
+      <Right />
+    </div>
+  );
+};
+
+const Left = () => {
+  return (
+    <section className='flex flex-row items-center gap-2'>
+      <SidebarTrigger />
+      <Title />
+    </section>
+  );
+};
+
+const Right = () => {
+  return (
+    <section className='flex flex-row items-center gap-2'>
+      <Details />
+    </section>
   );
 };
