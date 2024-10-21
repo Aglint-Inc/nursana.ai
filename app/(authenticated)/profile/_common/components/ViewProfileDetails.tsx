@@ -78,7 +78,7 @@ export default function ViewProfileDetails({
               </Button>
             </div>
           </CardHeader>
-          <CardContent className='p-4'>
+          <CardContent className='p-4 pt-0'>
             <div className='grid grid-cols-2 gap-6'>
               <FormField
                 name='first_name'
