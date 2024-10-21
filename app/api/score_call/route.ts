@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/server';
 import { type SupdabasClientType } from '@/utils/supabase/type';
 
-import { calculateOverallScore } from './util';
+import { calculateOverallScore, transcriptParser } from './util';
 import {
   professionalSummaryPromptArchive,
   score,
@@ -34,7 +34,7 @@ export async function POST(
   const supabase = createAdminClient();
   try {
     const error: any = {};
-    const transcript = JSON.stringify(transcript_json);
+    const transcript = JSON.stringify(transcriptParser(transcript_json));
     const { object: scoreObject, usage } = await score(
       professionalSummaryPromptArchive,
       transcript,
@@ -55,6 +55,7 @@ export async function POST(
       usage,
     });
   } catch (e: any) {
+    console.error(String(e));
     if (!test) {
       await saveToDB(supabase, analysis_id, {
         analysis_status: { status: 'error', error: String(e) },

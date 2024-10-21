@@ -12,4 +12,4 @@ BEGIN
 END
 $function$;
 
-CREATE OR REPLACE TRIGGER "resume_to_json_trigger" AFTER insert or update OF "file_url" ON "public"."resume" FOR EACH ROW WHEN (NEW.file_url = "" AND NEW.structured_resume IS NULL) EXECUTE FUNCTION "public"."resume_to_json_trigger_function"();
+CREATE OR REPLACE TRIGGER "resume_to_json_trigger" AFTER insert or update OF "file_url" ON "public"."resume" FOR EACH ROW WHEN (NEW.file_url = '' AND NEW.structured_resume IS NULL) EXECUTE FUNCTION "public"."resume_to_json_trigger_function"();
