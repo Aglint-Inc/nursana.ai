@@ -6,7 +6,12 @@ import {
 
 import { handlerResumeToText } from './preCall';
 import { processResumeToJson } from './textToJson';
-import { type ErrorType, getResponse as getResponse, saveToDB } from './utils';
+import {
+  type ErrorType,
+  getResponse as getResponse,
+  saveToDB,
+  setToProcessing,
+} from './utils';
 
 export const hello: HttpFunction = async (req: Request, res: Response) => {
   res.set('Access-Control-Allow-Origin', '*');
@@ -35,6 +40,7 @@ export const hello: HttpFunction = async (req: Request, res: Response) => {
         }),
       );
     }
+    await setToProcessing(resume_id);
     try {
       const data = await handlerResumeToText(resume);
       const resume_text = data.resume_text;
@@ -43,7 +49,15 @@ export const hello: HttpFunction = async (req: Request, res: Response) => {
         : await processResumeToJson(resume_text);
       if (!test && json) {
         await saveToDB({
-          data: { structured_resume: json, error_status: null },
+          data: {
+            structured_resume: json,
+            processing_status: {
+              resume_to_json_api: {
+                timestamp: new Date().toISOString(),
+                status: 'success',
+              },
+            },
+          },
           id: resume_id,
         });
       }

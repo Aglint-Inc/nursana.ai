@@ -15,7 +15,7 @@ import {
 } from 'recharts';
 
 import { useUserData } from '@/authenicated/hooks/useUserData';
-import { Card, CardContent } from '@/components/ui/card';
+// import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 
 const RatingBar: React.FC<{
@@ -24,19 +24,36 @@ const RatingBar: React.FC<{
   explanation: string;
   icon: React.ReactNode;
 }> = ({ label, score, explanation, icon }) => (
-  <div className='grid grid-cols-[1fr,2fr] items-end gap-4'>
-    <div className='space-y-2 pb-2'>
-      <div className='flex items-start space-x-2'>
-        {icon}
-        <span className='font-semibold'>{label}</span>
+  <>
+    <div className='flex flex-col gap-1'>
+      <div className='flex justify-between'>
+        <div className='flex items-start space-x-2'>
+          {icon}
+          <span className='text-lg font-medium'>{label}</span>
+        </div>
+        <div className='flex w-40 items-center space-x-2'>
+          <Progress value={score * 20} className='h-1.5 w-full' />
+          <span className='text-xs text-muted-foreground'>{score}/5</span>
+        </div>
       </div>
-      <div className='flex items-center space-x-2'>
-        <Progress value={score * 20} className='h-2 w-full' />
-        <span className='text-sm font-medium'>{score}/5</span>
-      </div>
+
+      <p className='text-muted-foreground'>{explanation}</p>
     </div>
-    <p className='ml-6 text-sm text-muted-foreground'>{explanation}</p>
-  </div>
+
+    {/* <div className='grid grid-cols-[1fr,2fr] items-end gap-4'>
+      <div className='space-y-2 pb-2'>
+        <div className='flex items-start space-x-2'>
+          {icon}
+          <span className='font-semibold'>{label}</span>
+        </div>
+        <div className='flex items-center space-x-2'>
+          <Progress value={score * 20} className='h-2 w-full' />
+          <span className='text-sm font-medium'>{score}/5</span>
+        </div>
+      </div>
+      <p className='ml-6 text-sm text-muted-foreground'>{explanation}</p>
+    </div> */}
+  </>
 );
 
 export function InterviewAnalysis() {
@@ -56,57 +73,67 @@ export function InterviewAnalysis() {
   ];
 
   return (
-    <Card className='p-0'>
-      <CardContent className='space-y-6 p-0'>
-        <div className='grid grid-cols-[1fr,2fr] items-center gap-6 bg-purple-50 p-4'>
-          <div className='h-48 w-48'>
-            <ResponsiveContainer width='100%' height='100%'>
-              <RadialBarChart
-                cx='50%'
-                cy='50%'
-                innerRadius='60%'
-                outerRadius='80%'
-                barSize={10}
-                data={chartData}
-                startAngle={180}
-                endAngle={-180}
-              >
-                <PolarAngleAxis
-                  type='number'
-                  domain={[0, 100]}
-                  angleAxisId={0}
-                  tick={false}
-                />
-                <RadialBar
-                  background
-                  dataKey='value'
-                  angleAxisId={0}
+    <div className='p-0'>
+      {/* <CardHeader className='bg-purple-50 px-4 py-2'>
+        <CardTitle className='text-xl font-bold text-purple-800'>
+          Interview Analysis
+        </CardTitle>
+      </CardHeader> */}
+      <div className='flex flex-col gap-10'>
+        <div className='flex flex-col gap-2 rounded-lg bg-purple-50 p-6'>
+          <div className='flex flex-col'>
+            <div className='ml-[-32px] h-48 w-48'>
+              <ResponsiveContainer width='100%' height='100%'>
+                <RadialBarChart
+                  cx='50%'
+                  cy='50%'
+                  innerRadius='60%'
+                  outerRadius='80%'
+                  barSize={10}
                   data={chartData}
-                  cornerRadius={5}
-                />
-                <text
-                  x='50%'
-                  y='50%'
-                  textAnchor='middle'
-                  dominantBaseline='middle'
-                  className='fill-purple-800 text-2xl font-bold'
+                  startAngle={180}
+                  endAngle={-180}
                 >
-                  {analysis.overall_score.toFixed(1)}
-                </text>
-              </RadialBarChart>
-            </ResponsiveContainer>
+                  <PolarAngleAxis
+                    type='number'
+                    domain={[0, 100]}
+                    angleAxisId={0}
+                    tick={false}
+                  />
+                  <RadialBar
+                    background
+                    dataKey='value'
+                    angleAxisId={0}
+                    data={chartData}
+                    cornerRadius={5}
+                  />
+                  <text
+                    x='50%'
+                    y='50%'
+                    textAnchor='middle'
+                    dominantBaseline='middle'
+                    className='fill-purple-800 text-2xl font-bold'
+                  >
+                    {analysis.overall_score.toFixed(1)}
+                  </text>
+                </RadialBarChart>
+              </ResponsiveContainer>
+            </div>
+            <div className='mt-[-16px] flex items-center'>
+              {/* <Sparkle className='text-purple-700'/> */}
+              <h3 className='text-xl font-medium text-purple-800'>
+                Overall Score - {analysis.overall_score?.toFixed(1) || 'N/A'}
+                /100
+              </h3>
+            </div>
           </div>
-          <div className='space-y-4'>
-            <h3 className='text-xl font-semibold text-purple-800'>
-              Overall Score: {analysis.overall_score?.toFixed(1) || 'N/A'}/100
-            </h3>
-            <p className='text-sm text-purple-700'>
-              {analysis.overall_summary || 'No summary available.'}
-            </p>
-          </div>
+
+          <p className=''>
+            {analysis.overall_summary || 'No summary available.'}
+          </p>
         </div>
 
-        <div className='space-y-6 p-8'>
+        <div className='flex flex-col gap-8'>
           {analysis.articulation && (
             <RatingBar
               label='Articulation'
@@ -161,7 +188,7 @@ export function InterviewAnalysis() {
             />
           )}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
