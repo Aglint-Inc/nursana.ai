@@ -66,6 +66,7 @@
     "react-hook-form": "^7.53.0",
     "react-phone-input-2": "^2.15.1",
     "react-phone-number-input": "^3.4.9",
+    "recharts": "^2.13.0",
     "resend": "^4.0.0",
     "retell-client-js-sdk": "^2.0.4",
     "superjson": "^2.2.1",
