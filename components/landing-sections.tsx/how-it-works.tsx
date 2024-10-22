@@ -9,9 +9,9 @@ import StepperCard from "../stepperCard";
 function HowItWorks() {
   return (
     <Section>
-      <div className="flex flex-col gap-10 md:gap-20">
+      <div className="flex flex-col pt-10 gap-10 md:gap-20">
         <div className="max-w-screen-xl flex flex-col gap-2 md:items-center text-left md:text-center md:px-0">
-          <h1 className="text-3xl md:text-5xl font-medium">
+          <h1 className="text-3xl md:text-5xl font-medium ">
             Nursana connects you with top-tier opportunities, opening doors you didn’t even know existed.
           </h1>
             
