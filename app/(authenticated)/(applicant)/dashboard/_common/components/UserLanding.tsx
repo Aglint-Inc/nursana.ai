@@ -2,7 +2,7 @@
 import { FileCheck, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 
-import { useUserData } from '@/authenicated/hooks/useUserData';
+import { useUserData } from '@/applicant/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 
 import RadialProgress from './RadialProgress';

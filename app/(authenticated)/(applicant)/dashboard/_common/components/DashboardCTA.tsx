@@ -2,7 +2,7 @@
 import { AlertCircle, Terminal } from 'lucide-react';
 import Link from 'next/link';
 
-import { useUserData } from '@/authenicated/hooks/useUserData';
+import { useUserData } from '@/applicant/hooks/useUserData';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 

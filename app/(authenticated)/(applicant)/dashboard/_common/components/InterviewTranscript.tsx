@@ -1,10 +1,9 @@
 'use client';
 import { Sparkle, User } from 'lucide-react';
 
-import { useUserData } from '@/authenicated/hooks/useUserData';
+import { useUserData } from '@/applicant/hooks/useUserData';
 import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { Card, CardContent } from '@/components/ui/card';
-
 
 interface Message {
   role: 'agent' | 'user';
@@ -40,10 +39,9 @@ export function InterviewTranscript() {
 
   return (
     <div className='min-h-[calc(100vh-164px)]'>
-        <div className='text-xl font-medium mb-6'>Interview & Transcript</div>
+      <div className='mb-6 text-xl font-medium'>Interview & Transcript</div>
       <div className='flex flex-col gap-12'>
         <Card className='overflow-hidden border-none bg-secondary shadow-none'>
-         
           <CardContent className='p-0'>
             <VideoPlayer
               videoUrl={userData.analysis?.video_url ?? ''}

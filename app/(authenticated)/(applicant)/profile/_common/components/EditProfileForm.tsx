@@ -3,10 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import {
-  useUpdateUserData,
-  useUserData,
-} from '@/authenicated/hooks/useUserData';
+import { useUpdateUserData, useUserData } from '@/applicant/hooks/useUserData';
 import { Loader } from '@/common/components/Loader';
 import { UIMultiSelect } from '@/common/components/UIMultiSelect';
 import UIPhoneInput from '@/common/components/UIPhoneInput';
