@@ -68,7 +68,7 @@ function CompanySignIn() {
         title: 'Incorrect email or password',
       });
     } else {
-      router.push('/dashboard');
+      router.push(`/campaigns`);
     }
   };
   return (
