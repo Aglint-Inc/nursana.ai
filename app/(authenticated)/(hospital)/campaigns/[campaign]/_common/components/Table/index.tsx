@@ -3,7 +3,7 @@ import { api, HydrateClient } from 'trpc/server';
 
 import type { PageProps } from '@/campaign/types';
 
-import { SuspenseTable } from './suspense-table';
+import { DataTable } from './data-table';
 import { parseSearchParams } from './utils';
 
 export const Table = async (props: PageProps) => {
@@ -17,14 +17,14 @@ export const Table = async (props: PageProps) => {
     interview_stage: search.interview_stage ?? undefined,
     job_title: search.job_title ?? undefined,
     name: search.name ?? undefined,
-    size: search.size ?? undefined,
-    start: search.start ?? undefined,
+    pageSize: search.pageSize ?? undefined,
+    pageIndex: search.pageIndex ?? undefined,
     updated_at: search.updated_at ?? undefined,
   });
 
   return (
     <HydrateClient>
-      <SuspenseTable />
+      <DataTable />
     </HydrateClient>
   );
 };

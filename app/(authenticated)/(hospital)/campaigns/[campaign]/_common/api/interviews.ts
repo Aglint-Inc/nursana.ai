@@ -16,11 +16,15 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
     .from('interview')
     .select(
       'id, interview_stage, updated_at, applicant!interviews_user_id_fkey!inner(first_name, last_name, email, job_title, expected_salary, terms_accepted)',
+      { count: 'exact' },
     )
     .eq('campaign_id', input.id)
     .eq('hospital_id', ctx.hospital.id)
-    .limit(input.size)
-    .range(input.start, input.start + input.size);
+    .limit(input.pageSize)
+    .range(
+      input.pageIndex * input.pageSize,
+      (input.pageIndex + 1) * input.pageSize,
+    );
 
   if (input.email) query.eq('applicant.email', input.email);
 
@@ -34,19 +38,24 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
     query.lte('updated_at', input.updated_at[1]);
   }
 
-  const { data } = await query;
-  if (!data)
+  const { data, count } = await query;
+  if (!data || !count)
     throw new TRPCError({
       code: 'NOT_FOUND',
       message: 'Interviews not found',
     });
-  return data.map(
-    ({ applicant: { first_name, last_name, ...applicant }, ...rest }) => ({
-      ...applicant,
-      ...rest,
-      name: `${first_name} ${last_name}`.trim(),
-    }),
-  );
+  let pageCount = Math.trunc(count / input.pageSize);
+  if (count % input.pageSize !== 0) pageCount++;
+  return {
+    data: data.map(
+      ({ applicant: { first_name, last_name, ...applicant }, ...rest }) => ({
+        ...applicant,
+        ...rest,
+        name: `${first_name} ${last_name}`.trim(),
+      }),
+    ),
+    pageCount,
+  };
 };
 
 export const interviews = hospitalProcedure.input(schema).query(query);

@@ -22,8 +22,8 @@ export const inputSchema = z.object({
     .optional(),
   updated_at: z.coerce.date().array().max(2).optional(),
   terms_accepted: z.boolean().optional(),
-  size: z.number().default(10),
-  start: z.number().default(0),
+  pageSize: z.number().default(10),
+  pageIndex: z.number().default(0),
 });
 
 export const columnFilterSchema = inputSchema
@@ -31,8 +31,8 @@ export const columnFilterSchema = inputSchema
     name: true,
     email: true,
     job_title: true,
-    size: true,
-    start: true,
+    pageSize: true,
+    pageIndex: true,
   })
   .merge(
     z.object({

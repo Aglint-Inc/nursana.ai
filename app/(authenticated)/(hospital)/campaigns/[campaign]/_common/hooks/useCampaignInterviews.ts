@@ -1,10 +1,12 @@
+import { useDeferredValue } from 'react';
 import { api } from 'trpc/client';
+
+import { type Interviews } from '@/campaign/api/interviews';
 
 import { useCampaignParams } from './useCampaignParams';
 import { useCurrentCampaign } from './useCurrentCampaign';
-import { useDeferredValue } from 'react';
 
-export const useCampaignInterviews = () => {
+export const useCampaignInterviews = (): Interviews['output'] => {
   const { campaign } = useCurrentCampaign();
   const { search: _search } = useCampaignParams();
   const search = useDeferredValue(_search);
@@ -15,8 +17,8 @@ export const useCampaignInterviews = () => {
       interview_stage: search.interview_stage ?? undefined,
       job_title: search.job_title ?? undefined,
       name: search.name ?? undefined,
-      size: search.size ?? undefined,
-      start: search.start ?? undefined,
+      pageSize: search.pageSize ?? undefined,
+      pageIndex: search.pageIndex ?? undefined,
       updated_at: search.updated_at ?? undefined,
     },
   )[0];

@@ -38,8 +38,8 @@ export const searchParamsParser = {
   ),
   updated_at: parseAsArrayOf(parseAsTimestamp, RANGE_DELIMITER),
   terms_accepted: parseAsArrayOf(parseAsBoolean, ARRAY_DELIMITER),
-  size: parseAsInteger.withDefault(10),
-  start: parseAsInteger.withDefault(0),
+  pageSize: parseAsInteger.withDefault(10),
+  pageIndex: parseAsInteger.withDefault(0),
 };
 
 export const searchParamsCache = createSearchParamsCache(searchParamsParser);
