@@ -1,4 +1,5 @@
-/* eslint-disable no-console */
+import 'server-only'; /* eslint-disable no-console */
+
 import { z } from 'zod';
 
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';

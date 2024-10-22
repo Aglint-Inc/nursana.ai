@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { createTRPCRouter } from '../../trpc';
 import { updateHospital } from './create_hospital';
 import { tenantSignup } from './signup';

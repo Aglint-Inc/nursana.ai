@@ -1,6 +1,6 @@
 'use client';
 
-import { type ResumeDetailsType } from 'app/(authenticated)/profile/_common/types';
+import { type ResumeDetailsType } from 'app/(authenticated)/(applicant)/profile/_common/types';
 import {
   useUpdateInterviews,
   useUpdateInterviewsAnalysis,

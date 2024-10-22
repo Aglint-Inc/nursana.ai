@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+import 'server-only'; /* eslint-disable no-console */
 
 import { type PrivateProcedure, privateProcedure } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';

@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { publicProcedure } from '@/server/api/trpc';
 
 const query = () => {
