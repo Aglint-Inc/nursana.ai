@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
+
 import { Button } from '../ui/button';
-import NursanaLogo from '../nursana-logo';
 
 function PurpleHero() {
   return (
@@ -21,7 +21,7 @@ function PurpleHero() {
           <div className='flex h-full flex-col items-start justify-center gap-4 md:gap-6 md:pt-0 pt-12'>
             <h1 className='max-w-[700px] text-4xl font-thin text-white md:text-7xl'>
               Fast-Track Your Nursing Career with{' '}
-              <span className='font-extrabold'>AI-Powered Interviews ✨</span>
+              <span className='font-extrabold'>AI-Powered Interviews.</span>
             </h1>
             <p className='max-w-[550px] text-base text-muted md:text-lg'>
               Get hired quicker with AI-driven resume feedback and interviews

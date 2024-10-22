@@ -1,15 +1,14 @@
+import Link from 'next/link';
 import React from 'react';
 
 import Footer from './footer';
 import CTA from './landing-sections.tsx/call-to-action';
 import HowItWorks from './landing-sections.tsx/how-it-works';
 import PoweredBy from './landing-sections.tsx/powerd-by';
-import WhyUS from './landing-sections.tsx/why-us';
 import PurpleHero from './landing-sections.tsx/purple-hero';
+import WhyUS from './landing-sections.tsx/why-us';
 import NursanaLogo from './nursana-logo';
-import Link from 'next/link';
 import { Button } from './ui/button';
-import Navbar from './navbar';
 
 function HomePage() {
   return (
