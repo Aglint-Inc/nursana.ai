@@ -40,7 +40,6 @@ export function InterviewTranscript() {
     userData.analysis?.video_url?.split(`${videoBucketName}/`).pop() ?? '';
   // get file url
   const { data: videoUrl, isPending } = useBucket(videoBucketName, fileName);
-  console.log(videoUrl, userData.analysis?.video_url);
   // const audioBucketName = 'audio';
   // get file name
   // const audioFileName =

@@ -9,7 +9,7 @@ export function useBucket(bucket: 'videos' | 'audio', fileName: string) {
     queryKey: ['bucket', bucket, fileName],
     queryFn: () => getFileUrl(bucket, fileName),
     enabled: !!fileName,
-    refetchInterval: staleTime - 100,
+    refetchInterval: staleTime * 1000 - 1000,
     refetchOnWindowFocus: false,
   });
 }
