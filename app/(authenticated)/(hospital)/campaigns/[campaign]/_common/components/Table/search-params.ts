@@ -29,15 +29,13 @@ export const parseAsSort = createParser({
 
 export const searchParamsParser = {
   // FILTERS
-  name: parseAsString,
   email: parseAsString,
-  job_title: parseAsString,
   interview_stage: parseAsArrayOf(
     parseAsStringLiteral(INTERVIEW_STAGES),
     ARRAY_DELIMITER,
   ),
-  updated_at: parseAsArrayOf(parseAsTimestamp, RANGE_DELIMITER),
   terms_accepted: parseAsArrayOf(parseAsBoolean, ARRAY_DELIMITER),
+  updated_at: parseAsArrayOf(parseAsTimestamp, RANGE_DELIMITER),
   rows: parseAsInteger.withDefault(10),
   page: parseAsInteger.withDefault(0),
 };

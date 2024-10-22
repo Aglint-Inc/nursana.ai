@@ -13,11 +13,9 @@ export const Table = async (props: PageProps) => {
 
   void api.authenticated.hospital.campaigns.campaign.interviews.prefetch({
     id: props.params.campaign,
-    email: search.name ?? undefined,
     interview_stage: search.interview_stage ?? undefined,
-    job_title: search.job_title ?? undefined,
-    name: search.name ?? undefined,
     updated_at: search.updated_at ?? undefined,
+    terms_accepted: search.terms_accepted ?? undefined,
   });
 
   return (

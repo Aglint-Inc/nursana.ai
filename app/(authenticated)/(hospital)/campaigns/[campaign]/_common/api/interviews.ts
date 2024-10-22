@@ -21,10 +21,6 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
     .eq('campaign_id', input.id)
     .eq('hospital_id', ctx.hospital.id);
 
-  if (input.email) query.eq('applicant.email', input.email);
-
-  if (input.job_title) query.eq('applicant.job_title', input.job_title);
-
   if (input.interview_stage && input.interview_stage.length)
     query.in('interview_stage', input.interview_stage);
 

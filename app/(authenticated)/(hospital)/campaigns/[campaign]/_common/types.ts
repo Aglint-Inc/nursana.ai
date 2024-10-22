@@ -1,6 +1,6 @@
 import type { Interviews } from '@/campaign/api/interviews';
 
-export type ColumnSchema = Interviews['output']['data'][number];
+export type ColumnSchema = Interviews['output'][number];
 
 export type PageProps = {
   params: { campaign: string };

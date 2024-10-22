@@ -47,7 +47,7 @@ export interface DataTableProps<TData, TValue> {
 }
 
 import { columns } from './columns';
-import { filterFields } from './constants';
+import { useFilterFields } from '@/campaign/hooks/useFilterFields';
 
 export function DataTable() {
   const data = useCampaignInterviews();
@@ -77,6 +77,8 @@ export function DataTable() {
     'data-table-controls',
     true,
   );
+
+  const filterFields = useFilterFields();
 
   const table = useReactTable({
     data,
