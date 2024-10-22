@@ -3,6 +3,8 @@ import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SidebarHeader, SidebarInput } from '@/components/ui/sidebar';
 
+import { useList } from './Context';
+
 export const Header = () => {
   return (
     <SidebarHeader className='w-full gap-3.5 border-b p-4'>
@@ -28,5 +30,13 @@ const Actions = () => {
 };
 
 const Search = () => {
-  return <SidebarInput placeholder='Type to search...' />;
+  const { search, setSearch } = useList();
+  return (
+    <SidebarInput
+      placeholder='Type to search...'
+      type='text'
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+  );
 };
