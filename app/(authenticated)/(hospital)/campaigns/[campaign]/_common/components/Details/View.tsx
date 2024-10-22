@@ -1,4 +1,5 @@
 import { Settings as SettingsIcon } from 'lucide-react';
+import type { PropsWithChildren } from 'react';
 
 import { useCampaign } from '@/campaign/hooks/useCampaign';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,6 @@ import {
 } from '@/components/ui/sheet';
 
 import { useDetails } from './Context';
-import type { PropsWithChildren } from 'react';
 
 export const View = () => {
   return (

@@ -1,8 +1,8 @@
 import NextLink from 'next/link';
 import type { PropsWithChildren } from 'react';
 
-import { Campaigns } from '@/campaigns/types';
 import { CampaignBadge } from '@/campaigns/components/CampaignBadge';
+import type { Campaigns } from '@/campaigns/types';
 
 type Campaign = Campaigns[number];
 

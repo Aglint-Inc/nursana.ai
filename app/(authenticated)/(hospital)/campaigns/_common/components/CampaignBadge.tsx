@@ -1,4 +1,4 @@
-import { Campaigns } from '@/campaigns/types';
+import type { Campaigns } from '@/campaigns/types';
 import { Badge } from '@/components/ui/badge';
 
 export const CampaignBadge = (props: Pick<Campaigns[number], 'status'>) => {

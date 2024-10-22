@@ -2,6 +2,7 @@
 
 import type { ColumnDef } from '@tanstack/react-table';
 import { format, isSameDay } from 'date-fns';
+import { Check, Minus } from 'lucide-react';
 
 import type { ColumnSchema } from '@/campaign/types';
 import { DataTableColumnHeader } from '@/components/fancy-data-table/data-table-column-header';
@@ -9,7 +10,6 @@ import { Badge } from '@/components/ui/badge';
 
 import { tagsColor } from './constants';
 import { isArrayOfDates } from './utils';
-import { Check, Minus } from 'lucide-react';
 
 export const columns: ColumnDef<ColumnSchema>[] = [
   {

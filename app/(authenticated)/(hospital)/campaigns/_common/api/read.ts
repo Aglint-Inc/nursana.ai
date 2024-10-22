@@ -3,7 +3,7 @@ import { TRPCError } from '@trpc/server';
 import {
   type HospitalProcedure,
   hospitalProcedure,
-  ProcedureDefinition,
+  type ProcedureDefinition,
 } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
 
