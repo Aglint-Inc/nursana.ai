@@ -12,7 +12,7 @@ function HomePage() {
   return (
     <div>
       <Navbar />
-      <div className="pt-14 pb-40 flex flex-col gap-40">
+      <div className="pt-14 md:pb-40 pb-20 flex flex-col md:gap-40 gap-20">
         <LandingHero />
         <HowItWorks />
         <PoweredBy />
