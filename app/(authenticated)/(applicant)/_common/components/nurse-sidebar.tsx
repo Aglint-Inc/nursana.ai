@@ -31,7 +31,6 @@ import {
 } from '@/components/ui/sidebar';
 import { supabase } from '@/utils/supabase/client';
 
-
 const items = [
   {
     title: 'Dashboard',
@@ -115,9 +114,9 @@ export function NurseSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton>
+            <SidebarMenuButton asChild>
               <Button
-                className='p-0'
+                className='flex w-full flex-row justify-start p-0'
                 onClick={() => {
                   supabase.auth.signOut();
                   localStorage.clear();
