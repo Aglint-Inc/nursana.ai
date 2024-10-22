@@ -32,6 +32,10 @@
       "@/server/*": ["./server/*"],
       "@/hooks/*": ["./hooks/*"],
       "@/audio/*": ["./lib/audio/*"],
+      "@/applicant/*": ["./app/(authenticated)/(applicant)/_common/*"],
+      "@/dashboard/*": [
+        "./app/(authenticated)/(applicant)/dashboard/_common/*"
+      ],
       "@/authenticated/*": ["./app/(authenticated)/_common/*"],
       "@/hospital/*": ["./app/(authenticated)/(hospital)/_common/*"],
       "@/campaigns/*": ["./app/(authenticated)/(hospital)/campaigns/_common/*"],

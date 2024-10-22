@@ -4,9 +4,11 @@
 import { Pause, Play, Repeat } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { type InterviewData } from 'src/types/types';
 
+import { useUserDataQuery } from '@/authenicated/hooks/useUserData';
+import { Loader } from '@/common/components/Loader';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -40,8 +42,6 @@ export default function InterviewInstructions({
   const [progress, setProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showInterview, setShowInterview] = useState(false);
-
-  console.log('interviewData', interviewData);
 
   const showVideo = () => {
     setShowCover(false);
@@ -86,12 +86,37 @@ export default function InterviewInstructions({
   const handleProceed = useCallback(() => {
     setShowInterview(true);
   }, []);
+  const { refetch, data } = useUserDataQuery();
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (data?.resume?.structured_resume || data?.resume?.error_status) {
+        clearInterval(interval);
+      } else {
+        console.log({ data: data?.resume?.structured_resume });
+        refetch();
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [data]);
 
+  if (!data?.resume?.error_status && !data?.resume?.structured_resume) {
+    return (
+      <div className='flex h-screen w-full flex-col items-center justify-center'>
+        <div className='flex flex-col'>
+          <Loader />
+          <p className='mt-4 text-lg'>
+            Please wait while we load your resume data
+          </p>
+        </div>
+      </div>
+    );
+  }
   if (showInterview) {
     return (
       <InterviewProcess
         interviewId={interviewId}
         interviewData={interviewData}
+        resumeData={data?.resume?.structured_resume}
       />
     );
   }

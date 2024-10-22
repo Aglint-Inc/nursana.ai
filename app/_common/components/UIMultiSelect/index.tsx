@@ -73,14 +73,14 @@ export function UIMultiSelect({
       onKeyDown={handleKeyDown}
       className='overflow-visible bg-transparent'
     >
-      <div className='group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2'>
-        <div className='flex flex-wrap gap-1'>
+      <div className='group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 bg-background'>
+        <div className='flex flex-wrap gap-2 mb-1'>
           {selected.map((item) => {
             return (
-              <Badge key={item.value} variant='secondary'>
+              <Badge key={item.value} variant='secondary' className='text-sm font-medium rounded-md'>
                 {item.label}
                 <button
-                  className='ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2'
+                  className='ml-1 rounded-md outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2'
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       handleUnselect(item);
