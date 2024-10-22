@@ -10,7 +10,7 @@ export const Header = () => {
     <SidebarHeader className='w-full gap-3.5 border-b p-4'>
       <div className='flex items-center justify-between'>
         <Title />
-        <Actions />
+        {/* <Actions /> */}
       </div>
       <Search />
     </SidebarHeader>
@@ -21,7 +21,7 @@ const Title = () => (
   <div className='text-base font-medium text-foreground'>Campaigns</div>
 );
 
-const Actions = () => {
+const _Actions = () => {
   return (
     <Button variant='outline' size='icon'>
       <Plus />
