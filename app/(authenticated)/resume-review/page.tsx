@@ -1,9 +1,16 @@
-import React from 'react';
+import dynamic from 'next/dynamic';
 
-import { ResumeFeedback } from '../dashboard/@user/_common/components/ResumeFeedback';
+const ResumeFeedback = dynamic(
+  () =>
+    import('../dashboard/@user/_common/components/ResumeFeedback').then(
+      (module) => module.ResumeFeedback,
+    ),
+  {
+    ssr: false,
+    loading: () => null, // Provide a loading component if needed
+  },
+);
 
-function ResumeReviewPage() {
+export default function InterviewFeedbackPage() {
   return <ResumeFeedback />;
 }
-
-export default ResumeReviewPage;

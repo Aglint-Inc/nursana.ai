@@ -4,12 +4,11 @@ import Link from 'next/link';
 
 import { useUserData } from '@/authenicated/hooks/useUserData';
 import { Card, CardContent } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import RadialProgress from './RadialProgress';
-import path from 'path';
-import ProgressBarCard from './ProgressBarCard';
 
-interface FeedbackData {
+import ProgressBarCard from './ProgressBarCard';
+import RadialProgress from './RadialProgress';
+
+export interface FeedbackData {
   summary: string;
   breakdown: {
     experience: {
@@ -34,56 +33,52 @@ interface FeedbackData {
 export function ResumeFeedback() {
   const { resume } = useUserData();
 
-  const { summary, breakdown, overallScore, } = resume?.resume_feedback;
+  const { summary, breakdown, overallScore } =
+    resume?.resume_feedback as FeedbackData;
   const userData = useUserData();
 
   const ResumeScore = [
     {
       name: 'Score',
-      value: overallScore,  
+      value: overallScore,
       fill: '#db2777',
-      path:'#fbcfe8'
+      path: '#fbcfe8',
     },
-
   ];
   return (
     <div className='mb-6'>
-      <div className='text-xl font-medium mb-6'>Resume Review</div>
-<div className='flex flex-col gap-2 mb-10'>
-      <ProgressBarCard 
-      summary={summary}
-      color='pink'
-      >
-      <RadialProgress chartData={ResumeScore} size={200}  />
-      </ProgressBarCard>
-      {!userData?.resume?.error_status && userData?.resume?.file_url ? (
-        <Link
-          href={userData?.resume?.file_url}
-          rel='noopener noreferrer'
-          target='_blank'
-        >
-          <Card className='group border-border shadow-none duration-300 hover:bg-muted'>
-            <CardContent className='p-4'>
-              <div className='flex items-center justify-between'>
-                <div className='flex items-center'>
-                  <FileText
-                    className='mr-2 h-6 w-6 text-muted-foreground'
-                    strokeWidth={1}
-                  />
-                  <div className='flex items-center'>View my resume</div>
+      <div className='mb-6 text-xl font-medium'>Resume Review</div>
+      <div className='mb-10 flex flex-col gap-2'>
+        <ProgressBarCard summary={summary} color='pink'>
+          <RadialProgress chartData={ResumeScore} size={200} />
+        </ProgressBarCard>
+        {!userData?.resume?.error_status && userData?.resume?.file_url ? (
+          <Link
+            href={userData?.resume?.file_url}
+            rel='noopener noreferrer'
+            target='_blank'
+          >
+            <Card className='group border-border shadow-none duration-300 hover:bg-muted'>
+              <CardContent className='p-4'>
+                <div className='flex items-center justify-between'>
+                  <div className='flex items-center'>
+                    <FileText
+                      className='mr-2 h-6 w-6 text-muted-foreground'
+                      strokeWidth={1}
+                    />
+                    <div className='flex items-center'>View my resume</div>
+                  </div>
+                  <div className='group relative'>
+                    <ExternalLink className='mr-4 h-4 w-4' />
+                  </div>
                 </div>
-                <div className='group relative'>
-                  <ExternalLink className='mr-4 h-4 w-4' />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </Link>
-      ) : null}
+              </CardContent>
+            </Card>
+          </Link>
+        ) : null}
       </div>
 
       <div className='flex flex-col gap-10'>
-
         {/* <div>
           <h3 className='mb-2 text-lg font-medium'>Summary</h3>
           <p className='text-muted-foreground'>{summary}</p>

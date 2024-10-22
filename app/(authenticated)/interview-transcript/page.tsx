@@ -1,9 +1,16 @@
-import React from 'react';
+import dynamic from 'next/dynamic';
 
-import { InterviewTranscript } from '../dashboard/@user/_common/components/InterviewTranscript';
+const InterviewTranscript = dynamic(
+  () =>
+    import('../dashboard/@user/_common/components/InterviewTranscript').then(
+      (module) => module.InterviewTranscript,
+    ),
+  {
+    ssr: false,
+    loading: () => null, // Provide a loading component if needed
+  },
+);
 
-function InterviewTranscriptPage() {
+export default function InterviewFeedbackPage() {
   return <InterviewTranscript />;
 }
-
-export default InterviewTranscriptPage;

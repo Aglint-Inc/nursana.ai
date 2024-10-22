@@ -2,27 +2,21 @@
 import {
   Brain,
   ExternalLink,
-  FileText,
   Lightbulb,
   MessageCircle,
   MessageSquare,
   Puzzle,
   UserCheck,
-  Zap,
+  Zap
 } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
-import {
-  PolarAngleAxis,
-  RadialBar,
-  RadialBarChart,
-  ResponsiveContainer,
-} from 'recharts';
 
 import { useUserData } from '@/authenicated/hooks/useUserData';
+import { Card, CardContent } from '@/components/ui/card';
 // import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card';
+
 import ProgressBarCard from './ProgressBarCard';
 import RadialProgress from './RadialProgress';
 
@@ -64,24 +58,22 @@ export function InterviewAnalysis() {
       name: 'Score',
       value: analysis.overall_score,
       fill: '#8b5cf6',
-       path:'#ddd6fe'
+      path: '#ddd6fe',
     },
   ];
 
   return (
     <div className='p-0'>
-      <div className='text-xl font-medium mb-6'>Interview Feedback</div>
-    <div className='flex flex-col gap-2 mb-16'>
-
-
-
-        <ProgressBarCard summary= {analysis.overall_summary || 'No summary available.'} color='purple'>
-        <RadialProgress chartData={chartData} size={200}  />
-        </ProgressBarCard>
-        <Link
-          href={'/interview-transcript'}
+      <div className='mb-6 text-xl font-medium'>Interview Feedback</div>
+      <div className='mb-16 flex flex-col gap-2'>
+        <ProgressBarCard
+          summary={analysis.overall_summary || 'No summary available.'}
+          color='purple'
         >
-          <Card className='group  border-border shadow-none duration-300 hover:bg-muted'>
+          <RadialProgress chartData={chartData} size={200} />
+        </ProgressBarCard>
+        <Link href={'/interview-transcript'}>
+          <Card className='group border-border shadow-none duration-300 hover:bg-muted'>
             <CardContent className='p-4'>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center'>
@@ -98,12 +90,9 @@ export function InterviewAnalysis() {
             </CardContent>
           </Card>
         </Link>
-    </div>
-      
-     
-      <div className='flex flex-col gap-10'>
-       
+      </div>
 
+      <div className='flex flex-col gap-10'>
         <div className='flex flex-col gap-8'>
           {analysis.articulation && (
             <RatingBar

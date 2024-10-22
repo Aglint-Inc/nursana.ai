@@ -1,7 +1,16 @@
-import { InterviewAnalysis } from '../dashboard/@user/_common/components/InterviewAnalysis';
+import dynamic from 'next/dynamic';
 
-function InterviewFeedbackPage() {
+const InterviewAnalysis = dynamic(
+  () =>
+    import('../dashboard/@user/_common/components/InterviewAnalysis').then(
+      (module) => module.InterviewAnalysis,
+    ),
+  {
+    ssr: false,
+    loading: () => null, // Provide a loading component if needed
+  },
+);
+
+export default function InterviewFeedbackPage() {
   return <InterviewAnalysis />;
 }
-
-export default InterviewFeedbackPage;

@@ -1,7 +1,6 @@
 'use client';
-import { FileCheck, FileText, MessageSquare } from 'lucide-react';
+import { FileCheck, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
 
 import { useUserData } from '@/authenicated/hooks/useUserData';
 import { Button } from '@/components/ui/button';
@@ -9,8 +8,8 @@ import { Button } from '@/components/ui/button';
 import RadialProgress from './RadialProgress';
 
 function UserLanding() {
-  const { user, resume, analysis ,interview} = useUserData();
-  const { overallScore } = resume?.resume_feedback;
+  const { user, resume, analysis, interview } = useUserData();
+  const { overallScore } = resume?.resume_feedback || {};
 
   if (!analysis) {
     return <div>No analysis available.</div>;
@@ -58,8 +57,8 @@ function UserLanding() {
             Interview Score
           </div>
           <RadialProgress chartData={InterviewScore} size={250} />
-          <Link href={'/interview-feedback' } className='w-full'>
-          <Button className='w-full'>View Detail</Button>
+          <Link href={'/interview-feedback'} className='w-full'>
+            <Button className='w-full'>View Detail</Button>
           </Link>
         </div>
         <div className='flex flex-col items-center gap-2 rounded-lg bg-pink-50 p-4'>
@@ -68,7 +67,7 @@ function UserLanding() {
           </div>
           <RadialProgress chartData={ResumeScore} size={250} />
           <Link href={'/resume-review'} className='w-full'>
-          <Button className='w-full' >View Detail</Button>
+            <Button className='w-full'>View Detail</Button>
           </Link>
         </div>
         <div className='grid grid-cols-1 grid-rows-2 gap-4'>
@@ -106,20 +105,23 @@ function UserLanding() {
                 strokeWidth={1.5}
               />
               <div className='flex flex-col gap-0.5'>
-              <span className='text-sm text-muted-foreground'>
-                Interview completed on,
-              </span>
-              <span className='text-sm'>
+                <span className='text-sm text-muted-foreground'>
+                  Interview completed on,
+                </span>
+                <span className='text-sm'>
                   {interview?.updated_at
-                    ? new Date(interview?.updated_at).toLocaleDateString('en-US', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })
+                    ? new Date(interview?.updated_at).toLocaleDateString(
+                        'en-US',
+                        {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        },
+                      )
                     : 'Date not available'}
-                </span> 
-                </div>
+                </span>
+              </div>
             </div>
             <Link
               href='/interview-transcript'

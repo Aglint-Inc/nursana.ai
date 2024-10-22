@@ -1,10 +1,9 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 'use client';
 
 import {
-  AlertTriangle,
   ArrowUp,
   Award,
-  Brain,
   ChevronDown,
   ChevronRight,
   Clock,
@@ -13,7 +12,6 @@ import {
   MapPin,
   ThumbsUp,
   Users,
-  Zap,
 } from 'lucide-react';
 import { useState } from 'react';
 import {
@@ -23,8 +21,6 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
-  Funnel,
-  FunnelChart,
   LabelList,
   Legend,
   Line,
@@ -32,7 +28,6 @@ import {
   Pie,
   PieChart,
   ResponsiveContainer,
-  Text,
   Tooltip,
   XAxis,
   YAxis,
@@ -40,15 +35,6 @@ import {
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 
 // Mock data - replace with actual data from your backend
 const completionData = [
@@ -75,12 +61,12 @@ const timelineData = [
   { month: 'Jun', interviews: 280, hires: 70 },
 ];
 
-const demographicData = [
-  { name: '0-2 Years', value: 30 },
-  { name: '3-5 Years', value: 25 },
-  { name: '6-10 Years', value: 20 },
-  { name: '11+ Years', value: 25 },
-];
+// const demographicData = [
+//   { name: '0-2 Years', value: 30 },
+//   { name: '3-5 Years', value: 25 },
+//   { name: '6-10 Years', value: 20 },
+//   { name: '11+ Years', value: 25 },
+// ];
 
 const universityData = [
   { name: 'University X', value: 200 },
@@ -98,20 +84,20 @@ const CHART_COLORS = [
   'hsl(var(--chart-5))',
 ];
 
-const CustomBarLabel = (props: any) => {
-  const { x, y, width, value, height } = props;
-  return (
-    <Text
-      x={x + width - 5}
-      y={y + height / 2}
-      fill='#000'
-      textAnchor='end'
-      dominantBaseline='middle'
-    >
-      {value}
-    </Text>
-  );
-};
+// const CustomBarLabel = (props: any) => {
+//   const { x, y, width, value, height } = props;
+//   return (
+//     <Text
+//       x={x + width - 5}
+//       y={y + height / 2}
+//       fill='#000'
+//       textAnchor='end'
+//       dominantBaseline='middle'
+//     >
+//       {value}
+//     </Text>
+//   );
+// };
 
 const experienceData = [
   { name: '11+ Years', value: 25 },
@@ -129,7 +115,7 @@ const previousJobTitleData = [
 ];
 
 const CustomLabel = (props: any) => {
-  const { x, y, width, value, height, name } = props;
+  const { x, y, value, height, name } = props;
   return (
     <text
       x={x + 5}
@@ -421,7 +407,7 @@ export default function ConsolidatedInterviewDashboard() {
                 <YAxis dataKey='name' type='category' scale='band' hide />
                 <Tooltip />
                 <Bar dataKey='value' barSize={40}>
-                  {experienceData.map((entry, index) => (
+                  {experienceData.map((_entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={CHART_COLORS[index % CHART_COLORS.length]}
@@ -455,7 +441,7 @@ export default function ConsolidatedInterviewDashboard() {
                   }
                   paddingAngle={5}
                 >
-                  {universityData.map((entry, index) => (
+                  {universityData.map((_entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={CHART_COLORS[index % CHART_COLORS.length]}
@@ -485,7 +471,7 @@ export default function ConsolidatedInterviewDashboard() {
                 <YAxis dataKey='name' type='category' hide />
                 <Tooltip />
                 <Bar dataKey='value' barSize={40}>
-                  {previousJobTitleData.map((entry, index) => (
+                  {previousJobTitleData.map((_entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={CHART_COLORS[index % CHART_COLORS.length]}
@@ -517,7 +503,7 @@ export default function ConsolidatedInterviewDashboard() {
                 <YAxis dataKey='name' type='category' scale='band' hide />
                 <Tooltip />
                 <Bar dataKey='value' barSize={40}>
-                  {skillsData.map((entry, index) => (
+                  {skillsData.map((_entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={CHART_COLORS[index % CHART_COLORS.length]}
@@ -554,7 +540,7 @@ export default function ConsolidatedInterviewDashboard() {
                   }
                   paddingAngle={5}
                 >
-                  {licenseData.map((entry, index) => (
+                  {licenseData.map((_entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={CHART_COLORS[index % CHART_COLORS.length]}
@@ -588,7 +574,7 @@ export default function ConsolidatedInterviewDashboard() {
                   }
                   paddingAngle={5}
                 >
-                  {locationData.map((entry, index) => (
+                  {locationData.map((_entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={CHART_COLORS[index % CHART_COLORS.length]}
@@ -623,7 +609,7 @@ export default function ConsolidatedInterviewDashboard() {
                   }
                   paddingAngle={5}
                 >
-                  {jobTypeData.map((entry, index) => (
+                  {jobTypeData.map((_entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={CHART_COLORS[index % CHART_COLORS.length]}
@@ -651,7 +637,7 @@ export default function ConsolidatedInterviewDashboard() {
                 <YAxis />
                 <Tooltip />
                 <Bar dataKey='value'>
-                  {skillsData.map((entry, index) => (
+                  {skillsData.map((_entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={CHART_COLORS[index % CHART_COLORS.length]}
