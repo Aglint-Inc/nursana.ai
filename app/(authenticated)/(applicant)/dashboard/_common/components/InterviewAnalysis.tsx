@@ -7,12 +7,12 @@ import {
   MessageSquare,
   Puzzle,
   UserCheck,
-  Zap
+  Zap,
 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
-import { useUserData } from '@/authenticated/hooks/useUserData';
+import { useUserData } from '@/applicant/hooks/useUserData';
 import { Card, CardContent } from '@/components/ui/card';
 // import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';

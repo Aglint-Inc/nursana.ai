@@ -2,7 +2,7 @@
 import { ExternalLink, FileText, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
 
-import { useUserData } from '@/authenicated/hooks/useUserData';
+import { useUserData } from '@/applicant/hooks/useUserData';
 import { Card, CardContent } from '@/components/ui/card';
 
 import ProgressBarCard from './ProgressBarCard';
