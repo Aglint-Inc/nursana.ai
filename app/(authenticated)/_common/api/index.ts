@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { hospital } from '@/hospital/api';
 import { createTRPCRouter } from '@/server/api/trpc';
 

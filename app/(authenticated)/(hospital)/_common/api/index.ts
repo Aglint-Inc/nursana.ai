@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { campaigns } from '@/campaigns/api';
 import { createTRPCRouter } from '@/server/api/trpc';
 

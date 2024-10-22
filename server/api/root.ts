@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { authenticated } from '@/authenticated/api';
 
 import { campaign } from './routers/campaign';

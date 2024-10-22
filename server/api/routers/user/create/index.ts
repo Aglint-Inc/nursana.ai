@@ -1,3 +1,5 @@
+import 'server-only';
+
 /* eslint-disable no-console */
 import { z } from 'zod';
 

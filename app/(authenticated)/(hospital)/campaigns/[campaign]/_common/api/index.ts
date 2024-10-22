@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { createTRPCRouter } from '@/server/api/trpc';
 
 import { edit } from './edit';

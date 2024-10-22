@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { createTRPCRouter } from '../../trpc';
 import { userCheck } from './check';
 import { createUser } from './create';

@@ -1,8 +1,10 @@
-/* eslint-disable no-console */
-import { z } from "zod";
+import 'server-only';
 
-import { type PublicProcedure, publicProcedure } from "@/server/api/trpc";
-import { createPublicClient } from "@/server/db";
+/* eslint-disable no-console */
+import { z } from 'zod';
+
+import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
+import { createPublicClient } from '@/server/db';
 
 export const schema = z.object({
   code: z.string(),
@@ -12,9 +14,9 @@ const query = async ({ input: { code } }: PublicProcedure<typeof schema>) => {
   const db = createPublicClient();
   const campaign = (
     await db
-      .from("campaign")
-      .select("*")
-      .eq("campaign_code", code)
+      .from('campaign')
+      .select('*')
+      .eq('campaign_code', code)
       .single()
       .throwOnError()
   ).data;
