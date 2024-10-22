@@ -9,6 +9,8 @@ import type { ColumnSchema } from '@/campaigns/types';
 import { DataTableColumnHeader } from '@/components/fancy-data-table/data-table-column-header';
 import { Badge } from '@/components/ui/badge';
 
+import { removeUnderscore } from '../utils/removeUnderscore';
+
 export const COLUMNS: ColumnDef<ColumnSchema>[] = [
   {
     accessorKey: 'id',
@@ -51,13 +53,17 @@ export const COLUMNS: ColumnDef<ColumnSchema>[] = [
           <div className='flex flex-wrap gap-1'>
             {value.map((v) => (
               <Badge key={v} className={TAGS_COLOR[v].badge}>
-                {v}
+                {removeUnderscore(v)}
               </Badge>
             ))}
           </div>
         );
       }
-      return <Badge className={TAGS_COLOR[value].badge}>{value}</Badge>;
+      return (
+        <Badge className={TAGS_COLOR[value].badge}>
+          {removeUnderscore(value)}
+        </Badge>
+      );
     },
     filterFn: (row, id, value) => {
       const array = row.getValue(id) as string[];

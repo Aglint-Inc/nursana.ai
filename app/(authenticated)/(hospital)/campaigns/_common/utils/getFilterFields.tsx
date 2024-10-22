@@ -7,15 +7,17 @@ import type {
 } from '@/components/fancy-data-table/types';
 import { cn } from '@/utils/cn';
 
+import { removeUnderscore } from './removeUnderscore';
+
 export const getFilterFields = (data: ColumnSchema[]) =>
   [
-    {
-      label: 'Updated At',
-      value: 'updated_at',
-      type: 'timerange',
-      defaultOpen: true,
-      commandDisabled: true,
-    },
+    // {
+    //   label: 'Updated At',
+    //   value: 'updated_at',
+    //   type: 'timerange',
+    //   defaultOpen: true,
+    //   commandDisabled: true,
+    // },
     {
       label: 'Email',
       value: 'email',
@@ -31,9 +33,12 @@ export const getFilterFields = (data: ColumnSchema[]) =>
       component: (props: Option) => {
         if (typeof props.value === 'boolean') return null;
         if (typeof props.value === 'undefined') return null;
+        if (typeof props.value === 'number') return null;
         return (
           <div className='flex w-full items-center justify-between gap-2'>
-            <span className='truncate font-normal'>{props.value}</span>
+            <span className='truncate font-normal capitalize'>
+              {removeUnderscore(props.value)}
+            </span>
             <span
               className={cn(
                 'h-2 w-2 rounded-full',
@@ -43,7 +48,10 @@ export const getFilterFields = (data: ColumnSchema[]) =>
           </div>
         );
       },
-      options: INTERVIEW_STAGES.map((tag) => ({ label: tag, value: tag })),
+      options: INTERVIEW_STAGES.map((tag) => ({
+        label: removeUnderscore(tag),
+        value: tag,
+      })),
     },
     {
       label: 'Terms accepted',
