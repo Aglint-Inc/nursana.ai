@@ -1,16 +1,15 @@
 import 'server-only';
 
 import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
 
+import { schema as interviewsSchema } from '@/campaigns/schema/interviews.schema';
 import {
   type HospitalProcedure,
   hospitalProcedure,
   type ProcedureDefinition,
 } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
-
-import { schema as interviewsSchema } from '@/campaigns/schema/interviews.schema';
-import { z } from 'zod';
 
 export const schema = interviewsSchema.merge(
   z.object({

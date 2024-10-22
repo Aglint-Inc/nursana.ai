@@ -46,7 +46,7 @@ export interface DataTableProps<TData, TValue> {
   setSearch?: SetValues<any>;
 }
 
-import { SetValues } from 'nuqs';
+import type { SetValues } from 'nuqs';
 
 export function DataTable<TData, TValue>({
   columns,

@@ -4,11 +4,10 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { format, isSameDay } from 'date-fns';
 import { Check, Minus } from 'lucide-react';
 
+import { TAGS_COLOR } from '@/campaigns/constants/tagsColor';
 import type { ColumnSchema } from '@/campaigns/types';
 import { DataTableColumnHeader } from '@/components/fancy-data-table/data-table-column-header';
 import { Badge } from '@/components/ui/badge';
-
-import { TAGS_COLOR } from '@/campaigns/constants/tagsColor';
 
 export const COLUMNS: ColumnDef<ColumnSchema>[] = [
   {
@@ -23,6 +22,16 @@ export const COLUMNS: ColumnDef<ColumnSchema>[] = [
     accessorKey: 'name',
     header: 'Name',
     enableHiding: false,
+  },
+  {
+    accessorKey: 'job_title',
+    header: 'Job Title',
+    cell: ({ row }) => {
+      const value = row.getValue('job_title');
+      return (
+        <div className='max-w-[200px] truncate capitalize'>{`${value ?? '---'}`}</div>
+      );
+    },
   },
   {
     accessorKey: 'email',

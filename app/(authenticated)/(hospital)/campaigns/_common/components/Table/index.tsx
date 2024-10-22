@@ -1,9 +1,9 @@
 import { unstable_noStore } from 'next/cache';
 import { api, HydrateClient } from 'trpc/server';
 
+import { searchParamsCache } from '@/campaigns/constants/search-params';
 import type { PageProps } from '@/campaigns/types';
 
-import { searchParamsCache } from '@/campaigns/constants/search-params';
 import { SuspenseTable } from './suspenseTable';
 
 export const Table = async (props: PageProps) => {

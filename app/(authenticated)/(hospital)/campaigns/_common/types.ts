@@ -1,5 +1,5 @@
+import type { Interviews } from '@/campaigns/api/interviews';
 import type { Read } from '@/campaigns/api/read';
-import { Interviews } from '@/campaign/api/interviews';
 
 export type Campaigns = Read['output'];
 

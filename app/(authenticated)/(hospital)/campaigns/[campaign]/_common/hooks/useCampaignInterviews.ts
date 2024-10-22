@@ -2,8 +2,8 @@ import { useDeferredValue } from 'react';
 import { api } from 'trpc/client';
 
 import { type Interviews } from '@/campaign/api/interviews';
-
 import { useCampaignsParams } from '@/campaigns/hooks/useCampaignsParams';
+
 import { useCurrentCampaign } from './useCurrentCampaign';
 
 export const useCampaignInterviews = (): Interviews['output'] => {

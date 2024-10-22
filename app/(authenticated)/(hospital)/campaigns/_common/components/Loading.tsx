@@ -1,6 +1,5 @@
-import { Skeleton as DefaultSkeleton } from '@/components/ui/skeleton';
-
 import { Skeleton } from '@/campaigns/components/DataTable/skeleton';
+import { Skeleton as DefaultSkeleton } from '@/components/ui/skeleton';
 
 export const Loading = () => {
   return (

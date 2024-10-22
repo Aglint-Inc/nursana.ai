@@ -1,11 +1,11 @@
+import { INTERVIEW_STAGES } from '@/campaigns/constants/interview_stages';
+import { TAGS_COLOR } from '@/campaigns/constants/tagsColor';
 import type { ColumnSchema } from '@/campaigns/types';
 import type {
   DataTableFilterField,
   Option,
 } from '@/components/fancy-data-table/types';
 import { cn } from '@/utils/cn';
-import { TAGS_COLOR } from '@/campaigns/constants/tagsColor';
-import { INTERVIEW_STAGES } from '@/campaigns/constants/interview_stages';
 
 export const getFilterFields = (data: ColumnSchema[]) =>
   [

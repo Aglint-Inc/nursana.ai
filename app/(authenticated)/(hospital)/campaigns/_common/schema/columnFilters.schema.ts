@@ -1,9 +1,11 @@
 import { z } from 'zod';
-import { schema as interviewsSchema } from './interviews.schema';
+
 import {
   ARRAY_DELIMITER,
   RANGE_DELIMITER,
 } from '@/campaigns/constants/delimiters';
+
+import { schema as interviewsSchema } from './interviews.schema';
 
 export const schema = z.object({
   email: z.string().optional(),

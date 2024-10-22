@@ -1,10 +1,11 @@
 'use client';
 
-import { useInterviews } from '@/campaigns/hooks/useInterviews';
+import type { ColumnFiltersState } from '@tanstack/react-table';
+
+import { DataTable } from '@/campaigns/components/DataTable';
 import { COLUMNS } from '@/campaigns/constants/columns';
 import { useCampaignsParams } from '@/campaigns/hooks/useCampaignsParams';
-import { ColumnFiltersState } from '@tanstack/react-table';
-import { DataTable } from '@/campaigns/components/DataTable';
+import { useInterviews } from '@/campaigns/hooks/useInterviews';
 import { getFilterFields } from '@/campaigns/utils/getFilterFields';
 
 export const SuspenseTable = () => {
