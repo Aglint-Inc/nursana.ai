@@ -19,12 +19,7 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
       { count: 'exact' },
     )
     .eq('campaign_id', input.id)
-    .eq('hospital_id', ctx.hospital.id)
-    .limit(input.pageSize)
-    .range(
-      input.pageIndex * input.pageSize,
-      (input.pageIndex + 1) * input.pageSize,
-    );
+    .eq('hospital_id', ctx.hospital.id);
 
   if (input.email) query.eq('applicant.email', input.email);
 
@@ -44,18 +39,13 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
       code: 'NOT_FOUND',
       message: 'Interviews not found',
     });
-  let pageCount = Math.trunc(count / input.pageSize);
-  if (count % input.pageSize !== 0) pageCount++;
-  return {
-    data: data.map(
-      ({ applicant: { first_name, last_name, ...applicant }, ...rest }) => ({
-        ...applicant,
-        ...rest,
-        name: `${first_name} ${last_name}`.trim(),
-      }),
-    ),
-    pageCount,
-  };
+  return data.map(
+    ({ applicant: { first_name, last_name, ...applicant }, ...rest }) => ({
+      ...applicant,
+      ...rest,
+      name: `${first_name} ${last_name}`.trim(),
+    }),
+  );
 };
 
 export const interviews = hospitalProcedure.input(schema).query(query);

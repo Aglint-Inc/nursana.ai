@@ -17,8 +17,6 @@ export const Table = async (props: PageProps) => {
     interview_stage: search.interview_stage ?? undefined,
     job_title: search.job_title ?? undefined,
     name: search.name ?? undefined,
-    pageSize: search.pageSize ?? undefined,
-    pageIndex: search.pageIndex ?? undefined,
     updated_at: search.updated_at ?? undefined,
   });
 

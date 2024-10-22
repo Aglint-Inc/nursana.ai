@@ -42,7 +42,7 @@ export function DataTablePagination<TData>({
           value={`${table.getState().pagination.pageSize}`}
           onValueChange={(value) => {
             table.setPageSize(Number(value));
-            updatePageSearchParams({ pageSize: value });
+            updatePageSearchParams({ rows: value });
           }}
         >
           <SelectTrigger className='h-8 w-[70px]'>
@@ -77,6 +77,8 @@ export function DataTablePagination<TData>({
           variant='outline'
           className='h-8 w-8 p-0'
           onClick={() => {
+            const value = table.getState().pagination.pageIndex - 1;
+            updatePageSearchParams({ page: value });
             table.previousPage();
           }}
           disabled={!table.getCanPreviousPage()}
@@ -88,6 +90,8 @@ export function DataTablePagination<TData>({
           variant='outline'
           className='h-8 w-8 p-0'
           onClick={() => {
+            const value = table.getState().pagination.pageIndex + 1;
+            updatePageSearchParams({ page: value });
             table.nextPage();
           }}
           disabled={!table.getCanNextPage()}

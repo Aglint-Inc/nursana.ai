@@ -50,14 +50,13 @@ import { columns } from './columns';
 import { filterFields } from './constants';
 
 export function DataTable() {
-  const { data, pageCount } = useCampaignInterviews();
+  const data = useCampaignInterviews();
 
-  const {
-    search: { pageIndex, pageSize, ...rest },
-    setSearch,
-  } = useCampaignParams();
+  const { search: _search, setSearch } = useCampaignParams();
 
-  const defaultColumnFilters: ColumnFiltersState = Object.entries(rest)
+  const { page, rows, ...search } = _search;
+
+  const defaultColumnFilters: ColumnFiltersState = Object.entries(search)
     .map(([key, value]) => ({
       id: key,
       value,
@@ -69,8 +68,8 @@ export function DataTable() {
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState<PaginationState>({
-    pageIndex,
-    pageSize,
+    pageIndex: page,
+    pageSize: rows,
   });
   const [columnVisibility, setColumnVisibility] =
     useLocalStorage<VisibilityState>('data-table-visibility', {});
@@ -79,12 +78,9 @@ export function DataTable() {
     true,
   );
 
-  console.log(columnFilters, sorting, pagination, '🔥');
-
   const table = useReactTable({
     data,
     columns,
-    pageCount,
     state: { columnFilters, sorting, columnVisibility, pagination },
     onColumnVisibilityChange: setColumnVisibility,
     onColumnFiltersChange: setColumnFilters,
