@@ -7,8 +7,8 @@ interface SectionProps {
 const Section: FC<SectionProps> = ({ children }) => {
   return (
     <div className='w-full'>
-      <div className='px-6'>
-        <div className='container max-w-screen-xl'>{children}</div>
+      <div className='md:px-6'>
+        <div className='md:container md:px-0 px-4  max-w-screen-xl'>{children}</div>
       </div>
     </div>
   );
