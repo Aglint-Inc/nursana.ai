@@ -3,9 +3,6 @@ import type { PropsWithChildren } from 'react';
 
 import { SidebarTrigger } from '@/components/ui/sidebar';
 
-import { Details } from './Details';
-import { Title } from './Title';
-
 export const Body = (props: PropsWithChildren) => {
   return (
     <div className='flex w-full flex-col gap-2 p-4'>
@@ -36,7 +33,15 @@ const Left = () => {
 const Right = () => {
   return (
     <section className='flex flex-row items-center gap-2'>
-      <Details />
+      <></>
     </section>
+  );
+};
+
+const Title = () => {
+  return (
+    <h1 className='flex flex-row items-center gap-2 text-xl font-bold'>
+      All Campaigns
+    </h1>
   );
 };

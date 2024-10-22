@@ -10,11 +10,8 @@ import {
 } from 'nuqs/server';
 
 // Note: import from 'nuqs/server' to avoid the "use client" directive
-import {
-  ARRAY_DELIMITER,
-  INTERVIEW_STAGES,
-  RANGE_DELIMITER,
-} from '@/campaign/constants';
+import { ARRAY_DELIMITER, RANGE_DELIMITER } from './delimiters';
+import { INTERVIEW_STAGES } from './interview_stages';
 
 export const parseAsSort = createParser({
   parse(queryValue) {
@@ -29,17 +26,15 @@ export const parseAsSort = createParser({
 
 export const searchParamsParser = {
   // FILTERS
-  name: parseAsString,
   email: parseAsString,
-  job_title: parseAsString,
   interview_stage: parseAsArrayOf(
     parseAsStringLiteral(INTERVIEW_STAGES),
     ARRAY_DELIMITER,
   ),
-  updated_at: parseAsArrayOf(parseAsTimestamp, RANGE_DELIMITER),
   terms_accepted: parseAsArrayOf(parseAsBoolean, ARRAY_DELIMITER),
-  size: parseAsInteger.withDefault(10),
-  start: parseAsInteger.withDefault(0),
+  updated_at: parseAsArrayOf(parseAsTimestamp, RANGE_DELIMITER),
+  rows: parseAsInteger.withDefault(10),
+  page: parseAsInteger.withDefault(0),
 };
 
 export const searchParamsCache = createSearchParamsCache(searchParamsParser);

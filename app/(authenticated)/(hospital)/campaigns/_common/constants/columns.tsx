@@ -4,14 +4,12 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { format, isSameDay } from 'date-fns';
 import { Check, Minus } from 'lucide-react';
 
-import type { ColumnSchema } from '@/campaign/types';
+import { TAGS_COLOR } from '@/campaigns/constants/tagsColor';
+import type { ColumnSchema } from '@/campaigns/types';
 import { DataTableColumnHeader } from '@/components/fancy-data-table/data-table-column-header';
 import { Badge } from '@/components/ui/badge';
 
-import { tagsColor } from './constants';
-import { isArrayOfDates } from './utils';
-
-export const columns: ColumnDef<ColumnSchema>[] = [
+export const COLUMNS: ColumnDef<ColumnSchema>[] = [
   {
     accessorKey: 'id',
     header: 'ID',
@@ -24,6 +22,16 @@ export const columns: ColumnDef<ColumnSchema>[] = [
     accessorKey: 'name',
     header: 'Name',
     enableHiding: false,
+  },
+  {
+    accessorKey: 'job_title',
+    header: 'Job Title',
+    cell: ({ row }) => {
+      const value = row.getValue('job_title');
+      return (
+        <div className='max-w-[200px] truncate capitalize'>{`${value ?? '---'}`}</div>
+      );
+    },
   },
   {
     accessorKey: 'email',
@@ -42,14 +50,14 @@ export const columns: ColumnDef<ColumnSchema>[] = [
         return (
           <div className='flex flex-wrap gap-1'>
             {value.map((v) => (
-              <Badge key={v} className={tagsColor[v].badge}>
+              <Badge key={v} className={TAGS_COLOR[v].badge}>
                 {v}
               </Badge>
             ))}
           </div>
         );
       }
-      return <Badge className={tagsColor[value].badge}>{value}</Badge>;
+      return <Badge className={TAGS_COLOR[value].badge}>{value}</Badge>;
     },
     filterFn: (row, id, value) => {
       const array = row.getValue(id) as string[];
@@ -107,3 +115,8 @@ export const columns: ColumnDef<ColumnSchema>[] = [
     },
   },
 ];
+
+function isArrayOfDates(arr: any): arr is Date[] {
+  if (!Array.isArray(arr)) return false;
+  return arr.every((item) => item instanceof Date);
+}

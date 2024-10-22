@@ -1,19 +1,18 @@
-'use client';
+import { unstable_noStore } from 'next/cache';
 
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { Body } from '@/campaigns/components/Body';
+import { Table } from '@/campaigns/components/Table';
+import { SidebarInset } from '@/components/ui/sidebar';
 
-import { useCampaigns } from './_common/hooks/useCampaigns';
-
-const Page = () => {
-  const campaigns = useCampaigns();
-  const router = useRouter();
-  useEffect(() => {
-    if (campaigns.length) {
-      router.push(`/campaigns/${campaigns[0].id}`);
-    }
-  }, [campaigns]);
-  return null;
+const Page = (props: Parameters<typeof Table>['0']) => {
+  unstable_noStore();
+  return (
+    <SidebarInset>
+      <Body>
+        <Table {...props} />
+      </Body>
+    </SidebarInset>
+  );
 };
 
 export default Page;

@@ -5,7 +5,6 @@ import type {
   ColumnFiltersState,
   PaginationState,
   SortingState,
-  Table as TTable,
   VisibilityState,
 } from '@tanstack/react-table';
 import {
@@ -18,10 +17,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useQueryStates } from 'nuqs';
 import * as React from 'react';
 
-import { columnFilterSchema } from '@/campaign/schema/columnFilterSchema';
+import { schema } from '@/campaigns/schema/columnFilters.schema';
 import { DataTableFilterCommand } from '@/components/fancy-data-table/data-table-filter-command';
 import { DataTableFilterControls } from '@/components/fancy-data-table/data-table-filter-controls';
 import { DataTablePagination } from '@/components/fancy-data-table/data-table-pagination';
@@ -38,36 +36,41 @@ import {
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { cn } from '@/utils/cn';
 
-import { searchParamsParser } from './search-params';
-
 export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   defaultColumnFilters?: ColumnFiltersState;
   // TODO: add sortingColumnFilters
   filterFields?: DataTableFilterField<TData>[];
+  paginationState?: PaginationState;
+  setSearch?: SetValues<any>;
 }
+
+import type { SetValues } from 'nuqs';
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   defaultColumnFilters = [],
   filterFields = [],
+  paginationState = {
+    pageIndex: 0,
+    pageSize: 20,
+  },
+  setSearch = (() => {}) as any as SetValues<any>,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] =
-    React.useState<ColumnFiltersState>(defaultColumnFilters);
+    React.useState(defaultColumnFilters);
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [pagination, setPagination] = React.useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
+  const [pagination, setPagination] =
+    React.useState<PaginationState>(paginationState);
   const [columnVisibility, setColumnVisibility] =
     useLocalStorage<VisibilityState>('data-table-visibility', {});
   const [controlsOpen, setControlsOpen] = useLocalStorage(
     'data-table-controls',
     true,
   );
-  const [_, setSearch] = useQueryStates(searchParamsParser);
 
   const table = useReactTable({
     data,
@@ -82,9 +85,11 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getFacetedUniqueValues: (table: TTable<TData>, columnId: string) => () => {
-      const map = getFacetedUniqueValues<TData>()(table, columnId)();
-      // TODO: it would be great to do it dynamically, if we recognize the row to be Array.isArray
+    getFacetedUniqueValues: (table, columnId: string) => () => {
+      const map = getFacetedUniqueValues<(typeof data)[number]>()(
+        table,
+        columnId,
+      )();
       if (['interview_stage'].includes(columnId)) {
         const rowValues = table
           .getGlobalFacetedRowModel()
@@ -117,8 +122,6 @@ export function DataTable<TData, TValue>({
       {} as Record<string, unknown>,
     );
 
-    console.log({ search });
-
     setSearch(search);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columnFilters]);
@@ -142,7 +145,7 @@ export function DataTable<TData, TValue>({
       <div className='flex max-w-full flex-1 flex-col gap-4 overflow-hidden p-1'>
         <DataTableFilterCommand
           table={table}
-          schema={columnFilterSchema}
+          schema={schema}
           filterFields={filterFields}
         />
         <DataTableToolbar
