@@ -13,6 +13,7 @@ import { usePathname } from 'next/navigation';
 // import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import {
   Sidebar,
   SidebarContent,
@@ -29,6 +30,7 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 import { supabase } from '@/utils/supabase/client';
+
 
 const items = [
   {
@@ -111,18 +113,27 @@ export function NurseSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <Button
+                className='p-0'
+                onClick={() => {
+                  supabase.auth.signOut();
+                  localStorage.clear();
+                  window.location.reload();
+                }}
+                variant={'ghost'}
+              >
+                <LogOut className='ml-2 text-red-600' />
+                <span className='text-red-600'>Logout</span>
+              </Button>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+
+        <Separator />
         <footer className='flex w-full flex-col gap-2 p-3 text-xs text-muted-foreground'>
-          <Button
-            onClick={() => {
-              supabase.auth.signOut();
-              localStorage.clear();
-              window.location.reload();
-            }}
-            variant={'ghost'}
-          >
-            <span>Logout</span>
-            <LogOut className='ml-2' />
-          </Button>
           <div className='flex gap-2'>
             <p>Powered by</p>
             <Link
