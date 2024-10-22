@@ -4,6 +4,7 @@ import { Sparkle, User } from 'lucide-react';
 import { useUserData } from '@/applicant/hooks/useUserData';
 import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { Card, CardContent } from '@/components/ui/card';
+import { useBucket } from '@/hooks/use-bucket';
 
 interface Message {
   role: 'agent' | 'user';
@@ -33,20 +34,31 @@ export function InterviewTranscript() {
       ? transcriptData
       : undefined;
 
+  const bucketName = 'videos';
+  // get file name
+  const fileName =
+    userData.analysis?.video_url?.split(`${bucketName}/`).pop() ?? '';
+  // get file url
+  const { data: videoUrl, isPending } = useBucket(bucketName, fileName);
+
   if (!transcript || transcript.length === 0) {
     return <div>No transcript available.</div>;
   }
-
   return (
     <div className='min-h-[calc(100vh-164px)]'>
       <div className='mb-6 text-xl font-medium'>Interview & Transcript</div>
       <div className='flex flex-col gap-12'>
         <Card className='overflow-hidden border-none bg-secondary shadow-none'>
           <CardContent className='p-0'>
-            <VideoPlayer
-              videoUrl={userData.analysis?.video_url ?? ''}
-              audioUrl={userData.analysis?.audio_url ?? ''}
-            />
+            {isPending ? (
+              'loading'
+            ) : (
+              <VideoPlayer
+                // videoUrl={userData.analysis?.video_url ?? ''}
+                videoUrl={videoUrl || ''}
+                audioUrl={userData.analysis?.audio_url ?? ''}
+              />
+            )}
           </CardContent>
         </Card>
 
