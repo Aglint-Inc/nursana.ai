@@ -34,13 +34,20 @@ export function InterviewTranscript() {
       ? transcriptData
       : undefined;
 
-  const bucketName = 'videos';
+  const videoBucketName = 'videos';
   // get file name
   const fileName =
-    userData.analysis?.video_url?.split(`${bucketName}/`).pop() ?? '';
+    userData.analysis?.video_url?.split(`${videoBucketName}/`).pop() ?? '';
   // get file url
-  const { data: videoUrl, isPending } = useBucket(bucketName, fileName);
-
+  const { data: videoUrl, isPending } = useBucket(videoBucketName, fileName);
+  console.log(videoUrl, userData.analysis?.video_url);
+  // const audioBucketName = 'audio';
+  // get file name
+  // const audioFileName =
+  //   userData.analysis?.audio_url?.split(`${audioBucketName}/`).pop() ?? '';
+  // get file url
+  // const { data: audioUrl } = useBucket(audioBucketName, audioFileName);
+  // console.log(audioFileName, userData.analysis?.audio_url, audioUrl);
   if (!transcript || transcript.length === 0) {
     return <div>No transcript available.</div>;
   }

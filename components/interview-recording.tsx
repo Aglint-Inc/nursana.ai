@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 'use client';
 import { StopCircle } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -122,10 +123,9 @@ function InterviewRecording({
                       role='button'
                       tabIndex={0}
                       className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white/20 p-0 text-white duration-200 hover:bg-red-500 hover:text-white'
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          setShowStopInterviewModal(true);
-                        }
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowStopInterviewModal(true);
                       }}
                     >
                       <StopCircle size={24} strokeWidth={1.5} />
