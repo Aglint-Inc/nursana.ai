@@ -39,7 +39,7 @@ export default async function InterviewPage({
   const interview = await api.interview.getInterviewDetails({
     interview_id: params.id,
   });
-
+  if (!interview) return notFound();
   const normalizedStage = normalizeStage(interview.interview_stage);
   let redirectStage = normalizedStage;
 
