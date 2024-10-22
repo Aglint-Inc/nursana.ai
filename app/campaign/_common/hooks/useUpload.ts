@@ -124,7 +124,10 @@ export const useUploadCampaign = () => {
         if (error) {
           throw new Error('Error creating interview');
         }
-        router.push('/auth/check-email?type=interview');
+        router.push(
+          '/auth/check-email?type=interview&email=' +
+            encodeURI(getValues().email),
+        );
       } else {
         throw new Error('Error creating interview');
       }

@@ -18,7 +18,7 @@ function UserLanding() {
   const InterviewScore = [
     {
       name: 'Score',
-      value: analysis.structured_analysis.overall_score,
+      value: analysis.structured_analysis?.overall_score || 0,
       fill: '#8b5cf6',
       path: '#ddd6fe',
     },
