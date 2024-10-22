@@ -119,9 +119,13 @@ function InterviewRecording({
                   </div> */}
                   <div className='flex gap-3 rounded-full bg-black p-2'>
                     <div
+                      role='button'
+                      tabIndex={0}
                       className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white/20 p-0 text-white duration-200 hover:bg-red-500 hover:text-white'
-                      onClick={() => {
-                        setShowStopInterviewModal(true);
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          setShowStopInterviewModal(true);
+                        }
                       }}
                     >
                       <StopCircle size={24} strokeWidth={1.5} />
@@ -131,7 +135,7 @@ function InterviewRecording({
                       className='rounded-full bg-gray-700'
                     />
                     <div className='flex h-full items-center'>
-                      <span className='mr-2 text-white select-none'>
+                      <span className='mr-2 select-none text-white'>
                         {formatTime(timer)}/{formatTime(interviewDuration * 60)}
                       </span>
                     </div>
