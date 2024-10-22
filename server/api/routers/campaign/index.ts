@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { createTRPCRouter } from '../../trpc';
 import { campaignCheck } from './check';
 import { userCheck } from './check_user';

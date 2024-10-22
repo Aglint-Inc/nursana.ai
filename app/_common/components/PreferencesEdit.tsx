@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { api } from 'trpc/client';
 
-import { useUserData } from '@/authenicated/hooks/useUserData';
+import { useUserData } from '@/applicant/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 

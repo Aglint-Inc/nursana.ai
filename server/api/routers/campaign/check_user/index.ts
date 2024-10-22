@@ -1,8 +1,9 @@
-/* eslint-disable no-console */
-import { z } from "zod";
+import 'server-only'; /* eslint-disable no-console */
 
-import { type PublicProcedure, publicProcedure } from "@/server/api/trpc";
-import { createPublicClient } from "@/server/db";
+import { z } from 'zod';
+
+import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
+import { createPublicClient } from '@/server/db';
 
 export const schema = z.object({
   email: z.string().email(),
@@ -14,16 +15,16 @@ const mutation = async ({
 }: PublicProcedure<typeof schema>) => {
   const db = createPublicClient();
   const user = (
-    await db.from("applicant").select("*").eq("email", email).throwOnError()
+    await db.from('applicant').select('*').eq('email', email).throwOnError()
   ).data;
 
   const resume = user?.length
     ? (
         await db
-          .from("resume")
-          .select("*")
-          .eq("campaign_id", campaign_id)
-          .eq("user_id", user[0].id)
+          .from('resume')
+          .select('*')
+          .eq('campaign_id', campaign_id)
+          .eq('user_id', user[0].id)
           .throwOnError()
       ).data
     : null;

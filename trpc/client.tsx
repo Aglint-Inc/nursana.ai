@@ -1,25 +1,25 @@
-"use client";
-import { type QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { loggerLink } from "@trpc/client/links/loggerLink";
+'use client';
+import { type QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { loggerLink } from '@trpc/client/links/loggerLink';
 import {
   createTRPCReact,
   unstable_httpBatchStreamLink,
-} from "@trpc/react-query";
-import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
-import { useState } from "react";
-import superjson from "superjson";
+} from '@trpc/react-query';
+import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
+import { useState } from 'react';
+import superjson from 'superjson';
 
-import { useLogout } from "@/common/hooks/useLogout";
+import { useLogout } from '@/authenticated/hooks/useLogout';
 
-import type { AppRouter } from "../server/api/root";
-import { createQueryClient } from "./query-client";
+import type { AppRouter } from '../server/api/root';
+import { createQueryClient } from './query-client';
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
 const getQueryClient = (
-  logout?: (_queryClient: QueryClient) => Promise<void>
+  logout?: (_queryClient: QueryClient) => Promise<void>,
 ) => {
-  if (typeof window === "undefined") {
+  if (typeof window === 'undefined') {
     // Server: always make a new query client
     return createQueryClient();
   }
@@ -53,24 +53,24 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
       links: [
         loggerLink({
           enabled: (opts) =>
-            process.env.NODE_ENV === "development" ||
-            (opts.direction === "down" && opts.result instanceof Error),
+            process.env.NODE_ENV === 'development' ||
+            (opts.direction === 'down' && opts.result instanceof Error),
         }),
         unstable_httpBatchStreamLink({
           url: `${url}/api/trpc`,
           transformer: superjson,
-          methodOverride: "POST",
+          methodOverride: 'POST',
           headers: () => {
             const headers = new Headers();
-            headers.set("x-trpc-source", "nextjs-react");
+            headers.set('x-trpc-source', 'nextjs-react');
             return headers;
           },
         }),
       ],
-    })
+    }),
   );
 
-  const showRQDevTools = url.startsWith("http://localhost:");
+  const showRQDevTools = url.startsWith('http://localhost:');
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -83,7 +83,7 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
 }
 
 function getBaseUrl() {
-  if (typeof window !== "undefined") return window.location.origin;
+  if (typeof window !== 'undefined') return window.location.origin;
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
   return `http://localhost:${process.env.PORT ?? 3000}`;
 }

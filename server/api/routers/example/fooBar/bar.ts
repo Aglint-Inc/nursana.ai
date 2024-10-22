@@ -1,8 +1,9 @@
-/* eslint-disable no-console */
-import { z } from "zod";
+import 'server-only'; /* eslint-disable no-console */
 
-import { type PublicProcedure, publicProcedure } from "@/server/api/trpc";
-import { createPublicClient } from "@/server/db";
+import { z } from 'zod';
+
+import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
+import { createPublicClient } from '@/server/db';
 
 export const barSchema = z.object({ barId: z.string().uuid() });
 

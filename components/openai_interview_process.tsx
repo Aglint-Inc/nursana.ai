@@ -1,7 +1,7 @@
 'use client';
 
 import { RealtimeClient } from '@openai/realtime-api-beta';
-import { type ResumeDetailsType } from 'app/(authenticated)/profile/_common/types';
+import { type ResumeDetailsType } from 'app/(authenticated)/(applicant)/profile/_common/types';
 import {
   useUpdateInterviews,
   useUpdateInterviewsAnalysis,

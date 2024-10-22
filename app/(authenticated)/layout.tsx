@@ -1,22 +1,11 @@
-// import Footer from '@/components/footer';
-// import Navbar from '@/components/navbar';
+import { unstable_noStore } from 'next/cache';
+import type { PropsWithChildren } from 'react';
+import { api, HydrateClient } from 'trpc/server';
 
-import { SidebarProvider } from '@/components/ui/sidebar';
+const Layout = (props: PropsWithChildren) => {
+  unstable_noStore();
+  void api.authenticated.role.prefetch();
+  return <HydrateClient>{props.children}</HydrateClient>;
+};
 
-import { NurseSidebar } from './_common/components/nurse-sidebar';
-
-export default function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <SidebarProvider>
-        <NurseSidebar />
-        <main className='w-full'>
-          <div className='max-w-3xl mx-auto py-12'>
-          {children}
-          </div>
-          
-          </main>
-      </SidebarProvider>
-    </>
-  );
-}
+export default Layout;
