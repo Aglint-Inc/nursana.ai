@@ -2,6 +2,7 @@
 'use client';
 import { StopCircle } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react';
+import { cn } from 'src/utils/cn';
 
 import UIDialog from '@/common/components/UIDialog';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
@@ -58,6 +59,7 @@ function InterviewRecording({
     return () => clearInterval(interval);
   }, [isInterviewStarted, interviewDuration, handleStopInterview]);
   const [showStopInterviewModal, setShowStopInterviewModal] = useState(false);
+  const warningTime = 3 * 60; // 3 minutes
   return (
     <>
       <UIDialog
@@ -104,20 +106,6 @@ function InterviewRecording({
             {isInterviewStarted && (
               <>
                 <div className='absolute bottom-0 left-0 flex w-full justify-center gap-2 bg-gradient-to-t from-[#00000050] to-transparent py-4'>
-                  {/* <div className='flex h-[36px] items-center justify-center rounded-md px-4 text-sm text-red-600'>
-                    <StopCircle
-                      onClick={() => {
-                        setShowStopInterviewModal(true);
-                      }}
-                      className='mr-2 h-6 w-6'
-                      strokeWidth={1.2}
-                    />
-                    <div className='h-6 w-[1px] bg-gray-300' />
-
-                    <span className='ml-2'>
-                      {formatTime(timer)}/{formatTime(interviewDuration * 60)}
-                    </span>
-                  </div> */}
                   <div className='flex gap-3 rounded-full bg-black p-2'>
                     <div
                       role='button'
@@ -135,7 +123,14 @@ function InterviewRecording({
                       className='rounded-full bg-gray-700'
                     />
                     <div className='flex h-full items-center'>
-                      <span className='mr-2 select-none text-white'>
+                      <span
+                        className={cn(
+                          'mr-2 select-none text-white',
+                          timer < warningTime
+                            ? 'animate-pulse text-red-500'
+                            : 'text-white',
+                        )}
+                      >
                         {formatTime(timer)}/{formatTime(interviewDuration * 60)}
                       </span>
                     </div>
