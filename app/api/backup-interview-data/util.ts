@@ -47,6 +47,10 @@ export async function setInterviewAnalysis(
     audio_url: string;
     call_analysis: retellAiGetCallType['call_analysis'];
     transcript_json: { role: string; content: string }[];
+    structured_analysis?: {
+      parsed: boolean;
+      failed_reason: 'NO_REPLY' | 'PREMATURELY_CALL_ENDED';
+    };
   },
 ) {
   return (
@@ -111,7 +115,7 @@ export function getDurationInMinutes(
       throw new Error('End timestamp is earlier than start timestamp');
     }
 
-    const durationMinutes = durationMs / (1000 * 60);
+    const durationMinutes = Number((durationMs / (1000 * 60)).toFixed(1));
     return durationMinutes;
   } catch (error) {
     console.error('Error calculating call duration:', error);

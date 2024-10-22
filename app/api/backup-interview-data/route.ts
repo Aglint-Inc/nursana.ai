@@ -38,15 +38,34 @@ export async function POST(
     recording_url: audio_url,
     transcript_object: tempTranscript,
   } = await retellGetCallDetails(call_id);
+  const duration_minutes =
+    getDurationInMinutes(start_timestamp, end_timestamp) || 0;
   const call_analysis = {
     ...temp_call_analysis,
-    duration_minutes: getDurationInMinutes(start_timestamp, end_timestamp),
+    duration_minutes,
   };
   const transcript_object =
     tempTranscript?.map((item) => ({
       role: item.role,
       content: item.content,
     })) || [];
+  let structured_analysis:
+    | {
+        parsed: boolean;
+        failed_reason: 'NO_REPLY' | 'PREMATURELY_CALL_ENDED';
+      }
+    | undefined;
+  if (duration_minutes < 5) {
+    structured_analysis = {
+      parsed: false,
+      failed_reason: 'PREMATURELY_CALL_ENDED',
+    };
+  } else if (transcript_object.length <= 1) {
+    structured_analysis = {
+      parsed: false,
+      failed_reason: 'NO_REPLY',
+    };
+  }
   if (audio_url?.trim().length) {
     const { extension, mimeType } = getMimeType(audio_url);
     // Fetch the audio file from the provided URL
@@ -87,6 +106,7 @@ export async function POST(
           role: item.role,
           content: item.content,
         })) || [],
+      structured_analysis,
     });
     return NextResponse.json({
       success: true,
