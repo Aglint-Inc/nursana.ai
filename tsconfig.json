@@ -31,8 +31,10 @@
       "@/supabase-types/*": ["src/supabase-types/*"],
       "@/server/*": ["./server/*"],
       "@/hooks/*": ["./hooks/*"],
-      "@/audio/*": [
-        "./lib/audio/*"
+      "@/audio/*": ["./lib/audio/*"],
+      "@/applicant/*": ["./app/(authenticated)/(applicant)/_common/*"],
+      "@/dashboard/*": [
+        "./app/(authenticated)/(applicant)/dashboard/_common/*"
       ],
       "@/authenicated/*": ["./app/(authenticated)/_common/*"]
     }
