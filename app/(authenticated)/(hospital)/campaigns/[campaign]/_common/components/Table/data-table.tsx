@@ -18,7 +18,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useQueryStates } from 'nuqs';
 import * as React from 'react';
 
 import { columnFilterSchema } from '@/campaign/schema/columnFilterSchema';
@@ -37,8 +36,7 @@ import {
 } from '@/components/ui/table';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { cn } from '@/utils/cn';
-
-import { searchParamsParser } from './search-params';
+import { useCampaignParams } from '@/campaign/hooks/useCampaignParams';
 
 export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -67,7 +65,7 @@ export function DataTable<TData, TValue>({
     'data-table-controls',
     true,
   );
-  const [_, setSearch] = useQueryStates(searchParamsParser);
+  const { setSearch } = useCampaignParams();
 
   const table = useReactTable({
     data,
@@ -116,8 +114,6 @@ export function DataTable<TData, TValue>({
       },
       {} as Record<string, unknown>,
     );
-
-    console.log({ search });
 
     setSearch(search);
     // eslint-disable-next-line react-hooks/exhaustive-deps

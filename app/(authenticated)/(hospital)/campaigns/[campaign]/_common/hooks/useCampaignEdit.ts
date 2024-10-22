@@ -2,10 +2,10 @@ import { api } from 'trpc/client';
 
 import type { Edit } from '@/campaign/api/edit';
 
-import { useCampaignParams } from './useCurrentCampaign';
+import { useCurrentCampaign } from './useCurrentCampaign';
 
 export const useCampaignEdit = () => {
-  const { campaign } = useCampaignParams();
+  const { campaign } = useCurrentCampaign();
   const mutation =
     api.authenticated.hospital.campaigns.campaign.edit.useMutation();
   const mutate = (

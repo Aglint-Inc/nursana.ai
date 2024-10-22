@@ -1,3 +1,7 @@
+import type { PageProps } from '@/campaign/types';
+
+import { searchParamsCache } from './search-params';
+
 export function isArrayOfNumbers(arr: any): arr is number[] {
   if (!Array.isArray(arr)) return false;
   return arr.every((item) => typeof item === 'number');
@@ -17,3 +21,6 @@ export function isArrayOfBooleans(arr: any): arr is boolean[] {
   if (!Array.isArray(arr)) return false;
   return arr.every((item) => typeof item === 'boolean');
 }
+
+export const parseSearchParams = (props: PageProps) =>
+  searchParamsCache.parse(props.searchParams);
