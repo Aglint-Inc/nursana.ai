@@ -1,7 +1,7 @@
 'use client';
 import { Sparkle, User } from 'lucide-react';
 
-import { useUserData } from '@/authenticated/hooks/useUserData';
+import { useUserData } from '@/applicant/hooks/useUserData';
 import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { Card, CardContent } from '@/components/ui/card';
 

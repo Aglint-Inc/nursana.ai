@@ -3,7 +3,6 @@ import { api, type RouterInputs, type Unvoid } from 'trpc/client';
 import { toast } from '@/hooks/use-toast';
 
 export const useUserData = () => api.user.get_data.useSuspenseQuery()[0];
-export const useUserDataQuery = () => api.user.get_data.useQuery();
 
 export const useUpdateUserData = () => {
   const utils = api.useUtils();
