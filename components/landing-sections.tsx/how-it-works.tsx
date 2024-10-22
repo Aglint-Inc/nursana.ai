@@ -9,21 +9,20 @@ import StepperCard from "../stepperCard";
 function HowItWorks() {
   return (
     <Section>
-      <div className="flex flex-col gap-20">
-        <div className="max-w-screen-xl flex flex-col gap-2 items-center">
-          <h1 className="text-5xl font-medium">
-            Nursana connects you with top-tier opportunities,
+      <div className="flex flex-col pt-10 gap-10 md:gap-20">
+        <div className="max-w-screen-xl flex flex-col gap-2 md:items-center text-left md:text-center md:px-0">
+          <h1 className="text-3xl md:text-5xl font-medium ">
+            Nursana connects you with top-tier opportunities, opening doors you didn’t even know existed.
           </h1>
-          <h1 className="text-5xl font-medium">
-            opening doors you didn’t even know existed.
-          </h1>
+            
+   
         </div>
         <div>
-          <div className="grid grid-cols-3 gap-28">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-28">
             <StepperCard
               heading="Upload your resume"
               description=" Add your resume, choose your ideal job title, and get
-                interview-ready.This helps us match you with the right
+                interview-ready. This helps us match you with the right
                 opportunities!"
               icon={UploadCloud}
               color="blue"

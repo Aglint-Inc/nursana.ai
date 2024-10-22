@@ -42,7 +42,12 @@ export async function POST(
     );
 
     const overallScore = calculateOverallScore(scoreObject);
-    const finalObject = { ...scoreObject, overall_score: overallScore };
+    const finalObject = {
+      ...scoreObject,
+      overall_score: overallScore,
+      parsed: true,
+      failed_reason: null,
+    };
     let savedData;
     if (!test) {
       savedData = await saveToDB(supabase, analysis_id, {

@@ -53,6 +53,7 @@ export const AudioPlayer = forwardRef(function AudioPlayer(
       if (isPlaying) {
         audioRef.current.pause();
         videoRef.current?.pause();
+        setCurrentTime(0);
       } else {
         audioRef.current.play();
         videoRef.current?.play();

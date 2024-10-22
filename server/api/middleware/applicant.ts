@@ -9,14 +9,14 @@ export const applicant = auth.unstable_pipe(
     if (role !== 'applicant')
       throw new TRPCError({
         code: 'FORBIDDEN',
-        message: 'Unauthorizedd',
+        message: 'Unauthorized',
       });
     const db = createPrivateClient();
     const applicant = (
       await db
         .from('applicant')
         .select()
-        .eq('user_id', ctx.user_id)
+        .eq('id', ctx.user_id)
         .single()
         .throwOnError()
     ).data;
