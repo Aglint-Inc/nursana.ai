@@ -4,14 +4,13 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { format, isSameDay } from 'date-fns';
 import { Check, Minus } from 'lucide-react';
 
-import type { ColumnSchema } from '@/campaign/types';
+import type { ColumnSchema } from '@/campaigns/types';
 import { DataTableColumnHeader } from '@/components/fancy-data-table/data-table-column-header';
 import { Badge } from '@/components/ui/badge';
 
-import { tagsColor } from './constants';
-import { isArrayOfDates } from './utils';
+import { TAGS_COLOR } from '@/campaigns/constants/tagsColor';
 
-export const columns: ColumnDef<ColumnSchema>[] = [
+export const COLUMNS: ColumnDef<ColumnSchema>[] = [
   {
     accessorKey: 'id',
     header: 'ID',
@@ -42,14 +41,14 @@ export const columns: ColumnDef<ColumnSchema>[] = [
         return (
           <div className='flex flex-wrap gap-1'>
             {value.map((v) => (
-              <Badge key={v} className={tagsColor[v].badge}>
+              <Badge key={v} className={TAGS_COLOR[v].badge}>
                 {v}
               </Badge>
             ))}
           </div>
         );
       }
-      return <Badge className={tagsColor[value].badge}>{value}</Badge>;
+      return <Badge className={TAGS_COLOR[value].badge}>{value}</Badge>;
     },
     filterFn: (row, id, value) => {
       const array = row.getValue(id) as string[];
@@ -107,3 +106,8 @@ export const columns: ColumnDef<ColumnSchema>[] = [
     },
   },
 ];
+
+function isArrayOfDates(arr: any): arr is Date[] {
+  if (!Array.isArray(arr)) return false;
+  return arr.every((item) => item instanceof Date);
+}

@@ -19,9 +19,7 @@ import {
 } from '@tanstack/react-table';
 import * as React from 'react';
 
-import { useCampaignInterviews } from '@/campaign/hooks/useCampaignInterviews';
-import { useCampaignParams } from '@/campaign/hooks/useCampaignParams';
-import { columnFilterSchema } from '@/campaign/schema/columnFilterSchema';
+import { schema } from '@/campaigns/schema/columnFilters.schema';
 import { DataTableFilterCommand } from '@/components/fancy-data-table/data-table-filter-command';
 import { DataTableFilterControls } from '@/components/fancy-data-table/data-table-filter-controls';
 import { DataTablePagination } from '@/components/fancy-data-table/data-table-pagination';
@@ -44,41 +42,35 @@ export interface DataTableProps<TData, TValue> {
   defaultColumnFilters?: ColumnFiltersState;
   // TODO: add sortingColumnFilters
   filterFields?: DataTableFilterField<TData>[];
+  paginationState?: PaginationState;
+  setSearch?: SetValues<any>;
 }
 
-import { columns } from './columns';
-import { useFilterFields } from '@/campaign/hooks/useFilterFields';
+import { SetValues } from 'nuqs';
 
-export function DataTable() {
-  const data = useCampaignInterviews();
-
-  const { search: _search, setSearch } = useCampaignParams();
-
-  const { page, rows, ...search } = _search;
-
-  const defaultColumnFilters: ColumnFiltersState = Object.entries(search)
-    .map(([key, value]) => ({
-      id: key,
-      value,
-    }))
-    .filter(({ value }) => value ?? undefined);
-
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  defaultColumnFilters = [],
+  filterFields = [],
+  paginationState = {
+    pageIndex: 0,
+    pageSize: 20,
+  },
+  setSearch = (() => {}) as any as SetValues<any>,
+}: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] =
     React.useState(defaultColumnFilters);
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [pagination, setPagination] = React.useState<PaginationState>({
-    pageIndex: page,
-    pageSize: rows,
-  });
+  const [pagination, setPagination] =
+    React.useState<PaginationState>(paginationState);
   const [columnVisibility, setColumnVisibility] =
     useLocalStorage<VisibilityState>('data-table-visibility', {});
   const [controlsOpen, setControlsOpen] = useLocalStorage(
     'data-table-controls',
     true,
   );
-
-  const filterFields = useFilterFields();
 
   const table = useReactTable({
     data,
@@ -153,7 +145,7 @@ export function DataTable() {
       <div className='flex max-w-full flex-1 flex-col gap-4 overflow-hidden p-1'>
         <DataTableFilterCommand
           table={table}
-          schema={columnFilterSchema}
+          schema={schema}
           filterFields={filterFields}
         />
         <DataTableToolbar

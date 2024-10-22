@@ -2,21 +2,13 @@ import 'server-only';
 
 import { TRPCError } from '@trpc/server';
 
+import { schema } from '@/campaigns/schema/interviews.schema';
 import {
   type HospitalProcedure,
   hospitalProcedure,
   type ProcedureDefinition,
 } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
-
-import { schema as interviewsSchema } from '@/campaigns/schema/interviews.schema';
-import { z } from 'zod';
-
-export const schema = interviewsSchema.merge(
-  z.object({
-    id: z.string(),
-  }),
-);
 
 const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
   const db = createPrivateClient();
@@ -26,7 +18,6 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
       'id, interview_stage, updated_at, applicant!interviews_user_id_fkey!inner(first_name, last_name, email, job_title, expected_salary, terms_accepted)',
       { count: 'exact' },
     )
-    .eq('campaign_id', input.id)
     .eq('hospital_id', ctx.hospital.id);
 
   if (input.interview_stage && input.interview_stage.length)

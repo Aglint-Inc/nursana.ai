@@ -1,3 +1,3 @@
-import { Loading } from '@/campaign/components/Loading';
+import { Loading } from '@/campaigns/components/Loading';
 
 export default Loading;

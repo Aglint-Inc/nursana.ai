@@ -3,12 +3,12 @@ import { api } from 'trpc/client';
 
 import { type Interviews } from '@/campaign/api/interviews';
 
-import { useCampaignParams } from './useCampaignParams';
+import { useCampaignsParams } from '@/campaigns/hooks/useCampaignsParams';
 import { useCurrentCampaign } from './useCurrentCampaign';
 
 export const useCampaignInterviews = (): Interviews['output'] => {
   const { campaign } = useCurrentCampaign();
-  const { search: _search } = useCampaignParams();
+  const { search: _search } = useCampaignsParams();
   const search = useDeferredValue(_search);
   return api.authenticated.hospital.campaigns.campaign.interviews.useSuspenseQuery(
     {

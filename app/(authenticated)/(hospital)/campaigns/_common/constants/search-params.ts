@@ -10,11 +10,8 @@ import {
 } from 'nuqs/server';
 
 // Note: import from 'nuqs/server' to avoid the "use client" directive
-import {
-  ARRAY_DELIMITER,
-  INTERVIEW_STAGES,
-  RANGE_DELIMITER,
-} from '@/campaign/constants';
+import { ARRAY_DELIMITER, RANGE_DELIMITER } from './delimiters';
+import { INTERVIEW_STAGES } from './interview_stages';
 
 export const parseAsSort = createParser({
   parse(queryValue) {

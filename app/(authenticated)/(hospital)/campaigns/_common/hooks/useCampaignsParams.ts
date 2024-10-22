@@ -1,8 +1,8 @@
 import { useQueryStates } from 'nuqs';
 
-import { searchParamsParser } from '../components/Table/search-params';
+import { searchParamsParser } from '@/campaigns/constants/search-params';
 
-export const useCampaignParams = () => {
+export const useCampaignsParams = () => {
   const [search, setSearch] = useQueryStates(searchParamsParser);
   return {
     search,

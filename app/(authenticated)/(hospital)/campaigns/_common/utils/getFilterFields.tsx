@@ -1,17 +1,11 @@
-import {
+import type { ColumnSchema } from '@/campaigns/types';
+import type {
   DataTableFilterField,
   Option,
 } from '@/components/fancy-data-table/types';
-import { useCampaignInterviews } from './useCampaignInterviews';
-import { tagsColor } from '@/campaign/components/Table/constants';
 import { cn } from '@/utils/cn';
-import { INTERVIEW_STAGES } from '@/campaign/constants';
-import { ColumnSchema } from '@/campaign/types';
-
-export const useFilterFields = () => {
-  const data = useCampaignInterviews();
-  return getFilterFields(data);
-};
+import { TAGS_COLOR } from '@/campaigns/constants/tagsColor';
+import { INTERVIEW_STAGES } from '@/campaigns/constants/interview_stages';
 
 export const getFilterFields = (data: ColumnSchema[]) =>
   [
@@ -26,10 +20,7 @@ export const getFilterFields = (data: ColumnSchema[]) =>
       label: 'Email',
       value: 'email',
       type: 'input',
-      options: data.map(({ email }) => {
-        console.log(email);
-        return { label: email, value: email };
-      }),
+      options: data.map(({ email }) => ({ label: email, value: email })),
     },
     {
       label: 'Interview Stage',
@@ -44,7 +35,10 @@ export const getFilterFields = (data: ColumnSchema[]) =>
           <div className='flex w-full items-center justify-between gap-2'>
             <span className='truncate font-normal'>{props.value}</span>
             <span
-              className={cn('h-2 w-2 rounded-full', tagsColor[props.value].dot)}
+              className={cn(
+                'h-2 w-2 rounded-full',
+                TAGS_COLOR[props.value].dot,
+              )}
             />
           </div>
         );
