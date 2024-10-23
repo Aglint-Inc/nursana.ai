@@ -214,7 +214,7 @@ export const EditForm = () => {
     </Form>
   );
 };
-
+// ------------------ array input
 const ArrayInput = ({
   array,
   setArray,
@@ -223,7 +223,7 @@ const ArrayInput = ({
   setArray: Dispatch<SetStateAction<string[]>>;
 }) => {
   const [text, setText] = useState<string>('');
-  const [Edit, setEdit] = useState('');
+  const [edit, setEdit] = useState('');
 
   return (
     <div className='flex flex-col gap-2'>
@@ -231,6 +231,8 @@ const ArrayInput = ({
         <CustomInput
           key={ins}
           value={ins}
+          isDeleteEnable={array.length > 1}
+          edit={edit}
           setArray={setArray}
           setEdit={setEdit}
           setText={setText}
@@ -242,20 +244,20 @@ const ArrayInput = ({
           disabled={!text}
           onClick={() => {
             if (text) {
-              if (Edit) setEdit('');
+              if (edit) setEdit('');
               setArray((pre) => [...pre, text]);
               setText('');
             }
           }}
         >
-          {Edit ? 'Update' : 'Add'}
+          {edit ? 'Update' : 'Add'}
         </Button>
-        {Edit && (
+        {edit && (
           <Button
             onClick={() => {
               setText('');
               setEdit('');
-              setArray((pre) => [...pre, Edit]);
+              setArray((pre) => [...pre, edit]);
             }}
           >
             Cancel
@@ -267,15 +269,19 @@ const ArrayInput = ({
 };
 
 const CustomInput = ({
+  edit,
   value,
   setArray,
   setText,
   setEdit,
+  isDeleteEnable = true,
 }: {
+  edit: string;
   value: string;
   setArray: Dispatch<SetStateAction<string[]>>;
   setText: Dispatch<SetStateAction<string>>;
   setEdit: Dispatch<SetStateAction<string>>;
+  isDeleteEnable: boolean;
 }) => {
   const [isHover, setIsHover] = useState(false);
   return (
@@ -294,6 +300,7 @@ const CustomInput = ({
           className={`${isHover ? 'opacity-100' : 'opacity-0'}`}
           variant={'ghost'}
           onClick={() => {
+            if (edit) setArray((pre) => [...pre, edit]);
             setArray((pre) => pre.filter((insOld) => insOld !== value));
             setText(value);
             setEdit(value);
@@ -301,31 +308,35 @@ const CustomInput = ({
         >
           <Pencil />
         </Button>
-        <Dialog>
-          <DialogTrigger className={`${isHover ? 'opacity-100' : 'opacity-0'}`}>
-            <Button size={'sm'} variant={'ghost'}>
-              <Trash2 />
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Confirm Deletion</DialogTitle>
-              <DialogDescription>
-                Are you sure you want to delete ?
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <Button
-                size={'sm'}
-                onClick={() => {
-                  setArray((pre) => pre.filter((insOld) => insOld !== value));
-                }}
-              >
-                Delete
+        {isDeleteEnable && (
+          <Dialog>
+            <DialogTrigger
+              className={`${isHover ? 'opacity-100' : 'opacity-0'}`}
+            >
+              <Button size={'sm'} variant={'ghost'}>
+                <Trash2 />
               </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>{' '}
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Confirm Deletion</DialogTitle>
+                <DialogDescription>
+                  Are you sure you want to delete ?
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button
+                  size={'sm'}
+                  onClick={() => {
+                    setArray((pre) => pre.filter((insOld) => insOld !== value));
+                  }}
+                >
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
     </div>
   );
