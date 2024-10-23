@@ -30,4 +30,3 @@ to authenticated
 using ((bucket_id = 'audio'::text));
 
 
-

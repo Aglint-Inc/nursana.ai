@@ -94,3 +94,16 @@ export async function setToProcessing(id: string) {
     },
   });
 }
+
+export async function getFileUrl(
+  bucket: 'videos' | 'audio' | 'resumes',
+  fileName: string,
+) {
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .createSignedUrl(fileName, 60);
+  if (error) {
+    throw new Error(`Supabase signedURL error: ${error.message}`);
+  }
+  return data.signedUrl;
+}
