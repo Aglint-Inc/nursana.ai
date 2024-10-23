@@ -2,9 +2,14 @@ import _ from 'lodash';
 import { Settings2Icon } from 'lucide-react';
 import { type PropsWithChildren } from 'react';
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
 import {
   SheetDescription,
   SheetHeader,
@@ -111,18 +116,29 @@ const Content = () => {
   ];
   return (
     <ScrollArea className='h-[calc(100vh-80px)] w-full pr-4'>
-      <p className='mb-2 mt-4 text-xl'>
-        AI Details <Separator />
-      </p>
-      {AiDetails.map((detail) => (
-        <Detail key={detail.label} {...detail} />
-      ))}
-      <p className='mb-2 mt-4 text-xl'>
-        Candidate Details <Separator />
-      </p>
-      {CandidateDetails.map((detail) => (
-        <Detail key={detail.label} {...detail} />
-      ))}
+      <Accordion type='single' collapsible className='w-full'>
+        <AccordionItem value='ai_details'>
+          <AccordionTrigger>AI Details</AccordionTrigger>
+          <AccordionContent>
+            <div className='flex flex-col gap-4'>
+              {AiDetails.map((detail) => (
+                <Detail key={detail.label} {...detail} />
+              ))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value='candidate_details'>
+          <AccordionTrigger>Candidate Details</AccordionTrigger>
+          <AccordionContent>
+            <div className='flex flex-col gap-4'>
+              {CandidateDetails.map((detail) => (
+                <Detail key={detail.label} {...detail} />
+              ))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
       <ScrollBar />
     </ScrollArea>
   );

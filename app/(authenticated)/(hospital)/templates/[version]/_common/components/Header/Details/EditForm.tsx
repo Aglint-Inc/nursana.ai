@@ -4,6 +4,12 @@ import { type Dispatch, type SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { type z } from 'zod';
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -24,7 +30,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { versionUpdateSchema } from '@/supabase-types/zod-schema.types';
 
@@ -79,7 +84,7 @@ export const EditForm = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
         <ScrollArea className='h-[calc(100vh-150px)] w-full pr-4'>
-          <div className='mx-auto flex w-[97%] flex-col gap-2'>
+          <div className='mx-auto w-[97%]'>
             <FormField
               control={form.control}
               name='name'
@@ -93,117 +98,130 @@ export const EditForm = () => {
                 </FormItem>
               )}
             />
-            <p className='mb-2 mt-4 text-xl'>
-              AI Details <Separator />
-            </p>
-            <FormField
-              control={form.control}
-              name='ai_welcome_message'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Welcome Message</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      className='min-h-[200px]'
-                      placeholder='Enter welcome message'
-                      {...field}
-                      value={field.value || ''}
+            <Accordion type='single' collapsible className='w-full'>
+              <AccordionItem value='ai_details'>
+                <AccordionTrigger>AI Details</AccordionTrigger>
+                <AccordionContent>
+                  <div className='flex flex-col gap-4'>
+                    <FormField
+                      control={form.control}
+                      name='ai_welcome_message'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Welcome Message</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              className='min-h-[200px]'
+                              placeholder='Enter welcome message'
+                              {...field}
+                              value={field.value || ''}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='ai_interview_duration'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Interview Duration</FormLabel>
-                  <FormControl>
-                    <Input
-                      type='number'
-                      placeholder='Enter interview duration'
-                      {...field}
-                      onChange={(e) => {
-                        const value = e.target.value
-                          ? parseFloat(e.target.value)
-                          : '';
-                        field.onChange(value);
-                      }}
+                    <FormField
+                      control={form.control}
+                      name='ai_interview_duration'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Interview Duration</FormLabel>
+                          <FormControl>
+                            <Input
+                              type='number'
+                              placeholder='Enter interview duration'
+                              {...field}
+                              onChange={(e) => {
+                                const value = e.target.value
+                                  ? parseFloat(e.target.value)
+                                  : '';
+                                field.onChange(value);
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />{' '}
+                    <FormField
+                      control={form.control}
+                      name='ai_ending_message'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>AI ending message</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder='Enter AI ending message'
+                              {...field}
+                              value={field.value || ''}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />{' '}
-            <FormField
-              control={form.control}
-              name='ai_ending_message'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>AI ending message</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='Enter AI ending message'
-                      {...field}
-                      value={field.value || ''}
+                    <FormField
+                      control={form.control}
+                      name='ai_questions'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Questions</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              className='min-h-[200px]'
+                              placeholder='Enter questions'
+                              {...field}
+                              value={field.value || ''}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='ai_questions'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Questions</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      className='min-h-[200px]'
-                      placeholder='Enter questions'
-                      {...field}
-                      value={field.value || ''}
+                    <FormLabel>AI Instructions</FormLabel>
+                    <ArrayInput
+                      array={ai_instructions}
+                      setArray={setAiInstruction}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormLabel>AI Instructions</FormLabel>
-            <ArrayInput array={ai_instructions} setArray={setAiInstruction} />
-            <p className='mb-2 mt-4 text-xl'>
-              Candidate Details <Separator />
-            </p>
-            <FormLabel>Candidate Overview</FormLabel>
-            <ArrayInput
-              array={candidate_overview}
-              setArray={setCandidateOverview}
-            />
-            <FormField
-              control={form.control}
-              name='candidate_estimated_time'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Estimated Time</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='Enter welcome message'
-                      {...field}
-                      value={field.value || ''}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value='candidate_details'>
+                <AccordionTrigger>Candidate Details</AccordionTrigger>
+                <AccordionContent>
+                  <div className='flex flex-col gap-4'>
+                    <FormLabel>Candidate Overview</FormLabel>
+                    <ArrayInput
+                      array={candidate_overview}
+                      setArray={setCandidateOverview}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormLabel>Candidate Instructions</FormLabel>
-            <ArrayInput
-              array={candidate_instructions}
-              setArray={setCandidateInstructions}
-            />
+                    <FormField
+                      control={form.control}
+                      name='candidate_estimated_time'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Estimated Time</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder='Enter welcome message'
+                              {...field}
+                              value={field.value || ''}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormLabel>Candidate Instructions</FormLabel>
+                    <ArrayInput
+                      array={candidate_instructions}
+                      setArray={setCandidateInstructions}
+                    />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
           <ScrollBar />
         </ScrollArea>
