@@ -1,4 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Trash2 } from 'lucide-react';
+import { type Dispatch, type SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { type z } from 'zod';
 
@@ -34,7 +36,13 @@ const schema = versionUpdateSchema.pick({
 
 export const EditForm = () => {
   const version = useVersion();
-  // const [ai_instructions, setAiInstruction] = useState(version.ai_instructions);
+  const [ai_instructions, setAiInstruction] = useState(version.ai_instructions);
+  const [candidate_instructions, setCandidateInstructions] = useState(
+    version.ai_instructions,
+  );
+  const [candidate_overview, setCandidateOverview] = useState(
+    version.candidate_overview,
+  );
 
   const { isPending, mutate } = useDetails();
 
@@ -43,19 +51,25 @@ export const EditForm = () => {
     defaultValues: version,
   });
 
-  // const { fields, append, remove } = useFieldArray({
-  //   control: form.control,
-  //   name: 'ai_instructions' as never,
-  // });
-
   function onSubmit(values: z.infer<typeof schema>) {
-    mutate(values);
+    console.log({
+      ...values,
+      ai_instructions,
+      candidate_instructions,
+      candidate_overview,
+    });
+    mutate({
+      ...values,
+      ai_instructions,
+      candidate_instructions,
+      candidate_overview,
+    });
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-        <ScrollArea className='max-h-[80vh] w-full overflow-y-auto'>
+        <ScrollArea className='max-h-[calc(100vh-160px)] w-full overflow-y-auto'>
           <div className='flex flex-col gap-4'>
             <FormField
               control={form.control}
@@ -73,30 +87,9 @@ export const EditForm = () => {
             <p>
               AI Details <Separator />
             </p>
-            {/* <div className='flex flex-col gap-2'>
-              {ai_instructions.map((ins) => (
-                <div
-                  key={ins}
-                  className='leading-0 flex rounded-sm bg-gray-100 p-1'
-                >
-                  <p className='flex-1'>{ins}</p>
-                  <Button
-                    size={'sm'}
-                    variant={'ghost'}
-                    onClick={() => {
-                      setAiInstruction((pre) =>
-                        pre.filter((insOld) => insOld !== ins),
-                      );
-                    }}
-                  >
-                    Remove
-                  </Button>
-                </div>
-              ))}
-              <div className='flex gap-2'>
-                <Input /> <Button>Add</Button>
-              </div>
-            </div> */}
+            <FormLabel>AI Instructions</FormLabel>
+            <ArrayInput array={ai_instructions} setArray={setAiInstruction} />
+
             <FormField
               control={form.control}
               name='ai_ending_message'
@@ -193,6 +186,16 @@ export const EditForm = () => {
                 </FormItem>
               )}
             />
+            <FormLabel>Candidate Instructions</FormLabel>
+            <ArrayInput
+              array={candidate_instructions}
+              setArray={setCandidateInstructions}
+            />
+            <FormLabel>Candidate Overview</FormLabel>
+            <ArrayInput
+              array={candidate_overview}
+              setArray={setCandidateOverview}
+            />
           </div>
           <ScrollBar />
         </ScrollArea>
@@ -201,5 +204,50 @@ export const EditForm = () => {
         </Button>
       </form>
     </Form>
+  );
+};
+
+const ArrayInput = ({
+  array,
+  setArray,
+}: {
+  array: string[];
+  setArray: Dispatch<SetStateAction<string[]>>;
+}) => {
+  const [text, setText] = useState<string>('');
+  return (
+    <div className='flex flex-col gap-2'>
+      {array.map((ins) => (
+        <div
+          key={ins}
+          className='leading-0 flex rounded-sm bg-gray-100 p-1 pl-2'
+        >
+          <p className='flex-1'>{ins}</p>
+          <Button
+            size={'sm'}
+            variant={'ghost'}
+            onClick={() => {
+              setArray((pre) => pre.filter((insOld) => insOld !== ins));
+            }}
+          >
+            <Trash2 />
+          </Button>
+        </div>
+      ))}
+      <div className='flex items-start gap-2'>
+        <Input value={text} onChange={(e) => setText(e.target.value)} />
+        <Button
+          disabled={!text}
+          onClick={() => {
+            if (text) {
+              setArray((pre) => [...pre, text]);
+              setText('');
+            }
+          }}
+        >
+          Add
+        </Button>
+      </div>
+    </div>
   );
 };
