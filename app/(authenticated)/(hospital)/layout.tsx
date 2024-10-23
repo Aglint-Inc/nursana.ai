@@ -13,6 +13,7 @@ const Layout = (props: PropsWithChildren<Routes>) => {
   void api.authenticated.hospital.read.prefetch();
   void api.authenticated.hospital.user.prefetch();
   void api.authenticated.hospital.templates.read.prefetch();
+  void api.authenticated.hospital.read.prefetch();
   return (
     <HydrateClient>
       <HospitalEditProvider>
