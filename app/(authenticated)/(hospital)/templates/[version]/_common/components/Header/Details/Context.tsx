@@ -5,7 +5,7 @@ import {
   useState,
 } from 'react';
 
-import { useVersionEdit } from '../../../hooks/userVersionEdit';
+import { useVersionEdit } from '@/version/hooks/userVersionEdit';
 
 const useVersionContext = () => {
   const [mode, setMode] = useState<'edit' | 'view'>('view');

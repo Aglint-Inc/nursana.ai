@@ -15,7 +15,7 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
   const version = (
     await db
       .from('version')
-      .select('*,template(*)')
+      .select('*,template!inner(*)')
       .eq('id', input.version_id)
       .eq('hospital_id', ctx.hospital.id)
       .single()
@@ -28,7 +28,7 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
       message: 'Version not found',
     });
 
-  return { ...version, template: version.template! };
+  return version;
 };
 
 export const read = hospitalProcedure.input(schema).query(query);

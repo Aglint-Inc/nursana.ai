@@ -11,11 +11,11 @@ import {
   SidebarGroup,
   SidebarGroupContent,
 } from '@/components/ui/sidebar';
-import { useTempalates } from '@/templates/hooks/useTemplates';
+import { useTemplates } from '@/templates/hooks/useTemplates';
 import { type Template } from '@/templates/types';
 
 export const TemplateList = () => {
-  const templates = useTempalates();
+  const templates = useTemplates();
   return (
     <SidebarContent>
       <SidebarGroup className='px-0'>

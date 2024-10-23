@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/sheet';
 import { Textarea } from '@/components/ui/textarea';
 
-import { useVersion } from '../../../hooks/useVersion';
+import { useVersion } from '@/version/hooks/useVersion';
 import { useDetails } from './Context';
 
 export const View = () => {

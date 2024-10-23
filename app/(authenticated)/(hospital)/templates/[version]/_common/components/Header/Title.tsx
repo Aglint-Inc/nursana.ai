@@ -1,4 +1,4 @@
-import { useVersion } from '../../hooks/useVersion';
+import { useVersion } from '@/version/hooks/useVersion';
 
 export const Title = () => {
   const version = useVersion();

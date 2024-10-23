@@ -24,7 +24,7 @@ const query = async ({ ctx }: HospitalProcedure) => {
       code: 'NOT_FOUND',
       message: 'Templates not founc',
     });
-  return templates!;
+  return templates;
 };
 
 export const read = hospitalProcedure.query(query);
