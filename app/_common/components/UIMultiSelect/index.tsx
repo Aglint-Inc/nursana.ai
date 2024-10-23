@@ -19,24 +19,27 @@ export function UIMultiSelect({
   listItems = [],
   onChange,
   level = 'item',
+  onDelete,
 }: {
-  defaultValue?: string[];
+  defaultValue?: { value: string; label: string }[];
   listItems: ItemType[];
-  onChange: (_x: string[]) => void;
+  onChange: (_x: string[], _value: string) => void;
   level?: string;
+  onDelete: (_value: string) => void;
 }) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState<ItemType[]>(
-    listItems.filter((item) => defaultValue.includes(item.value)),
-  );
+  const [selected, setSelected] = React.useState<
+    {
+      value: string;
+      label: string;
+    }[]
+  >(defaultValue);
   const [inputValue, setInputValue] = React.useState('');
 
   const handleUnselect = React.useCallback((item: ItemType) => {
     setSelected((prev) => {
-      onChange(
-        prev.filter((s) => s.value !== item.value).map((ele) => ele.value),
-      );
+      onDelete(item.value);
       return prev.filter((s) => s.value !== item.value);
     });
   }, []);
@@ -50,7 +53,10 @@ export function UIMultiSelect({
             setSelected((prev) => {
               const newSelected = [...prev];
               newSelected.pop();
-              onChange(newSelected.map((ele) => ele.value));
+              onChange(
+                newSelected.map((ele) => ele.value),
+                newSelected[0].value,
+              );
               return newSelected;
             });
           }
@@ -66,18 +72,20 @@ export function UIMultiSelect({
 
   const selectables = listItems.filter((item) => !selected.includes(item));
 
-  //   console.log(selectables, selected, inputValue);
-
   return (
     <Command
       onKeyDown={handleKeyDown}
       className='overflow-visible bg-transparent'
     >
-      <div className='group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 bg-background'>
-        <div className='flex flex-wrap gap-2 mb-1'>
+      <div className='group rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2'>
+        <div className='mb-1 flex flex-wrap gap-2'>
           {selected.map((item) => {
             return (
-              <Badge key={item.value} variant='secondary' className='text-sm font-medium rounded-md'>
+              <Badge
+                key={item.value}
+                variant='secondary'
+                className='disabled rounded-md text-sm font-medium'
+              >
                 {item.label}
                 <button
                   className='ml-1 rounded-md outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2'
@@ -125,7 +133,10 @@ export function UIMultiSelect({
                       onSelect={(_value) => {
                         setInputValue('');
                         setSelected((prev) => {
-                          onChange([...prev, item].map((ele) => ele.value));
+                          onChange(
+                            [...prev, item].map((ele) => ele.value),
+                            item.value,
+                          );
                           return [...prev, item];
                         });
                       }}

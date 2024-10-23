@@ -3,7 +3,11 @@
 import { useEffect, useState } from 'react';
 import { api } from 'trpc/client';
 
-import { useUserData } from '@/applicant/hooks/useUserData';
+import {
+  usePreferredJobLocations,
+  usePreferredJobTitles,
+  useUserData,
+} from '@/applicant/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -21,6 +25,8 @@ type PreferencesEditProps = {
 export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
   const userData = useUserData();
   const updatePreferences = api.user.updatePreferences.useMutation();
+  const { preferredJobTitle } = usePreferredJobTitles();
+  const { preferredLocations } = usePreferredJobLocations();
 
   const [selectedJobTitles, setSelectedJobTitles] = useState<string[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
@@ -30,13 +36,20 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
 
   useEffect(() => {
     if (userData?.user) {
-      setSelectedJobTitles(userData.user.preferred_job_titles || []);
-      setSelectedLocations(userData.user.preferred_locations || []);
+      setSelectedJobTitles(
+        preferredJobTitle.map((title) => title.job_title) || [],
+      );
+      setSelectedLocations(
+        preferredLocations.map(
+          (location) =>
+            `${location.city}, ${location.state} ${location.country}`,
+        ) || [],
+      );
       // setJobType(userData.user.job_type || '');
       // setTravelPreference(userData.user.travel_preference || '');
       setJobType('');
       setTravelPreference('');
-      setExpectedSalary(userData.user.expected_salary?.toString() || '');
+      setExpectedSalary(userData.user.salary_range?.toString() || '');
     }
   }, [userData]);
 

@@ -1,10 +1,5 @@
-type JobTitle = Record<'value' | 'label', string>;
+import { jobTitlesSchema } from '@/supabase-types/zod-schema.types';
 
-export const JOB_TITLES: JobTitle[] = [
-  { value: 'registered-nurse', label: 'Registered Nurse' },
-  { value: 'nurse-practitioner', label: 'Nurse Practitioner' },
-  { value: 'licensed-practical-nurse', label: 'Licensed Practical Nurse' },
-  { value: 'clinical-nurse-specialist', label: 'Clinical Nurse Specialist' },
-  { value: 'certified-nurse-midwife', label: 'Certified Nurse Midwife' },
-  // Add more job titles as needed
-];
+export const JOB_TITLES = jobTitlesSchema._def.options.map(
+  (option) => option.value,
+);

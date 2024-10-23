@@ -4,6 +4,9 @@ import { api, HydrateClient } from 'trpc/server';
 function Layout({ children }: { children: React.ReactNode }) {
   unstable_noStore();
   void api.user.get_data.prefetch();
+  void api.user.getPreferredJobTitles.prefetch();
+  void api.user.getPreferredJobTypes.prefetch();
+  void api.user.getPreferredJobLocations.prefetch();
   return (
     <HydrateClient>
       <div className='container flex py-8'>
