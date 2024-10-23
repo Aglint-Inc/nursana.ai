@@ -3,6 +3,11 @@
 
 import type { Database } from 'src/supabase-types/database.types';
 
+import {
+  usePreferredJobLocations,
+  usePreferredJobTitles,
+  usePreferredJobTypes,
+} from '@/applicant/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -14,6 +19,9 @@ type PreferencesViewProps = {
 };
 
 export function PreferencesView({ nurseData, onEdit }: PreferencesViewProps) {
+  const { preferredJobTitle } = usePreferredJobTitles();
+  const { preferredJobTypes } = usePreferredJobTypes();
+  const { preferredLocations } = usePreferredJobLocations();
   if (!nurseData) return null;
 
   return (
@@ -31,14 +39,13 @@ export function PreferencesView({ nurseData, onEdit }: PreferencesViewProps) {
           <div className='flex flex-col gap-2'>
             <div className='text-md'>Preferred Job Titles</div>
             <div className='flex flex-wrap gap-1.5'>
-              {nurseData.preferred_job_titles &&
-              nurseData.preferred_job_titles.length > 0 ? (
-                nurseData.preferred_job_titles.map((title, index) => (
+              {preferredJobTitle && preferredJobTitle.length > 0 ? (
+                preferredJobTitle.map((title, index) => (
                   <span
                     key={index}
                     className='mb-1 mr-1 inline-block rounded-sm bg-secondary px-2 py-1 text-sm'
                   >
-                    {title}
+                    {title.job_title}
                   </span>
                 ))
               ) : (
@@ -52,14 +59,13 @@ export function PreferencesView({ nurseData, onEdit }: PreferencesViewProps) {
           <div className='flex flex-col gap-2'>
             <div className='text-md'>Preferred Locations</div>
             <div className='flex flex-wrap gap-1.5'>
-              {nurseData.preferred_locations &&
-              nurseData.preferred_locations.length > 0 ? (
-                nurseData.preferred_locations.map((location, index) => (
+              {preferredLocations && preferredLocations.length > 0 ? (
+                preferredLocations.map((location, index) => (
                   <span
                     key={index}
                     className='mb-1 mr-1 inline-block rounded-sm bg-secondary px-2 py-1 text-sm'
                   >
-                    {location}
+                    {location.city}, {location.state}, {location.country}
                   </span>
                 ))
               ) : (
@@ -72,9 +78,9 @@ export function PreferencesView({ nurseData, onEdit }: PreferencesViewProps) {
 
           <div className='flex flex-col items-start gap-2'>
             <div className='text-md'>Job Type</div>
-            {nurseData.job_type ? (
+            {preferredJobTypes ? (
               <span className='mb-1 mr-1 inline-block rounded-sm bg-secondary px-2 py-1 text-sm'>
-                {nurseData.job_type}
+                {preferredJobTypes.map((jobType) => jobType).join(', ')}
               </span>
             ) : (
               <span className='text-sm italic text-muted-foreground'>
@@ -85,9 +91,9 @@ export function PreferencesView({ nurseData, onEdit }: PreferencesViewProps) {
 
           <div className='flex flex-col items-start gap-2'>
             <div className='text-md'>Travel Preference</div>
-            {nurseData.travel_preference ? (
+            {nurseData.preferred_travel_preference ? (
               <span className='mb-1 mr-1 inline-block rounded-sm bg-secondary px-2 py-1 text-sm'>
-                {nurseData.travel_preference}
+                {nurseData.preferred_travel_preference}
               </span>
             ) : (
               <span className='text-sm italic text-muted-foreground'>
@@ -98,9 +104,9 @@ export function PreferencesView({ nurseData, onEdit }: PreferencesViewProps) {
 
           <div className='flex flex-col items-start gap-2'>
             <div className='text-md'>Expected Salary</div>
-            {nurseData.expected_salary ? (
+            {nurseData.salary_range ? (
               <span className='mb-1 mr-1 inline-block rounded-sm bg-secondary px-2 py-1 text-sm'>
-                {nurseData.expected_salary}
+                {nurseData.salary_range as string}
               </span>
             ) : (
               <span className='text-sm italic text-muted-foreground'>

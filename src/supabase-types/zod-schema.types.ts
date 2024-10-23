@@ -3,52 +3,49 @@ import { z } from "zod";
 
 export const jsonSchema = z.any();
 
-export const applicantRowSchema = z.object({
-  created_at: z.string().nullable(),
-  email: z.string(),
-  expected_salary: z.string().nullable(),
-  first_name: z.string().nullable(),
-  id: z.string(),
-  job_title: z.string().nullable(),
-  job_type: z.array(z.string()).nullable(),
-  last_name: z.string().nullable(),
-  phone_number: z.string().nullable(),
-  preferred_job_titles: z.array(z.string()).nullable(),
-  preferred_locations: z.array(z.string()).nullable(),
-  terms_accepted: z.boolean().nullable(),
-  travel_preference: z.array(z.string()).nullable(),
-});
+export const jobTitlesSchema = z.union([
+  z.literal("registered-nurse"),
+  z.literal("nurse-practitioner"),
+  z.literal("licensed-practical-nurse"),
+  z.literal("clinical-nurse-specialist"),
+  z.literal("certified-nurse-midwife"),
+]);
+
+export const travelPreferrenceSchema = z.union([
+  z.literal("no-travel"),
+  z.literal("occasional-travel"),
+  z.literal("frequent-travel"),
+  z.literal("up-to-50-travel"),
+  z.literal("up-to-75-travel"),
+  z.literal("100-travel"),
+]);
 
 export const applicantInsertSchema = z.object({
   created_at: z.string().optional().nullable(),
+  current_job_title: jobTitlesSchema.optional(),
   email: z.string(),
-  expected_salary: z.string().optional().nullable(),
-  first_name: z.string().optional().nullable(),
+  first_name: z.string(),
   id: z.string(),
-  job_title: z.string().optional().nullable(),
-  job_type: z.array(z.string()).optional().nullable(),
   last_name: z.string().optional().nullable(),
+  open_to_work: z.boolean().optional(),
   phone_number: z.string().optional().nullable(),
-  preferred_job_titles: z.array(z.string()).optional().nullable(),
-  preferred_locations: z.array(z.string()).optional().nullable(),
-  terms_accepted: z.boolean().optional().nullable(),
-  travel_preference: z.array(z.string()).optional().nullable(),
+  preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
+  salary_range: z.unknown().optional().nullable(),
+  terms_accepted: z.boolean().optional(),
 });
 
 export const applicantUpdateSchema = z.object({
   created_at: z.string().optional().nullable(),
+  current_job_title: jobTitlesSchema.optional(),
   email: z.string().optional(),
-  expected_salary: z.string().optional().nullable(),
-  first_name: z.string().optional().nullable(),
+  first_name: z.string().optional(),
   id: z.string().optional(),
-  job_title: z.string().optional().nullable(),
-  job_type: z.array(z.string()).optional().nullable(),
   last_name: z.string().optional().nullable(),
+  open_to_work: z.boolean().optional(),
   phone_number: z.string().optional().nullable(),
-  preferred_job_titles: z.array(z.string()).optional().nullable(),
-  preferred_locations: z.array(z.string()).optional().nullable(),
-  terms_accepted: z.boolean().optional().nullable(),
-  travel_preference: z.array(z.string()).optional().nullable(),
+  preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
+  salary_range: z.unknown().optional().nullable(),
+  terms_accepted: z.boolean().optional(),
 });
 
 export const applicantRelationshipsSchema = z.tuple([]);
@@ -306,6 +303,97 @@ export const interviewAnalysisIdUpdateSchema = z.object({
 
 export const interviewAnalysisIdRelationshipsSchema = z.tuple([]);
 
+export const preferredJobTitlesRowSchema = z.object({
+  applicant_id: z.string(),
+  id: z.string(),
+  job_title: jobTitlesSchema,
+});
+
+export const preferredJobTitlesInsertSchema = z.object({
+  applicant_id: z.string().optional(),
+  id: z.string().optional(),
+  job_title: jobTitlesSchema,
+});
+
+export const preferredJobTitlesUpdateSchema = z.object({
+  applicant_id: z.string().optional(),
+  id: z.string().optional(),
+  job_title: jobTitlesSchema.optional(),
+});
+
+export const preferredJobTitlesRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("preferred_job_titles_applicant_id_fkey"),
+    columns: z.tuple([z.literal("applicant_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("applicant"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
+
+export const jobTypesSchema = z.union([
+  z.literal("full-time"),
+  z.literal("part-time"),
+  z.literal("contract"),
+  z.literal("internship"),
+]);
+
+export const preferredJobTypesInsertSchema = z.object({
+  applicant_id: z.string(),
+  id: z.string().optional(),
+  job_type: jobTypesSchema.optional().nullable(),
+});
+
+export const preferredJobTypesUpdateSchema = z.object({
+  applicant_id: z.string().optional(),
+  id: z.string().optional(),
+  job_type: jobTypesSchema.optional().nullable(),
+});
+
+export const preferredJobTypesRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("preferred_job_types_applicant_id_fkey"),
+    columns: z.tuple([z.literal("applicant_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("applicant"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
+
+export const preferredLocationsRowSchema = z.object({
+  applicant_id: z.string(),
+  city: z.string().nullable(),
+  country: z.string().nullable(),
+  id: z.string(),
+  state: z.string().nullable(),
+});
+
+export const preferredLocationsInsertSchema = z.object({
+  applicant_id: z.string(),
+  city: z.string().optional().nullable(),
+  country: z.string().optional().nullable(),
+  id: z.string().optional(),
+  state: z.string().optional().nullable(),
+});
+
+export const preferredLocationsUpdateSchema = z.object({
+  applicant_id: z.string().optional(),
+  city: z.string().optional().nullable(),
+  country: z.string().optional().nullable(),
+  id: z.string().optional(),
+  state: z.string().optional().nullable(),
+});
+
+export const preferredLocationsRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("preferred_locations_applicant_id_fkey"),
+    columns: z.tuple([z.literal("applicant_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("applicant"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
+
 export const resumeRowSchema = z.object({
   campaign_id: z.string(),
   created_at: z.string().nullable(),
@@ -456,15 +544,15 @@ export const versionStatusSchema = z.union([
 
 export const versionInsertSchema = z.object({
   ai_ending_message: z.string().optional().nullable(),
-  ai_instructions: z.array(z.string()).optional(),
+  ai_instructions: z.string().optional(),
   ai_interview_duration: z.number().optional(),
   ai_questions: z.string().optional().nullable(),
   ai_welcome_message: z.string().optional().nullable(),
   candidate_estimated_time: z.string().optional().nullable(),
-  candidate_instructions: z.array(z.string()).optional(),
+  candidate_instructions: z.string().optional(),
   candidate_intro_video_cover_image_url: z.string().optional().nullable(),
   candidate_intro_video_url: z.string().optional().nullable(),
-  candidate_overview: z.array(z.string()).optional(),
+  candidate_overview: z.string().optional(),
   created_at: z.string().optional(),
   hospital_id: z.string(),
   id: z.string().optional(),
@@ -476,15 +564,15 @@ export const versionInsertSchema = z.object({
 
 export const versionUpdateSchema = z.object({
   ai_ending_message: z.string().optional().nullable(),
-  ai_instructions: z.array(z.string()).optional(),
+  ai_instructions: z.string().optional(),
   ai_interview_duration: z.number().optional(),
   ai_questions: z.string().optional().nullable(),
   ai_welcome_message: z.string().optional().nullable(),
   candidate_estimated_time: z.string().optional().nullable(),
-  candidate_instructions: z.array(z.string()).optional(),
+  candidate_instructions: z.string().optional(),
   candidate_intro_video_cover_image_url: z.string().optional().nullable(),
   candidate_intro_video_url: z.string().optional().nullable(),
-  candidate_overview: z.array(z.string()).optional(),
+  candidate_overview: z.string().optional(),
   created_at: z.string().optional(),
   hospital_id: z.string().optional(),
   id: z.string().optional(),
@@ -512,6 +600,20 @@ export const versionRelationshipsSchema = z.tuple([
 ]);
 
 export const customAccessTokenHookReturnsSchema = jsonSchema;
+
+export const applicantRowSchema = z.object({
+  created_at: z.string().nullable(),
+  current_job_title: jobTitlesSchema,
+  email: z.string(),
+  first_name: z.string(),
+  id: z.string(),
+  last_name: z.string().nullable(),
+  open_to_work: z.boolean(),
+  phone_number: z.string().nullable(),
+  preferred_travel_preference: travelPreferrenceSchema.nullable(),
+  salary_range: z.unknown().nullable(),
+  terms_accepted: z.boolean(),
+});
 
 export const campaignRowSchema = z.object({
   campaign_code: z.string(),
@@ -547,6 +649,12 @@ export const interviewRowSchema = z.object({
   version_id: z.string(),
 });
 
+export const preferredJobTypesRowSchema = z.object({
+  applicant_id: z.string(),
+  id: z.string(),
+  job_type: jobTypesSchema.nullable(),
+});
+
 export const roleRowSchema = z.object({
   id: z.string(),
   role: appRoleSchema,
@@ -555,15 +663,15 @@ export const roleRowSchema = z.object({
 
 export const versionRowSchema = z.object({
   ai_ending_message: z.string().nullable(),
-  ai_instructions: z.array(z.string()),
+  ai_instructions: z.string(),
   ai_interview_duration: z.number(),
   ai_questions: z.string().nullable(),
   ai_welcome_message: z.string().nullable(),
   candidate_estimated_time: z.string().nullable(),
-  candidate_instructions: z.array(z.string()),
+  candidate_instructions: z.string(),
   candidate_intro_video_cover_image_url: z.string().nullable(),
   candidate_intro_video_url: z.string().nullable(),
-  candidate_overview: z.array(z.string()),
+  candidate_overview: z.string(),
   created_at: z.string(),
   hospital_id: z.string(),
   id: z.string(),

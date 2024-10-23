@@ -1,24 +1,26 @@
 //@ts-nocheck Dheeraj
 'use client';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useEffect, useRef, useState } from 'react';
 import { z } from 'zod';
 
-import { useUpdateUserData, useUserData } from '@/applicant/hooks/useUserData';
-import { Loader } from '@/common/components/Loader';
+import {
+  useCreatePreferredJobTitle,
+  useCreatePreferredJobType,
+  useCreatePreferredLocation,
+  useDeletePreferredJobTitle,
+  useDeletePreferredJObType,
+  useDeletePreferredLocation,
+  usePreferredJobLocations,
+  usePreferredJobTitles,
+  usePreferredJobTypes,
+  useUpdateUserData,
+  useUserData,
+} from '@/applicant/hooks/useUserData';
 import { UIMultiSelect } from '@/common/components/UIMultiSelect';
 import UIPhoneInput from '@/common/components/UIPhoneInput';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -26,309 +28,341 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { useDebounce } from '@/hooks/use-debounce';
+import {
+  jobTitlesSchema,
+  type jobTypesSchema,
+  travelPreferrenceSchema,
+} from '@/supabase-types/zod-schema.types';
+import { capitalizeFirstLetter } from '@/utils/utils';
 
 import {
-  CITIES,
   JOB_TITLES,
   JOB_TYPES,
+  LOCATIONS,
   SALARY_RANGES,
   TRAVEL_PREFERENCES,
 } from '../constant';
-export const userProfileSchema = z.object({
+
+const userProfileSchema = z.object({
   first_name: z.string().min(2, 'First name is required'),
   last_name: z.string().min(1, 'Last name is required').nullable().optional(),
   phone_number: z.string().min(10, 'Phone number must be at least 10 digits'),
-  preferred_job_titles: z.array(z.string()).nullish().optional(),
-  preferred_locations: z.array(z.string()).nullish().optional(),
-  travel_preference: z.array(z.string()).nullish().optional(),
-  expected_salary: z.string().nullable(),
-  job_title: z.string().nullable(),
-  job_type: z.array(z.string()).nullable(),
+  preferred_travel_preference: travelPreferrenceSchema,
+  salary_range: z.string().nullable(),
+  current_job_title: jobTitlesSchema,
+  open_to_work: z.boolean(),
 });
 
-type ProfileData = z.infer<typeof userProfileSchema>;
-
-export default function EditProfileForm({
-  setEdit,
-}: {
-  setEdit: (_edit: boolean) => void;
-}) {
+type ProfileDataType = z.infer<typeof userProfileSchema>;
+export default function EditProfileForm() {
   const { user } = useUserData();
+  const { preferredJobTitle } = usePreferredJobTitles();
+  const { preferredJobTypes } = usePreferredJobTypes();
+  const { preferredLocations } = usePreferredJobLocations();
+  const { createPreferredJobTitles, isPending: isCreateJobTitlePending } =
+    useCreatePreferredJobTitle();
+  const { createPreferredJobTypes, isPending: isCreateJobTypePending } =
+    useCreatePreferredJobType();
+  const { createPreferredLocations, isPending: isCreateLocationPending } =
+    useCreatePreferredLocation();
+  const { deletePreferredJobTitles, isPending: isDeleteJobTitlePending } =
+    useDeletePreferredJobTitle();
+  const { deletePreferredJobTypes, isPending: isDeleteJobTypePending } =
+    useDeletePreferredJObType();
+  const { deletePreferredLocations, isPending: isDeleteLocationPending } =
+    useDeletePreferredLocation();
+  const isInitialRender = useRef(true);
+  const phoneRef = useRef<HTMLInputElement>(null);
+
   const { updateUserDetails, isPending } = useUpdateUserData();
-  const form = useForm<ProfileData>({
-    resolver: zodResolver(userProfileSchema),
-    defaultValues: {
-      first_name: user?.first_name || '',
-      last_name: user?.last_name || '',
-      phone_number: user?.phone_number || '',
-      preferred_job_titles: user?.preferred_job_titles || [],
-      preferred_locations: user?.preferred_locations || [],
-      travel_preference: user?.travel_preference || [],
-      expected_salary: user?.expected_salary || '',
-      job_title: user?.job_title || '',
-      job_type: user?.job_type || [],
-    },
-  });
-  const {
-    control,
-    register,
-    setValue,
-    clearErrors,
-    formState: { isDirty },
-  } = form;
-  const onSubmitForm = async (data: ProfileData) => {
+  const [firstName, setFirstName] = useState(user?.first_name || '');
+  const [lastName, setLastName] = useState(user?.last_name || '');
+  const [openToWork, setOpenToWork] = useState(user?.open_to_work || false);
+  const [phone, setPhone] = useState(user?.phone_number || '');
+  const [salary, setSalary] = useState(
+    (user?.salary_range as string) || SALARY_RANGES[0].value,
+  );
+  const [jobTitle, setJobTitle] = useState<z.infer<typeof jobTitlesSchema>>(
+    user?.current_job_title || 'nurse-practitioner',
+  );
+  const [travelPreference, setTravelPreference] = useState<
+    z.infer<typeof travelPreferrenceSchema>
+  >(user?.preferred_travel_preference || 'no-travel');
+
+  const onSubmitForm = async (data: ProfileDataType) => {
     await updateUserDetails({
       ...data,
       last_name: data.last_name || null,
     });
-    setEdit(false);
   };
+  const first_name = useDebounce(firstName, 1000);
+  const last_name = useDebounce(lastName, 1000);
+  const phone_number = useDebounce(phone, 1000);
+  const salary_range = useDebounce(salary, 1000);
+  const current_job_title = useDebounce(jobTitle, 1000);
+  const preferred_travel_preference = useDebounce(travelPreference, 1000);
+  const open_to_work = useDebounce(openToWork, 1000);
 
+  useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+    onSubmitForm({
+      first_name,
+      last_name,
+      phone_number,
+      salary_range,
+      preferred_travel_preference,
+      open_to_work,
+      current_job_title,
+    });
+  }, [
+    first_name,
+    last_name,
+    phone_number,
+    salary_range,
+    current_job_title,
+    preferred_travel_preference,
+    open_to_work,
+  ]);
   return (
-    <Form {...form}>
-      <form className='w-full' onSubmit={form.handleSubmit(onSubmitForm)}>
-        <Card className='w-full bg-gray-50'>
-          <CardHeader className='p-4'>
-            <div className='flex flex-row items-center justify-between'>
-              <CardTitle className='text-lg font-medium'>
-                Edit Basic Information
-              </CardTitle>
-              <div className='flex gap-2'>
-                <Button
-                  type='button'
-                  variant={'outline'}
-                  size={'sm'}
-                  onClick={() => setEdit(false)}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  disabled={isPending || !isDirty}
-                  type='submit'
-                  size={'sm'}
-                >
-                  {isPending && <Loader />}
-                  {isPending ? 'Saving' : 'Save Changes'}
-                </Button>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className='p-4 pt-0'>
-            <div className='grid grid-cols-2 gap-4'>
-              <FormField
-                control={control}
-                name='first_name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>First Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        id='first_name'
-                        placeholder='Please enter your first name'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name='last_name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Last Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        id='last_name'
-                        placeholder='Please enter your last name'
-                        {...field}
-                        value={field.value || ''}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name='phone_number'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
-                    <FormControl>
-                      <UIPhoneInput {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name='expected_salary'
-                render={({ field: { value } }) => (
-                  <FormItem>
-                    <FormLabel>Expected Salary</FormLabel>
-                    <FormControl>
-                      <Select
-                        {...register('expected_salary')}
-                        onValueChange={(value) => {
-                          clearErrors('expected_salary');
-                          setValue('expected_salary', value, {
-                            shouldDirty: true,
-                          });
-                        }}
-                        value={value || ''}
-                      >
-                        <SelectTrigger id='expected_salary'>
-                          <SelectValue placeholder='Select expected salary' />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {SALARY_RANGES.map((item) => (
-                            <SelectItem key={item.value} value={item.value}>
-                              {item.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className='col-span-2'>
-                <FormField
-                  control={control}
-                  name='job_title'
-                  render={({ field: { value } }) => (
-                    <FormItem>
-                      <FormLabel>Current Job Title</FormLabel>
-                      <FormControl>
-                        <Select
-                          {...register('job_title')}
-                          onValueChange={(value) => {
-                            clearErrors('job_title');
-                            setValue('job_title', value, { shouldDirty: true });
-                          }}
-                          value={value || ''}
-                        >
-                          <SelectTrigger id='job_title'>
-                            <SelectValue placeholder='Select current job title' />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {JOB_TITLES.map((item) => (
-                              <SelectItem key={item.value} value={item.value}>
-                                {item.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='col-span-2'>
-                <FormField
-                  control={control}
-                  name='job_type'
-                  render={({ field: { value } }) => (
-                    <FormItem>
-                      <FormLabel>Job Types</FormLabel>
-                      <FormControl>
-                        <UIMultiSelect
-                          listItems={JOB_TYPES}
-                          onChange={(value) => {
-                            clearErrors('job_type');
-                            setValue('job_type', value, { shouldDirty: true });
-                          }}
-                          defaultValue={value ?? []}
-                          level='Job Types'
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='col-span-2'>
-                <FormField
-                  control={control}
-                  name='preferred_job_titles'
-                  render={({ field: { value } }) => (
-                    <FormItem>
-                      <FormLabel>Preferred Job Titles</FormLabel>
-                      <FormControl>
-                        <UIMultiSelect
-                          listItems={JOB_TITLES}
-                          onChange={(value) =>
-                            setValue('preferred_job_titles', value, {
-                              shouldDirty: true,
-                            })
-                          }
-                          defaultValue={value ?? []}
-                          level='Job Titles'
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='col-span-2'>
-                <FormField
-                  control={control}
-                  name='preferred_locations'
-                  render={({ field: { value } }) => (
-                    <FormItem>
-                      <FormLabel>Preferred Locations</FormLabel>
-                      <FormControl>
-                        <UIMultiSelect
-                          listItems={CITIES}
-                          onChange={(value) =>
-                            setValue('preferred_locations', value, {
-                              shouldDirty: true,
-                            })
-                          }
-                          defaultValue={value ?? []}
-                          level='Preferred Locations'
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+    <Card className='w-full bg-gray-50'>
+      <CardHeader className='p-4'>
+        <div className='flex flex-row items-center justify-between'>
+          <CardTitle className='text-lg font-medium'>
+            Edit Basic Information
+          </CardTitle>
+          <span className='text-muted-foreground'>
+            {(isPending ||
+              isCreateJobTitlePending ||
+              isCreateJobTypePending ||
+              isCreateLocationPending ||
+              isDeleteJobTitlePending ||
+              isDeleteJobTypePending ||
+              isDeleteLocationPending) &&
+              'Saving...'}
+          </span>
+        </div>
+      </CardHeader>
+      <CardContent className='p-4 pt-0'>
+        <div className='grid grid-cols-2 gap-4'>
+          <div>
+            <Label htmlFor=''>First Name</Label>
+            <Input
+              value={firstName || ''}
+              id='first_name'
+              placeholder='Please enter your first name'
+              onChange={(e) => {
+                setFirstName(e.target.value);
+              }}
+            />
+          </div>
 
-              <div className='col-span-2'>
-                <FormField
-                  control={control}
-                  name='travel_preference'
-                  render={({ field: { value } }) => (
-                    <FormItem>
-                      <FormLabel>Preferred Travel Preference</FormLabel>
-                      <FormControl>
-                        <UIMultiSelect
-                          listItems={TRAVEL_PREFERENCES}
-                          onChange={(value) =>
-                            setValue('travel_preference', value, {
-                              shouldDirty: true,
-                            })
-                          }
-                          defaultValue={value ?? []}
-                          level='Travel Preferences'
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+          <div>
+            <Label>Last Name</Label>
+            <Input
+              id='last_name'
+              placeholder='Please enter your last name'
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
+              value={lastName || ''}
+            />
+          </div>
+
+          <div className='col-span-2 flex flex-row items-center gap-2'>
+            <Label>Open to Work</Label>
+            <Switch
+              checked={openToWork}
+              onCheckedChange={(value: boolean) => {
+                setOpenToWork(value);
+              }}
+            />
+          </div>
+
+          <div>
+            <Label>Phone Number</Label>
+            <UIPhoneInput
+              onChange={(value) => {
+                setPhone(value);
+              }}
+              value={phone}
+              name='phone_number'
+              onBlur={() => {}}
+              // @ts-expect-error
+              ref={phoneRef}
+            />
+          </div>
+          <div>
+            <Label>Expected Salary</Label>
+            <Select
+              onValueChange={(value) => {
+                setSalary(value);
+              }}
+              value={salary || ''}
+            >
+              <SelectTrigger id='expected_salary'>
+                <SelectValue placeholder='Select expected salary' />
+              </SelectTrigger>
+              <SelectContent>
+                {SALARY_RANGES.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className='col-span-2'>
+            <div>
+              <Label>Current Job Title</Label>
+              <Select
+                onValueChange={(value: z.infer<typeof jobTitlesSchema>) => {
+                  setJobTitle(value);
+                }}
+                value={jobTitle || ''}
+              >
+                <SelectTrigger id='job_title'>
+                  <SelectValue placeholder='Select current job title' />
+                </SelectTrigger>
+                <SelectContent>
+                  {JOB_TITLES.map((item) => (
+                    <SelectItem key={item} value={item}>
+                      {capitalizeFirstLetter(item.split('-').join(' '))}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-          </CardContent>
-        </Card>
-      </form>
-    </Form>
+          </div>
+          <div className='col-span-2'>
+            <div>
+              <Label>Preferred Travel Preference</Label>
+              <Select
+                onValueChange={(
+                  value: z.infer<typeof travelPreferrenceSchema>,
+                ) => {
+                  setTravelPreference(value);
+                }}
+                value={travelPreference}
+              >
+                <SelectTrigger id='travel_preference'>
+                  <SelectValue placeholder='Select preferred travel preference' />
+                </SelectTrigger>
+                <SelectContent>
+                  {TRAVEL_PREFERENCES.map((item) => (
+                    <SelectItem key={item} value={item}>
+                      {capitalizeFirstLetter(item.split('-').join(' '))}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className='col-span-2'>
+            <div>
+              <Label>Preferred Job Types</Label>
+              <UIMultiSelect
+                onDelete={(value) => {
+                  deletePreferredJobTypes({
+                    id: value,
+                  });
+                }}
+                listItems={JOB_TYPES.map((item) => ({
+                  label: capitalizeFirstLetter(item),
+                  value: item,
+                }))}
+                onChange={(_values, value) => {
+                  createPreferredJobTypes({
+                    job_type: value as z.infer<typeof jobTypesSchema>,
+                  });
+                }}
+                defaultValue={preferredJobTypes.map((item) => {
+                  return {
+                    label: capitalizeFirstLetter(item.job_type ?? ''),
+                    value: item.id,
+                  };
+                })}
+                level='Job Types'
+              />
+            </div>
+          </div>
+          <div className='col-span-2'>
+            <div>
+              <Label>Preferred Job Titles</Label>
+              <UIMultiSelect
+                onDelete={(value) => {
+                  deletePreferredJobTitles({
+                    id: value,
+                  });
+                }}
+                listItems={JOB_TITLES.map((item) => ({
+                  label: capitalizeFirstLetter(item),
+                  value: item,
+                }))}
+                onChange={(_values, value) => {
+                  createPreferredJobTitles({
+                    job_title: value as z.infer<typeof jobTitlesSchema>,
+                  });
+                }}
+                defaultValue={preferredJobTitle.map((item) => {
+                  return {
+                    label: capitalizeFirstLetter(item.job_title),
+                    value: item.id,
+                  };
+                })}
+                level='Job Titles'
+              />
+            </div>
+          </div>
+          <div className='col-span-2'>
+            <div>
+              <Label>Preferred Locations</Label>
+              <UIMultiSelect
+                onDelete={(value) => {
+                  deletePreferredLocations({
+                    id: value,
+                  });
+                }}
+                listItems={LOCATIONS.map((item) => ({
+                  label: capitalizeFirstLetter(item.fullAddress),
+                  value: item.fullAddress
+                    .replace(/, /g, '-')
+                    .replace(/ /g, '_'),
+                }))}
+                onChange={(_values, value) => {
+                  const location = value.replace(/-/g, ', ').replace(/_/g, ' ');
+                  const selectedLocation = LOCATIONS.find(
+                    (item) => item.fullAddress === location,
+                  );
+                  createPreferredLocations({
+                    city: selectedLocation?.city ?? '',
+                    state: selectedLocation?.state ?? '',
+                    country: selectedLocation?.country ?? '',
+                  });
+                }}
+                defaultValue={preferredLocations.map((item) => {
+                  const location = LOCATIONS.find(
+                    (location) =>
+                      location.city === item.city &&
+                      location.state === item.state &&
+                      location.country === item.country,
+                  );
+                  return {
+                    label: capitalizeFirstLetter(location?.fullAddress ?? ''),
+                    value: item.id,
+                  };
+                })}
+                level='Preferred Locations'
+              />
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

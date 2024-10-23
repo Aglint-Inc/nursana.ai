@@ -13,7 +13,7 @@ function NotAvailable({ heading, description, Icon }: NotAvailableProps) {
       <Icon size={50} strokeWidth={1.3} className='text-purple-600' />
       <div className='flex flex-col items-center justify-center gap-1'>
         <div className='text-lg font-medium'>{heading}</div>
-        <div className='text-md text-muted-foreground'>{description}</div>
+        <div className='text-sm text-muted-foreground'>{description}</div>
       </div>
     </div>
   );

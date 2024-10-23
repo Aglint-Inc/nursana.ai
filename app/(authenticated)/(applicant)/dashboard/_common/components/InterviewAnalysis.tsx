@@ -4,9 +4,9 @@ import {
   ExternalLink,
   Lightbulb,
   MessageCircle,
-  MessageSquare,
   Puzzle,
   Sparkles,
+  TvMinimalPlay,
   UserCheck,
   Zap,
 } from 'lucide-react';
@@ -85,11 +85,11 @@ export function InterviewAnalysis() {
             <CardContent className='p-4'>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center'>
-                  <MessageSquare
+                  <TvMinimalPlay
                     className='mr-2 h-6 w-6 text-muted-foreground'
                     strokeWidth={1}
                   />
-                  <div className='flex items-center'>View my interview</div>
+                  <div className='flex items-center'>Replay interview</div>
                 </div>
                 <div className='group relative'>
                   <ExternalLink className='mr-4 h-4 w-4' />

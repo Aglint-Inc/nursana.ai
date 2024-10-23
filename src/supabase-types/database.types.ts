@@ -31,48 +31,48 @@ export type Database = {
       applicant: {
         Row: {
           created_at: string | null
+          current_job_title: Database["public"]["Enums"]["job_titles"]
           email: string
-          expected_salary: string | null
-          first_name: string | null
+          first_name: string
           id: string
-          job_title: string | null
-          job_type: string[] | null
           last_name: string | null
+          open_to_work: boolean
           phone_number: string | null
-          preferred_job_titles: string[] | null
-          preferred_locations: string[] | null
-          terms_accepted: boolean | null
-          travel_preference: string[] | null
+          preferred_travel_preference:
+            | Database["public"]["Enums"]["travel_preferrence"]
+            | null
+          salary_range: unknown | null
+          terms_accepted: boolean
         }
         Insert: {
           created_at?: string | null
+          current_job_title?: Database["public"]["Enums"]["job_titles"]
           email: string
-          expected_salary?: string | null
-          first_name?: string | null
+          first_name: string
           id: string
-          job_title?: string | null
-          job_type?: string[] | null
           last_name?: string | null
+          open_to_work?: boolean
           phone_number?: string | null
-          preferred_job_titles?: string[] | null
-          preferred_locations?: string[] | null
-          terms_accepted?: boolean | null
-          travel_preference?: string[] | null
+          preferred_travel_preference?:
+            | Database["public"]["Enums"]["travel_preferrence"]
+            | null
+          salary_range?: unknown | null
+          terms_accepted?: boolean
         }
         Update: {
           created_at?: string | null
+          current_job_title?: Database["public"]["Enums"]["job_titles"]
           email?: string
-          expected_salary?: string | null
-          first_name?: string | null
+          first_name?: string
           id?: string
-          job_title?: string | null
-          job_type?: string[] | null
           last_name?: string | null
+          open_to_work?: boolean
           phone_number?: string | null
-          preferred_job_titles?: string[] | null
-          preferred_locations?: string[] | null
-          terms_accepted?: boolean | null
-          travel_preference?: string[] | null
+          preferred_travel_preference?:
+            | Database["public"]["Enums"]["travel_preferrence"]
+            | null
+          salary_range?: unknown | null
+          terms_accepted?: boolean
         }
         Relationships: []
       }
@@ -341,6 +341,90 @@ export type Database = {
         }
         Relationships: []
       }
+      preferred_job_titles: {
+        Row: {
+          applicant_id: string
+          id: string
+          job_title: Database["public"]["Enums"]["job_titles"]
+        }
+        Insert: {
+          applicant_id?: string
+          id?: string
+          job_title: Database["public"]["Enums"]["job_titles"]
+        }
+        Update: {
+          applicant_id?: string
+          id?: string
+          job_title?: Database["public"]["Enums"]["job_titles"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "preferred_job_titles_applicant_id_fkey"
+            columns: ["applicant_id"]
+            isOneToOne: false
+            referencedRelation: "applicant"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      preferred_job_types: {
+        Row: {
+          applicant_id: string
+          id: string
+          job_type: Database["public"]["Enums"]["job_types"] | null
+        }
+        Insert: {
+          applicant_id: string
+          id?: string
+          job_type?: Database["public"]["Enums"]["job_types"] | null
+        }
+        Update: {
+          applicant_id?: string
+          id?: string
+          job_type?: Database["public"]["Enums"]["job_types"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "preferred_job_types_applicant_id_fkey"
+            columns: ["applicant_id"]
+            isOneToOne: false
+            referencedRelation: "applicant"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      preferred_locations: {
+        Row: {
+          applicant_id: string
+          city: string | null
+          country: string | null
+          id: string
+          state: string | null
+        }
+        Insert: {
+          applicant_id: string
+          city?: string | null
+          country?: string | null
+          id?: string
+          state?: string | null
+        }
+        Update: {
+          applicant_id?: string
+          city?: string | null
+          country?: string | null
+          id?: string
+          state?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "preferred_locations_applicant_id_fkey"
+            columns: ["applicant_id"]
+            isOneToOne: false
+            referencedRelation: "applicant"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       resume: {
         Row: {
           campaign_id: string
@@ -480,15 +564,15 @@ export type Database = {
       version: {
         Row: {
           ai_ending_message: string | null
-          ai_instructions: string[]
+          ai_instructions: string
           ai_interview_duration: number
           ai_questions: string | null
           ai_welcome_message: string | null
           candidate_estimated_time: string | null
-          candidate_instructions: string[]
+          candidate_instructions: string
           candidate_intro_video_cover_image_url: string | null
           candidate_intro_video_url: string | null
-          candidate_overview: string[]
+          candidate_overview: string
           created_at: string
           hospital_id: string
           id: string
@@ -499,15 +583,15 @@ export type Database = {
         }
         Insert: {
           ai_ending_message?: string | null
-          ai_instructions?: string[]
+          ai_instructions?: string
           ai_interview_duration?: number
           ai_questions?: string | null
           ai_welcome_message?: string | null
           candidate_estimated_time?: string | null
-          candidate_instructions?: string[]
+          candidate_instructions?: string
           candidate_intro_video_cover_image_url?: string | null
           candidate_intro_video_url?: string | null
-          candidate_overview?: string[]
+          candidate_overview?: string
           created_at?: string
           hospital_id: string
           id?: string
@@ -518,15 +602,15 @@ export type Database = {
         }
         Update: {
           ai_ending_message?: string | null
-          ai_instructions?: string[]
+          ai_instructions?: string
           ai_interview_duration?: number
           ai_questions?: string | null
           ai_welcome_message?: string | null
           candidate_estimated_time?: string | null
-          candidate_instructions?: string[]
+          candidate_instructions?: string
           candidate_intro_video_cover_image_url?: string | null
           candidate_intro_video_url?: string | null
-          candidate_overview?: string[]
+          candidate_overview?: string
           created_at?: string
           hospital_id?: string
           id?: string
@@ -580,6 +664,20 @@ export type Database = {
         | "resume_submitted"
         | "interview_inprogress"
         | "interview_completed"
+      job_titles:
+        | "registered-nurse"
+        | "nurse-practitioner"
+        | "licensed-practical-nurse"
+        | "clinical-nurse-specialist"
+        | "certified-nurse-midwife"
+      job_types: "full-time" | "part-time" | "contract" | "internship"
+      travel_preferrence:
+        | "no-travel"
+        | "occasional-travel"
+        | "frequent-travel"
+        | "up-to-50-travel"
+        | "up-to-75-travel"
+        | "100-travel"
       version_status: "archived" | "active"
     }
     CompositeTypes: {

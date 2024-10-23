@@ -50,20 +50,22 @@ const mutation = async ({
           interview_stage: 'resume_submitted',
           name: campaign.name,
           user_id: userId,
+          campaign_id: campaign.id,
+          hospital_id: campaign.hospital_id,
+          version_id: campaign.version_id,
           ai_ending_message: campaign.version.ai_ending_message,
-          ai_instructions: campaign.version.ai_instructions,
+          ai_instructions: [campaign.version.ai_instructions ?? ''],
           ai_interview_duration: campaign.version.ai_interview_duration,
           ai_questions: campaign.version.ai_questions,
           ai_welcome_message: campaign.version.ai_welcome_message,
-          campaign_id: campaign.id,
           candidate_estimated_time: campaign.version.candidate_estimated_time,
-          candidate_instructions: campaign.version.candidate_instructions,
+          candidate_instructions: [
+            campaign.version.candidate_instructions ?? '',
+          ],
           candidate_intro_video_cover_image_url:
             campaign.version.candidate_intro_video_cover_image_url,
           candidate_intro_video_url: campaign.version.candidate_intro_video_url,
-          candidate_overview: campaign.version.candidate_overview,
-          hospital_id: campaign.hospital_id,
-          version_id: campaign.version_id,
+          candidate_overview: [campaign.version.candidate_overview ?? ''],
         })
         .select()
         .single()

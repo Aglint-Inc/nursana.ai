@@ -1,9 +1,5 @@
-type JobType = Record<'value' | 'label', string>;
+import { jobTypesSchema } from '@/supabase-types/zod-schema.types';
 
-export const JOB_TYPES: JobType[] = [
-  { value: 'full-time', label: 'Full-Time' },
-  { value: 'part-time', label: 'Part-Time' },
-  { value: 'contract', label: 'Contract' },
-  { value: 'temporary', label: 'Temporary' },
-  { value: 'internship', label: 'Internship' },
-];
+export const JOB_TYPES = jobTypesSchema._def.options.map(
+  (option) => option.value,
+);

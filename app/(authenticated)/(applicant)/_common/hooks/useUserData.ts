@@ -5,17 +5,20 @@ import { toast } from '@/hooks/use-toast';
 export const useUserData = () => api.user.get_data.useSuspenseQuery()[0];
 export const useUserDataQuery = () => api.user.get_data.useQuery();
 
+export const usePreferredJobTitles = () =>
+  api.user.getPreferredJobTitles.useSuspenseQuery()[0];
+
+export const usePreferredJobTypes = () =>
+  api.user.getPreferredJobTypes.useSuspenseQuery()[0];
+
+export const usePreferredJobLocations = () =>
+  api.user.getPreferredJobLocations.useSuspenseQuery()[0];
+
 export const useUpdateUserData = () => {
   const utils = api.useUtils();
   const updateMutation = api.user.updateUser.useMutation({
     onSuccess: () => {
-      utils.user.get_data.invalidate().then(() => {
-        console.log('object');
-      });
-      toast({
-        title: 'Profile updated',
-        description: 'Your profile has been updated',
-      });
+      utils.user.get_data.invalidate();
     },
     onError: (e) => {
       toast({
@@ -31,4 +34,136 @@ export const useUpdateUserData = () => {
     });
   };
   return { ...updateMutation, updateUserDetails };
+};
+
+export const useCreatePreferredJobTitle = () => {
+  const utils = api.useUtils();
+  const updateMutation = api.user.createPreferredJobTitles.useMutation({
+    onSuccess: () => {
+      utils.user.getPreferredJobTitles.invalidate();
+    },
+    onError: (e) => {
+      toast({
+        title: e.shape?.message,
+      });
+    },
+  });
+  const createPreferredJobTitles = async (
+    payload: Unvoid<RouterInputs['user']['createPreferredJobTitles']>,
+  ) => {
+    return await updateMutation.mutateAsync({
+      ...payload,
+    });
+  };
+  return { ...updateMutation, createPreferredJobTitles };
+};
+
+export const useCreatePreferredJobType = () => {
+  const utils = api.useUtils();
+  const updateMutation = api.user.createPreferredJobTypes.useMutation({
+    onSuccess: () => {
+      utils.user.getPreferredJobTypes.invalidate();
+    },
+    onError: (e) => {
+      toast({
+        title: e.shape?.message,
+      });
+    },
+  });
+  const createPreferredJobTypes = async (
+    payload: Unvoid<RouterInputs['user']['createPreferredJobTypes']>,
+  ) => {
+    return await updateMutation.mutateAsync({
+      ...payload,
+    });
+  };
+  return { ...updateMutation, createPreferredJobTypes };
+};
+
+export const useCreatePreferredLocation = () => {
+  const utils = api.useUtils();
+  const updateMutation = api.user.createPreferredJobLocations.useMutation({
+    onSuccess: () => {
+      utils.user.getPreferredJobLocations.invalidate();
+    },
+    onError: (e) => {
+      toast({
+        title: e.shape?.message,
+      });
+    },
+  });
+  const createPreferredLocations = async (
+    payload: Unvoid<RouterInputs['user']['createPreferredJobLocations']>,
+  ) => {
+    return await updateMutation.mutateAsync({
+      ...payload,
+    });
+  };
+  return { ...updateMutation, createPreferredLocations };
+};
+
+export const useDeletePreferredJobTitle = () => {
+  const utils = api.useUtils();
+  const updateMutation = api.user.deletePreferredJobTitles.useMutation({
+    onSuccess: () => {
+      utils.user.getPreferredJobTitles.invalidate();
+    },
+    onError: (e) => {
+      toast({
+        title: e.shape?.message,
+      });
+    },
+  });
+  const deletePreferredJobTitles = async (
+    payload: Unvoid<RouterInputs['user']['deletePreferredJobTitles']>,
+  ) => {
+    return await updateMutation.mutateAsync({
+      ...payload,
+    });
+  };
+  return { ...updateMutation, deletePreferredJobTitles };
+};
+
+export const useDeletePreferredJObType = () => {
+  const utils = api.useUtils();
+  const updateMutation = api.user.deletePreferredJobTypes.useMutation({
+    onSuccess: () => {
+      utils.user.getPreferredJobTypes.invalidate();
+    },
+    onError: (e) => {
+      toast({
+        title: e.shape?.message,
+      });
+    },
+  });
+  const deletePreferredJobTypes = async (
+    payload: Unvoid<RouterInputs['user']['deletePreferredJobTypes']>,
+  ) => {
+    return await updateMutation.mutateAsync({
+      ...payload,
+    });
+  };
+  return { ...updateMutation, deletePreferredJobTypes };
+};
+
+export const useDeletePreferredLocation = () => {
+  const utils = api.useUtils();
+  const updateMutation = api.user.deletePreferredJobLocations.useMutation({
+    onSuccess: () => {
+      utils.user.getPreferredJobLocations.invalidate();
+    },
+    onError: (e) => {
+      toast({
+        title: e.shape?.message,
+      });
+    },
+  });
+  const deletePreferredLocations = async (
+    payload: Unvoid<RouterInputs['user']['deletePreferredJobLocations']>,
+  ) => {
+    return await updateMutation.mutateAsync({
+      ...payload,
+    });
+  };
+  return { ...updateMutation, deletePreferredLocations };
 };
