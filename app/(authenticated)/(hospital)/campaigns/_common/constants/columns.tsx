@@ -26,16 +26,6 @@ export const COLUMNS: ColumnDef<ColumnSchema>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'job_title',
-    header: 'Job Title',
-    cell: ({ row }) => {
-      const value = row.getValue('job_title');
-      return (
-        <div className='max-w-[200px] truncate capitalize'>{`${value ?? '---'}`}</div>
-      );
-    },
-  },
-  {
     accessorKey: 'email',
     header: 'Email',
     cell: ({ row }) => {

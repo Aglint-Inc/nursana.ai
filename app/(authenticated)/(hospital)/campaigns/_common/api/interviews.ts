@@ -15,7 +15,7 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
   const query = db
     .from('interview')
     .select(
-      'id, interview_stage, updated_at, applicant!interviews_user_id_fkey!inner(first_name, last_name, email, job_title, expected_salary, terms_accepted)',
+      'id, interview_stage, updated_at, applicant!interviews_user_id_fkey!inner(first_name, last_name, email, terms_accepted)',
       { count: 'exact' },
     )
     .eq('hospital_id', ctx.hospital.id);
