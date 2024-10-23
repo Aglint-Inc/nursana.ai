@@ -1,6 +1,5 @@
-import { ArrowLeft } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import {
   SheetDescription,
   SheetHeader,
@@ -23,8 +22,8 @@ const Header = () => {
   return (
     <SheetHeader className='translate-y-[-16px]'>
       <SheetTitle className='flex flex-row items-center gap-2'>
-        Edit Version
         <Back />
+        Edit Version
       </SheetTitle>
     </SheetHeader>
   );
@@ -33,9 +32,13 @@ const Header = () => {
 const Back = () => {
   const { setMode } = useDetails();
   return (
-    <Button variant={'ghost'} onClick={() => setMode('view')}>
-      <ArrowLeft size={16} />
-    </Button>
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    <div
+      onClick={() => setMode('view')}
+      className='cursor-pointer rounded-sm p-1 hover:bg-gray-200'
+    >
+      <ChevronLeft size={15} />
+    </div>
   );
 };
 

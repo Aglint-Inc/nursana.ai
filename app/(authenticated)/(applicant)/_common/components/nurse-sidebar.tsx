@@ -1,5 +1,6 @@
 'use client';
 import {
+  Briefcase,
   ChevronsUpDown,
   File,
   Home,
@@ -14,6 +15,7 @@ import { usePathname } from 'next/navigation';
 
 // import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -46,30 +48,42 @@ const items = [
     title: 'Dashboard',
     url: '/dashboard',
     icon: Home,
+    badge : '',
+    children: [],
+  },
+  {
+    title: 'Jobs',
+    url: '/jobs',
+    icon: Briefcase,
+    badge : 'Beta',
     children: [],
   },
   {
     title: 'Interview Feedback',
     url: '/interview-feedback',
     icon: UserSquare,
+    badge : '',
     children: [],
   },
   {
     title: 'Resume Review',
     url: '/resume-review',
     icon: File,
+    badge : '',
     children: [],
   },
   {
     title: 'Interview Transcript',
     url: '/interview-transcript',
     icon: TvMinimalPlay,
+    badge : '',
     children: [],
   },
   {
     title: 'My Profile',
     url: '/profile',
-    icon: UserSquare,
+    icon: User,
+    badge : '',
     children: [
       {
         title: 'Basic Information',
@@ -102,6 +116,7 @@ export function NurseSidebar() {
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
+                      {item.badge && <Badge className='bg-green-600 text-[11px] h-[20px] font-normal px-2'>{item.badge}</Badge>}
                     </Link>
                   </SidebarMenuButton>
                   <SidebarMenuSub>
