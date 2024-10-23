@@ -1,10 +1,11 @@
 'use client';
-import { FileCheck, MessageSquare } from 'lucide-react';
+import { FileCheck, Sparkles, TvMinimalPlay } from 'lucide-react';
 import Link from 'next/link';
 
 import { useUserData } from '@/applicant/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 
+import NotAvailable from './NotAvailable';
 import RadialProgress from './RadialProgress';
 
 function UserLanding() {
@@ -12,7 +13,11 @@ function UserLanding() {
   const { overallScore } = resume?.resume_feedback || {};
 
   if (!analysis) {
-    return <div>No analysis available.</div>;
+    return <NotAvailable
+    heading='Data temporarily unavailable'
+    description='We’re currently analyzing the data. Please check back in a little while for updated information.'
+    Icon={Sparkles}
+  />;
   }
 
   const InterviewScore = [
@@ -100,7 +105,7 @@ function UserLanding() {
           </div>
           <div className='flex flex-col justify-between gap-2 rounded-lg bg-muted p-5'>
             <div className='flex flex-col gap-2'>
-              <MessageSquare
+              <TvMinimalPlay
                 className='h-8 w-8 text-muted-foreground'
                 strokeWidth={1.5}
               />
