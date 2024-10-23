@@ -2,7 +2,9 @@ import { Settings as SettingsIcon } from 'lucide-react';
 import type { PropsWithChildren } from 'react';
 
 import { useCampaign } from '@/campaign/hooks/useCampaign';
+import { capitalize } from '@/common/utils/capitalize';
 import { Button } from '@/components/ui/button';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import {
   SheetDescription,
   SheetHeader,
@@ -10,8 +12,6 @@ import {
 } from '@/components/ui/sheet';
 
 import { useDetails } from './Context';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { capitalize } from '@/common/utils/capitalize';
 
 export const View = () => {
   return (
