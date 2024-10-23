@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
         <div className='flex w-full items-center justify-between'>
           <div className='flex items-center gap-5 font-semibold'>
             <Link href='/' className='flex items-center justify-center'>
-              <NursanaLogo variant='md' />
+              <NursanaLogo />
             </Link>
           </div>
           <GetStarted />
