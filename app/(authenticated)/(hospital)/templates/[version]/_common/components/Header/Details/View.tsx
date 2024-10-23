@@ -103,31 +103,19 @@ const Content = () => {
     },
   ];
   return (
-    <div className='p-2'>
-      <ScrollArea className='max-h-[calc(100vh-160px)] w-full overflow-y-auto'>
+    <ScrollArea className='h-[calc(100vh-160px)] w-full overflow-y-auto'>
+      <div className='flex flex-col gap-4'>
         {details.map((detail) => (
           <Detail key={detail.label} {...detail} />
         ))}
-      </ScrollArea>
-    </div>
+      </div>
+    </ScrollArea>
   );
 };
 
 const Detail = ({ label, value, textArea = false }: DetailType) => {
-  const List = ({ lists }: { lists: string[] }) => {
-    return (
-      <>
-        {lists.map((list) => (
-          <p key={list} className='rounded-sm bg-gray-100 p-2'>
-            {list}
-          </p>
-        ))}
-      </>
-    );
-  };
-
   return (
-    <div className='mb-4'>
+    <div className='mb-4 w-full'>
       <p className='mb-2 font-bold'>{label}</p>
       {textArea ? (
         <Textarea
@@ -143,5 +131,17 @@ const Detail = ({ label, value, textArea = false }: DetailType) => {
         value
       )}
     </div>
+  );
+};
+
+const List = ({ lists }: { lists: string[] }) => {
+  return (
+    <>
+      {lists.map((list) => (
+        <p key={list} className='rounded-sm bg-gray-100 p-2'>
+          {list}
+        </p>
+      ))}
+    </>
   );
 };
