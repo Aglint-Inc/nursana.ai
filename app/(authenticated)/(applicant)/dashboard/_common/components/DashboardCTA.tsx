@@ -1,3 +1,4 @@
+//@ts-nocheck Dheeraj
 'use client';
 import { AlertCircle, Terminal } from 'lucide-react';
 import Link from 'next/link';

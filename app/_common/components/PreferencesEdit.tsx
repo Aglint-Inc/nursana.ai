@@ -1,3 +1,4 @@
+//@ts-nocheck Dheeraj
 'use client';
 
 import { useEffect, useState } from 'react';

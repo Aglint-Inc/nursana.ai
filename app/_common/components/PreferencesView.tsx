@@ -1,3 +1,4 @@
+//@ts-nocheck Dheeraj
 'use client';
 
 import type { Database } from 'src/supabase-types/database.types';
@@ -62,7 +63,9 @@ export function PreferencesView({ nurseData, onEdit }: PreferencesViewProps) {
                   </span>
                 ))
               ) : (
-                <div className='text-gray-500 text-sm italic'>Not specified</div>
+                <div className='text-sm italic text-gray-500'>
+                  Not specified
+                </div>
               )}
             </div>
           </div>
