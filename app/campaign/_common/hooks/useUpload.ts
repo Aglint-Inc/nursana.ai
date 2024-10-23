@@ -20,7 +20,7 @@ export const CampaignFormDataSchema = z.object({
 export type CampaignFormData = z.infer<typeof CampaignFormDataSchema>;
 export const useUploadCampaign = () => {
   const { toast } = useToast();
-  const { data } = useCampaign();
+  const { data: campaignData } = useCampaign();
   const router = useRouter();
 
   const form = useForm<CampaignFormData>({
@@ -47,7 +47,7 @@ export const useUploadCampaign = () => {
 
   const { mutateAsync } = api.campaign.check_user.useMutation();
 
-  const campaign_id = data?.id;
+  const campaign_id = campaignData?.id;
 
   const handleSubmit = async () => {
     let uploadUrl = '';
@@ -56,7 +56,7 @@ export const useUploadCampaign = () => {
       setSaving(true);
 
       const resCheckUser = await mutateAsync({
-        campaign_id: data?.id,
+        campaign_id: campaignData?.id,
         email: getValues().email,
       });
 
@@ -88,12 +88,13 @@ export const useUploadCampaign = () => {
       const fileExt = getValues().file.name.split('.').pop();
       const fileName = `${campaign_id}/${userId}_${Date.now()}.${fileExt}`;
 
-      const { error: uploadError } = await supabase.storage
+      const { data, error: uploadError } = await supabase.storage
         .from(bucketName)
         .upload(fileName, getValues().file, {
           cacheControl: '3600',
           upsert: false,
         });
+      console.log({ data, uploadError });
 
       if (uploadError) {
         setError({

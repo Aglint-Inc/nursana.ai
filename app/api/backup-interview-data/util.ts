@@ -78,6 +78,7 @@ export async function UploadAudio(
       upsert: true,
     });
   if (error) {
+    console.error('Supabase upload error:', error);
     throw new Error(`Supabase upload error: ${error.message}`);
   }
   return;

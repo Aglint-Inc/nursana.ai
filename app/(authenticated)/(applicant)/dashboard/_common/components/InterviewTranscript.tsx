@@ -43,21 +43,22 @@ export function InterviewTranscript() {
     userData.analysis?.video_url?.split(`${videoBucketName}/`).pop() ?? '';
   // get file url
   const { data: videoUrl, isPending } = useBucket(videoBucketName, fileName);
-  // const audioBucketName = 'audio';
+  const audioBucketName = 'audio';
   // get file name
-  // const audioFileName =
-  //   userData.analysis?.audio_url?.split(`${audioBucketName}/`).pop() ?? '';
+  const audioFileName =
+    userData.analysis?.audio_url?.split(`${audioBucketName}/`).pop() ?? '';
   // get file url
-  // const { data: audioUrl } = useBucket(audioBucketName, audioFileName);
-  // console.log(audioFileName, userData.analysis?.audio_url, audioUrl);
+  const { data: audioUrl } = useBucket(audioBucketName, audioFileName);
 
   // if (true) {
-    if (!transcript || transcript.length === 0) {
-    return <NotAvailable
-    heading='Data temporarily unavailable'
-    description='Please check back in a little while for updated information.'
-    Icon={TvMinimalPlay}
-  />;
+  if (!transcript || transcript.length === 0) {
+    return (
+      <NotAvailable
+        heading='Data temporarily unavailable'
+        description='Please check back in a little while for updated information.'
+        Icon={TvMinimalPlay}
+      />
+    );
   }
   return (
     <div className='min-h-[calc(100vh-164px)]'>
@@ -67,15 +68,15 @@ export function InterviewTranscript() {
           <CardContent className='p-0'>
             {isPending ? (
               <>
-              <div className='h-[516px]'>
-                <Loader/>
-              </div>
+                <div className='h-[516px]'>
+                  <Loader />
+                </div>
               </>
             ) : (
               <VideoPlayer
                 // videoUrl={userData.analysis?.video_url ?? ''}
                 videoUrl={videoUrl || ''}
-                audioUrl={userData.analysis?.audio_url ?? ''}
+                audioUrl={audioUrl || userData.analysis?.audio_url || ''}
               />
             )}
           </CardContent>
