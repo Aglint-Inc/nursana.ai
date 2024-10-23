@@ -3,8 +3,8 @@ import {
   File,
   Home,
   LogOut,
-  MessageSquare,
   Sparkle,
+  TvMinimalPlay,
   UserSquare,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -53,7 +53,7 @@ const items = [
   {
     title: 'Interview Transcript',
     url: '/interview-transcript',
-    icon: MessageSquare,
+    icon: TvMinimalPlay,
     children: [],
   },
   {
