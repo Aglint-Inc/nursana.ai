@@ -69,4 +69,5 @@ const PUBLIC_ROUTES = [
   '/openAiRealTime',
 ];
 
+// eslint-disable-next-line security/detect-non-literal-regexp
 const PUBLIC_ROUTES_REGEX = new RegExp(PUBLIC_ROUTES.join('|'));

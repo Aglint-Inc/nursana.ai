@@ -1,5 +1,6 @@
-import { useRef, useCallback, useState, useEffect } from 'react';
-import { RetellWebClient } from "retell-client-js-sdk";
+/* eslint-disable no-unused-vars */
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { RetellWebClient } from 'retell-client-js-sdk';
 
 type RetellClient = RetellWebClient;
 
@@ -27,53 +28,62 @@ export function useRetellClient() {
           accessToken: accessToken,
         });
       } catch (error) {
-        console.error("Failed to start call:", error);
+        console.error('Failed to start call:', error);
         throw error;
       }
     } else {
-      console.error("Telephony Web Client is not initialized.");
-      throw new Error("Telephony Web Client is not initialized.");
+      console.error('Telephony Web Client is not initialized.');
+      throw new Error('Telephony Web Client is not initialized.');
     }
   }, []);
 
   const stopCall = useCallback(() => {
     if (retellClientRef.current) {
       retellClientRef.current.stopCall();
-      console.log("Call stopped using Telephony Web Client.");
+      console.log('Call stopped using Telephony Web Client.');
     } else {
-      console.error("Telephony Web Client is not initialized.");
+      console.error('Telephony Web Client is not initialized.');
     }
   }, []);
 
-  const setupEventListeners = useCallback((callbacks: {
-    onCallStarted?: () => void;
-    onCallEnded?: () => void;
-    onAgentStartTalking?: () => void;
-    onAgentStopTalking?: () => void;
-    onUpdate?: (update: any) => void;
-    onError?: (error: any) => void;
-  }) => {
-    if (retellClientRef.current) {
-      if (callbacks.onCallStarted) {
-        retellClientRef.current.on("call_started", callbacks.onCallStarted);
+  const setupEventListeners = useCallback(
+    (callbacks: {
+      onCallStarted?: () => void;
+      onCallEnded?: () => void;
+      onAgentStartTalking?: () => void;
+      onAgentStopTalking?: () => void;
+      onUpdate?: (update: any) => void;
+      onError?: (error: any) => void;
+    }) => {
+      if (retellClientRef.current) {
+        if (callbacks.onCallStarted) {
+          retellClientRef.current.on('call_started', callbacks.onCallStarted);
+        }
+        if (callbacks.onCallEnded) {
+          retellClientRef.current.on('call_ended', callbacks.onCallEnded);
+        }
+        if (callbacks.onAgentStartTalking) {
+          retellClientRef.current.on(
+            'agent_start_talking',
+            callbacks.onAgentStartTalking,
+          );
+        }
+        if (callbacks.onAgentStopTalking) {
+          retellClientRef.current.on(
+            'agent_stop_talking',
+            callbacks.onAgentStopTalking,
+          );
+        }
+        if (callbacks.onUpdate) {
+          retellClientRef.current.on('update', callbacks.onUpdate);
+        }
+        if (callbacks.onError) {
+          retellClientRef.current.on('error', callbacks.onError);
+        }
       }
-      if (callbacks.onCallEnded) {
-        retellClientRef.current.on("call_ended", callbacks.onCallEnded);
-      }
-      if (callbacks.onAgentStartTalking) {
-        retellClientRef.current.on("agent_start_talking", callbacks.onAgentStartTalking);
-      }
-      if (callbacks.onAgentStopTalking) {
-        retellClientRef.current.on("agent_stop_talking", callbacks.onAgentStopTalking);
-      }
-      if (callbacks.onUpdate) {
-        retellClientRef.current.on("update", callbacks.onUpdate);
-      }
-      if (callbacks.onError) {
-        retellClientRef.current.on("error", callbacks.onError);
-      }
-    }
-  }, []);
+    },
+    [],
+  );
 
   return {
     isClientReady,
