@@ -2,12 +2,20 @@
 import { AlertCircle, Terminal } from 'lucide-react';
 import Link from 'next/link';
 
-import { useUserData } from '@/applicant/hooks/useUserData';
+import {
+  usePreferredJobLocations,
+  usePreferredJobTitles,
+  usePreferredJobTypes,
+  useUserData,
+} from '@/applicant/hooks/useUserData';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 
 export function DashboardCTA() {
   const userData = useUserData();
+  const { preferredJobTitle } = usePreferredJobTitles();
+  const { preferredJobTypes } = usePreferredJobTypes();
+  const { preferredLocations } = usePreferredJobLocations();
 
   if (!userData) return null; // Return null if data is not available
 
@@ -20,11 +28,9 @@ export function DashboardCTA() {
     user?.last_name &&
     user?.email &&
     resume?.file_url &&
-    (user?.preferred_job_titles ?? []).length > 0 &&
-    (user?.preferred_locations ?? []).length > 0 &&
-    user?.job_type &&
-    user?.travel_preference &&
-    user?.expected_salary;
+    preferredJobTitle.length > 0 &&
+    preferredJobTypes.length > 0 &&
+    preferredLocations.length > 0;
 
   const hasCompletedInterview =
     userData.interview?.interview_stage ?? null === 'interview_completed';

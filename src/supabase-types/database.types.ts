@@ -357,21 +357,29 @@ export type Database = {
           id?: string
           job_title?: Database["public"]["Enums"]["job_titles"]
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "preferred_job_titles_applicant_id_fkey"
+            columns: ["applicant_id"]
+            isOneToOne: false
+            referencedRelation: "applicant"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       preferred_job_types: {
         Row: {
-          applicant_id: string | null
+          applicant_id: string
           id: string
           job_type: Database["public"]["Enums"]["job_types"] | null
         }
         Insert: {
-          applicant_id?: string | null
+          applicant_id: string
           id?: string
           job_type?: Database["public"]["Enums"]["job_types"] | null
         }
         Update: {
-          applicant_id?: string | null
+          applicant_id?: string
           id?: string
           job_type?: Database["public"]["Enums"]["job_types"] | null
         }
@@ -387,21 +395,21 @@ export type Database = {
       }
       preferred_locations: {
         Row: {
-          applicant_id: string | null
+          applicant_id: string
           city: string | null
           country: string | null
           id: string
           state: string | null
         }
         Insert: {
-          applicant_id?: string | null
+          applicant_id: string
           city?: string | null
           country?: string | null
           id?: string
           state?: string | null
         }
         Update: {
-          applicant_id?: string | null
+          applicant_id?: string
           city?: string | null
           country?: string | null
           id?: string

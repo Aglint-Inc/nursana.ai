@@ -321,7 +321,15 @@ export const preferredJobTitlesUpdateSchema = z.object({
   job_title: jobTitlesSchema.optional(),
 });
 
-export const preferredJobTitlesRelationshipsSchema = z.tuple([]);
+export const preferredJobTitlesRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("preferred_job_titles_applicant_id_fkey"),
+    columns: z.tuple([z.literal("applicant_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("applicant"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
 
 export const jobTypesSchema = z.union([
   z.literal("full-time"),
@@ -331,13 +339,13 @@ export const jobTypesSchema = z.union([
 ]);
 
 export const preferredJobTypesInsertSchema = z.object({
-  applicant_id: z.string().optional().nullable(),
+  applicant_id: z.string(),
   id: z.string().optional(),
   job_type: jobTypesSchema.optional().nullable(),
 });
 
 export const preferredJobTypesUpdateSchema = z.object({
-  applicant_id: z.string().optional().nullable(),
+  applicant_id: z.string().optional(),
   id: z.string().optional(),
   job_type: jobTypesSchema.optional().nullable(),
 });
@@ -353,7 +361,7 @@ export const preferredJobTypesRelationshipsSchema = z.tuple([
 ]);
 
 export const preferredLocationsRowSchema = z.object({
-  applicant_id: z.string().nullable(),
+  applicant_id: z.string(),
   city: z.string().nullable(),
   country: z.string().nullable(),
   id: z.string(),
@@ -361,7 +369,7 @@ export const preferredLocationsRowSchema = z.object({
 });
 
 export const preferredLocationsInsertSchema = z.object({
-  applicant_id: z.string().optional().nullable(),
+  applicant_id: z.string(),
   city: z.string().optional().nullable(),
   country: z.string().optional().nullable(),
   id: z.string().optional(),
@@ -369,7 +377,7 @@ export const preferredLocationsInsertSchema = z.object({
 });
 
 export const preferredLocationsUpdateSchema = z.object({
-  applicant_id: z.string().optional().nullable(),
+  applicant_id: z.string().optional(),
   city: z.string().optional().nullable(),
   country: z.string().optional().nullable(),
   id: z.string().optional(),
@@ -642,7 +650,7 @@ export const interviewRowSchema = z.object({
 });
 
 export const preferredJobTypesRowSchema = z.object({
-  applicant_id: z.string().nullable(),
+  applicant_id: z.string(),
   id: z.string(),
   job_type: jobTypesSchema.nullable(),
 });

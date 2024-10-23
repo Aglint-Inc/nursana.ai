@@ -76,7 +76,7 @@ export const useUploadCampaign = () => {
           first_name: getValues().first_name,
           last_name: getValues().last_name || '',
           role: 'applicant',
-          job_title: getValues().role,
+          current_job_title: 'nurse-practitioner',
         });
         if (resUser.error)
           throw new Error(resUser.error.message || resUser.error.code);

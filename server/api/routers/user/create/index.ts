@@ -5,18 +5,21 @@ import { z } from 'zod';
 
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
 import { createPublicClient } from '@/server/db';
-import { appRoleSchema } from '@/supabase-types/zod-schema.types';
+import {
+  appRoleSchema,
+  jobTitlesSchema,
+} from '@/supabase-types/zod-schema.types';
 
 export const schema = z.object({
   email: z.string().email(),
   role: appRoleSchema,
   first_name: z.string(),
   last_name: z.string().optional(),
-  job_title: z.string(),
+  current_job_title: jobTitlesSchema,
 });
 
 const mutation = async ({
-  input: { email, role, first_name, last_name, job_title },
+  input: { email, role, first_name, last_name, current_job_title },
 }: PublicProcedure<typeof schema>) => {
   const supabase = createPublicClient();
 
@@ -36,7 +39,7 @@ const mutation = async ({
       email,
       first_name,
       last_name,
-      job_title,
+      current_job_title,
     })
     .throwOnError();
 
