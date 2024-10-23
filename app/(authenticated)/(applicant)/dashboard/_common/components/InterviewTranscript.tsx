@@ -1,10 +1,13 @@
 'use client';
-import { Sparkle, User } from 'lucide-react';
+import { Sparkle, TvMinimalPlay, User } from 'lucide-react';
 
 import { useUserData } from '@/applicant/hooks/useUserData';
+import { Loader } from '@/common/components/Loader';
 import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { Card, CardContent } from '@/components/ui/card';
 import { useBucket } from '@/hooks/use-bucket';
+
+import NotAvailable from './NotAvailable';
 
 interface Message {
   role: 'agent' | 'user';
@@ -47,8 +50,14 @@ export function InterviewTranscript() {
   // get file url
   // const { data: audioUrl } = useBucket(audioBucketName, audioFileName);
   // console.log(audioFileName, userData.analysis?.audio_url, audioUrl);
-  if (!transcript || transcript.length === 0) {
-    return <div>No transcript available.</div>;
+
+  // if (true) {
+    if (!transcript || transcript.length === 0) {
+    return <NotAvailable
+    heading='Data temporarily unavailable'
+    description='Please check back in a little while for updated information.'
+    Icon={TvMinimalPlay}
+  />;
   }
   return (
     <div className='min-h-[calc(100vh-164px)]'>
@@ -57,7 +66,11 @@ export function InterviewTranscript() {
         <Card className='overflow-hidden border-none bg-secondary shadow-none'>
           <CardContent className='p-0'>
             {isPending ? (
-              'loading'
+              <>
+              <div className='h-[516px]'>
+                <Loader/>
+              </div>
+              </>
             ) : (
               <VideoPlayer
                 // videoUrl={userData.analysis?.video_url ?? ''}
