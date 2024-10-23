@@ -94,8 +94,8 @@ const EditForm = () => {
   const { register, control, setValue, clearErrors } = form;
 
   function onSubmit(values: z.infer<typeof schema>) {
-    // mutate(values);
-    console.table(values);
+    console.log(values);
+    mutate(values);
   }
 
   // template and version selection --------------------------
@@ -200,7 +200,7 @@ const EditForm = () => {
         </div>
 
         <div>
-          <p className='mb-1 font-medium'>Templates</p>
+          <p className='mb-2 font-medium'>Templates</p>
           <Select
             onValueChange={(value) => {
               setSeletedTempId(value);
