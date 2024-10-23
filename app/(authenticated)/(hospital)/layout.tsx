@@ -6,7 +6,7 @@ import { AppSidebar } from '@/components/sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import type { Routes } from '@/hospital/types';
 
-import { HospitalEditProvider } from './_common/hooks/useHosipitalEdit';
+import { HospitalEditProvider } from './_common/hooks/useHospitalEdit';
 
 const Layout = (props: PropsWithChildren<Routes>) => {
   unstable_noStore();

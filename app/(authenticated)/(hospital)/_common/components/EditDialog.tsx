@@ -21,8 +21,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { hospitalUpdateSchema } from '@/supabase-types/zod-schema.types';
 
-import { useHospitalEdit } from '../hooks/useHosipitalEdit';
 import { useHospital } from '../hooks/useHospital';
+import { useHospitalEdit } from '../hooks/useHospitalEdit';
 
 export const EditHospitalDialog = () => {
   const { isOpen, setIsOpen } = useHospitalEdit();

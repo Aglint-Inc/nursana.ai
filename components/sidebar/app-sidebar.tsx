@@ -34,7 +34,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { EditHospitalDialog } from '@/hospital/components/EditDialog';
-import { useHospitalEdit } from '@/hospital/hooks/useHosipitalEdit';
+import { useHospitalEdit } from '@/hospital/hooks/useHospitalEdit';
 
 const data = {
   user: {
