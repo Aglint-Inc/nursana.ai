@@ -349,7 +349,7 @@ export type Database = {
         }
         Insert: {
           applicant_id?: string
-          id: string
+          id?: string
           job_title: Database["public"]["Enums"]["job_titles"]
         }
         Update: {
@@ -397,7 +397,7 @@ export type Database = {
           applicant_id?: string | null
           city?: string | null
           country?: string | null
-          id: string
+          id?: string
           state?: string | null
         }
         Update: {
