@@ -4,6 +4,7 @@ import { type PropsWithChildren } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 import {
   SheetDescription,
   SheetHeader,
@@ -69,26 +70,36 @@ const Content = () => {
   const version = useVersion();
 
   // eslint-disable-next-line no-unused-vars
-  const details: DetailType[] = [
-    // ai
+  const AiDetails: DetailType[] = [
     {
-      label: 'AI Instructions',
-      value: version.ai_instructions,
+      label: 'Welcome Message',
+      value: version.ai_welcome_message,
     },
     {
       label: 'Interview Duration',
       value: version.ai_interview_duration + ' Minutes',
     },
     {
+      label: 'AI Ending Message',
+      value: version.ai_ending_message,
+    },
+    {
       label: 'Questions',
       value: version.ai_questions,
       textArea: true,
     },
+
     {
-      label: 'Welcome Message',
-      value: version.ai_welcome_message,
+      label: 'AI Instructions',
+      value: version.ai_instructions,
     },
-    // candidate
+  ];
+
+  const CandidateDetails = [
+    {
+      label: 'Candidate Overview',
+      value: version.candidate_overview,
+    },
     {
       label: 'Candidate Estimated Time',
       value: version.candidate_estimated_time,
@@ -97,14 +108,19 @@ const Content = () => {
       label: 'Candidate Instructions',
       value: version.candidate_instructions,
     },
-    {
-      label: 'Candidate Overview',
-      value: version.candidate_overview,
-    },
   ];
   return (
     <ScrollArea className='h-[calc(100vh-80px)] w-full pr-4'>
-      {details.map((detail) => (
+      <p className='mb-2 mt-4 text-xl'>
+        AI Details <Separator />
+      </p>
+      {AiDetails.map((detail) => (
+        <Detail key={detail.label} {...detail} />
+      ))}
+      <p className='mb-2 mt-4 text-xl'>
+        Candidate Details <Separator />
+      </p>
+      {CandidateDetails.map((detail) => (
         <Detail key={detail.label} {...detail} />
       ))}
       <ScrollBar />
