@@ -1,10 +1,10 @@
-drop policy "Allow public read access" on "storage"."objects";
+DROP POLICY IF EXISTS "Allow public read access" on "storage"."objects";
 
-drop policy "Give users authenticated access to folder 1jgvrq_0" on "storage"."objects";
+DROP POLICY IF EXISTS "Give users authenticated access to folder 1jgvrq_0" ON "storage"."objects";
 
-drop policy "Give users authenticated access to folder 1jgvrq_2" on "storage"."objects";
+DROP POLICY IF EXISTS "Give users authenticated access to folder 1jgvrq_2" on "storage"."objects";
 
-drop policy "Give users authenticated access to folder 1jgvrq_1" on "storage"."objects";
+DROP POLICY IF EXISTS "Give users authenticated access to folder 1jgvrq_1" on "storage"."objects";
 
 create policy "Allow authenticated read access"
 on "storage"."objects"

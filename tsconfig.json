@@ -39,6 +39,10 @@
       "@/authenticated/*": ["./app/(authenticated)/_common/*"],
       "@/hospital/*": ["./app/(authenticated)/(hospital)/_common/*"],
       "@/campaigns/*": ["./app/(authenticated)/(hospital)/campaigns/_common/*"],
+      "@/templates/*": ["./app/(authenticated)/(hospital)/templates/_common/*"],
+      "@/version/*": [
+        "./app/(authenticated)/(hospital)/templates/[version]/_common/*"
+      ],
       "@/campaign/*": [
         "./app/(authenticated)/(hospital)/campaigns/[campaign]/_common/*"
       ]
