@@ -15,53 +15,59 @@ function Hero() {
           objectFit='cover'
         />
       </div>
-      <div className='relative z-20 pt-16 flex flex-col items-center gap-16'>
-        <Image
+      <div className='relative z-20 flex flex-col md:items-center md:gap-16 gap-10 pt-16 md:px-0 px-5'>
+        <Link href={'/auth/sign-in'}> <Image
           src={'/images/nursana-beta.svg'}
           width={200}
           height={60}
           alt='nursana.ai'
-        />
-        <div className='w-full flex flex-col gap-4 items-center'>
-        <h1 className='max-w-[1000px] text-4xl md:text-center font-medium md:text-6xl'>
-                Fast-Track Your Nursing Career with
-                <span className='ml-2.5 text-purple-700'>💪 AI-Powered Interviews.</span>
-              </h1>
-              <p className=' text-xl text-muted-foreground md:text-lg max-w-[600px] md:text-center'>
-                Get hired quicker with AI-driven resume feedback and interviews
-                designed to match you with the perfect job.
-              </p>
-              <div className='flex items-center gap-4 mt-2'>
-              <Link href='/campaign/?campaign_code=SUMMER23NURSE'>
-                <Button size='lg' className='text-lg rounded-full'>
-                  Get Started
-                </Button>
-              </Link>
-              <Link href='#how-it-works'>
-                <Button size='lg' variant={'outline'} className='text-lg rounded-full'>
-                  How it works 🤔
-                </Button>
-              </Link>
-              </div>
+        /></Link>
+       
+        <div className='flex w-full flex-col md:items-center gap-4'>
+          <h1 className='max-w-[1000px] text-4xl font-medium md:text-center md:text-6xl'>
+            Fast-Track Your Nursing Career with
+            <span className='ml-2.5 text-purple-700'>
+              💪 AI-Powered Interviews.
+            </span>
+          </h1>
+          <p className='max-w-[600px] text-xl text-muted-foreground md:text-center md:text-lg'>
+            Get hired quicker with AI-driven resume feedback and interviews
+            designed to match you with the perfect job.
+          </p>
+          <div className='mt-2 flex md:items-center gap-4'>
+            <Link href='/campaign/?campaign_code=SUMMER23NURSE'>
+              <Button size='lg' className='rounded-full text-lg'>
+                Get Started
+              </Button>
+            </Link>
+            <Link href='#how-it-works'>
+              <Button
+                size='lg'
+                variant={'outline'}
+                className='rounded-full text-lg'
+              >
+                How it works 🤔
+              </Button>
+            </Link>
+          </div>
         </div>
         <Image
           src='/images/nurses.png'
           alt='nurses'
-         width={1000}
-         height={500}
-         className='hidden md:block'
+          width={1000}
+          height={500}
+          className='hidden md:block'
         />
         <Image
           src='/images/hero-bg-mobile.png'
           alt='nurses'
-         width={1000}
-         height={500}
-         className='md:hidden'
+          width={1000}
+          height={500}
+          className='md:hidden'
         />
-         <div className='h-[120px] bg-gradient-to-b from-transparent to-white w-full flex items-end justify-end'>
-         <div id='how-it-works' className='h-[0px]'></div>
-         </div>
-         
+        <div className='flex h-[120px] w-full items-end justify-end bg-gradient-to-b from-transparent to-white'>
+          <div id='how-it-works' className='h-[0px]'></div>
+        </div>
       </div>
     </div>
   );
