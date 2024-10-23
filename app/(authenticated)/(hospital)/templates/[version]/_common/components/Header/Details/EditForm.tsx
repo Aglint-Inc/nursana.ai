@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Trash2 } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 import { type Dispatch, type SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { type z } from 'zod';
@@ -215,6 +215,7 @@ const ArrayInput = ({
   setArray: Dispatch<SetStateAction<string[]>>;
 }) => {
   const [text, setText] = useState<string>('');
+  const [isEdit, setIsEdit] = useState(false);
   return (
     <div className='flex flex-col gap-2'>
       {array.map((ins) => (
@@ -232,6 +233,17 @@ const ArrayInput = ({
           >
             <Trash2 />
           </Button>
+          <Button
+            size={'sm'}
+            variant={'ghost'}
+            onClick={() => {
+              setArray((pre) => pre.filter((insOld) => insOld !== ins));
+              setText(ins);
+              setIsEdit(true);
+            }}
+          >
+            <Pencil />
+          </Button>
         </div>
       ))}
       <div className='flex items-start gap-2'>
@@ -240,12 +252,13 @@ const ArrayInput = ({
           disabled={!text}
           onClick={() => {
             if (text) {
+              if (isEdit) setIsEdit(false);
               setArray((pre) => [...pre, text]);
               setText('');
             }
           }}
         >
-          Add
+          {isEdit ? 'Update' : 'Add'}
         </Button>
       </div>
     </div>

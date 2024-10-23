@@ -1,3 +1,5 @@
+import { ScrollArea } from '@radix-ui/react-scroll-area';
+import _ from 'lodash';
 import { Settings2Icon } from 'lucide-react';
 import { type PropsWithChildren } from 'react';
 
@@ -50,6 +52,87 @@ const Settings = () => {
 };
 
 const Body = () => {
+  return (
+    <SheetDescription>
+      <Content />
+    </SheetDescription>
+  );
+};
+type DetailType = {
+  label: string;
+  value: string | number | null | string[];
+};
+
+const Content = () => {
   const version = useVersion();
-  return <SheetDescription>{JSON.stringify(version)}</SheetDescription>;
+
+  // eslint-disable-next-line no-unused-vars
+  const details: DetailType[] = [
+    // ai
+    {
+      label: 'AI Instructions',
+      value: version.ai_instructions,
+    },
+    {
+      label: 'Interview Duration',
+      value: version.ai_interview_duration,
+    },
+    {
+      label: 'Questions',
+      value: version.ai_questions,
+    },
+    {
+      label: 'Welcome Message',
+      value: version.ai_welcome_message,
+    },
+    // candidate
+    {
+      label: 'Estimated Time',
+      value: version.candidate_estimated_time,
+    },
+    {
+      label: 'Candidate Instructions',
+      value: version.candidate_instructions,
+    },
+    {
+      label: 'Candidate Overview',
+      value: version.candidate_overview,
+    },
+  ];
+  return (
+    <div className='p-2'>
+      <ScrollArea className='max-h-[calc(100vh-160px)] w-full overflow-y-auto'>
+        {details.map((detail) => (
+          <Detail key={detail.label} detail={detail} />
+        ))}
+      </ScrollArea>
+    </div>
+  );
+};
+
+const Detail = ({ detail }: { detail: DetailType }) => {
+  const List = ({ lists }: { lists: string[] }) => {
+    return (
+      <>
+        {lists.map((list) => (
+          <p key={list} className='rounded-sm bg-gray-100 p-2'>
+            {list}
+          </p>
+        ))}
+      </>
+    );
+  };
+
+  return (
+    <div className='mb-4'>
+      <p className='mb-2 font-bold'>{detail.label}</p>
+      {_.isArray(detail.value) ? (
+        <div className='flex flex-col gap-2'>
+          <List lists={detail.value} />
+        </div>
+      ) : (
+        detail.value
+      )}
+    </div>
+  );
 };
