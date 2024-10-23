@@ -70,6 +70,9 @@ const EditForm = () => {
         <FormField
           control={form.control}
           name='hospital_name'
+          rules={{
+            required: 'Name cannot be empty',
+          }}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
