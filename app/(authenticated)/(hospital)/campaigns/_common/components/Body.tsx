@@ -5,7 +5,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export const Body = (props: PropsWithChildren) => {
   return (
-    <div className='flex w-full flex-col gap-2 p-4'>
+    <div className='flex w-full flex-col gap-2 px-4 py-6'>
       <Header />
       {props.children}
     </div>
