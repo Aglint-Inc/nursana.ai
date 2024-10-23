@@ -215,7 +215,7 @@ const ArrayInput = ({
   setArray: Dispatch<SetStateAction<string[]>>;
 }) => {
   const [text, setText] = useState<string>('');
-  const [isEdit, setIsEdit] = useState(false);
+  const [Edit, setEdit] = useState('');
   return (
     <div className='flex flex-col gap-2'>
       {array.map((ins) => (
@@ -239,7 +239,7 @@ const ArrayInput = ({
             onClick={() => {
               setArray((pre) => pre.filter((insOld) => insOld !== ins));
               setText(ins);
-              setIsEdit(true);
+              setEdit(ins);
             }}
           >
             <Pencil />
@@ -252,14 +252,25 @@ const ArrayInput = ({
           disabled={!text}
           onClick={() => {
             if (text) {
-              if (isEdit) setIsEdit(false);
+              if (Edit) setEdit('');
               setArray((pre) => [...pre, text]);
               setText('');
             }
           }}
         >
-          {isEdit ? 'Update' : 'Add'}
+          {Edit ? 'Update' : 'Add'}
         </Button>
+        {Edit && (
+          <Button
+            onClick={() => {
+              setText('');
+              setEdit('');
+              setArray((pre) => [...pre, Edit]);
+            }}
+          >
+            Cancel
+          </Button>
+        )}
       </div>
     </div>
   );
