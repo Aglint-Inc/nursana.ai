@@ -1,8 +1,9 @@
 import 'server-only';
 
 import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
 
-import { inputSchema as schema } from '@/campaign/schema/columnFilterSchema';
+import { schema as interviewsSchema } from '@/campaigns/schema/interviews.schema';
 import {
   type HospitalProcedure,
   hospitalProcedure,
@@ -10,21 +11,22 @@ import {
 } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
 
+export const schema = interviewsSchema.merge(
+  z.object({
+    id: z.string(),
+  }),
+);
+
 const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
   const db = createPrivateClient();
   const query = db
     .from('interview')
     .select(
       'id, interview_stage, updated_at, applicant!interviews_user_id_fkey!inner(first_name, last_name, email, job_title, expected_salary, terms_accepted)',
+      { count: 'exact' },
     )
     .eq('campaign_id', input.id)
-    .eq('hospital_id', ctx.hospital.id)
-    .limit(input.size)
-    .range(input.start, input.start + input.size);
-
-  if (input.email) query.eq('applicant.email', input.email);
-
-  if (input.job_title) query.eq('applicant.job_title', input.job_title);
+    .eq('hospital_id', ctx.hospital.id);
 
   if (input.interview_stage && input.interview_stage.length)
     query.in('interview_stage', input.interview_stage);
@@ -34,8 +36,8 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
     query.lte('updated_at', input.updated_at[1]);
   }
 
-  const { data } = await query;
-  if (!data)
+  const { data, count } = await query;
+  if (!data || !count)
     throw new TRPCError({
       code: 'NOT_FOUND',
       message: 'Interviews not found',

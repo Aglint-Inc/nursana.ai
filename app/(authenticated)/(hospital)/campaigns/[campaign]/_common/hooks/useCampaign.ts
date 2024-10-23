@@ -1,9 +1,9 @@
 import { api } from 'trpc/client';
 
-import { useCampaignParams } from './useCurrentCampaign';
+import { useCurrentCampaign } from './useCurrentCampaign';
 
 export const useCampaign = () => {
-  const { campaign } = useCampaignParams();
+  const { campaign } = useCurrentCampaign();
   return api.authenticated.hospital.campaigns.campaign.read.useSuspenseQuery({
     id: campaign,
   })[0];

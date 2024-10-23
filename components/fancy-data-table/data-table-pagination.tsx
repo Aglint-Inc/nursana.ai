@@ -42,7 +42,7 @@ export function DataTablePagination<TData>({
           value={`${table.getState().pagination.pageSize}`}
           onValueChange={(value) => {
             table.setPageSize(Number(value));
-            updatePageSearchParams({ pageSize: value });
+            updatePageSearchParams({ rows: value });
           }}
         >
           <SelectTrigger className='h-8 w-[70px]'>
@@ -66,7 +66,9 @@ export function DataTablePagination<TData>({
           variant='outline'
           className='hidden h-8 w-8 p-0 lg:flex'
           onClick={() => {
-            table.setPageIndex(0);
+            const page = 0;
+            updatePageSearchParams({ page });
+            table.setPageIndex(page);
           }}
           disabled={!table.getCanPreviousPage()}
         >
@@ -77,7 +79,9 @@ export function DataTablePagination<TData>({
           variant='outline'
           className='h-8 w-8 p-0'
           onClick={() => {
-            table.previousPage();
+            const page = table.getState().pagination.pageIndex - 1;
+            updatePageSearchParams({ page });
+            table.setPageIndex(page);
           }}
           disabled={!table.getCanPreviousPage()}
         >
@@ -88,7 +92,9 @@ export function DataTablePagination<TData>({
           variant='outline'
           className='h-8 w-8 p-0'
           onClick={() => {
-            table.nextPage();
+            const page = table.getState().pagination.pageIndex + 1;
+            updatePageSearchParams({ page });
+            table.setPageIndex(page);
           }}
           disabled={!table.getCanNextPage()}
         >
@@ -99,7 +105,9 @@ export function DataTablePagination<TData>({
           variant='outline'
           className='hidden h-8 w-8 p-0 lg:flex'
           onClick={() => {
-            table.setPageIndex(table.getPageCount() - 1);
+            const page = table.getPageCount() - 1;
+            updatePageSearchParams({ page });
+            table.setPageIndex(page);
           }}
           disabled={!table.getCanNextPage()}
         >

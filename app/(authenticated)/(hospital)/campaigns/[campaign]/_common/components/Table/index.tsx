@@ -1,29 +1,26 @@
-import * as React from 'react';
+import { unstable_noStore } from 'next/cache';
+import { api, HydrateClient } from 'trpc/server';
 
-import { Skeleton } from './skeleton';
-import { SuspenseTable } from './suspense-table';
+import type { PageProps } from '@/campaign/types';
+import { searchParamsCache } from '@/campaigns/constants/search-params';
 
-type Props = {
-  params: { campaign: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+import { SuspenseTable } from './suspenseTable';
 
-export const Table = async (props: Props) => {
-  // const search = searchParamsCache.parse(props.searchParams);
-  // const data = await api.authenticated.hospital.campaigns.campaign.interviews({
-  //   id: props.params.campaign,
-  //   email: search.name ?? undefined,
-  //   interview_stage: search.interview_stage ?? undefined,
-  //   job_title: search.job_title ?? undefined,
-  //   name: search.name ?? undefined,
-  //   size: search.size ?? undefined,
-  //   start: search.start ?? undefined,
-  //   updated_at: search.updated_at ?? undefined,
-  // });
-  // const { size: _size, start: _start, ...defaultColumnFilters } = search;
+export const Table = async (props: PageProps) => {
+  unstable_noStore();
+
+  const search = searchParamsCache.parse(props.searchParams);
+
+  void api.authenticated.hospital.campaigns.campaign.interviews.prefetch({
+    id: props.params.campaign,
+    interview_stage: search.interview_stage ?? undefined,
+    updated_at: search.updated_at ?? undefined,
+    terms_accepted: search.terms_accepted ?? undefined,
+  });
+
   return (
-    <React.Suspense fallback={<Skeleton />}>
-      <SuspenseTable {...props} />
-    </React.Suspense>
+    <HydrateClient>
+      <SuspenseTable />
+    </HydrateClient>
   );
 };
