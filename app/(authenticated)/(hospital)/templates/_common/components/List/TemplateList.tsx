@@ -14,13 +14,22 @@ import {
 import { useTemplates } from '@/templates/hooks/useTemplates';
 import { type Template } from '@/templates/types';
 
+import { useList } from './Context';
+
 export const TemplateList = () => {
+  const { search } = useList();
   const templates = useTemplates();
+  const filteredTemplates = templates.filter(({ name }) =>
+    name.toLowerCase().includes(search.toLowerCase()),
+  );
+  if (filteredTemplates.length === 0)
+    return <div className='w-full p-4'>No Campaigns found</div>;
+
   return (
     <SidebarContent>
       <SidebarGroup className='px-0'>
         <SidebarGroupContent>
-          {templates.map((template) => (
+          {filteredTemplates.map((template) => (
             <TemplateCard key={template.id} {...template} />
           ))}
         </SidebarGroupContent>
