@@ -311,7 +311,7 @@ export const preferredJobTitlesRowSchema = z.object({
 
 export const preferredJobTitlesInsertSchema = z.object({
   applicant_id: z.string().optional(),
-  id: z.string(),
+  id: z.string().optional(),
   job_title: jobTitlesSchema,
 });
 
@@ -364,7 +364,7 @@ export const preferredLocationsInsertSchema = z.object({
   applicant_id: z.string().optional().nullable(),
   city: z.string().optional().nullable(),
   country: z.string().optional().nullable(),
-  id: z.string(),
+  id: z.string().optional(),
   state: z.string().optional().nullable(),
 });
 
