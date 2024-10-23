@@ -15,7 +15,7 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
   const campaign = (
     await db
       .from('campaign')
-      .select()
+      .select('*, version!inner(*)')
       .eq('id', input.id)
       .eq('hospital_id', ctx.hospital.id)
       .single()
