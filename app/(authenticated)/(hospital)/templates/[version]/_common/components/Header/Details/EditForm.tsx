@@ -32,8 +32,8 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
 import { versionUpdateSchema } from '@/supabase-types/zod-schema.types';
-
 import { useVersion } from '@/version/hooks/useVersion';
+
 import { useDetails } from './Context';
 
 const schema = versionUpdateSchema.pick({
