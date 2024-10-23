@@ -1,9 +1,9 @@
-import { ScrollArea } from '@radix-ui/react-scroll-area';
 import _ from 'lodash';
 import { Settings2Icon } from 'lucide-react';
 import { type PropsWithChildren } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import {
   SheetDescription,
   SheetHeader,
@@ -103,12 +103,11 @@ const Content = () => {
     },
   ];
   return (
-    <ScrollArea className='h-[calc(100vh-160px)] w-full overflow-y-auto'>
-      <div className='flex flex-col gap-4'>
-        {details.map((detail) => (
-          <Detail key={detail.label} {...detail} />
-        ))}
-      </div>
+    <ScrollArea className='h-[calc(100vh-100px)] w-full'>
+      {details.map((detail) => (
+        <Detail key={detail.label} {...detail} />
+      ))}
+      <ScrollBar />
     </ScrollArea>
   );
 };

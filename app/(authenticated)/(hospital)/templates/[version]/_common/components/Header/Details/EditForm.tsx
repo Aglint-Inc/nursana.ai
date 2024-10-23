@@ -6,6 +6,15 @@ import { type z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
   Form,
   FormControl,
   FormField,
@@ -69,7 +78,7 @@ export const EditForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-        <ScrollArea className='h-[calc(100vh-160px)] w-full overflow-y-auto'>
+        <ScrollArea className='h-[calc(100vh-160px)] w-full'>
           <div className='flex flex-col gap-4'>
             <FormField
               control={form.control}
@@ -229,21 +238,37 @@ const ArrayInput = ({
             variant={'ghost'}
             onClick={() => {
               setArray((pre) => pre.filter((insOld) => insOld !== ins));
-            }}
-          >
-            <Trash2 />
-          </Button>
-          <Button
-            size={'sm'}
-            variant={'ghost'}
-            onClick={() => {
-              setArray((pre) => pre.filter((insOld) => insOld !== ins));
               setText(ins);
               setEdit(ins);
             }}
           >
             <Pencil />
           </Button>
+          <Dialog>
+            <DialogTrigger>
+              <Button size={'sm'} variant={'ghost'}>
+                <Trash2 />
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Confirm Deletion</DialogTitle>
+                <DialogDescription>
+                  Are you sure you want to delete ?
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button
+                  size={'sm'}
+                  onClick={() => {
+                    setArray((pre) => pre.filter((insOld) => insOld !== ins));
+                  }}
+                >
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       ))}
       <div className='flex items-start gap-2'>
