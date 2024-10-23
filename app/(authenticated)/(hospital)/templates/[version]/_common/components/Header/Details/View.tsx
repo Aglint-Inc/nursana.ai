@@ -9,6 +9,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
+import { Textarea } from '@/components/ui/textarea';
 
 import { useVersion } from '../../../hooks/useVersion';
 import { useDetails } from './Context';
@@ -61,6 +62,7 @@ const Body = () => {
 type DetailType = {
   label: string;
   value: string | number | null | string[];
+  textArea?: boolean;
 };
 
 const Content = () => {
@@ -75,11 +77,12 @@ const Content = () => {
     },
     {
       label: 'Interview Duration',
-      value: version.ai_interview_duration,
+      value: version.ai_interview_duration + ' Minutes',
     },
     {
       label: 'Questions',
       value: version.ai_questions,
+      textArea: true,
     },
     {
       label: 'Welcome Message',
@@ -87,7 +90,7 @@ const Content = () => {
     },
     // candidate
     {
-      label: 'Estimated Time',
+      label: 'Candidate Estimated Time',
       value: version.candidate_estimated_time,
     },
     {
@@ -103,14 +106,14 @@ const Content = () => {
     <div className='p-2'>
       <ScrollArea className='max-h-[calc(100vh-160px)] w-full overflow-y-auto'>
         {details.map((detail) => (
-          <Detail key={detail.label} detail={detail} />
+          <Detail key={detail.label} {...detail} />
         ))}
       </ScrollArea>
     </div>
   );
 };
 
-const Detail = ({ detail }: { detail: DetailType }) => {
+const Detail = ({ label, value, textArea = false }: DetailType) => {
   const List = ({ lists }: { lists: string[] }) => {
     return (
       <>
@@ -125,13 +128,19 @@ const Detail = ({ detail }: { detail: DetailType }) => {
 
   return (
     <div className='mb-4'>
-      <p className='mb-2 font-bold'>{detail.label}</p>
-      {_.isArray(detail.value) ? (
+      <p className='mb-2 font-bold'>{label}</p>
+      {textArea ? (
+        <Textarea
+          disabled
+          value={value as string}
+          className='min-h-[200px] !cursor-default disabled:bg-gray-100 disabled:text-gray-800 disabled:opacity-100'
+        />
+      ) : _.isArray(value) ? (
         <div className='flex flex-col gap-2'>
-          <List lists={detail.value} />
+          <List lists={value} />
         </div>
       ) : (
-        detail.value
+        value
       )}
     </div>
   );
