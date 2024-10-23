@@ -103,7 +103,7 @@ const Content = () => {
     },
   ];
   return (
-    <ScrollArea className='h-[calc(100vh-100px)] w-full'>
+    <ScrollArea className='h-[calc(100vh-80px)] w-full pr-4'>
       {details.map((detail) => (
         <Detail key={detail.label} {...detail} />
       ))}

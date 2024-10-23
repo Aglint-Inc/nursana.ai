@@ -78,8 +78,8 @@ export const EditForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-        <ScrollArea className='h-[calc(100vh-160px)] w-full'>
-          <div className='flex flex-col gap-4'>
+        <ScrollArea className='h-[calc(100vh-150px)] w-full pr-4'>
+          <div className='flex flex-col gap-2'>
             <FormField
               control={form.control}
               name='name'
