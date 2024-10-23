@@ -1,6 +1,6 @@
-import 'server-only'; /* eslint-disable no-console */
+import 'server-only';
 
-import { applicantProcedure, ApplicantProcedure } from '@/server/api/trpc';
+import { type ApplicantProcedure, applicantProcedure } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
 
 const query = async ({ ctx: { user_id } }: ApplicantProcedure) => {
