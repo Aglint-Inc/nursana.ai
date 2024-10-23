@@ -47,7 +47,11 @@ import {
 const userProfileSchema = z.object({
   first_name: z.string().min(2, 'First name is required'),
   last_name: z.string().min(1, 'Last name is required').nullable().optional(),
-  phone_number: z.string().min(10, 'Phone number must be at least 10 digits'),
+  phone_number: z
+    .string()
+    .min(10, 'Phone number must be at least 10 digits')
+    .nullable()
+    .optional(),
   preferred_travel_preference: travelPreferrenceSchema,
   salary_range: z.string().nullable(),
   current_job_title: jobTitlesSchema,
@@ -79,7 +83,7 @@ export default function EditProfileForm() {
   const [firstName, setFirstName] = useState(user?.first_name || '');
   const [lastName, setLastName] = useState(user?.last_name || '');
   const [openToWork, setOpenToWork] = useState(user?.open_to_work || false);
-  const [phone, setPhone] = useState(user?.phone_number || '');
+  const [phone, setPhone] = useState(user?.phone_number || null);
   const [salary, setSalary] = useState(
     (user?.salary_range as string) || SALARY_RANGES[0].value,
   );
@@ -94,6 +98,7 @@ export default function EditProfileForm() {
     await updateUserDetails({
       ...data,
       last_name: data.last_name || null,
+      phone_number: data.phone_number || null,
     });
   };
   const first_name = useDebounce(firstName, 1000);

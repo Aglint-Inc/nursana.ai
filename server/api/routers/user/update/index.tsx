@@ -13,7 +13,11 @@ import {
 export const userProfileSchema = z.object({
   first_name: z.string().min(2, 'First name is required'),
   last_name: z.string().min(1, 'Last name is required').nullable().optional(),
-  phone_number: z.string().min(10, 'Phone number must be at least 10 digits'),
+  phone_number: z
+    .string()
+    .min(10, 'Phone number must be at least 10 digits')
+    .nullable()
+    .optional(),
   preferred_travel_preference: travelPreferrenceSchema,
   salary_range: z.string().nullable(),
   current_job_title: jobTitlesSchema,
