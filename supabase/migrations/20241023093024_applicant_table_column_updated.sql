@@ -13,6 +13,16 @@ create table "public"."preferred_job_titles" (
 
 alter table "public"."preferred_job_titles" enable row level security;
 
+alter table "public"."applicant" drop column "preferred_job_titles";
+
+alter table "public"."applicant" drop column "preferred_job_types";
+
+alter table "public"."applicant" drop column "preferred_locations";
+
+alter table "public"."applicant" drop column "travel_preference";
+
+drop type "public"."preferred_job_types";
+
 create table "public"."preferred_job_types" (
     "id" uuid not null default gen_random_uuid(),
     "applicant_id" uuid,
@@ -33,17 +43,9 @@ create table "public"."preferred_locations" (
 
 alter table "public"."preferred_locations" enable row level security;
 
-alter table "public"."applicant" drop column "preferred_job_titles";
-
-alter table "public"."applicant" drop column "preferred_job_types";
-
-alter table "public"."applicant" drop column "preferred_locations";
-
-alter table "public"."applicant" drop column "travel_preference";
-
 alter table "public"."applicant" add column "preferred_travel_preference" travel_preferrence;
 
-drop type "public"."preferred_job_types";
+
 
 CREATE UNIQUE INDEX preferred_job_titles_pkey ON public.preferred_job_titles USING btree (id);
 
