@@ -6,6 +6,7 @@ import {
   MessageCircle,
   MessageSquare,
   Puzzle,
+  Sparkles,
   UserCheck,
   Zap,
 } from 'lucide-react';
@@ -17,6 +18,7 @@ import { Card, CardContent } from '@/components/ui/card';
 // import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 
+import NotAvailable from './NotAvailable';
 import ProgressBarCard from './ProgressBarCard';
 import RadialProgress from './RadialProgress';
 
@@ -50,7 +52,13 @@ export function InterviewAnalysis() {
   console.log('analysis', analysis);
 
   if (!analysis) {
-    return <div>No analysis available.</div>;
+    return (
+      <NotAvailable
+        heading='Data temporarily unavailable'
+        description='We’re currently analyzing the data. Please check back in a little while for updated information.'
+        Icon={Sparkles}
+      />
+    );
   }
 
   const chartData = [
