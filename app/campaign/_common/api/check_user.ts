@@ -10,36 +10,36 @@ export const schema = z.object({
   campaign_id: z.string(),
 });
 
-const mutation = async ({
+const query = async ({
   input: { email, campaign_id },
 }: PublicProcedure<typeof schema>) => {
   const db = createPublicClient();
-  const applicant_user = (
+  const app_user = (
     await db
-      .from('applicant_user')
-      .select('*, user!applicant_user_id_fkey!inner(*)')
+      .from('user')
+      .select('*, applicant_user(*)')
       .eq('email', email)
-      .single()
       .throwOnError()
   ).data!;
 
-  const resume = applicant_user
+  const resume = app_user[0]?.applicant_user
     ? (
         await db
           .from('resume')
           .select('*')
           .eq('campaign_id', campaign_id)
-          .eq('applicant_id', applicant_user.user.id)
+          .eq('applicant_id', app_user[0].applicant_user.id)
           .throwOnError()
       ).data
     : null;
 
-  const { user, ...rest } = applicant_user;
-
   return {
-    user: applicant_user ? { ...rest, ...user } : null,
+    user_id: app_user ? app_user[0]?.id : null,
+    applicant_id: app_user[0]?.applicant_user
+      ? app_user[0].applicant_user.id
+      : null,
     resume: resume ? resume[0] : null,
   };
 };
 
-export const userCheck = publicProcedure.input(schema).mutation(mutation);
+export const userCheck = publicProcedure.input(schema).query(query);
