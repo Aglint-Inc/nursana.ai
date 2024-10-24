@@ -28,13 +28,15 @@ import { useDetails } from './Context';
 const schema = versionUpdateSchema.pick({
   name: true,
   ai_ending_message: true,
-  ai_instructions: true, //array
+  ai_instructions: true,
   ai_interview_duration: true,
   ai_questions: true,
   ai_welcome_message: true,
   candidate_estimated_time: true,
-  candidate_instructions: true, // array
-  candidate_overview: true, //array
+  candidate_instructions: true,
+  candidate_overview: true,
+  candidate_intro_video_url: true,
+  candidate_intro_video_cover_image_url: true,
 });
 
 export const EditForm = () => {
@@ -47,8 +49,8 @@ export const EditForm = () => {
     defaultValues: version,
   });
 
-  function onSubmit(values: z.infer<typeof schema>) {
-    mutate({
+  async function onSubmit(values: z.infer<typeof schema>) {
+    await mutate({
       ...values,
     });
   }
@@ -98,7 +100,41 @@ export const EditForm = () => {
                           <FormMessage />
                         </FormItem>
                       )}
-                    />{' '}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='candidate_intro_video_cover_image_url'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Video cover image url</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder='Enter cover image url'
+                              {...field}
+                              value={field.value || ''}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='candidate_intro_video_url'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Video url</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder='Enter video url '
+                              {...field}
+                              value={field.value || ''}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                     <FormField
                       control={form.control}
                       name='ai_welcome_message'

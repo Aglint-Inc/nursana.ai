@@ -22,6 +22,8 @@ const schema = versionRowSchema.pick({ id: true }).merge(
     candidate_estimated_time: true,
     candidate_instructions: true,
     candidate_overview: true,
+    candidate_intro_video_url: true,
+    candidate_intro_video_cover_image_url: true,
   }),
 );
 

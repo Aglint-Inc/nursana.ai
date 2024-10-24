@@ -9,12 +9,18 @@ import { useVersionEdit } from '@/version/hooks/userVersionEdit';
 
 const useVersionContext = () => {
   const [mode, setMode] = useState<'edit' | 'view'>('view');
-  const { mutate, isPending } = useVersionEdit();
+  const { isPending, ...mutation } = useVersionEdit();
+
+  const mutate = (input: Parameters<(typeof mutation)['mutate']>[0]) =>
+    mutation.mutate(input, {
+      onSuccess: () => setMode('view'),
+    });
+
   return {
     mode,
     setMode,
-    mutate,
     isPending,
+    mutate,
   };
 };
 
