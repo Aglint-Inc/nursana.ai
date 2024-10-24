@@ -9,7 +9,15 @@ import { useTemplateAdd } from '@/templates/hooks/useTemplateAdd';
 
 const useAddTemplateHook = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isPending, mutate } = useTemplateAdd();
+  const { isPending, ...mutation } = useTemplateAdd();
+
+  const mutate = (input: Parameters<(typeof mutation)['mutate']>[0]) =>
+    mutation.mutate(input, {
+      onSuccess: () => {
+        setIsOpen(false);
+      },
+    });
+
   return { isOpen, setIsOpen, isPending, mutate };
 };
 
