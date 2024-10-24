@@ -18,10 +18,7 @@ import { updateUser } from './update';
 import { updatePreferences } from './update_preferences';
 
 export const user = createTRPCRouter({
-  create_interview: createInterview,
   check: userCheck,
-
-  create: createUser,
   createPreferredJobTitles,
   createPreferredJobLocations,
   createPreferredJobTypes,

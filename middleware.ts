@@ -59,6 +59,7 @@ const PUBLIC_ROUTES = [
   '^/auth/',
   '^/ui/',
   '/campaign',
+  '/test',
   '/api/trpc',
   '/api/score_resume',
   '/api/score_call',

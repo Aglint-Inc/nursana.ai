@@ -21,28 +21,19 @@ import {
 
 import Section from '../../../../components/section';
 import { useUploadCampaign } from '../hooks/useUpload';
-import { type Role } from '../types';
 import ResumeUpload from './ResumeUpload';
+import { JOB_TITLES } from 'app/(authenticated)/(applicant)/profile/_common/constant';
 
 export default function FormCampaign() {
-  const { form, saving, error, handleSubmit } = useUploadCampaign();
+  const { form, saving, handleSubmit } = useUploadCampaign();
 
   const {
     control,
     setValue,
     clearErrors,
-    setError,
     formState: { isDirty },
   } = form;
 
-  useEffect(() => {
-    if (error) {
-      setError(error.field, {
-        type: 'manual',
-        message: error.message,
-      });
-    }
-  }, [error]);
   return (
     <Section>
       <div className='flex h-[calc(100vh-72px)] w-full flex-col items-center gap-8'>
@@ -70,13 +61,11 @@ export default function FormCampaign() {
                             <UISelectDropDown
                               disabled={saving}
                               fullWidth
-                              menuOptions={['nurse', 'doctor', 'therapist'].map(
-                                (role) => ({
-                                  name: capitalize(role),
-                                  value: role,
-                                }),
-                              )}
-                              onValueChange={(val: Role) => {
+                              menuOptions={JOB_TITLES.map((role) => ({
+                                name: capitalize(role),
+                                value: role,
+                              }))}
+                              onValueChange={(val: (typeof JOB_TITLES)[0]) => {
                                 clearErrors('role');
                                 setValue('role', val);
                               }}
@@ -150,7 +139,7 @@ export default function FormCampaign() {
                   </div>
                   <FormField
                     control={control}
-                    name='file'
+                    name='image'
                     render={({ field: { value } }) => (
                       <FormItem>
                         <FormLabel required>Upload Resume</FormLabel>
@@ -159,12 +148,12 @@ export default function FormCampaign() {
                             saving={saving}
                             onChange={(file: File | null) => {
                               if (file) {
-                                setValue('file', file);
-                                clearErrors('file');
+                                setValue('image', file);
+                                clearErrors('image');
                               } else {
                                 // @ts-ignore
                                 setValue('file', null);
-                                clearErrors('file');
+                                clearErrors('image');
                               }
                             }}
                             value={value}
