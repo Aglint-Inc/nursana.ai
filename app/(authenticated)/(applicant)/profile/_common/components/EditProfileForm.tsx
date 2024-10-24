@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { z } from 'zod';
+import { type z } from 'zod';
 
 import {
   useCreatePreferredJobTitle,
@@ -30,10 +30,11 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { useDebounce } from '@/hooks/use-debounce';
+import { type userProfileSchema } from '@/server/api/routers/user/update';
 import {
-  jobTitlesSchema,
+  type jobTitlesSchema,
   type jobTypesSchema,
-  travelPreferrenceSchema,
+  type travelPreferrenceSchema,
 } from '@/supabase-types/zod-schema.types';
 import { capitalizeFirstLetter } from '@/utils/utils';
 
@@ -43,20 +44,6 @@ import {
   SALARY_RANGES,
   TRAVEL_PREFERENCES,
 } from '../constant';
-
-const userProfileSchema = z.object({
-  first_name: z.string().min(2, 'First name is required'),
-  last_name: z.string().min(1, 'Last name is required').nullable().optional(),
-  phone_number: z
-    .string()
-    .min(10, 'Phone number must be at least 10 digits')
-    .nullable()
-    .optional(),
-  preferred_travel_preference: travelPreferrenceSchema,
-  salary_range: z.string().nullable(),
-  current_job_title: jobTitlesSchema,
-  open_to_work: z.boolean(),
-});
 
 type ProfileDataType = z.infer<typeof userProfileSchema>;
 export default function EditProfileForm() {
@@ -94,11 +81,15 @@ export default function EditProfileForm() {
   >(user?.preferred_travel_preference || 'no-travel');
 
   const onSubmitForm = async (data: ProfileDataType) => {
-    await updateUserDetails({
-      ...data,
-      last_name: data.last_name || null,
-      phone_number: data.phone_number || null,
-    });
+    try {
+      await updateUserDetails({
+        ...data,
+        last_name: data.last_name || null,
+        phone_number: data.phone_number || null,
+      });
+    } catch (error) {
+      console.log(Array.from(JSON.parse(error.message)));
+    }
   };
   const first_name = useDebounce(firstName, 1000);
   const last_name = useDebounce(lastName, 1000);
@@ -334,7 +325,9 @@ export default function EditProfileForm() {
                     location_id: value,
                   });
                 }}
-                defaultValue={preferredLocations.map((item) => item.id)}
+                defaultValue={preferredLocations.map(
+                  (item) => item.location_id,
+                )}
                 level='Preferred Locations'
               />
             </div>

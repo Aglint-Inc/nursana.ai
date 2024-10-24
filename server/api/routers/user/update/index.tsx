@@ -11,8 +11,11 @@ import {
 
 // Define the Zod schema for form validation
 export const userProfileSchema = z.object({
-  first_name: z.string().min(2, 'First name is required'),
-  last_name: z.string().min(1, 'Last name is required').nullable().optional(),
+  first_name: z
+    .string()
+    .min(2, 'Name must be at least 2 characters long')
+    .max(30, 'Name must be at most 30 characters long'),
+  last_name: z.string().nullable().optional(),
   phone_number: z
     .string()
     .min(10, 'Phone number must be at least 10 digits')
@@ -31,17 +34,14 @@ const mutation = async ({
   const { user_id } = ctx;
   const db = createPrivateClient();
 
-  const { data, error } = await db
+  const { data } = await db
     .from('applicant')
     .update({
       ...input,
     })
     .eq('id', user_id)
     .select()
-    .single();
-
-  if (error) throw new Error(error.message);
-  if (!data) throw new Error('Failed to update preferences');
+    .throwOnError();
 
   return data;
 };
