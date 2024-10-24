@@ -106,18 +106,14 @@ const EditForm = () => {
   >(null);
 
   function findCurrentTempId(ver_id: string) {
-    for (const item of templates) {
-      if (
+    return (
+      templates.find((item) =>
         item.version.some(
           (v) => v.id === ver_id || v.id === campaign.version_id,
-        )
-      ) {
-        return item.id;
-      }
-    }
-    return '';
+        ),
+      )?.id || ''
+    );
   }
-
   useEffect(() => {
     const tempId = seletedTempId || findCurrentTempId(campaign.version_id);
     if (!seletedTempId && campaign)

@@ -49,8 +49,8 @@ export const EditForm = () => {
     defaultValues: version,
   });
 
-  function onSubmit(values: z.infer<typeof schema>) {
-    mutate({
+  async function onSubmit(values: z.infer<typeof schema>) {
+    await mutate({
       ...values,
     });
   }
