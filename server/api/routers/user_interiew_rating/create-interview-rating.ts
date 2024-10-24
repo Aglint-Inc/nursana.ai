@@ -4,7 +4,6 @@ import { z } from 'zod';
 
 import { type ApplicantProcedure, applicantProcedure } from '@/server/api/trpc';
 import { createPublicClient } from '@/server/db';
-import { jobTitlesSchema } from '@/supabase-types/zod-schema.types';
 
 export const schema = z.object({
   rating: z.number(),

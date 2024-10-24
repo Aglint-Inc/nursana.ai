@@ -7,10 +7,10 @@ import { cn } from 'src/utils/cn';
 import UIDialog from '@/common/components/UIDialog';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Card, CardContent } from '@/components/ui/card';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
-import { useLocalStorage } from '@/hooks/use-local-storage';
 
 function InterviewRecording({
   handleStopInterview,

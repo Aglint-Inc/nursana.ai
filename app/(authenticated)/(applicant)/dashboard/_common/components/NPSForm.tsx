@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from 'react';
 
+import {
+  useCreateInterviewRating,
+  useInterviewRating,
+} from '@/applicant/hooks/useInterviewRating';
 import { useUserData } from '@/applicant/hooks/useUserData';
 import UIDialog from '@/common/components/UIDialog';
 import { Button } from '@/components/ui/button';
@@ -16,10 +20,6 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { useLocalStorage } from '@/hooks/use-local-storage';
-import {
-  useCreateInterviewRating,
-  useInterviewRating,
-} from '@/applicant/hooks/useInterviewRating';
 
 export default function NPSForm() {
   const { interview } = useUserData();

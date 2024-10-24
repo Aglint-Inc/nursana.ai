@@ -1,5 +1,6 @@
+import { api, type RouterInputs, type Unvoid } from 'trpc/client';
+
 import { toast } from '@/hooks/use-toast';
-import { api, RouterInputs, Unvoid } from 'trpc/client';
 
 export const useInterviewRating = () =>
   api.interviewFeedback.getUserInterviewRating.useSuspenseQuery()[0];

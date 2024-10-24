@@ -2,13 +2,13 @@
 
 import { MailCheck } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
 import Section from '@/components/section';
 import { Button } from '@/components/ui/button';
 import { useLocalStorage } from '@/hooks/use-local-storage';
-import { useEffect } from 'react';
 
 export default function CheckEmail() {
   console.log('checking email');
