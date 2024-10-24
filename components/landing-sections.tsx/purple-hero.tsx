@@ -23,10 +23,12 @@ function PurpleHero() {
             <div className='flex h-full flex-col items-start justify-center gap-4 pt-12 md:gap-6 md:pt-0'>
               <h1 className='max-w-[700px] text-4xl font-thin text-white md:text-7xl'>
                 Fast-Track Your Nursing Career with
-                <span className='font-extrabold ml-2.5'>AI-Powered Interviews.</span>
+                <span className='ml-2.5 font-extrabold'>
+                  AI-Powered Interviews.
+                </span>
               </h1>
               <p className='max-w-[550px] text-base text-muted md:text-lg'>
-                Get hired quicker with AI-driven resume feedback and interviews
+                Get hired faster with AI-driven resume feedback and interviews
                 designed to match you with the perfect job.
               </p>
               <Link href='/campaign/?campaign_code=SUMMER23NURSE'>
