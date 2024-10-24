@@ -111,12 +111,12 @@ function PreferenceForm() {
           )}
           <div className='flex flex-col gap-2'>
             <div className='text-xl font-medium text-yellow-600'>
-              🔒 Complete Your Profile to Unlock More Job Matches!
+              🔒 Unlock More Opportunities by Completing Your Profile!
             </div>
             <div className='text-md text-muted-foreground'>
-              To increase your chances of finding the perfect job, complete your
-              profile now. It takes only a few minutes and will help us match
-              you with the best opportunities.
+              Enhance your chances of landing the ideal job by taking a few
+              moments to complete your profile. This helps us provide you with
+              more tailored matches.
             </div>
             <Card>
               <CardHeader className='flex flex-row items-center justify-between'>
