@@ -219,9 +219,10 @@ const skillGapData = [
   { name: 'Time Management', required: 70, actual: 68 },
 ];
 
-export function TemplateDashboard() {
+export function VersionDashboard() {
   return (
     <div className='container mx-auto space-y-4 p-4'>
+      <h1 className='pt-4 text-3xl font-bold'>Version Dashboard</h1>
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-5'>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>

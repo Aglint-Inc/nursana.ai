@@ -1,11 +1,5 @@
-import { TemplateDashboard } from './_common/components/Dashboard';
-
 const Page = () => {
-  return (
-    <>
-      <TemplateDashboard />
-    </>
-  );
+  return <></>;
 };
 
 export default Page;

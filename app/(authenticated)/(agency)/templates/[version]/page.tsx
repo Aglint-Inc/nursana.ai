@@ -1,11 +1,14 @@
 import { SidebarInset } from '@/components/ui/sidebar';
 
 import { Body } from './_common/components/Body';
+import { VersionDashboard } from './_common/components/Dashboard';
 
 const Page = () => {
   return (
     <SidebarInset>
-      <Body>version Detail page</Body>
+      <Body>
+        <VersionDashboard />
+      </Body>
     </SidebarInset>
   );
 };
