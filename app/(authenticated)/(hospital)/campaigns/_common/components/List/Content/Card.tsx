@@ -6,9 +6,14 @@ import type { Campaigns } from '@/campaigns/types';
 
 type Campaign = Campaigns[number];
 
-export const Card = (props: Campaign) => {
+type CardProps = Campaign & { selected?: boolean };
+
+export const Card = (props: CardProps) => {
+  // Default selected to true if not provided
+  const { selected = true } = props;
+
   return (
-    <Link {...props}>
+    <Link {...props} selected={selected}>
       <CampaignBadge {...props} />
       <Title {...props} />
       <Description {...props} />
@@ -16,11 +21,15 @@ export const Card = (props: Campaign) => {
   );
 };
 
-const Link = (props: PropsWithChildren<Pick<Campaign, 'id'>>) => {
+const Link = (props: PropsWithChildren<Pick<Campaign, 'id'> & { selected: boolean }>) => {
+  const linkClasses = props.selected
+    ? 'border-border bg-white'
+    : 'bg-muted border-muted';
+
   return (
     <NextLink
       href={`/campaigns/${props.id}`}
-      className='flex flex-col items-start gap-2 p-4 text-sm leading-tight'
+      className={`flex flex-col items-start gap-2 p-3 text-sm leading-tight rounded-lg border ${linkClasses}`}
     >
       {props.children}
     </NextLink>

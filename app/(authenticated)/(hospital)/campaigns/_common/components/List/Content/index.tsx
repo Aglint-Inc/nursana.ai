@@ -29,10 +29,10 @@ const List = () => {
   if (filteredCampaigns.length === 0)
     return <div className='w-full p-4'>No Campaigns found</div>;
   return (
-    <>
+    <div className='flex flex-col gap-2'>
       {filteredCampaigns.map((campaign) => (
-        <Card key={campaign.id} {...campaign} />
+        <Card key={campaign.id} {...campaign} selected={true} />
       ))}
-    </>
+    </div>
   );
 };
