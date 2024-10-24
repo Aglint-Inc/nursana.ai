@@ -21,7 +21,7 @@ const query = async ({ ctx }: AgencyProcedure) => {
   if (!campaigns)
     throw new TRPCError({
       code: 'NOT_FOUND',
-      message: 'Campaigns not founc',
+      message: 'Campaigns not found',
     });
   return campaigns;
 };
