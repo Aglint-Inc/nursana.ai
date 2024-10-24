@@ -10,10 +10,12 @@ const query = async ({ ctx: { user_id } }: ApplicantProcedure) => {
     .select('*')
     .eq('applicant_id', user_id)
     .throwOnError();
+  if (error) {
+    return { interviewRating: null };
+  }
   if (data) {
     return { interviewRating: data[0] ?? null };
-  }
-  if (error || !data) {
+  } else {
     return { interviewRating: null };
   }
 };
