@@ -84,9 +84,7 @@ export default function EditProfileForm() {
   const [lastName, setLastName] = useState(user?.last_name || '');
   const [openToWork, setOpenToWork] = useState(user?.open_to_work || false);
   const [phone, setPhone] = useState(user?.phone_number || null);
-  const [salary, setSalary] = useState(
-    (user?.salary_range as string) || SALARY_RANGES[0].value,
-  );
+  const [salary, setSalary] = useState((user?.salary_range as string) || '');
   const [jobTitle, setJobTitle] = useState<z.infer<typeof jobTitlesSchema>>(
     user?.current_job_title || 'nurse-practitioner',
   );
@@ -273,7 +271,7 @@ export default function EditProfileForm() {
               <UIMultiSelect
                 onDelete={(value) => {
                   deletePreferredJobTypes({
-                    id: value,
+                    job_type: value as z.infer<typeof jobTypesSchema>,
                   });
                 }}
                 listItems={JOB_TYPES.map((item) => ({
@@ -285,12 +283,9 @@ export default function EditProfileForm() {
                     job_type: value as z.infer<typeof jobTypesSchema>,
                   });
                 }}
-                defaultValue={preferredJobTypes.map((item) => {
-                  return {
-                    label: capitalizeFirstLetter(item.job_type ?? ''),
-                    value: item.id,
-                  };
-                })}
+                defaultValue={
+                  preferredJobTypes.map((item) => item.job_type) as string[]
+                }
                 level='Job Types'
               />
             </div>
@@ -301,7 +296,7 @@ export default function EditProfileForm() {
               <UIMultiSelect
                 onDelete={(value) => {
                   deletePreferredJobTitles({
-                    id: value,
+                    job_title: value as z.infer<typeof jobTitlesSchema>,
                   });
                 }}
                 listItems={JOB_TITLES.map((item) => ({
@@ -313,12 +308,9 @@ export default function EditProfileForm() {
                     job_title: value as z.infer<typeof jobTitlesSchema>,
                   });
                 }}
-                defaultValue={preferredJobTitle.map((item) => {
-                  return {
-                    label: capitalizeFirstLetter(item.job_title),
-                    value: item.id,
-                  };
-                })}
+                defaultValue={
+                  preferredJobTitle.map((item) => item.job_title) as string[]
+                }
                 level='Job Titles'
               />
             </div>
@@ -349,18 +341,7 @@ export default function EditProfileForm() {
                     country: selectedLocation?.country ?? '',
                   });
                 }}
-                defaultValue={preferredLocations.map((item) => {
-                  const location = LOCATIONS.find(
-                    (location) =>
-                      location.city === item.city &&
-                      location.state === item.state &&
-                      location.country === item.country,
-                  );
-                  return {
-                    label: capitalizeFirstLetter(location?.fullAddress ?? ''),
-                    value: item.id,
-                  };
-                })}
+                defaultValue={preferredLocations.map((item) => item.id)}
                 level='Preferred Locations'
               />
             </div>
