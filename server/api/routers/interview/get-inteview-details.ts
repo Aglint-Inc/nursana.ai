@@ -10,12 +10,11 @@ const schema = z.object({
   interview_id: z.string(),
 });
 
-const query = async ({ ctx, input }: ApplicantProcedure<typeof schema>) => {
+const query = async ({ input }: ApplicantProcedure<typeof schema>) => {
   const { interview_id } = input;
   const { data: interview } = await supabase
     .from('interview')
     .select('*')
-    .eq('user_id', ctx.user_id)
     .eq('id', interview_id)
     .single();
 
