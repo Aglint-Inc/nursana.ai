@@ -7,7 +7,7 @@ const query = async ({ ctx: { user_id } }: ApplicantProcedure) => {
   const supabase = createPrivateClient();
   const { data } = await supabase
     .from('preferred_locations')
-    .select()
+    .select('*,locations_list!inner(*)')
     .eq('applicant_id', user_id);
   return { preferredLocations: data ?? [] };
 };
