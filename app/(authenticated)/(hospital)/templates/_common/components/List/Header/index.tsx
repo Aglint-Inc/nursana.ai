@@ -3,14 +3,19 @@ import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SidebarHeader, SidebarInput } from '@/components/ui/sidebar';
 
-import { useList } from './Context';
+import { useList } from '../Context';
+import { AddTemplateDialog } from './addTempate/AddTemplateDialog';
+import { ActionProvider, useAction } from './addTempate/Context';
 
 export const Header = () => {
   return (
     <SidebarHeader className='w-full gap-3.5 border-b p-4'>
       <div className='flex items-center justify-between'>
         <Title />
-        <Actions />
+        <ActionProvider>
+          <Actions />
+          <AddTemplateDialog />
+        </ActionProvider>
       </div>
       <Search />
     </SidebarHeader>
@@ -22,8 +27,9 @@ const Title = () => (
 );
 
 const Actions = () => {
+  const { setIsOpen } = useAction();
   return (
-    <Button variant='outline' size='icon'>
+    <Button variant='outline' size='icon' onClick={() => setIsOpen(true)}>
       <Plus />
     </Button>
   );
