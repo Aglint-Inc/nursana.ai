@@ -18,7 +18,7 @@ const mutation = async ({ ctx }: PrivateProcedure<typeof schema>) => {
   const db = createPrivateClient();
 
   const { data, error } = await db
-    .from('applicant')
+    .from('applicant_user')
     .update({
       // preferred_job_titles: input.preferred_job_titles,
       // preferred_locations: input.preferred_locations,

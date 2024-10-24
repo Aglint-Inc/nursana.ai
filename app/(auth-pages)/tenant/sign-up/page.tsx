@@ -14,7 +14,6 @@ import { supabase } from '@/utils/supabase/client';
 type Agency = {
   name: string;
   address: string;
-  contact_person: string;
   contact_email: string;
   contact_number: string;
 };
@@ -32,7 +31,6 @@ export default function Signup() {
   const [agency, setAgency] = useState<Agency>({
     name: '',
     address: '',
-    contact_person: '',
     contact_email: '',
     contact_number: '',
   });
@@ -75,7 +73,7 @@ export default function Signup() {
   const { mutateAsync: updateAgency, isPending: isPendingAgency } =
     api.tenant.update_agency.useMutation();
   const handleAgencySubmit = async () => {
-    if (!agency.name || !agency.contact_person || !agency.contact_email) return;
+    if (!agency.name || !agency.contact_email) return;
     const { data } = await supabase.auth.getSession();
 
     if (!data?.session?.user?.id) {
@@ -83,12 +81,10 @@ export default function Signup() {
       return toast({ title: 'User not found', variant: 'destructive' });
     }
     const res = await updateAgency({
-      agency_name: agency.name,
+      name: agency.name,
       address: agency.address,
       contact_email: agency.contact_email,
-      contact_person: agency.contact_person,
       contact_number: agency.contact_number,
-      created_by: data.session?.user?.id,
       user_id: data?.session?.user?.id,
     });
     if (res.success) {
@@ -115,18 +111,6 @@ export default function Signup() {
                 }));
               }}
               value={agency.name}
-            />
-            <UITextField
-              fullWidth
-              label='Contact Person'
-              placeholder='Ex: John Doe'
-              onChange={(e) => {
-                setAgency((pre) => ({
-                  ...pre,
-                  contact_person: e.target.value,
-                }));
-              }}
-              value={agency.contact_person}
             />
           </div>
           <div className='flex flex-row gap-4'>

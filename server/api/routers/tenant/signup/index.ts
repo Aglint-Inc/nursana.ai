@@ -21,7 +21,7 @@ const mutation = async ({
     await db
       .from('agency')
       .insert({
-        agency_name: '',
+        name: '',
       })
       .select('id')
       .single()
@@ -33,19 +33,19 @@ const mutation = async ({
   await db
     .from('user')
     .insert({
-      user_id: userId,
+      id: userId,
       email,
       first_name,
       last_name,
-      agency_id: res.id,
+      user_role: 'agency_user',
     })
     .throwOnError();
 
   await db
-    .from('role')
+    .from('agency_user')
     .insert({
-      user_id: userId,
-      role: 'user',
+      id: userId,
+      agency_id: res.id,
     })
     .throwOnError();
 

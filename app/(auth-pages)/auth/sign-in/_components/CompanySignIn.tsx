@@ -42,7 +42,10 @@ function CompanySignIn() {
 
   async function onSubmitForm(data: z.infer<typeof schema>) {
     try {
-      const res = await mutateAsync({ email: data.email, role: 'company' });
+      const res = await mutateAsync({
+        email: data.email,
+        user_role: 'agency_user',
+      });
       if (res) {
         await companySignIn({ email: data.email, password: data.password });
       }

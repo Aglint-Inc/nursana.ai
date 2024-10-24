@@ -75,8 +75,7 @@ export const useUploadCampaign = () => {
           email: getValues().email,
           first_name: getValues().first_name,
           last_name: getValues().last_name || '',
-          role: 'applicant',
-          current_job_title: 'nurse-practitioner',
+          job_title: 'nurse-practitioner',
         });
         if (resUser.error)
           throw new Error(resUser.error.message || resUser.error.code);

@@ -12,7 +12,7 @@ import {
 // Define the Zod schema for form validation
 export const userProfileSchema = z.object({
   first_name: z.string().min(2, 'First name is required'),
-  last_name: z.string().min(1, 'Last name is required').nullable().optional(),
+  last_name: z.string().min(1, 'Last name is required').optional(),
   phone_number: z
     .string()
     .min(10, 'Phone number must be at least 10 digits')
@@ -26,24 +26,27 @@ export const userProfileSchema = z.object({
 
 const mutation = async ({
   ctx,
-  input,
+  input: { first_name, last_name, ...applicant_user },
 }: PrivateProcedure<typeof userProfileSchema>) => {
   const { user_id } = ctx;
   const db = createPrivateClient();
 
-  const { data, error } = await db
-    .from('applicant')
-    .update({
-      ...input,
-    })
-    .eq('id', user_id)
-    .select()
-    .single();
+  await Promise.all([
+    await db
+      .from('user')
+      .update({
+        first_name,
+        last_name,
+      })
+      .eq('id', user_id),
 
-  if (error) throw new Error(error.message);
-  if (!data) throw new Error('Failed to update preferences');
-
-  return data;
+    await db
+      .from('applicant_user')
+      .update({
+        ...applicant_user,
+      })
+      .eq('id', user_id),
+  ]);
 };
 
 export const updateUser = privateProcedure

@@ -60,7 +60,7 @@ const userProfileSchema = z.object({
 
 type ProfileDataType = z.infer<typeof userProfileSchema>;
 export default function EditProfileForm() {
-  const { user } = useUserData();
+  const { applicant_user } = useUserData();
   const { preferredJobTitle } = usePreferredJobTitles();
   const { preferredJobTypes } = usePreferredJobTypes();
   const { preferredLocations } = usePreferredJobLocations();
@@ -80,24 +80,30 @@ export default function EditProfileForm() {
   const phoneRef = useRef<HTMLInputElement>(null);
 
   const { updateUserDetails, isPending } = useUpdateUserData();
-  const [firstName, setFirstName] = useState(user?.first_name || '');
-  const [lastName, setLastName] = useState(user?.last_name || '');
-  const [openToWork, setOpenToWork] = useState(user?.open_to_work || false);
-  const [phone, setPhone] = useState(user?.phone_number || null);
+  const [firstName, setFirstName] = useState(
+    applicant_user?.user.first_name || '',
+  );
+  const [lastName, setLastName] = useState(
+    applicant_user?.user.last_name || '',
+  );
+  const [openToWork, setOpenToWork] = useState(
+    applicant_user?.open_to_work || false,
+  );
+  const [phone, setPhone] = useState(applicant_user?.phone_number || null);
   const [salary, setSalary] = useState(
-    (user?.salary_range as string) || SALARY_RANGES[0].value,
+    (applicant_user?.salary_range as string) || SALARY_RANGES[0].value,
   );
   const [jobTitle, setJobTitle] = useState<z.infer<typeof jobTitlesSchema>>(
-    user?.current_job_title || 'nurse-practitioner',
+    (applicant_user?.job_title as any) || 'nurse-practitioner',
   );
   const [travelPreference, setTravelPreference] = useState<
     z.infer<typeof travelPreferrenceSchema>
-  >(user?.preferred_travel_preference || 'no-travel');
+  >(applicant_user?.preferred_travel_preference || 'no-travel');
 
   const onSubmitForm = async (data: ProfileDataType) => {
     await updateUserDetails({
       ...data,
-      last_name: data.last_name || null,
+      last_name: data.last_name || undefined,
       phone_number: data.phone_number || null,
     });
   };

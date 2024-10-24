@@ -34,7 +34,7 @@ const mutation = async ({
       db
         .from('resume')
         .insert({
-          user_id: userId,
+          applicant_id: userId,
           file_url: resume_url,
           structured_resume: null,
           campaign_id: campaign.id,
@@ -48,7 +48,7 @@ const mutation = async ({
         .insert({
           interview_stage: 'resume_submitted',
           name: campaign.name,
-          user_id: userId,
+          applicant_id: userId,
           campaign_id: campaign.id,
           agency_id: campaign.agency_id,
           version_id: campaign.version_id,

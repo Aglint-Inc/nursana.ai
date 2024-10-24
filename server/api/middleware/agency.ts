@@ -39,9 +39,9 @@ export const agency = auth.unstable_pipe(
       ctx: {
         ...ctx,
         role,
-        user,
         agency,
         agency_user,
+        user,
       },
     });
   },

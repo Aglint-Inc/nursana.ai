@@ -48,42 +48,42 @@ const items = [
     title: 'Dashboard',
     url: '/dashboard',
     icon: Home,
-    badge : '',
+    badge: '',
     children: [],
   },
   {
     title: 'Jobs',
     url: '/jobs',
     icon: Briefcase,
-    badge : 'Beta',
+    badge: 'Beta',
     children: [],
   },
   {
     title: 'Interview Feedback',
     url: '/interview-feedback',
     icon: UserSquare,
-    badge : '',
+    badge: '',
     children: [],
   },
   {
     title: 'Resume Review',
     url: '/resume-review',
     icon: File,
-    badge : '',
+    badge: '',
     children: [],
   },
   {
     title: 'Interview Transcript',
     url: '/interview-transcript',
     icon: TvMinimalPlay,
-    badge : '',
+    badge: '',
     children: [],
   },
   {
     title: 'My Profile',
     url: '/profile',
     icon: User,
-    badge : '',
+    badge: '',
     children: [
       {
         title: 'Basic Information',
@@ -99,7 +99,7 @@ const items = [
 
 export function NurseSidebar() {
   const params = usePathname();
-  const { user } = useUserData();
+  const { applicant_user } = useUserData();
   return (
     <Sidebar>
       <SidebarHeader className='p-4'>
@@ -116,7 +116,11 @@ export function NurseSidebar() {
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                      {item.badge && <Badge className='bg-green-600 text-[11px] h-[20px] font-normal px-2'>{item.badge}</Badge>}
+                      {item.badge && (
+                        <Badge className='h-[20px] bg-green-600 px-2 text-[11px] font-normal'>
+                          {item.badge}
+                        </Badge>
+                      )}
                     </Link>
                   </SidebarMenuButton>
                   <SidebarMenuSub>
@@ -158,11 +162,15 @@ export function NurseSidebar() {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className='h-12 bg-muted hover:bg-gray-200/65 transition-all duration-300'>
-                  <div className='w-8 h-8 rounded-sm bg-purple-600 text-white flex items-center justify-center'>
-                  {user?.first_name?.charAt(0)}{user?.last_name?.charAt(0)}
+                <SidebarMenuButton className='h-12 bg-muted transition-all duration-300 hover:bg-gray-200/65'>
+                  <div className='flex h-8 w-8 items-center justify-center rounded-sm bg-purple-600 text-white'>
+                    {applicant_user?.user.first_name?.charAt(0)}
+                    {applicant_user?.user.last_name?.charAt(0)}
                   </div>
-                   <span className='line-clamp-1 font-medium  '>{user?.first_name}{' '}{user?.last_name}</span>
+                  <span className='line-clamp-1 font-medium'>
+                    {applicant_user?.user.first_name}{' '}
+                    {applicant_user?.user.last_name}
+                  </span>
                   <ChevronsUpDown className='ml-auto' />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -171,14 +179,17 @@ export function NurseSidebar() {
                 className='w-[--radix-popper-anchor-width]'
               >
                 <DropdownMenuItem>
-                  <Link href={'/profile/basic-information'} className='block w-full'>
-                  <Button
-                    className='flex h-[24px] w-full flex-row justify-start p-0 font-normal'
-                    variant={'ghost'}
+                  <Link
+                    href={'/profile/basic-information'}
+                    className='block w-full'
                   >
-                    <User className='ml-2' />
-                    <span className=''>My Profile</span>
-                  </Button>
+                    <Button
+                      className='flex h-[24px] w-full flex-row justify-start p-0 font-normal'
+                      variant={'ghost'}
+                    >
+                      <User className='ml-2' />
+                      <span className=''>My Profile</span>
+                    </Button>
                   </Link>
                 </DropdownMenuItem>
 

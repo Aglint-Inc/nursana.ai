@@ -14,22 +14,32 @@ const mutation = async ({
   input: { email, campaign_id },
 }: PublicProcedure<typeof schema>) => {
   const db = createPublicClient();
-  const user = (
-    await db.from('applicant').select('*').eq('email', email).throwOnError()
-  ).data;
+  const applicant_user = (
+    await db
+      .from('applicant_user')
+      .select('*, user!applicant_user_id_fkey!inner(*)')
+      .eq('email', email)
+      .single()
+      .throwOnError()
+  ).data!;
 
-  const resume = user?.length
+  const resume = applicant_user
     ? (
         await db
           .from('resume')
           .select('*')
           .eq('campaign_id', campaign_id)
-          .eq('user_id', user[0].id)
+          .eq('user_id', applicant_user.user.id)
           .throwOnError()
       ).data
     : null;
 
-  return { user: user ? user[0] : null, resume: resume ? resume[0] : null };
+  const { user, ...rest } = applicant_user;
+
+  return {
+    user: applicant_user ? { ...rest, ...user } : null,
+    resume: resume ? resume[0] : null,
+  };
 };
 
 export const userCheck = publicProcedure.input(schema).mutation(mutation);

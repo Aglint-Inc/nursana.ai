@@ -9,15 +9,17 @@ import NotAvailable from './NotAvailable';
 import RadialProgress from './RadialProgress';
 
 function UserLanding() {
-  const { user, resume, analysis, interview } = useUserData();
+  const { applicant_user, resume, analysis, interview } = useUserData();
   const { overallScore } = resume?.resume_feedback || {};
 
   if (!analysis) {
-    return <NotAvailable
-    heading='Data temporarily unavailable'
-    description='We’re currently analyzing the data. Please check back in a little while for updated information.'
-    Icon={Sparkles}
-  />;
+    return (
+      <NotAvailable
+        heading='Data temporarily unavailable'
+        description='We’re currently analyzing the data. Please check back in a little while for updated information.'
+        Icon={Sparkles}
+      />
+    );
   }
 
   const InterviewScore = [
@@ -44,7 +46,7 @@ function UserLanding() {
         <div className='flex items-center gap-2 text-center text-3xl font-medium'>
           <div className='text-purple-700'>
             {' '}
-            Hello {user?.first_name || 'Nurse'} 👋,
+            Hello {applicant_user?.user.first_name || 'Nurse'} 👋,
           </div>
           <div>Welcome to Nursana 💜</div>
         </div>
