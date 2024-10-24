@@ -60,7 +60,7 @@ export const useUploadCampaign = () => {
         campaign_id: campaignData?.id,
       });
 
-      if (resCheckUser.role !== 'applicant_user') {
+      if (resCheckUser.role === 'agency_user') {
         toast({
           description: 'You cant apply. As your role is different.',
           variant: 'destructive',
