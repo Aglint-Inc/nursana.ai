@@ -144,25 +144,13 @@ const createInterview = async ({
         campaign_id: campaign.id,
         agency_id: campaign.agency_id,
         version_id: campaign.version_id,
-        ai_ending_message: campaign.version.ai_ending_message,
-        ai_instructions: [campaign.version.ai_instructions ?? ''],
-        ai_interview_duration: campaign.version.ai_interview_duration,
-        ai_questions: campaign.version.ai_questions,
-        ai_welcome_message: campaign.version.ai_welcome_message,
-        candidate_estimated_time: campaign.version.candidate_estimated_time,
-        candidate_instructions: [campaign.version.candidate_instructions ?? ''],
-        candidate_intro_video_cover_image_url:
-          campaign.version.candidate_intro_video_cover_image_url,
-        candidate_intro_video_url: campaign.version.candidate_intro_video_url,
-        candidate_overview: [campaign.version.candidate_overview ?? ''],
       })
-      .select()
+      .select('*,version!inner(*)')
       .single()
       .throwOnError(),
   ]);
 
-  const updatedResume = resumeResult.data;
-  if (!updatedResume) throw new Error('Error uploading resume');
+  if (!resumeResult.data) throw new Error('Error uploading resume');
 
   const interview = interviewResult.data;
   if (!interview) throw new Error('Error creating interview');

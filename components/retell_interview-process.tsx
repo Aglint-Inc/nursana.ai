@@ -5,6 +5,7 @@ import {
   useUpdateInterviews,
   useUpdateInterviewsAnalysis,
 } from 'app/interview/_common/hooks';
+import { useCreateWelCall } from 'app/interview/_common/hooks/useCreateWebCall';
 import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RetellWebClient } from 'retell-client-js-sdk';
@@ -205,37 +206,31 @@ export default function Interview({
     },
     [],
   );
-
+  const { createWebCall } = useCreateWelCall();
   const handleStartInterview = useCallback(async () => {
     setError(null);
     setIsInitializingClient(true);
 
     try {
-      const response = await fetch('/api/create-web-call', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          interviewId: interviewId,
-          resumeData: `${JSON.stringify(resumeData)}`,
-        }),
+      const response = await createWebCall({
+        interview_id: interviewId,
+        resumeData: `${JSON.stringify(resumeData)}`,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create web call');
+      console.log({ response });
+
+      if (!response) {
+        throw new Error('Failed to create web call');
       }
 
-      const data = await response.json();
-      setCallData(data);
+      setCallData(response);
 
       const retellWebClient = new RetellWebClient();
       retellWebClientRef.current = retellWebClient;
       setupRetellEventListeners(retellWebClient);
 
       await retellWebClient.startCall({
-        accessToken: data.accessToken,
+        accessToken: response.accessToken,
         sampleRate: 24000,
       });
 
@@ -293,7 +288,7 @@ export default function Interview({
           <InterviewRecording
             handleStopInterview={handleStopInterview}
             isInterviewStarted={isInterviewStarted}
-            interviewDuration={interviewData.ai_interview_duration}
+            interviewDuration={interviewData.version.ai_interview_duration}
             videoRef={videoRef}
           />
         )}

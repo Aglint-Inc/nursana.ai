@@ -31,7 +31,7 @@ function isMessageArray(arr: any): arr is Message[] {
 export function InterviewTranscript() {
   const userData = useUserData();
   const transcriptData = userData?.analysis?.transcript_json;
-
+  console.log(userData);
   const transcript: Message[] | undefined =
     transcriptData && isMessageArray(transcriptData)
       ? transcriptData

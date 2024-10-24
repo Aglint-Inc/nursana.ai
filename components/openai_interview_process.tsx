@@ -237,10 +237,10 @@ export default function Interview({
     client.updateSession({
       // Set instructions
       instructions: getInstructions({
-        aiWelcomeMessage: interviewData.ai_welcome_message ?? '',
-        aiEndingMessage: interviewData.ai_ending_message ?? '',
-        aiQuestions: [interviewData.ai_questions || ''],
-        aiInstructions: interviewData.ai_instructions ?? [],
+        aiWelcomeMessage: interviewData.version.ai_welcome_message ?? '',
+        aiEndingMessage: interviewData.version.ai_ending_message ?? '',
+        aiQuestions: interviewData.version.ai_questions ?? '',
+        aiInstructions: interviewData.version.ai_instructions ?? '',
         resume: `${JSON.stringify(resumeData)}`,
       }),
       input_audio_transcription: { model: 'whisper-1' },
