@@ -8,6 +8,8 @@ import {
 
 import { useList } from '../Context';
 import { Card } from './Card';
+import EmptyState from '@/hospital/components/EmptyState';
+import { Tag } from 'lucide-react';
 
 export const Content = () => {
   return (
@@ -34,7 +36,7 @@ const List = () => {
   );
 
   if (filteredCampaigns.length === 0)
-    return <div className='w-full p-4'>No Campaigns found</div>;
+    return <EmptyState Icon={Tag} heading='No campagins found' description=''/>;
 
   return (
     <div className='flex flex-col gap-2'>
@@ -43,7 +45,6 @@ const List = () => {
           key={campaign.id}
           {...campaign}
           selected={campaign.id === selectedCampaignId}
-          // Update the selected campaign when clicked
           onClick={() => setSelectedCampaignId(campaign.id)}
         />
       ))}
