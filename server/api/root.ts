@@ -10,6 +10,7 @@ import { interviewAnalysis } from './routers/interview_analysis';
 import { getLocationList } from './routers/location-list';
 import { tenant } from './routers/tenant';
 import { user } from './routers/user';
+import { interviewFeedback } from './routers/user_interiew_rating';
 import { supabase_storage } from './supabse_storage';
 import { createCallerFactory, createTRPCRouter } from './trpc';
 
@@ -28,6 +29,7 @@ export const appRouter = createTRPCRouter({
   supabase_storage,
   campaign_user: campaignUser,
   getLocationList,
+  interviewFeedback,
 });
 
 // export type definition of API

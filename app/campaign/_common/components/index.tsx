@@ -1,5 +1,7 @@
 'use client';
 
+import { JOB_TITLES } from 'app/(authenticated)/(applicant)/profile/_common/constant';
+
 import { Loader } from '@/common/components/Loader';
 import UISelectDropDown from '@/common/components/UISelectDropDown';
 import UITextField from '@/common/components/UITextField';
@@ -17,7 +19,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-import { JOB_TITLES } from 'app/(authenticated)/(applicant)/profile/_common/constant';
 import Section from '../../../../components/section';
 import { useUploadCampaign } from '../hooks/useUpload';
 import ResumeUpload from './ResumeUpload';
