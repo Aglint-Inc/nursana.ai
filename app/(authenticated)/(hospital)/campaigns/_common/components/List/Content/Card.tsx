@@ -6,14 +6,16 @@ import type { Campaigns } from '@/campaigns/types';
 
 type Campaign = Campaigns[number];
 
-type CardProps = Campaign & { selected?: boolean };
+type CardProps = Campaign & {
+  selected?: boolean;
+  onClick?: () => void; 
+};
 
 export const Card = (props: CardProps) => {
-  // Default selected to true if not provided
-  const { selected = true } = props;
+  const { selected = true, onClick } = props;
 
   return (
-    <Link {...props} selected={selected}>
+    <Link {...props} selected={selected} onClick={onClick}>
       <CampaignBadge {...props} />
       <Title {...props} />
       <Description {...props} />
@@ -21,7 +23,7 @@ export const Card = (props: CardProps) => {
   );
 };
 
-const Link = (props: PropsWithChildren<Pick<Campaign, 'id'> & { selected: boolean }>) => {
+const Link = (props: PropsWithChildren<Pick<Campaign, 'id'> & { selected: boolean; onClick?: () => void }>) => {
   const linkClasses = props.selected
     ? 'border-border bg-white'
     : 'bg-muted border-muted';
@@ -29,7 +31,8 @@ const Link = (props: PropsWithChildren<Pick<Campaign, 'id'> & { selected: boolea
   return (
     <NextLink
       href={`/campaigns/${props.id}`}
-      className={`flex flex-col items-start gap-2 p-3 text-sm leading-tight rounded-lg border ${linkClasses}`}
+      className={`flex flex-col items-start gap-2 p-3 text-sm leading-tight rounded-md border ${linkClasses}`}
+      onClick={props.onClick}
     >
       {props.children}
     </NextLink>
