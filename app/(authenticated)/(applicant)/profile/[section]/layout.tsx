@@ -7,6 +7,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   void api.user.getPreferredJobTitles.prefetch();
   void api.user.getPreferredJobTypes.prefetch();
   void api.user.getPreferredJobLocations.prefetch();
+  void api.getLocationList.prefetch();
   return (
     <HydrateClient>
       <div className='container flex py-8'>

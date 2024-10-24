@@ -341,6 +341,30 @@ export type Database = {
         }
         Relationships: []
       }
+      locations_list: {
+        Row: {
+          city: string
+          country: string
+          id: string
+          level: string
+          state: string
+        }
+        Insert: {
+          city: string
+          country: string
+          id?: string
+          level: string
+          state: string
+        }
+        Update: {
+          city?: string
+          country?: string
+          id?: string
+          level?: string
+          state?: string
+        }
+        Relationships: []
+      }
       preferred_job_titles: {
         Row: {
           applicant_id: string
@@ -396,24 +420,18 @@ export type Database = {
       preferred_locations: {
         Row: {
           applicant_id: string
-          city: string | null
-          country: string | null
           id: string
-          state: string | null
+          location_id: string
         }
         Insert: {
           applicant_id: string
-          city?: string | null
-          country?: string | null
           id?: string
-          state?: string | null
+          location_id: string
         }
         Update: {
           applicant_id?: string
-          city?: string | null
-          country?: string | null
           id?: string
-          state?: string | null
+          location_id?: string
         }
         Relationships: [
           {
@@ -421,6 +439,13 @@ export type Database = {
             columns: ["applicant_id"]
             isOneToOne: false
             referencedRelation: "applicant"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "preferred_locations_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations_list"
             referencedColumns: ["id"]
           },
         ]

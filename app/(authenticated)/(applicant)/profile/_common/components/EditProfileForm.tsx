@@ -15,6 +15,7 @@ import {
   useUpdateUserData,
   useUserData,
 } from '@/applicant/hooks/useUserData';
+import { useLocationsList } from '@/authenticated/hooks/useLocationsList';
 import { UIMultiSelect } from '@/common/components/UIMultiSelect';
 import UIPhoneInput from '@/common/components/UIPhoneInput';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -39,7 +40,6 @@ import { capitalizeFirstLetter } from '@/utils/utils';
 import {
   JOB_TITLES,
   JOB_TYPES,
-  LOCATIONS,
   SALARY_RANGES,
   TRAVEL_PREFERENCES,
 } from '../constant';
@@ -61,6 +61,7 @@ const userProfileSchema = z.object({
 type ProfileDataType = z.infer<typeof userProfileSchema>;
 export default function EditProfileForm() {
   const { user } = useUserData();
+  const { locationList } = useLocationsList();
   const { preferredJobTitle } = usePreferredJobTitles();
   const { preferredJobTypes } = usePreferredJobTypes();
   const { preferredLocations } = usePreferredJobLocations();
@@ -321,24 +322,16 @@ export default function EditProfileForm() {
               <UIMultiSelect
                 onDelete={(value) => {
                   deletePreferredLocations({
-                    id: value,
+                    location_id: value,
                   });
                 }}
-                listItems={LOCATIONS.map((item) => ({
-                  label: capitalizeFirstLetter(item.fullAddress),
-                  value: item.fullAddress
-                    .replace(/, /g, '-')
-                    .replace(/ /g, '_'),
+                listItems={locationList.map((item) => ({
+                  label: capitalizeFirstLetter(item.level),
+                  value: item.id,
                 }))}
                 onChange={(_values, value) => {
-                  const location = value.replace(/-/g, ', ').replace(/_/g, ' ');
-                  const selectedLocation = LOCATIONS.find(
-                    (item) => item.fullAddress === location,
-                  );
                   createPreferredLocations({
-                    city: selectedLocation?.city ?? '',
-                    state: selectedLocation?.state ?? '',
-                    country: selectedLocation?.country ?? '',
+                    location_id: value,
                   });
                 }}
                 defaultValue={preferredLocations.map((item) => item.id)}
