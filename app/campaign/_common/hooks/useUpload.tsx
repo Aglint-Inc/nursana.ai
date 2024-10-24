@@ -29,7 +29,7 @@ export const useUploadCampaign = () => {
     },
   });
 
-  const { getValues, setError } = form;
+  const { getValues } = form;
 
   useEffect(() => {
     if (form.getValues().image && getValues().image.name.split('.').pop()) {
@@ -60,18 +60,29 @@ export const useUploadCampaign = () => {
         campaign_id: campaignData?.id,
       });
 
-      if (resCheckUser.resume?.id) {
-        setError('email', {
-          message: 'User already exists',
+      if (resCheckUser.role !== 'applicant_user') {
+        toast({
+          description: 'You cant apply. As your role is different.',
+          variant: 'destructive',
         });
         return;
       }
+
+      if (resCheckUser.resume_id) {
+        toast({
+          description: 'You have already applied .',
+          variant: 'destructive',
+        });
+        return;
+      }
+
       const fileExt = getValues().image.name.split('.').pop() as string;
       const formData = new FormData();
       const data: z.infer<typeof campaignFormDataSchema> = {
         ...form.getValues(),
         fileExt,
         user_id: resCheckUser?.user_id ?? null,
+        applicant_id: resCheckUser?.applicant_id ?? null,
       };
 
       Object.entries(data)
