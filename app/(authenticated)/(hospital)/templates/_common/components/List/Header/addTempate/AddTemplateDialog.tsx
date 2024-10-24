@@ -31,7 +31,7 @@ export const AddTemplateDialog = () => {
       <SheetContent className='min-w-[700px]'>
         <SheetHeader className='translate-y-[-16px]'>
           <SheetTitle className='flex flex-row items-center gap-2'>
-            Add Templatee
+            Add Template
           </SheetTitle>
         </SheetHeader>
         <AddForm />
