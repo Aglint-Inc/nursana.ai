@@ -12,6 +12,8 @@ const Layout = (props: PropsWithChildren<Routes>) => {
   unstable_noStore();
   void api.authenticated.hospital.read.prefetch();
   void api.authenticated.hospital.user.prefetch();
+  void api.authenticated.hospital.templates.read.prefetch();
+  void api.authenticated.hospital.read.prefetch();
   return (
     <HydrateClient>
       <HospitalEditProvider>

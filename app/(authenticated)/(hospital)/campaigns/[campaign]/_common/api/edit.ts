@@ -13,6 +13,8 @@ const schema = campaignUpdateSchema.pick({
   campaign_code: true,
   description: true,
   name: true,
+  status: true,
+  version_id: true,
 });
 
 const mutation = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
