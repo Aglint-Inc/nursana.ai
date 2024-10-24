@@ -22,7 +22,8 @@ export const useUpdateUserData = () => {
     },
     onError: (e) => {
       toast({
-        title: e.shape?.message,
+        title: JSON.parse(e.message)[0].message,
+        variant: 'destructive',
       });
     },
   });

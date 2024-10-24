@@ -303,6 +303,32 @@ export const interviewAnalysisIdUpdateSchema = z.object({
 
 export const interviewAnalysisIdRelationshipsSchema = z.tuple([]);
 
+export const locationsListRowSchema = z.object({
+  city: z.string(),
+  country: z.string(),
+  id: z.string(),
+  level: z.string(),
+  state: z.string(),
+});
+
+export const locationsListInsertSchema = z.object({
+  city: z.string(),
+  country: z.string(),
+  id: z.string().optional(),
+  level: z.string(),
+  state: z.string(),
+});
+
+export const locationsListUpdateSchema = z.object({
+  city: z.string().optional(),
+  country: z.string().optional(),
+  id: z.string().optional(),
+  level: z.string().optional(),
+  state: z.string().optional(),
+});
+
+export const locationsListRelationshipsSchema = z.tuple([]);
+
 export const preferredJobTitlesRowSchema = z.object({
   applicant_id: z.string(),
   id: z.string(),
@@ -362,26 +388,20 @@ export const preferredJobTypesRelationshipsSchema = z.tuple([
 
 export const preferredLocationsRowSchema = z.object({
   applicant_id: z.string(),
-  city: z.string().nullable(),
-  country: z.string().nullable(),
   id: z.string(),
-  state: z.string().nullable(),
+  location_id: z.string(),
 });
 
 export const preferredLocationsInsertSchema = z.object({
   applicant_id: z.string(),
-  city: z.string().optional().nullable(),
-  country: z.string().optional().nullable(),
   id: z.string().optional(),
-  state: z.string().optional().nullable(),
+  location_id: z.string(),
 });
 
 export const preferredLocationsUpdateSchema = z.object({
   applicant_id: z.string().optional(),
-  city: z.string().optional().nullable(),
-  country: z.string().optional().nullable(),
   id: z.string().optional(),
-  state: z.string().optional().nullable(),
+  location_id: z.string().optional(),
 });
 
 export const preferredLocationsRelationshipsSchema = z.tuple([
@@ -390,6 +410,13 @@ export const preferredLocationsRelationshipsSchema = z.tuple([
     columns: z.tuple([z.literal("applicant_id")]),
     isOneToOne: z.literal(false),
     referencedRelation: z.literal("applicant"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+  z.object({
+    foreignKeyName: z.literal("preferred_locations_location_id_fkey"),
+    columns: z.tuple([z.literal("location_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("locations_list"),
     referencedColumns: z.tuple([z.literal("id")]),
   }),
 ]);
