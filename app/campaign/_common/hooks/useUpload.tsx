@@ -41,11 +41,13 @@ export const useUploadCampaign = () => {
     },
   });
 
+  const utils = api.useUtils();
+
   const handleSubmit = async () => {
     try {
       setSaving(true);
-
-      const resCheckUser = await api.useUtils().campaign_user.check_user.fetch({
+      
+      const resCheckUser = await utils.campaign_user.check_user.fetch({
         email: getValues().email,
         campaign_id: campaignData?.id,
       });
