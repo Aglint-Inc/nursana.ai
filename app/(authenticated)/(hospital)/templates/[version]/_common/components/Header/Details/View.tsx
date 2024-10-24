@@ -79,6 +79,14 @@ const Content = () => {
       value: version.ai_interview_duration + ' Minutes',
     },
     {
+      label: 'Video cover image url',
+      value: version.candidate_intro_video_cover_image_url,
+    },
+    {
+      label: 'Video url',
+      value: version.candidate_intro_video_url,
+    },
+    {
       label: 'Welcome Message',
       value: version.ai_welcome_message,
       textArea: true,
