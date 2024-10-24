@@ -22,7 +22,7 @@ const mutation = async ({
     await db
       .from('user')
       .select('*, agency_user!agency_user_id_fkey!inner(*)')
-      .eq('user_id', user_id)
+      .eq('id', user_id)
       .single()
       .throwOnError()
   ).data;

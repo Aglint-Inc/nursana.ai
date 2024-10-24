@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { loggerLink } from '@trpc/client/links/loggerLink';
 import {
   createTRPCReact,
+  httpLink,
   unstable_httpBatchStreamLink,
 } from '@trpc/react-query';
 import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
@@ -56,7 +57,7 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
             process.env.NODE_ENV === 'development' ||
             (opts.direction === 'down' && opts.result instanceof Error),
         }),
-        unstable_httpBatchStreamLink({
+        httpLink({
           url: `${url}/api/trpc`,
           transformer: superjson,
           methodOverride: 'POST',

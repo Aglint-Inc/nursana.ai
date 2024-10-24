@@ -630,25 +630,23 @@ CREATE OR REPLACE FUNCTION public.custom_access_token_hook(event jsonb)
 AS $function$
   declare
     claims jsonb;
-    user_role public.app_role;
+    user_role public.user_role;
   begin
-    -- Fetch the user role in the user_roles table
+
     select public.user.user_role into user_role from public.user where id = (event->>'user_id')::uuid;
 
     claims := event->'claims';
 
     if user_role is not null then
-      -- Set the claim
       claims := jsonb_set(claims, '{user_role}', to_jsonb(user_role));
     else
       claims := jsonb_set(claims, '{user_role}', 'null');
     end if;
 
-    -- Update the 'claims' object in the original event
     event := jsonb_set(event, '{claims}', claims);
 
-    -- Return the modified or original event
     return event;
+
   end;
 $function$
 ;

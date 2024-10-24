@@ -12,18 +12,18 @@ const query = async ({ ctx: { user_id } }: PrivateProcedure) => {
         .select('*, user!applicant_user_id_fkey!inner(*)')
         .eq('id', user_id)
         .single(),
-      db.from('resume').select('*').eq('user_id', user_id).single(),
+      db.from('resume').select('*').eq('applicant_id', user_id).single(),
       db
         .from('interview')
         .select('*')
-        .eq('user_id', user_id)
+        .eq('applicant_id', user_id)
         .order('created_at', { ascending: false })
         .limit(1)
         .single(),
       db
         .from('interview_analysis')
         .select('*')
-        .eq('user_id', user_id)
+        .eq('applicant_id', user_id)
         .order('created_at', { ascending: false })
         .limit(1)
         .single(),

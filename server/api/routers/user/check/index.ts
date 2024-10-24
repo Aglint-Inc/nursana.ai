@@ -26,11 +26,20 @@ const mutation = async ({
       return false;
     }
   } else {
+    console.log(
+      await db
+        .from('agency_user')
+        .select('*, user!agency_user_id_fkey!inner(*)')
+        .eq('user.email', email)
+        .single()
+        .throwOnError(),
+      '🔥',
+    );
     const agency_user = (
       await db
         .from('agency_user')
         .select('*, user!agency_user_id_fkey!inner(*)')
-        .eq('email', email)
+        .eq('user.email', email)
         .single()
         .throwOnError()
     ).data;

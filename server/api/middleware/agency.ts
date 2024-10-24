@@ -19,7 +19,7 @@ export const agency = auth.unstable_pipe(
         .select(
           '*, agency_user!agency_user_id_fkey!inner(*, agency!agency_user_agency_id_fkey!inner(*))',
         )
-        .eq('user_id', ctx.user_id)
+        .eq('id', ctx.user_id)
         .single()
         .throwOnError()
     ).data;

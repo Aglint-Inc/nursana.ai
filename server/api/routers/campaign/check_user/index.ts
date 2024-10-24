@@ -29,7 +29,7 @@ const mutation = async ({
           .from('resume')
           .select('*')
           .eq('campaign_id', campaign_id)
-          .eq('user_id', applicant_user.user.id)
+          .eq('applicant_id', applicant_user.user.id)
           .throwOnError()
       ).data
     : null;
