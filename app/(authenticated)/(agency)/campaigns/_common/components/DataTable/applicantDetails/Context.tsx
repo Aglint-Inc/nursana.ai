@@ -1,15 +1,17 @@
-import React, {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useState,
-} from 'react';
+import React, { createContext, useContext, useState } from 'react';
+import { api } from 'trpc/client';
 
 const useApplicantHook = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [applicantId, setApplicantId] = useState('');
-
-  return { isOpen, setIsOpen, applicantId, setApplicantId };
+  const { data, isLoading } =
+    api.authenticated.agency.campaigns.get_applicant_detail.useQuery(
+      {
+        applicant_id: applicantId,
+      },
+      { enabled: !!applicantId },
+    );
+  return { isOpen, setIsOpen, applicantId, setApplicantId, data, isLoading };
 };
 
 const ApplicationContext = createContext<

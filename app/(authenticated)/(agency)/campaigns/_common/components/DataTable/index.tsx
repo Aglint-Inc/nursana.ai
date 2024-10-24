@@ -186,7 +186,7 @@ export function DataTable<TData, TValue>({
                       onClick={() => {
                         const orgRow = row.original!;
                         setIsOpen(true);
-                        setApplicantId(orgRow?.id);
+                        setApplicantId(orgRow?.applicant_id);
                       }}
                     >
                       {row.getVisibleCells().map((cell) => (

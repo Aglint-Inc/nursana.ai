@@ -22,7 +22,7 @@ const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
   const query = db
     .from('interview')
     .select(
-      'id, interview_stage, updated_at, applicant_user!interview_applicant_id_fkey!inner(terms_accepted, user!applicant_user_id_fkey!inner(first_name, last_name, email))',
+      'id, interview_stage, updated_at, applicant_user!interview_applicant_id_fkey!inner(applicant_id:id, terms_accepted, user!applicant_user_id_fkey!inner(first_name, last_name, email))',
       { count: 'exact' },
     )
     .eq('campaign_id', input.id)
