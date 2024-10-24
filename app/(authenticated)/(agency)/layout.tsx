@@ -2,9 +2,9 @@ import { unstable_noStore } from 'next/cache';
 import type { PropsWithChildren } from 'react';
 import { api, HydrateClient } from 'trpc/server';
 
+import type { Routes } from '@/agency/types';
 import { AppSidebar } from '@/components/sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
-import type { Routes } from '@/hospital/types';
 
 import { HospitalEditProvider } from './_common/hooks/useHospitalEdit';
 

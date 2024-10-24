@@ -12,6 +12,8 @@ import {
 import { useRouter } from 'next/navigation';
 import React, { type ReactNode } from 'react';
 
+import { EditHospitalDialog } from '@/agency/components/EditDialog';
+import { useHospitalEdit } from '@/agency/hooks/useHospitalEdit';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -32,8 +34,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { EditHospitalDialog } from '@/hospital/components/EditDialog';
-import { useHospitalEdit } from '@/hospital/hooks/useHospitalEdit';
 
 const data = {
   user: {
