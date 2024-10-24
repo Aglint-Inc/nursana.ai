@@ -13,7 +13,7 @@ export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: 'Nursana',
   description:
-    'Empowering nurses to connect with top healthcare opportunities. Upload your resume, take AI-driven interviews, and let Nursana.ai match you with the perfect job.',
+    'Empowering nurses to connect with top healthcare opportunities. Upload Your Resume, take AI-driven interviews, and let Nursana.ai match you with the perfect job.',
   icons: {
     icon: '/favicon.svg',
   },
@@ -50,17 +50,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en' className={GeistSans.className} suppressHydrationWarning>
-    <body className='bg-background text-foreground'>
-      <ThemeProvider
-        attribute='class'
-        defaultTheme='light'
-        disableTransitionOnChange
-      >
-        <main className='flex min-h-screen flex-col items-center'>
-          <Providers>{children}</Providers>
-        </main>
-      </ThemeProvider>
-    </body>
-  </html>
+      <body className='bg-background text-foreground'>
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='light'
+          disableTransitionOnChange
+        >
+          <main className='flex min-h-screen flex-col items-center'>
+            <Providers>{children}</Providers>
+          </main>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }

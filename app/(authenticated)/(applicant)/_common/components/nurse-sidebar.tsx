@@ -224,7 +224,7 @@ export function NurseSidebar() {
               <p>Aglint AI</p>
             </Link>
           </div>
-          <div>© 2024 Aglint Inc. All rights reserved.</div>
+          <div>© 2024 All rights reserved.</div>
         </footer>
       </SidebarFooter>
     </Sidebar>

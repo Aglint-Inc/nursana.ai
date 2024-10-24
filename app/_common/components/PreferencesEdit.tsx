@@ -40,10 +40,7 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
         preferredJobTitle.map((title) => title.job_title) || [],
       );
       setSelectedLocations(
-        preferredLocations.map(
-          (location) =>
-            `${location.city}, ${location.state} ${location.country}`,
-        ) || [],
+        preferredLocations.map((ele) => `${ele.locations_list.level}`),
       );
       // setJobType(userData.user.job_type || '');
       // setTravelPreference(userData.user.travel_preference || '');

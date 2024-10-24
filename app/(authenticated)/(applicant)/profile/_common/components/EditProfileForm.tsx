@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { z } from 'zod';
+import { type z } from 'zod';
 
 import {
   useCreatePreferredJobTitle,
@@ -15,6 +15,7 @@ import {
   useUpdateUserData,
   useUserData,
 } from '@/applicant/hooks/useUserData';
+import { useLocationsList } from '@/authenticated/hooks/useLocationsList';
 import { UIMultiSelect } from '@/common/components/UIMultiSelect';
 import UIPhoneInput from '@/common/components/UIPhoneInput';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,38 +30,25 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { useDebounce } from '@/hooks/use-debounce';
+import { type userProfileSchema } from '@/server/api/routers/user/update';
 import {
-  jobTitlesSchema,
+  type jobTitlesSchema,
   type jobTypesSchema,
-  travelPreferrenceSchema,
+  type travelPreferrenceSchema,
 } from '@/supabase-types/zod-schema.types';
 import { capitalizeFirstLetter } from '@/utils/utils';
 
 import {
   JOB_TITLES,
   JOB_TYPES,
-  LOCATIONS,
   SALARY_RANGES,
   TRAVEL_PREFERENCES,
 } from '../constant';
 
-const userProfileSchema = z.object({
-  first_name: z.string().min(2, 'First name is required'),
-  last_name: z.string().min(1, 'Last name is required').nullable().optional(),
-  phone_number: z
-    .string()
-    .min(10, 'Phone number must be at least 10 digits')
-    .nullable()
-    .optional(),
-  preferred_travel_preference: travelPreferrenceSchema,
-  salary_range: z.string().nullable(),
-  current_job_title: jobTitlesSchema,
-  open_to_work: z.boolean(),
-});
-
 type ProfileDataType = z.infer<typeof userProfileSchema>;
 export default function EditProfileForm() {
   const { applicant_user } = useUserData();
+  const { locationList } = useLocationsList();
   const { preferredJobTitle } = usePreferredJobTitles();
   const { preferredJobTypes } = usePreferredJobTypes();
   const { preferredLocations } = usePreferredJobLocations();
@@ -91,7 +79,7 @@ export default function EditProfileForm() {
   );
   const [phone, setPhone] = useState(applicant_user?.phone_number || null);
   const [salary, setSalary] = useState(
-    (applicant_user?.salary_range as string) || SALARY_RANGES[0].value,
+    (applicant_user?.salary_range as string) || '',
   );
   const [jobTitle, setJobTitle] = useState<z.infer<typeof jobTitlesSchema>>(
     (applicant_user?.job_title as any) || 'nurse-practitioner',
@@ -101,11 +89,15 @@ export default function EditProfileForm() {
   >(applicant_user?.preferred_travel_preference || 'no-travel');
 
   const onSubmitForm = async (data: ProfileDataType) => {
-    await updateUserDetails({
-      ...data,
-      last_name: data.last_name || undefined,
-      phone_number: data.phone_number || null,
-    });
+    try {
+      await updateUserDetails({
+        ...data,
+        last_name: data.last_name || undefined,
+        phone_number: data.phone_number || null,
+      });
+    } catch (error) {
+      console.log(Array.from(JSON.parse(error.message)));
+    }
   };
   const first_name = useDebounce(firstName, 1000);
   const last_name = useDebounce(lastName, 1000);
@@ -279,7 +271,7 @@ export default function EditProfileForm() {
               <UIMultiSelect
                 onDelete={(value) => {
                   deletePreferredJobTypes({
-                    id: value,
+                    job_type: value as z.infer<typeof jobTypesSchema>,
                   });
                 }}
                 listItems={JOB_TYPES.map((item) => ({
@@ -291,12 +283,9 @@ export default function EditProfileForm() {
                     job_type: value as z.infer<typeof jobTypesSchema>,
                   });
                 }}
-                defaultValue={preferredJobTypes.map((item) => {
-                  return {
-                    label: capitalizeFirstLetter(item.job_type ?? ''),
-                    value: item.id,
-                  };
-                })}
+                defaultValue={
+                  preferredJobTypes.map((item) => item.job_type) as string[]
+                }
                 level='Job Types'
               />
             </div>
@@ -307,7 +296,7 @@ export default function EditProfileForm() {
               <UIMultiSelect
                 onDelete={(value) => {
                   deletePreferredJobTitles({
-                    id: value,
+                    job_title: value as z.infer<typeof jobTitlesSchema>,
                   });
                 }}
                 listItems={JOB_TITLES.map((item) => ({
@@ -319,12 +308,9 @@ export default function EditProfileForm() {
                     job_title: value as z.infer<typeof jobTitlesSchema>,
                   });
                 }}
-                defaultValue={preferredJobTitle.map((item) => {
-                  return {
-                    label: capitalizeFirstLetter(item.job_title),
-                    value: item.id,
-                  };
-                })}
+                defaultValue={
+                  preferredJobTitle.map((item) => item.job_title) as string[]
+                }
                 level='Job Titles'
               />
             </div>
@@ -335,38 +321,21 @@ export default function EditProfileForm() {
               <UIMultiSelect
                 onDelete={(value) => {
                   deletePreferredLocations({
-                    id: value,
+                    location_id: value,
                   });
                 }}
-                listItems={LOCATIONS.map((item) => ({
-                  label: capitalizeFirstLetter(item.fullAddress),
-                  value: item.fullAddress
-                    .replace(/, /g, '-')
-                    .replace(/ /g, '_'),
+                listItems={locationList.map((item) => ({
+                  label: capitalizeFirstLetter(item.level),
+                  value: item.id,
                 }))}
                 onChange={(_values, value) => {
-                  const location = value.replace(/-/g, ', ').replace(/_/g, ' ');
-                  const selectedLocation = LOCATIONS.find(
-                    (item) => item.fullAddress === location,
-                  );
                   createPreferredLocations({
-                    city: selectedLocation?.city ?? '',
-                    state: selectedLocation?.state ?? '',
-                    country: selectedLocation?.country ?? '',
+                    location_id: value,
                   });
                 }}
-                defaultValue={preferredLocations.map((item) => {
-                  const location = LOCATIONS.find(
-                    (location) =>
-                      location.city === item.city &&
-                      location.state === item.state &&
-                      location.country === item.country,
-                  );
-                  return {
-                    label: capitalizeFirstLetter(location?.fullAddress ?? ''),
-                    value: item.id,
-                  };
-                })}
+                defaultValue={preferredLocations.map(
+                  (item) => item.location_id,
+                )}
                 level='Preferred Locations'
               />
             </div>

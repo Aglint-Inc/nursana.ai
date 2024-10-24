@@ -11,17 +11,21 @@ import {
 
 // Define the Zod schema for form validation
 export const userProfileSchema = z.object({
-  first_name: z.string().min(2, 'First name is required'),
-  last_name: z.string().min(1, 'Last name is required').optional(),
+  first_name: z
+    .string()
+    .min(2, 'Name must be at least 2 characters long')
+    .max(30, 'Name must be at most 30 characters long')
+    .optional(),
+  last_name: z.string().optional(),
   phone_number: z
     .string()
     .min(10, 'Phone number must be at least 10 digits')
     .nullable()
     .optional(),
-  preferred_travel_preference: travelPreferrenceSchema,
-  salary_range: z.string().nullable(),
-  current_job_title: jobTitlesSchema,
-  open_to_work: z.boolean(),
+  preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
+  salary_range: z.string().nullable().optional(),
+  current_job_title: jobTitlesSchema.optional(),
+  open_to_work: z.boolean().optional(),
 });
 
 const mutation = async ({
