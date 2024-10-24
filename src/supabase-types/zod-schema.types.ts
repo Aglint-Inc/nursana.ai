@@ -555,6 +555,40 @@ export const userRelationshipsSchema = z.tuple([
   }),
 ]);
 
+export const userInterviewRatingRowSchema = z.object({
+  applicant_id: z.string(),
+  created_at: z.string(),
+  feedback: z.string(),
+  id: z.string(),
+  rating: z.number(),
+});
+
+export const userInterviewRatingInsertSchema = z.object({
+  applicant_id: z.string().optional(),
+  created_at: z.string().optional(),
+  feedback: z.string().optional(),
+  id: z.string().optional(),
+  rating: z.number(),
+});
+
+export const userInterviewRatingUpdateSchema = z.object({
+  applicant_id: z.string().optional(),
+  created_at: z.string().optional(),
+  feedback: z.string().optional(),
+  id: z.string().optional(),
+  rating: z.number().optional(),
+});
+
+export const userInterviewRatingRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("user_interview_rating_applicant_id_fkey"),
+    columns: z.tuple([z.literal("applicant_id")]),
+    isOneToOne: z.literal(false),
+    referencedRelation: z.literal("applicant"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
+
 export const versionStatusSchema = z.union([
   z.literal("archived"),
   z.literal("active"),

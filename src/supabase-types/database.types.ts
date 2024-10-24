@@ -558,6 +558,38 @@ export type Database = {
           },
         ]
       }
+      user_interview_rating: {
+        Row: {
+          applicant_id: string
+          created_at: string
+          feedback: string
+          id: string
+          rating: number
+        }
+        Insert: {
+          applicant_id?: string
+          created_at?: string
+          feedback?: string
+          id?: string
+          rating: number
+        }
+        Update: {
+          applicant_id?: string
+          created_at?: string
+          feedback?: string
+          id?: string
+          rating?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_interview_rating_applicant_id_fkey"
+            columns: ["applicant_id"]
+            isOneToOne: false
+            referencedRelation: "applicant"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       version: {
         Row: {
           agency_id: string

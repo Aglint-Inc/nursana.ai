@@ -42,6 +42,7 @@ export default function InterviewInstructions({
   const [progress, setProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showInterview, setShowInterview] = useState(false);
+  const [ignoreResume, setIgnoreResume] = useState(false);
 
   const showVideo = () => {
     setShowCover(false);
@@ -96,10 +97,18 @@ export default function InterviewInstructions({
         refetch();
       }
     }, 5000);
+    setTimeout(() => {
+      clearInterval(interval);
+      setIgnoreResume(true);
+    }, 10000);
     return () => clearInterval(interval);
   }, [data]);
-
-  if (!data?.resume?.error_status && !data?.resume?.structured_resume) {
+  console.log(data?.resume?.structured_resume, data?.resume?.error_status);
+  if (
+    !ignoreResume &&
+    !data?.resume?.error_status &&
+    !data?.resume?.structured_resume
+  ) {
     return (
       <div className='flex h-screen w-full flex-col items-center justify-center'>
         <div className='flex flex-col'>
