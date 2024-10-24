@@ -12,6 +12,7 @@ import { tenant } from './routers/tenant';
 import { user } from './routers/user';
 import { supabase_storage } from './supabse_storage';
 import { createCallerFactory, createTRPCRouter } from './trpc';
+import { interviewFeedback } from './routers/user_interiew_rating';
 
 /**
  * This is the primary router for your server.
@@ -28,6 +29,7 @@ export const appRouter = createTRPCRouter({
   supabase_storage,
   campaign_user: campaignUser,
   getLocationList,
+  interviewFeedback,
 });
 
 // export type definition of API

@@ -10,6 +10,7 @@ import { Card, CardContent } from '@/components/ui/card';
 
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 
 function InterviewRecording({
   handleStopInterview,
@@ -22,7 +23,18 @@ function InterviewRecording({
   interviewDuration: number;
   videoRef: React.RefObject<HTMLVideoElement>;
 }) {
+  const [_interviewRatingRound, setInterviewRatingRound] = useLocalStorage<{
+    firstRound: boolean;
+    secondRound: boolean;
+    counter: number;
+  }>('interview-rating-round', {
+    firstRound: false,
+    secondRound: false,
+    counter: 0,
+  });
   const [timer, setTimer] = useState(interviewDuration * 60);
+  const [showStopInterviewModal, setShowStopInterviewModal] = useState(false);
+  const warningTime = 3 * 60; // 3 minutes
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60)
       .toString()
@@ -51,6 +63,7 @@ function InterviewRecording({
           const newTimer = prevTimer - 1;
           if (newTimer <= 0) {
             handleStopInterview();
+            interviewRatingOpenCountHandler();
           }
           return newTimer;
         });
@@ -58,8 +71,13 @@ function InterviewRecording({
     }
     return () => clearInterval(interval);
   }, [isInterviewStarted, interviewDuration, handleStopInterview]);
-  const [showStopInterviewModal, setShowStopInterviewModal] = useState(false);
-  const warningTime = 3 * 60; // 3 minutes
+  function interviewRatingOpenCountHandler() {
+    setInterviewRatingRound({
+      firstRound: true,
+      secondRound: false,
+      counter: 1,
+    }); // count for open user interview feedback rating form
+  }
   return (
     <>
       <UIDialog
@@ -71,6 +89,7 @@ function InterviewRecording({
             <Button
               onClick={() => {
                 handleStopInterview();
+                interviewRatingOpenCountHandler();
                 stopCamera();
               }}
               variant='secondary'
