@@ -22,7 +22,6 @@ export function VideoPlayer({ videoUrl, audioUrl }: VideoPlayerProps) {
           ref={videoRef}
           src={videoUrl}
           className='h-full w-full object-cover'
-          muted
         />
       </AspectRatio>
       <AudioPlayer videoRef={videoRef} audioUrl={audioUrl} />

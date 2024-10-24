@@ -13,12 +13,12 @@ export default function CheckEmail() {
   const searchParams = useSearchParams();
 
   const type = searchParams.get('type') as string;
-
+  const email = searchParams.get('email') as string;
   return (
     <Section>
       <div className='flex h-[100vh] flex-col items-center justify-between pt-6'>
         <NursanaLogo />
-        <div className='flex max-w-[400px] flex-col items-center justify-center px-4'>
+        <div className='flex max-w-[450px] flex-col items-center justify-center px-4'>
           <MailCheck
             size={60}
             strokeWidth={1.2}
@@ -27,9 +27,8 @@ export default function CheckEmail() {
           <h1 className='mb-4 text-2xl font-medium'>Check Your Inbox</h1>
           <p className='mb-1 text-center'>
             {type === 'interview'
-              ? `We've sent a interview link to your email address. Please check your inbox
-        and click on the link to start your interview.`
-              : `We've sent a login link to your email address. Please check your inbox.`}
+              ? `We've sent an interview link to ${email.replaceAll(' ', '+')}. Click the link to start your interview.`
+              : `We've sent a login link to ${email.replaceAll(' ', '+')}.`}
           </p>
           <p className='mb-8 text-sm text-muted-foreground'>
             {`If you don't see the email, check your spam folder.`}

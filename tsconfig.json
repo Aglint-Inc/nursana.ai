@@ -31,10 +31,21 @@
       "@/supabase-types/*": ["src/supabase-types/*"],
       "@/server/*": ["./server/*"],
       "@/hooks/*": ["./hooks/*"],
-      "@/audio/*": [
-        "./lib/audio/*"
+      "@/audio/*": ["./lib/audio/*"],
+      "@/applicant/*": ["./app/(authenticated)/(applicant)/_common/*"],
+      "@/dashboard/*": [
+        "./app/(authenticated)/(applicant)/dashboard/_common/*"
       ],
-      "@/authenicated/*": ["./app/(authenticated)/_common/*"]
+      "@/authenticated/*": ["./app/(authenticated)/_common/*"],
+      "@/agency/*": ["./app/(authenticated)/(agency)/_common/*"],
+      "@/campaigns/*": ["./app/(authenticated)/(agency)/campaigns/_common/*"],
+      "@/templates/*": ["./app/(authenticated)/(agency)/templates/_common/*"],
+      "@/version/*": [
+        "./app/(authenticated)/(agency)/templates/[version]/_common/*"
+      ],
+      "@/campaign/*": [
+        "./app/(authenticated)/(agency)/campaigns/[campaign]/_common/*"
+      ]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

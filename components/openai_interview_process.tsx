@@ -1,6 +1,7 @@
 'use client';
 
 import { RealtimeClient } from '@openai/realtime-api-beta';
+import { type ResumeDetailsType } from 'app/(authenticated)/(applicant)/profile/_common/types';
 import {
   useUpdateInterviews,
   useUpdateInterviewsAnalysis,
@@ -27,6 +28,7 @@ import NursanaLogo from './nursana-logo';
 interface InterviewProps {
   interviewId: string;
   interviewData: InterviewData;
+  resumeData: ResumeDetailsType;
 }
 
 interface ConversationTurn {
@@ -37,6 +39,7 @@ interface ConversationTurn {
 export default function Interview({
   interviewId,
   interviewData,
+  resumeData,
 }: InterviewProps) {
   const {
     isRecording,
@@ -238,8 +241,8 @@ export default function Interview({
         aiEndingMessage: interviewData.ai_ending_message ?? '',
         aiQuestions: [interviewData.ai_questions || ''],
         aiInstructions: interviewData.ai_instructions ?? [],
+        resume: `${JSON.stringify(resumeData)}`,
       }),
-      // Set transcription, otherwise we don't get user transcriptions back
       input_audio_transcription: { model: 'whisper-1' },
       voice: 'alloy',
       turn_detection: {

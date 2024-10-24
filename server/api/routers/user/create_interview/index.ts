@@ -1,4 +1,5 @@
-/* eslint-disable no-console */
+import 'server-only'; /* eslint-disable no-console */
+
 import { z } from 'zod';
 
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
@@ -33,7 +34,7 @@ const mutation = async ({
       db
         .from('resume')
         .insert({
-          user_id: userId,
+          applicant_id: userId,
           file_url: resume_url,
           structured_resume: null,
           campaign_id: campaign.id,
@@ -47,21 +48,23 @@ const mutation = async ({
         .insert({
           interview_stage: 'resume_submitted',
           name: campaign.name,
-          user_id: userId,
+          applicant_id: userId,
+          campaign_id: campaign.id,
+          agency_id: campaign.agency_id,
+          version_id: campaign.version_id,
           ai_ending_message: campaign.version.ai_ending_message,
-          ai_instructions: campaign.version.ai_instructions,
+          ai_instructions: [campaign.version.ai_instructions ?? ''],
           ai_interview_duration: campaign.version.ai_interview_duration,
           ai_questions: campaign.version.ai_questions,
           ai_welcome_message: campaign.version.ai_welcome_message,
-          campaign_id: campaign.id,
           candidate_estimated_time: campaign.version.candidate_estimated_time,
-          candidate_instructions: campaign.version.candidate_instructions,
+          candidate_instructions: [
+            campaign.version.candidate_instructions ?? '',
+          ],
           candidate_intro_video_cover_image_url:
             campaign.version.candidate_intro_video_cover_image_url,
           candidate_intro_video_url: campaign.version.candidate_intro_video_url,
-          candidate_overview: campaign.version.candidate_overview,
-          hospital_id: campaign.hospital_id,
-          version_id: campaign.version_id,
+          candidate_overview: [campaign.version.candidate_overview ?? ''],
         })
         .select()
         .single()

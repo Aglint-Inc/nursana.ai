@@ -1,8 +1,12 @@
+import 'server-only';
+
+import { authenticated } from '@/authenticated/api';
+
 import { campaign } from './routers/campaign';
 import { example } from './routers/example';
-import { hospital } from './routers/hospital';
 import { interview } from './routers/interview';
 import { interviewAnalysis } from './routers/interview_analysis';
+import { getLocationList } from './routers/location-list';
 import { tenant } from './routers/tenant';
 import { user } from './routers/user';
 import { supabase_storage } from './supabse_storage';
@@ -14,14 +18,15 @@ import { createCallerFactory, createTRPCRouter } from './trpc';
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
+  authenticated,
   example,
   user,
   campaign,
   tenant,
-  hospital,
   interview,
   interviewAnalysis,
   supabase_storage,
+  getLocationList,
 });
 
 // export type definition of API

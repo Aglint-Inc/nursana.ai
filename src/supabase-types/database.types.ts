@@ -1,87 +1,118 @@
 export type Json = any;
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string
-          query?: string
-          variables?: Json
-          extensions?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
-      applicant: {
+      agency: {
         Row: {
+          address: string | null
+          contact_email: string | null
+          contact_number: string | null
           created_at: string | null
-          email: string
-          expected_salary: string | null
-          first_name: string | null
           id: string
-          job_title: string | null
-          job_type: string[] | null
-          last_name: string | null
-          phone_number: string | null
-          preferred_job_titles: string[] | null
-          preferred_locations: string[] | null
-          terms_accepted: boolean | null
-          travel_preference: string[] | null
+          name: string
         }
         Insert: {
+          address?: string | null
+          contact_email?: string | null
+          contact_number?: string | null
           created_at?: string | null
-          email: string
-          expected_salary?: string | null
-          first_name?: string | null
-          id: string
-          job_title?: string | null
-          job_type?: string[] | null
-          last_name?: string | null
-          phone_number?: string | null
-          preferred_job_titles?: string[] | null
-          preferred_locations?: string[] | null
-          terms_accepted?: boolean | null
-          travel_preference?: string[] | null
+          id?: string
+          name: string
         }
         Update: {
+          address?: string | null
+          contact_email?: string | null
+          contact_number?: string | null
           created_at?: string | null
-          email?: string
-          expected_salary?: string | null
-          first_name?: string | null
           id?: string
-          job_title?: string | null
-          job_type?: string[] | null
-          last_name?: string | null
-          phone_number?: string | null
-          preferred_job_titles?: string[] | null
-          preferred_locations?: string[] | null
-          terms_accepted?: boolean | null
-          travel_preference?: string[] | null
+          name?: string
         }
         Relationships: []
       }
+      agency_user: {
+        Row: {
+          agency_id: string
+          id: string
+        }
+        Insert: {
+          agency_id: string
+          id: string
+        }
+        Update: {
+          agency_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agency_user_agency_id_fkey"
+            columns: ["agency_id"]
+            isOneToOne: false
+            referencedRelation: "agency"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agency_user_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      applicant_user: {
+        Row: {
+          created_at: string | null
+          id: string
+          job_title: string | null
+          open_to_work: boolean
+          phone_number: string | null
+          preferred_travel_preference:
+            | Database["public"]["Enums"]["travel_preferrence"]
+            | null
+          salary_range: unknown | null
+          terms_accepted: boolean
+        }
+        Insert: {
+          created_at?: string | null
+          id: string
+          job_title?: string | null
+          open_to_work?: boolean
+          phone_number?: string | null
+          preferred_travel_preference?:
+            | Database["public"]["Enums"]["travel_preferrence"]
+            | null
+          salary_range?: unknown | null
+          terms_accepted?: boolean
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          job_title?: string | null
+          open_to_work?: boolean
+          phone_number?: string | null
+          preferred_travel_preference?:
+            | Database["public"]["Enums"]["travel_preferrence"]
+            | null
+          salary_range?: unknown | null
+          terms_accepted?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "applicant_user_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaign: {
         Row: {
+          agency_id: string
           campaign_code: string
           created_at: string | null
           description: string | null
-          hospital_id: string
           id: string
           name: string
           status: Database["public"]["Enums"]["campaign_status"]
@@ -89,10 +120,10 @@ export type Database = {
           version_id: string
         }
         Insert: {
+          agency_id: string
           campaign_code: string
           created_at?: string | null
           description?: string | null
-          hospital_id: string
           id?: string
           name: string
           status?: Database["public"]["Enums"]["campaign_status"]
@@ -100,10 +131,10 @@ export type Database = {
           version_id: string
         }
         Update: {
+          agency_id?: string
           campaign_code?: string
           created_at?: string | null
           description?: string | null
-          hospital_id?: string
           id?: string
           name?: string
           status?: Database["public"]["Enums"]["campaign_status"]
@@ -111,6 +142,13 @@ export type Database = {
           version_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "campaign_agency_id_fkey"
+            columns: ["agency_id"]
+            isOneToOne: false
+            referencedRelation: "agency"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "campaign_version_id_fkey"
             columns: ["version_id"]
@@ -118,63 +156,17 @@ export type Database = {
             referencedRelation: "version"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "campaigns_hospital_id_fkey"
-            columns: ["hospital_id"]
-            isOneToOne: false
-            referencedRelation: "hospital"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      hospital: {
-        Row: {
-          address: string | null
-          contact_email: string | null
-          contact_number: string | null
-          contact_person: string | null
-          created_at: string | null
-          created_by: string | null
-          hospital_name: string
-          id: string
-        }
-        Insert: {
-          address?: string | null
-          contact_email?: string | null
-          contact_number?: string | null
-          contact_person?: string | null
-          created_at?: string | null
-          created_by?: string | null
-          hospital_name: string
-          id?: string
-        }
-        Update: {
-          address?: string | null
-          contact_email?: string | null
-          contact_number?: string | null
-          contact_person?: string | null
-          created_at?: string | null
-          created_by?: string | null
-          hospital_name?: string
-          id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "hospitals_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "user"
-            referencedColumns: ["user_id"]
-          },
         ]
       }
       interview: {
         Row: {
+          agency_id: string
           ai_ending_message: string | null
           ai_instructions: string[] | null
           ai_interview_duration: number
           ai_questions: string | null
           ai_welcome_message: string | null
+          applicant_id: string
           campaign_id: string
           candidate_estimated_time: string | null
           candidate_instructions: string[] | null
@@ -182,20 +174,20 @@ export type Database = {
           candidate_intro_video_url: string | null
           candidate_overview: string[] | null
           created_at: string | null
-          hospital_id: string
           id: string
           interview_stage: Database["public"]["Enums"]["interview_stage"]
           name: string
           updated_at: string | null
-          user_id: string
           version_id: string
         }
         Insert: {
+          agency_id: string
           ai_ending_message?: string | null
           ai_instructions?: string[] | null
           ai_interview_duration?: number
           ai_questions?: string | null
           ai_welcome_message?: string | null
+          applicant_id: string
           campaign_id: string
           candidate_estimated_time?: string | null
           candidate_instructions?: string[] | null
@@ -203,20 +195,20 @@ export type Database = {
           candidate_intro_video_url?: string | null
           candidate_overview?: string[] | null
           created_at?: string | null
-          hospital_id: string
           id?: string
           interview_stage?: Database["public"]["Enums"]["interview_stage"]
           name: string
           updated_at?: string | null
-          user_id: string
           version_id: string
         }
         Update: {
+          agency_id?: string
           ai_ending_message?: string | null
           ai_instructions?: string[] | null
           ai_interview_duration?: number
           ai_questions?: string | null
           ai_welcome_message?: string | null
+          applicant_id?: string
           campaign_id?: string
           candidate_estimated_time?: string | null
           candidate_instructions?: string[] | null
@@ -224,20 +216,32 @@ export type Database = {
           candidate_intro_video_url?: string | null
           candidate_overview?: string[] | null
           created_at?: string | null
-          hospital_id?: string
           id?: string
           interview_stage?: Database["public"]["Enums"]["interview_stage"]
           name?: string
           updated_at?: string | null
-          user_id?: string
           version_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "interview_hospital_id_fkey"
-            columns: ["hospital_id"]
+            foreignKeyName: "interview_agency_id_fkey"
+            columns: ["agency_id"]
             isOneToOne: false
-            referencedRelation: "hospital"
+            referencedRelation: "agency"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interview_applicant_id_fkey"
+            columns: ["applicant_id"]
+            isOneToOne: false
+            referencedRelation: "applicant_user"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interview_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaign"
             referencedColumns: ["id"]
           },
           {
@@ -247,25 +251,12 @@ export type Database = {
             referencedRelation: "version"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "interviews_campaign_id_fkey"
-            columns: ["campaign_id"]
-            isOneToOne: false
-            referencedRelation: "campaign"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "interviews_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "applicant"
-            referencedColumns: ["id"]
-          },
         ]
       }
       interview_analysis: {
         Row: {
           analysis_status: Json | null
+          applicant_id: string
           audio_url: string | null
           call_analysis: Json | null
           call_id: string | null
@@ -277,11 +268,11 @@ export type Database = {
           transcript_json: Json[] | null
           transcript_url: string | null
           updated_at: string | null
-          user_id: string
           video_url: string | null
         }
         Insert: {
           analysis_status?: Json | null
+          applicant_id: string
           audio_url?: string | null
           call_analysis?: Json | null
           call_id?: string | null
@@ -293,11 +284,11 @@ export type Database = {
           transcript_json?: Json[] | null
           transcript_url?: string | null
           updated_at?: string | null
-          user_id: string
           video_url?: string | null
         }
         Update: {
           analysis_status?: Json | null
+          applicant_id?: string
           audio_url?: string | null
           call_analysis?: Json | null
           call_id?: string | null
@@ -309,22 +300,21 @@ export type Database = {
           transcript_json?: Json[] | null
           transcript_url?: string | null
           updated_at?: string | null
-          user_id?: string
           video_url?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "fk_interview"
-            columns: ["interview_id"]
-            isOneToOne: true
-            referencedRelation: "interview"
+            foreignKeyName: "interview_analysis_applicant_id_fkey"
+            columns: ["applicant_id"]
+            isOneToOne: false
+            referencedRelation: "applicant_user"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "interview_analysis_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "applicant"
+            foreignKeyName: "interview_analysis_interview_id_fkey"
+            columns: ["interview_id"]
+            isOneToOne: true
+            referencedRelation: "interview"
             referencedColumns: ["id"]
           },
         ]
@@ -341,8 +331,118 @@ export type Database = {
         }
         Relationships: []
       }
+      locations_list: {
+        Row: {
+          city: string
+          country: string
+          id: string
+          level: string
+          state: string
+        }
+        Insert: {
+          city: string
+          country: string
+          id?: string
+          level: string
+          state: string
+        }
+        Update: {
+          city?: string
+          country?: string
+          id?: string
+          level?: string
+          state?: string
+        }
+        Relationships: []
+      }
+      preferred_job_titles: {
+        Row: {
+          applicant_id: string
+          id: string
+          job_title: Database["public"]["Enums"]["job_titles"]
+        }
+        Insert: {
+          applicant_id?: string
+          id?: string
+          job_title: Database["public"]["Enums"]["job_titles"]
+        }
+        Update: {
+          applicant_id?: string
+          id?: string
+          job_title?: Database["public"]["Enums"]["job_titles"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "preferred_job_title_applicant_id_fkey"
+            columns: ["applicant_id"]
+            isOneToOne: false
+            referencedRelation: "applicant_user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      preferred_job_types: {
+        Row: {
+          applicant_id: string
+          id: string
+          job_type: Database["public"]["Enums"]["job_types"] | null
+        }
+        Insert: {
+          applicant_id: string
+          id?: string
+          job_type?: Database["public"]["Enums"]["job_types"] | null
+        }
+        Update: {
+          applicant_id?: string
+          id?: string
+          job_type?: Database["public"]["Enums"]["job_types"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "preferred_job_type_applicant_id_fkey"
+            columns: ["applicant_id"]
+            isOneToOne: false
+            referencedRelation: "applicant_user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      preferred_locations: {
+        Row: {
+          applicant_id: string
+          id: string
+          location_id: string
+        }
+        Insert: {
+          applicant_id: string
+          id?: string
+          location_id: string
+        }
+        Update: {
+          applicant_id?: string
+          id?: string
+          location_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "preferred_location_applicant_id_fkey"
+            columns: ["applicant_id"]
+            isOneToOne: false
+            referencedRelation: "applicant_user"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "preferred_locations_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations_list"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       resume: {
         Row: {
+          applicant_id: string
           campaign_id: string
           created_at: string | null
           error_status: Json | null
@@ -352,9 +452,9 @@ export type Database = {
           resume_feedback: Json | null
           structured_resume: Json | null
           updated_at: string | null
-          user_id: string
         }
         Insert: {
+          applicant_id: string
           campaign_id: string
           created_at?: string | null
           error_status?: Json | null
@@ -364,9 +464,9 @@ export type Database = {
           resume_feedback?: Json | null
           structured_resume?: Json | null
           updated_at?: string | null
-          user_id: string
         }
         Update: {
+          applicant_id?: string
           campaign_id?: string
           created_at?: string | null
           error_status?: Json | null
@@ -376,68 +476,49 @@ export type Database = {
           resume_feedback?: Json | null
           structured_resume?: Json | null
           updated_at?: string | null
-          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "resumes_campaign_id_fkey"
+            foreignKeyName: "resume_applicant_id_fkey"
+            columns: ["applicant_id"]
+            isOneToOne: false
+            referencedRelation: "applicant_user"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "resume_campaign_id_fkey"
             columns: ["campaign_id"]
             isOneToOne: false
             referencedRelation: "campaign"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "resumes_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "applicant"
-            referencedColumns: ["id"]
-          },
         ]
-      }
-      role: {
-        Row: {
-          id: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Insert: {
-          id?: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Update: {
-          id?: string
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id?: string
-        }
-        Relationships: []
       }
       template: {
         Row: {
+          agency_id: string
           created_at: string
-          hospital_id: string
           id: string
           name: string
         }
         Insert: {
+          agency_id: string
           created_at?: string
-          hospital_id: string
           id?: string
           name: string
         }
         Update: {
+          agency_id?: string
           created_at?: string
-          hospital_id?: string
           id?: string
           name?: string
         }
         Relationships: [
           {
-            foreignKeyName: "template_hospital_id_fkey"
-            columns: ["hospital_id"]
+            foreignKeyName: "template_agency_id_fkey"
+            columns: ["agency_id"]
             isOneToOne: false
-            referencedRelation: "hospital"
+            referencedRelation: "agency"
             referencedColumns: ["id"]
           },
         ]
@@ -447,50 +528,50 @@ export type Database = {
           created_at: string
           email: string
           first_name: string
-          hospital_id: string
-          last_name: string | null
-          user_id: string
+          id: string
+          last_name: string
+          user_role: Database["public"]["Enums"]["user_role"]
         }
         Insert: {
           created_at?: string
           email: string
           first_name: string
-          hospital_id: string
-          last_name?: string | null
-          user_id: string
+          id: string
+          last_name?: string
+          user_role?: Database["public"]["Enums"]["user_role"]
         }
         Update: {
           created_at?: string
           email?: string
           first_name?: string
-          hospital_id?: string
-          last_name?: string | null
-          user_id?: string
+          id?: string
+          last_name?: string
+          user_role?: Database["public"]["Enums"]["user_role"]
         }
         Relationships: [
           {
-            foreignKeyName: "tenant_hospital_id_fkey"
-            columns: ["hospital_id"]
-            isOneToOne: false
-            referencedRelation: "hospital"
+            foreignKeyName: "user_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
       }
       version: {
         Row: {
+          agency_id: string
           ai_ending_message: string | null
-          ai_instructions: string[]
+          ai_instructions: string
           ai_interview_duration: number
           ai_questions: string | null
           ai_welcome_message: string | null
           candidate_estimated_time: string | null
-          candidate_instructions: string[]
+          candidate_instructions: string
           candidate_intro_video_cover_image_url: string | null
           candidate_intro_video_url: string | null
-          candidate_overview: string[]
+          candidate_overview: string
           created_at: string
-          hospital_id: string
           id: string
           name: string
           status: Database["public"]["Enums"]["version_status"]
@@ -498,18 +579,18 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          agency_id: string
           ai_ending_message?: string | null
-          ai_instructions?: string[]
+          ai_instructions?: string
           ai_interview_duration?: number
           ai_questions?: string | null
           ai_welcome_message?: string | null
           candidate_estimated_time?: string | null
-          candidate_instructions?: string[]
+          candidate_instructions?: string
           candidate_intro_video_cover_image_url?: string | null
           candidate_intro_video_url?: string | null
-          candidate_overview?: string[]
+          candidate_overview?: string
           created_at?: string
-          hospital_id: string
           id?: string
           name: string
           status?: Database["public"]["Enums"]["version_status"]
@@ -517,18 +598,18 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          agency_id?: string
           ai_ending_message?: string | null
-          ai_instructions?: string[]
+          ai_instructions?: string
           ai_interview_duration?: number
           ai_questions?: string | null
           ai_welcome_message?: string | null
           candidate_estimated_time?: string | null
-          candidate_instructions?: string[]
+          candidate_instructions?: string
           candidate_intro_video_cover_image_url?: string | null
           candidate_intro_video_url?: string | null
-          candidate_overview?: string[]
+          candidate_overview?: string
           created_at?: string
-          hospital_id?: string
           id?: string
           name?: string
           status?: Database["public"]["Enums"]["version_status"]
@@ -537,10 +618,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "version_hospital_id_fkey"
-            columns: ["hospital_id"]
+            foreignKeyName: "version_agency_id_fkey"
+            columns: ["agency_id"]
             isOneToOne: false
-            referencedRelation: "hospital"
+            referencedRelation: "agency"
             referencedColumns: ["id"]
           },
           {
@@ -573,13 +654,27 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "applicant" | "user"
       campaign_status: "archived" | "active"
       interview_stage:
         | "not_started"
         | "resume_submitted"
         | "interview_inprogress"
         | "interview_completed"
+      job_titles:
+        | "registered-nurse"
+        | "nurse-practitioner"
+        | "licensed-practical-nurse"
+        | "clinical-nurse-specialist"
+        | "certified-nurse-midwife"
+      job_types: "full-time" | "part-time" | "contract" | "internship"
+      travel_preferrence:
+        | "no-travel"
+        | "occasional-travel"
+        | "frequent-travel"
+        | "up-to-50-travel"
+        | "up-to-75-travel"
+        | "100-travel"
+      user_role: "applicant_user" | "agency_user"
       version_status: "archived" | "active"
     }
     CompositeTypes: {
@@ -670,17 +765,3 @@ export type Enums<
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
 
-export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema["CompositeTypes"]
-    | { schema: keyof Database },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
-> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never

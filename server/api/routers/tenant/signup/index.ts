@@ -1,4 +1,5 @@
-/* eslint-disable no-console */
+import 'server-only'; /* eslint-disable no-console */
+
 import { z } from 'zod';
 
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
@@ -18,37 +19,37 @@ const mutation = async ({
 
   const res = (
     await db
-      .from('hospital')
+      .from('agency')
       .insert({
-        hospital_name: '',
+        name: '',
       })
       .select('id')
       .single()
       .throwOnError()
   ).data;
 
-  if (!res?.id) throw new Error('Failed to create hospital');
+  if (!res?.id) throw new Error('Failed to create agency');
 
   await db
     .from('user')
     .insert({
-      user_id: userId,
+      id: userId,
       email,
       first_name,
       last_name,
-      hospital_id: res.id,
+      user_role: 'agency_user',
     })
     .throwOnError();
 
   await db
-    .from('role')
+    .from('agency_user')
     .insert({
-      user_id: userId,
-      role: 'user',
+      id: userId,
+      agency_id: res.id,
     })
     .throwOnError();
 
-  return { success: true, hospital_id: res.id };
+  return { success: true, agency_id: res.id };
 };
 
 export const tenantSignup = publicProcedure.input(schema).mutation(mutation);

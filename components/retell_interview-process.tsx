@@ -1,10 +1,10 @@
 'use client';
 
+import { type ResumeDetailsType } from 'app/(authenticated)/(applicant)/profile/_common/types';
 import {
   useUpdateInterviews,
   useUpdateInterviewsAnalysis,
 } from 'app/interview/_common/hooks';
-import { Loader } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RetellWebClient } from 'retell-client-js-sdk';
@@ -18,11 +18,13 @@ import AllowCameraPermission from './allow-camera-permission';
 import Footer from './footer';
 import InterviewConversations from './interview-conversations';
 import InterviewRecording from './interview-recording';
+import MultiStepLoader from './multi-step.loader';
 import NursanaLogo from './nursana-logo';
 
 interface InterviewProps {
   interviewId: string;
   interviewData: InterviewData;
+  resumeData: ResumeDetailsType;
 }
 
 interface ConversationTurn {
@@ -33,6 +35,7 @@ interface ConversationTurn {
 export default function Interview({
   interviewId,
   interviewData,
+  resumeData,
 }: InterviewProps) {
   const {
     isRecording,
@@ -137,7 +140,7 @@ export default function Interview({
       if (updateAnalysisResult.error) throw updateAnalysisResult.error;
 
       console.log('Video upload and database updates completed successfully');
-      router.push(`/interview/${interviewId}/summary`);
+      router.push(`/dashboard`);
     } catch (error) {
       console.error('Error processing and uploading interview:', error);
       setError(
@@ -215,6 +218,7 @@ export default function Interview({
         },
         body: JSON.stringify({
           interviewId: interviewId,
+          resumeData: `${JSON.stringify(resumeData)}`,
         }),
       });
 
@@ -296,8 +300,7 @@ export default function Interview({
 
         {isProcessing ? (
           <div className='mt-4 flex h-[50vh] w-[700px] flex-col items-center justify-center rounded-lg p-4 text-center text-gray-500'>
-            <Loader className='mx-auto mb-2 h-6 w-6 animate-spin' />
-            <p className=''>Processing and uploading interview data...</p>
+            <MultiStepLoader />
           </div>
         ) : isInterviewStarted ? (
           <></>

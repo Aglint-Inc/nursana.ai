@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { supabase } from './client/supabaseClient';
+
 export type ErrorType =
   | 'SYSTEM_ERROR'
   | 'UNSUPPORTED_FORMAT'
   | 'AI_ERROR'
   | 'DB_ERROR'
   | 'PARSING_ERROR';
+
 export const getResponse = ({
   data,
   saved = false,
@@ -34,7 +37,7 @@ export const saveToDB = async ({
   data,
   id,
 }: {
-  data: { structured_resume?: any; error_status?: any };
+  data: { structured_resume?: any; processing_status?: any };
   id: string;
 }) => {
   const { error } = await supabase
@@ -58,7 +61,14 @@ export const logs = async (
   return await saveToDB({
     id,
     data: {
-      error_status,
+      processing_status: {
+        resume_to_json_api: {
+          error: error_status.type,
+          error_message: error_status.message,
+          timestamp: new Date().toISOString(),
+          status: 'error',
+        },
+      },
     },
   });
 };
@@ -71,3 +81,30 @@ export const newAbortSignal = (timeoutMs: number, funcName: string) => {
   }, timeoutMs || 0);
   return abortController.signal;
 };
+
+export async function setToProcessing(id: string) {
+  await saveToDB({
+    id,
+    data: {
+      processing_status: {
+        resume_to_json_api: {
+          timestamp: new Date().toISOString(),
+          status: 'processing',
+        },
+      },
+    },
+  });
+}
+
+export async function getFileUrl(
+  bucket: 'videos' | 'audio' | 'resumes',
+  fileName: string,
+) {
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .createSignedUrl(fileName, 60);
+  if (error) {
+    throw new Error(`Supabase signedURL error: ${error.message}`);
+  }
+  return data.signedUrl;
+}

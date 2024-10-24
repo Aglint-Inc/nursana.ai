@@ -1,30 +1,29 @@
 import { File, UploadCloud, X } from 'lucide-react';
 import React, {
-  type Dispatch,
-  type SetStateAction,
   useCallback,
-  useState,
+  useState
 } from 'react';
 
 import LoadingWapper from '@/common/components/LoadingWapper';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { type FormCampaign } from '../types';
 
 function ResumeUpload({
-  form,
-  setForm,
   saving,
+  onChange,
+  value,
 }: {
-  form: FormCampaign;
-  setForm: Dispatch<SetStateAction<FormCampaign>>;
   saving: boolean;
+  onChange: (_x: File | null) => void;
+  value: File;
 }) {
+  const [file, setFile] = useState<File | null>(value);
   const [dragActive, setDragActive] = useState(false);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      setForm({ ...form, file: event.target.files[0] });
+      onChange(event.target.files[0]);
+      setFile(event.target.files[0]);
     }
   };
 
@@ -43,16 +42,17 @@ function ResumeUpload({
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      setForm({ ...form, file: e.dataTransfer.files[0] });
+      onChange(e.dataTransfer.files[0]);
+      setFile(e.dataTransfer.files[0]);
     }
   }, []);
 
   return (
     <LoadingWapper loading={saving}>
       <div className='flex flex-col gap-1'>
-        {!form.file ? (
+        {!file ? (
           <div
-            className={`mt-2 relative flex justify-center rounded-lg border border-dashed ${
+            className={`relative mt-2 flex justify-center rounded-lg border border-dashed ${
               dragActive ? 'bg-background' : 'bg-background'
             } px-6 py-6`}
             onDragEnter={handleDrag}
@@ -77,7 +77,7 @@ function ResumeUpload({
                       id='file-upload'
                       name='file-upload'
                       type='file'
-                      className=' absolute z-20 w-full left-0 opacity-0 h-full top-0 cursor-pointer'
+                      className='absolute left-0 top-0 z-20 h-full w-full cursor-pointer opacity-0'
                       onChange={handleFileChange}
                       accept='.pdf,.doc,.docx'
                     />
@@ -96,12 +96,16 @@ function ResumeUpload({
             <div className='flex items-center justify-between rounded border-input bg-background px-4 py-6 shadow-none'>
               <div className='flex items-center gap-3'>
                 <File size={30} className='text-muted-foreground' />
-                <span className='text-md truncate'>{form.file?.name}</span>
+                <span className='text-md truncate'>{value?.name}</span>
               </div>
 
               <Button
+                type='button'
                 variant='ghost'
-                onClick={() => setForm({ ...form, file: null })}
+                onClick={() => {
+                  onChange(null);
+                  setFile(null);
+                }}
               >
                 <X className='h-4 w-4' />
               </Button>

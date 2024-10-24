@@ -57,6 +57,7 @@ const PUBLIC_ROUTES = [
   // Starts with
   'score_resume',
   '^/auth/',
+  '^/ui/',
   '/campaign',
   '/api/trpc',
   '/api/score_resume',
@@ -68,4 +69,5 @@ const PUBLIC_ROUTES = [
   '/openAiRealTime',
 ];
 
+// eslint-disable-next-line security/detect-non-literal-regexp
 const PUBLIC_ROUTES_REGEX = new RegExp(PUBLIC_ROUTES.join('|'));

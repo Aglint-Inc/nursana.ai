@@ -9,19 +9,19 @@ import { Button } from '../ui/button';
 function PoweredBy() {
   return (
     <Section>
-      <div className="rounded-lg bg-[url('/images/gradientbg.jpg')] bg-cover bg-center p-8 py-20 text-black">
-        <div className='grid grid-cols-2 gap-10'>
-          <div className='flex h-full flex-col items-start justify-center gap-8 px-8'>
-            <div className='flex items-center gap-2 text-lg text-purple-700'>
-              <Sparkles strokeWidth={1.2} size={24} />
+      <div className="rounded-lg bg-[url('/images/gradientbg.jpg')] bg-cover bg-center p-6 py-12 text-black md:p-8 md:py-20">
+        <div className='grid grid-cols-1 gap-10 md:grid-cols-2'>
+          <div className='flex h-full flex-col items-start justify-center gap-6 px-0 md:gap-8 md:px-8'>
+            <div className='flex items-center gap-2 text-base text-purple-700 md:text-lg'>
+              <Sparkles strokeWidth={1.2} size={20} />
               Powered by Aglint AI
             </div>
-            <h1 className='text-5xl font-medium'>
+            <h1 className='text-3xl font-medium md:text-5xl'>
               Get an Unbiased and Professional Evaluation of Your Resume.
             </h1>
-            <p className='text-lg text-gray-600'>
+            <p className='text-base text-gray-600 md:text-lg'>
               Our AI-driven resume analysis delivers an objective assessment of
-              your resume, providing tailored recommendations to enhance its
+              your resume, offering tailored recommendations to enhance its
               effectiveness while eliminating bias. Trust Nursana.ai to empower
               your job search by showcasing your qualifications in a way that
               stands out to potential employers.
@@ -34,8 +34,9 @@ function PoweredBy() {
             <Image
               alt='powered by aglint ai'
               src={'/images/powered-by.png'}
-              width={500}
-              height={700}
+              width={400}
+              height={600}
+              className='h-auto max-w-full'
             />
           </div>
         </div>

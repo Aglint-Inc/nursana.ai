@@ -178,7 +178,7 @@ export const PromptArchive: {
                 - Deduct points for less experience (e.g., 1-3 years = 3, 5-9 years = 7).
 
                 2. **Healthcare Settings** (Rate 1-5):
-                - 5 for experience in relevant settings (e.g., hospital, ER, outpatient clinic).
+                - 5 for experience in relevant settings (e.g., agency, ER, outpatient clinic).
                 - Lower score for irrelevant settings or limited variety.
                 
                 3. **Specialties** (Rate 1-5):
@@ -251,7 +251,7 @@ export const schema = z.object({
       ),
     currentCompany: z
       .string()
-      .describe('Extract the current healthcare institution or hospital name'),
+      .describe('Extract the current healthcare institution or agency name'),
     professionalSummary: z
       .string()
       .nullable()
@@ -291,9 +291,7 @@ export const schema = z.object({
   ),
   positions: z.array(
     z.object({
-      org: z
-        .string()
-        .describe('Name of the hospital or healthcare institution'),
+      org: z.string().describe('Name of the agency or healthcare institution'),
       title: z.string().describe('Nursing position title'),
       description: z
         .string()

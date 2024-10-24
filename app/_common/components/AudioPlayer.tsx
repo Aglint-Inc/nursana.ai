@@ -53,6 +53,7 @@ export const AudioPlayer = forwardRef(function AudioPlayer(
       if (isPlaying) {
         audioRef.current.pause();
         videoRef.current?.pause();
+        setCurrentTime(0);
       } else {
         audioRef.current.play();
         videoRef.current?.play();
@@ -93,6 +94,7 @@ export const AudioPlayer = forwardRef(function AudioPlayer(
     pause: () => audioRef.current?.pause(),
   }));
 
+  
   return (
     <div className='p-4'>
       <audio ref={audioRef} src={audioUrl} onEnded={togglePlay} />
@@ -102,6 +104,7 @@ export const AudioPlayer = forwardRef(function AudioPlayer(
         step={1}
         onValueChange={handleSeek}
         className='mb-2'
+        trackClassName='bg-muted-foreground/30'
       />
       <div className='flex items-center justify-between'>
         <span className='text-sm text-muted-foreground'>
