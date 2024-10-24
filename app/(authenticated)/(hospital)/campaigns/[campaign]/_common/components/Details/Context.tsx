@@ -9,7 +9,15 @@ import { useCampaignEdit } from '@/campaign/hooks/useCampaignEdit';
 
 const useDetailsContext = () => {
   const [mode, setMode] = useState<'edit' | 'view'>('view');
-  const { mutate, isPending } = useCampaignEdit();
+  const { isPending, ...mutation } = useCampaignEdit();
+
+  const mutate = (input: Parameters<(typeof mutation)['mutate']>[0]) =>
+    mutation.mutate(input, {
+      onSuccess: () => {
+        setMode('view');
+      },
+    });
+
   return {
     mode,
     setMode,
