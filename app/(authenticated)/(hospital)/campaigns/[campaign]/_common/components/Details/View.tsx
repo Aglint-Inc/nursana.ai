@@ -1,14 +1,14 @@
 import {
-  Hash,
-  Settings as SettingsIcon,
-  Info,
-  FileText,
+  Check,
   CircleDashed,
   Copy,
-  Check,
   FilePenLine,
+  FileText,
+  Hash,
+  Info,
 } from 'lucide-react';
 import type { PropsWithChildren } from 'react';
+import { useState } from 'react';
 
 import { useCampaign } from '@/campaign/hooks/useCampaign';
 import { capitalize } from '@/common/utils/capitalize';
@@ -21,9 +21,6 @@ import {
 } from '@/components/ui/sheet';
 
 import { useDetails } from './Context';
-import { campaign } from '@/campaign/api';
-import Link from 'next/link';
-import { useState } from 'react';
 
 export const View = () => {
   return (
@@ -36,7 +33,7 @@ export const View = () => {
 
 const Header = () => {
   return (
-    <SheetHeader className='translate-y-[-16px] h-10 flex justify-center'>
+    <SheetHeader className='flex h-10 translate-y-[-16px] justify-center'>
       <Title />
     </SheetHeader>
   );
@@ -149,16 +146,18 @@ const Detail = ({ label, value, textArea = false, icon }: DetailType) => {
         <div className='flex items-center'>
           <div className='text-black'>{value}</div>
           {label === 'Campaign Code' && (
-            <div
+            <button
+              type='button'
               className='ml-3 flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm bg-muted transition-all hover:bg-muted/50'
               onClick={handleCopy}
+              aria-label={copied ? 'Copied' : 'Copy campaign code'}
             >
               {copied ? (
                 <Check className='text-green-600' size={14} />
               ) : (
                 <Copy size={14} />
               )}
-            </div>
+            </button>
           )}
         </div>
       )}
