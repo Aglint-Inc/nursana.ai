@@ -1,5 +1,6 @@
 import { ChevronLeft } from 'lucide-react';
 
+import { Button } from '@/components/ui/button';
 import {
   SheetDescription,
   SheetHeader,
@@ -8,7 +9,6 @@ import {
 
 import { useDetails } from './Context';
 import { EditForm } from './EditForm';
-import { Button } from '@/components/ui/button';
 
 export const Edit = () => {
   return (

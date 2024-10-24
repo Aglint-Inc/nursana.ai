@@ -1,4 +1,4 @@
-import { FilePenLine, Settings2Icon, X } from 'lucide-react';
+import { FilePenLine, X } from 'lucide-react';
 import { type PropsWithChildren } from 'react';
 
 import { Button } from '@/components/ui/button';

@@ -7,7 +7,7 @@
     ".github",
     "components/ui",
     "script/*",
-    "lib/*",
+    "lib",
     "definitions/*",
     "constant/*",
     "lib/audio"
