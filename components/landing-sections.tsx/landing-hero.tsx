@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -9,13 +9,13 @@ import { Button } from '../ui/button';
 function LandingHero() {
   return (
     <Section>
-      <div className='flex flex-col md:items-center justify-center gap-8 md:text-center'>
+      <div className='flex flex-col justify-center gap-8 md:items-center md:text-center'>
         <div className='flex flex-col items-center justify-center gap-4'>
-          <h1 className='max-w-4xl text-3xl md:text-5xl font-medium leading-tight'>
+          <h1 className='max-w-4xl text-3xl font-medium leading-tight md:text-5xl'>
             Fast-Track Your Nursing Career with AI-Powered Interviews.
           </h1>
-          <p className='max-w-xl text-base md:text-lg text-muted-foreground'>
-            Get hired quicker with AI-driven resume feedback and interviews
+          <p className='max-w-xl text-base text-muted-foreground md:text-lg'>
+            Get hired faster with AI-driven resume feedback and interviews
             designed to match you with the perfect job.
           </p>
         </div>
@@ -30,7 +30,7 @@ function LandingHero() {
             width={600}
             height={400}
             alt='Nursana.ai'
-            className='w-full h-auto' 
+            className='h-auto w-full'
           />
         </div>
         <Link href='/campaign/?campaign_code=SUMMER23NURSE'>
