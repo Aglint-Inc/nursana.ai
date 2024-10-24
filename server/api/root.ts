@@ -7,6 +7,7 @@ import { example } from './routers/example';
 import { interview } from './routers/interview';
 import { interviewAnalysis } from './routers/interview_analysis';
 import { tenant } from './routers/tenant';
+import { uploadRouter } from './routers/upload/room';
 import { user } from './routers/user';
 import { supabase_storage } from './supabse_storage';
 import { createCallerFactory, createTRPCRouter } from './trpc';
@@ -25,6 +26,7 @@ export const appRouter = createTRPCRouter({
   interview,
   interviewAnalysis,
   supabase_storage,
+  upload: uploadRouter,
 });
 
 // export type definition of API

@@ -50,88 +50,89 @@ export const useUploadCampaign = () => {
   const campaign_id = campaignData?.id;
 
   const handleSubmit = async () => {
-    let uploadUrl = '';
+    const uploadUrl = '';
     const bucketName = 'resumes';
     try {
       setSaving(true);
+      console.log('getValues().file', getValues().file);
 
-      const resCheckUser = await mutateAsync({
-        campaign_id: campaignData?.id,
-        email: getValues().email,
-      });
+      // const resCheckUser = await mutateAsync({
+      //   campaign_id: campaignData?.id,
+      //   email: getValues().email,
+      // });
 
-      if (resCheckUser.resume?.id) {
-        setError({
-          message: 'User already exists',
-          field: 'email',
-        });
-        return;
-      }
+      // if (resCheckUser.resume?.id) {
+      //   setError({
+      //     message: 'User already exists',
+      //     field: 'email',
+      //   });
+      //   return;
+      // }
 
-      let userId: string | null = null;
+      // let userId: string | null = null;
 
-      if (!resCheckUser.user?.id) {
-        const resUser = await createUser({
-          email: getValues().email,
-          first_name: getValues().first_name,
-          last_name: getValues().last_name || '',
-          role: 'applicant',
-          current_job_title: 'nurse-practitioner',
-        });
-        if (resUser.error)
-          throw new Error(resUser.error.message || resUser.error.code);
-        userId = resUser.data.user?.id;
-      } else {
-        userId = resCheckUser.user.id;
-      }
+      // if (!resCheckUser.user?.id) {
+      //   const resUser = await createUser({
+      //     email: getValues().email,
+      //     first_name: getValues().first_name,
+      //     last_name: getValues().last_name || '',
+      //     role: 'applicant',
+      //     current_job_title: 'nurse-practitioner',
+      //   });
+      //   if (resUser.error)
+      //     throw new Error(resUser.error.message || resUser.error.code);
+      //   userId = resUser.data.user?.id;
+      // } else {
+      //   userId = resCheckUser.user.id;
+      // }
 
-      const fileExt = getValues().file.name.split('.').pop();
-      const fileName = `${campaign_id}/${userId}_${Date.now()}.${fileExt}`;
+      // const fileExt = getValues().file.name.split('.').pop();
+      // const fileName = `${campaign_id}/${userId}_${Date.now()}.${fileExt}`;
 
-      const { data, error: uploadError } = await supabase.storage
-        .from(bucketName)
-        .upload(fileName, getValues().file, {
-          cacheControl: '3600',
-          upsert: false,
-        });
-      console.log({ data, uploadError });
+      // const { data, error: uploadError } = await supabase.storage
+      //   .from(bucketName)
+      //   .upload(fileName, getValues().file, {
+      //     cacheControl: '3600',
+      //     upsert: false,
+      //   });
+      // console.log({ data, uploadError });
 
-      if (uploadError) {
-        setError({
-          message: uploadError.message,
-          field: 'file',
-        });
-      }
+      // if (uploadError) {
+      //   setError({
+      //     message: uploadError.message,
+      //     field: 'file',
+      //   });
+      // }
 
-      uploadUrl = fileName;
+      // uploadUrl = fileName;
 
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from(bucketName).getPublicUrl(fileName);
+      // const {
+      //   data: { publicUrl },
+      // } = supabase.storage.from(bucketName).getPublicUrl(fileName);
 
-      const res = await createInterview({
-        campaign_code,
-        resume_url: publicUrl,
-        userId,
-      });
+      // const res = await createInterview({
+      //   campaign_code,
+      //   resume_url: publicUrl,
+      //   userId,
+      // });
 
-      if (res?.id) {
-        const { error } = await supabase.auth.signInWithOtp({
-          email: getValues().email,
-          options: {
-            emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/interview?id=${res.id}`,
-          },
-        });
-        if (error) {
-          throw new Error('Error creating interview');
-        }
-        router.push(
-          '/auth/check-email?type=interview&email=' +
-            encodeURI(getValues().email),
-        );
-      } else {
-        throw new Error('Error creating interview');
-      }
+      // if (res?.id) {
+      //   const { error } = await supabase.auth.signInWithOtp({
+      //     email: getValues().email,
+      //     options: {
+      //       emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/interview?id=${res.id}`,
+      //     },
+      //   });
+      //   if (error) {
+      //     throw new Error('Error creating interview');
+      //   }
+      //   router.push(
+      //     '/auth/check-email?type=interview&email=' +
+      //       encodeURI(getValues().email),
+      //   );
+      // } else {
+      //   throw new Error('Error creating interview');
+      // }
     } catch (error) {
       if (uploadUrl) {
         await supabase.storage.from(bucketName).remove([uploadUrl]);
