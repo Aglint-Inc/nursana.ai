@@ -172,6 +172,8 @@ alter table "public"."version" drop constraint "version_hospital_id_fkey";
 
 alter table "public"."interview" drop constraint "unique_nurse_campaign";
 
+alter table "public"."preferred_job_titles" drop constraint "preferred_job_titles_applicant_id_fkey";
+
 alter table "public"."preferred_job_types" drop constraint "preferred_job_types_applicant_id_fkey";
 
 alter table "public"."preferred_locations" drop constraint "preferred_locations_applicant_id_fkey";
@@ -358,6 +360,10 @@ alter table "public"."version" add constraint "version_agency_id_fkey" FOREIGN K
 alter table "public"."version" validate constraint "version_agency_id_fkey";
 
 alter table "public"."interview" add constraint "interview_applicant_id_campaig_id_key" UNIQUE using index "interview_applicant_id_campaig_id_key";
+
+alter table "public"."preferred_job_titles" add constraint "preferred_job_titles_applicant_id_fkey" FOREIGN KEY (applicant_id) REFERENCES applicant_user(id) ON DELETE CASCADE not valid;
+
+alter table "public"."preferred_job_titles" validate constraint "preferred_job_titles_applicant_id_fkey";
 
 alter table "public"."preferred_job_types" add constraint "preferred_job_types_applicant_id_fkey" FOREIGN KEY (applicant_id) REFERENCES applicant_user(id) ON DELETE CASCADE not valid;
 
@@ -598,6 +604,8 @@ ALTER TABLE interview_analysis RENAME CONSTRAINT fk_interview TO interview_analy
 --
 
 ALTER TABLE preferred_job_titles RENAME CONSTRAINT preferred_job_titles_pkey TO preferred_job_title_pkey;
+
+ALTER TABLE preferred_job_titles RENAME CONSTRAINT preferred_job_titles_applicant_id_fkey TO preferred_job_title_applicant_id_fkey;
 
 --
 
