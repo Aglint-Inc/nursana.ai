@@ -1,9 +1,11 @@
 import { type SupabaseClient } from '@supabase/supabase-js';
 import { Readable } from 'stream';
+import { type z } from 'zod';
 
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
 import { createPublicClient } from '@/server/db';
 import { type Database } from '@/supabase-types/database.types';
+import { type jobTitlesSchema } from '@/supabase-types/zod-schema.types';
 import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
 
 import { campaignFormDataSchema } from '../schema/upload';
@@ -17,43 +19,37 @@ const mutation = async ({
     campaign_id,
     fileExt,
     user_id,
+    applicant_id,
     role,
   },
 }: PublicProcedure<typeof campaignFormDataSchema>) => {
   const db = createPublicClient();
 
-  const userId = user_id ?? (await createUser({ db, email }));
+  let userId: string | null = user_id ?? null;
+  let applicantId: string | null = applicant_id ?? null;
 
-  await db
-    .from('user')
-    .insert({
-      id: userId,
+  if (!user_id) {
+    const resUser = await createUser({
+      db,
       email,
       first_name,
-      last_name: last_name ?? undefined,
-      user_role: 'applicant_user',
-    })
-    .throwOnError();
+      last_name,
+      role,
+    });
 
-  const applicant = (
-    await db
-      .from('applicant_user')
-      .insert({
-        id: userId,
-        job_title: role,
-      })
-      .select()
-      .single()
-      .throwOnError()
-  ).data!;
+    userId = resUser.userId;
+    applicantId = resUser.applicant.id;
+  }
 
-  const fileName = `${campaign_id}/${applicant.id}_${Date.now()}.${fileExt}`;
-  const resume_url = await upload(image, fileName);
+  if (!userId || !applicantId || !campaign_id) throw new Error();
+
+  const fileName = `${campaign_id}/${applicantId}_${Date.now()}.${fileExt}`;
+  const resume_url = await upload(image, fileName, fileExt);
 
   const resIntCreate = await createInterview({
     db,
     campaign_id,
-    applicant_id: applicant.id,
+    applicant_id: applicantId,
     resume_url: resume_url.url,
   });
 
@@ -66,7 +62,7 @@ export const uploadCampaign = publicProcedure
   .input(campaignFormDataSchema)
   .mutation(mutation);
 
-const upload = async (file: File, fileName: string) => {
+const upload = async (file: File, fileName: string, fileExt: string) => {
   const fileStream = Readable.fromWeb(
     // @ts-expect-error - unsure why this is not working
     file.stream(),
@@ -81,6 +77,13 @@ const upload = async (file: File, fileName: string) => {
       cacheControl: '3600',
       upsert: false,
       duplex: 'half',
+      contentType: fileExt.includes('pdf')
+        ? 'application/pdf'
+        : fileExt.includes('doc')
+          ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          : fileExt.includes('txt')
+            ? 'text/plain'
+            : 'application/pdf',
     });
 
   if (uploadError) {
@@ -157,9 +160,15 @@ const createInterview = async ({
 const createUser = async ({
   db,
   email,
+  first_name,
+  last_name,
+  role,
 }: {
   db: SupabaseClient<Database>;
   email: string;
+  first_name: string;
+  last_name?: string | null;
+  role: z.infer<typeof jobTitlesSchema>;
 }) => {
   const res = await db.auth.admin.createUser({
     email: email,
@@ -169,5 +178,27 @@ const createUser = async ({
   const userId = res.data?.user?.id;
 
   if (!userId) throw new Error('User not created');
-  return userId;
+  await db
+    .from('user')
+    .insert({
+      id: userId,
+      email,
+      first_name,
+      last_name: last_name ?? undefined,
+      user_role: 'applicant_user',
+    })
+    .throwOnError();
+
+  const applicant = (
+    await db
+      .from('applicant_user')
+      .insert({
+        id: userId,
+        job_title: role,
+      })
+      .select()
+      .single()
+      .throwOnError()
+  ).data!;
+  return { userId, applicant };
 };

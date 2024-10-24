@@ -1,15 +1,10 @@
-import { Settings2Icon } from 'lucide-react';
+import { FilePenLine, Settings2Icon, X } from 'lucide-react';
 import { type PropsWithChildren } from 'react';
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import {
+  SheetClose,
   SheetDescription,
   SheetHeader,
   SheetTitle,
@@ -31,7 +26,14 @@ const Header = () => {
   return (
     <SheetHeader className='translate-y-[-16px]'>
       <Title>
-        <Settings />
+        <div className='flex gap-2'>
+          <Settings />
+          <SheetClose>
+            <Button variant={'secondary'} size={'sm'}>
+              <X size={16} /> Close
+            </Button>
+          </SheetClose>
+        </div>
       </Title>
     </SheetHeader>
   );
@@ -40,7 +42,7 @@ const Header = () => {
 const Title = (props: PropsWithChildren) => {
   const version = useVersion();
   return (
-    <SheetTitle className='flex flex-row items-center gap-2 capitalize'>
+    <SheetTitle className='flex flex-row items-center justify-between gap-2 font-medium capitalize'>
       {version.name}
       {props.children}
     </SheetTitle>
@@ -50,8 +52,8 @@ const Title = (props: PropsWithChildren) => {
 const Settings = () => {
   const { setMode } = useDetails();
   return (
-    <Button variant={'ghost'} onClick={() => setMode('edit')}>
-      <Settings2Icon size={16} />
+    <Button variant={'default'} size={'sm'} onClick={() => setMode('edit')}>
+      <FilePenLine size={16} /> Edit Template
     </Button>
   );
 };
@@ -127,30 +129,20 @@ const Content = () => {
     },
   ];
   return (
-    <ScrollArea className='h-[calc(100vh-80px)] w-full pr-4'>
-      <Accordion type='single' collapsible className='w-full'>
-        <AccordionItem value='ai_details'>
-          <AccordionTrigger>AI Details</AccordionTrigger>
-          <AccordionContent>
-            <div className='flex flex-col gap-4'>
-              {AiDetails.map((detail) => (
-                <Detail key={detail.label} {...detail} />
-              ))}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value='candidate_details'>
-          <AccordionTrigger>Candidate Details</AccordionTrigger>
-          <AccordionContent>
-            <div className='flex flex-col gap-4'>
-              {CandidateDetails.map((detail) => (
-                <Detail key={detail.label} {...detail} />
-              ))}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+    <ScrollArea className='h-[calc(100vh-80px)] w-full rounded-lg border border-border'>
+      <div className='grid grid-cols-1 gap-6 p-4'>
+        <div className='flex flex-col gap-2'>
+          {AiDetails.map((detail) => (
+            <Detail key={detail.label} {...detail} />
+          ))}
+        </div>
 
+        <div className='flex flex-col gap-2'>
+          {CandidateDetails.map((detail) => (
+            <Detail key={detail.label} {...detail} />
+          ))}
+        </div>
+      </div>
       <ScrollBar />
     </ScrollArea>
   );
@@ -159,13 +151,13 @@ const Content = () => {
 const Detail = ({ label, value, textArea = false }: DetailType) => {
   return (
     <div className='mb-4 w-full'>
-      <p className='mb-2 font-bold'>{label}</p>
+      <p className='mb-2 text-sm font-normal'>{label}</p>
       {textArea ? (
-        <div className='whitespace-pre-wrap rounded-sm bg-gray-100 p-2'>
+        <div className='min-h-32 overflow-auto whitespace-pre-wrap rounded-lg bg-muted p-4 text-base text-foreground'>
           {value}
         </div>
       ) : (
-        value
+        <div className='text-base text-foreground'>{value}</div>
       )}
     </div>
   );

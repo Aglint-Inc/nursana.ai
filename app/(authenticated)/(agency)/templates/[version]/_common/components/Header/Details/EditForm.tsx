@@ -1,13 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { type z } from 'zod';
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -57,9 +50,9 @@ export const EditForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-        <ScrollArea className='h-[calc(100vh-150px)] w-full pr-4'>
-          <div className='mx-auto p-2'>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <ScrollArea className='h-[calc(100vh-120px)] w-full rounded-lg border border-border bg-muted'>
+          <div className='flex flex-col gap-4 p-4 text-foreground'>
             <FormField
               control={form.control}
               name='name'
@@ -73,210 +66,203 @@ export const EditForm = () => {
                 </FormItem>
               )}
             />
-            <Accordion type='single' collapsible className='w-full'>
-              <AccordionItem value='ai_details'>
-                <AccordionTrigger>AI Details</AccordionTrigger>
-                <AccordionContent>
-                  <div className='flex w-full flex-col gap-4 p-2'>
-                    <FormField
-                      control={form.control}
-                      name='ai_interview_duration'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Interview Duration</FormLabel>
-                          <FormControl>
-                            <Input
-                              type='number'
-                              placeholder='Enter interview duration'
-                              {...field}
-                              onChange={(e) => {
-                                const value = e.target.value
-                                  ? parseFloat(e.target.value)
-                                  : '';
-                                field.onChange(value);
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='candidate_intro_video_cover_image_url'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Video cover image url</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder='Enter cover image url'
-                              {...field}
-                              value={field.value || ''}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='candidate_intro_video_url'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Video url</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder='Enter video url '
-                              {...field}
-                              value={field.value || ''}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='ai_welcome_message'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Welcome Message</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              className='min-h-[200px]'
-                              placeholder='Enter welcome message'
-                              {...field}
-                              value={field.value || ''}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='ai_ending_message'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>AI ending message</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              className='min-h-[200px]'
-                              placeholder='Enter AI ending message'
-                              {...field}
-                              value={field.value || ''}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='ai_questions'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Questions</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              className='min-h-[200px]'
-                              placeholder='Enter questions'
-                              {...field}
-                              value={field.value || ''}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='ai_instructions'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>AI Instructions</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              className='min-h-[200px]'
-                              placeholder='Enter AI Instructions'
-                              {...field}
-                              value={field.value || ''}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value='candidate_details'>
-                <AccordionTrigger>Candidate Details</AccordionTrigger>
-                <AccordionContent>
-                  <div className='flex flex-col gap-4 p-2'>
-                    <FormField
-                      control={form.control}
-                      name='candidate_estimated_time'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Estimated Time</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder='Enter Estimated Time'
-                              {...field}
-                              value={field.value || ''}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='candidate_overview'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Candidate Overview</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              className='min-h-[150px]'
-                              placeholder='Enter Candidate Overview'
-                              {...field}
-                              value={field.value || ''}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='candidate_instructions'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Candidate Instructions</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              className='min-h-[150px]'
-                              placeholder='Enter Candidate Instructions'
-                              {...field}
-                              value={field.value || ''}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+            <div className='flex w-full flex-col gap-4'>
+              <FormField
+                control={form.control}
+                name='ai_interview_duration'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Interview Duration</FormLabel>
+                    <FormControl>
+                      <Input
+                        type='number'
+                        placeholder='Enter interview duration'
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value
+                            ? parseFloat(e.target.value)
+                            : '';
+                          field.onChange(value);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='candidate_intro_video_cover_image_url'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Video cover image url</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='Enter cover image url'
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='candidate_intro_video_url'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Video url</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='Enter video url '
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='ai_welcome_message'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Welcome Message</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className='h-[100px] overflow-auto'
+                        placeholder='Enter welcome message'
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='ai_ending_message'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>AI ending message</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className='h-[100px] overflow-auto'
+                        placeholder='Enter AI ending message'
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='ai_questions'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Questions</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className='h-[500px] overflow-auto'
+                        placeholder='Enter questions'
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='ai_instructions'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>AI Instructions</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className='h-[100px] overflow-auto'
+                        placeholder='Enter AI Instructions'
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className='flex flex-col gap-4'>
+              <FormField
+                control={form.control}
+                name='candidate_estimated_time'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Estimated Time</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='Enter Estimated Time'
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='candidate_overview'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Candidate Overview</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className='h-[100px] overflow-auto'
+                        placeholder='Enter Candidate Overview'
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='candidate_instructions'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Candidate Instructions</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className='h-[100px] overflow-auto'
+                        placeholder='Enter Candidate Instructions'
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
           <ScrollBar />
         </ScrollArea>
-        <Button type='submit' disabled={isPending}>
-          Submit
-        </Button>
+        <div className='mt-3 flex justify-end gap-2'>
+          <Button variant={'secondary'} size={'sm'}>
+            Cancel
+          </Button>
+          <Button type='submit' size={'sm'} disabled={isPending}>
+            Update Changes
+          </Button>
+        </div>
       </form>
     </Form>
   );
