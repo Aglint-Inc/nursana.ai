@@ -31,7 +31,7 @@ const Link = (props: PropsWithChildren<Pick<Campaign, 'id'> & { selected: boolea
   return (
     <NextLink
       href={`/campaigns/${props.id}`}
-      className={`flex flex-col items-start gap-2 p-3 text-sm leading-tight rounded-md border ${linkClasses}`}
+      className={`flex flex-col items-start gap-2 p-3 text-sm leading-tight rounded-md border w-[284px] ${linkClasses}`}
       onClick={props.onClick}
     >
       {props.children}
