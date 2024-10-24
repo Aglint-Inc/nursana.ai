@@ -1,4 +1,4 @@
 export { applicant } from './applicant';
 export { auth } from './auth';
-export { hospital } from './hospital';
+export { agency } from './agency';
 export { timing } from './timing';

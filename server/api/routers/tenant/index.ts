@@ -1,10 +1,10 @@
 import 'server-only';
 
 import { createTRPCRouter } from '../../trpc';
-import { updateHospital } from './create_hospital';
+import { updateAgency } from './create_agency';
 import { tenantSignup } from './signup';
 
 export const tenant = createTRPCRouter({
   signup: tenantSignup,
-  update_hospital: updateHospital,
+  update_agency: updateAgency,
 });

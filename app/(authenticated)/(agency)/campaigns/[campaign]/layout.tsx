@@ -6,7 +6,7 @@ const Layout = async (
   props: PropsWithChildren<{ params: { campaign: string } }>,
 ) => {
   unstable_noStore();
-  void api.authenticated.hospital.campaigns.campaign.read.prefetch({
+  void api.authenticated.agency.campaigns.campaign.read.prefetch({
     id: props.params.campaign,
   });
   return <HydrateClient>{props.children}</HydrateClient>;

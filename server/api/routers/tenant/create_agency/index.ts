@@ -8,7 +8,7 @@ import { createPublicClient } from '@/server/db';
 export const schema = z.object({
   created_by: z.string(),
   contact_email: z.string().email(),
-  hospital_name: z.string(),
+  agency_name: z.string(),
   address: z.string(),
   contact_person: z.string(),
   contact_number: z.string(),
@@ -19,7 +19,7 @@ const mutation = async ({
   input: {
     created_by,
     contact_email,
-    hospital_name,
+    agency_name,
     address,
     contact_person,
     contact_number,
@@ -40,19 +40,19 @@ const mutation = async ({
   if (!resUser) throw new Error('User not found');
 
   await db
-    .from('hospital')
+    .from('agency')
     .update({
-      hospital_name,
+      agency_name,
       address,
       contact_email,
       contact_person,
       contact_number,
       created_by,
     })
-    .eq('id', resUser.hospital_id)
+    .eq('id', resUser.agency_id)
     .throwOnError();
 
   return { success: true };
 };
 
-export const updateHospital = publicProcedure.input(schema).mutation(mutation);
+export const updateAgency = publicProcedure.input(schema).mutation(mutation);

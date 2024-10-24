@@ -8,7 +8,7 @@ import { edit } from './edit';
 import { read } from './read';
 import { user } from './user';
 
-export const hospital = createTRPCRouter({
+export const agency = createTRPCRouter({
   read,
   edit,
   user,

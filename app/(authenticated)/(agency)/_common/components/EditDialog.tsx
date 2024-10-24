@@ -19,18 +19,18 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { hospitalUpdateSchema } from '@/supabase-types/zod-schema.types';
+import { agencyUpdateSchema } from '@/supabase-types/zod-schema.types';
 
-import { useHospital } from '../hooks/useHospital';
-import { useHospitalEdit } from '../hooks/useHospitalEdit';
+import { useAgency } from '../hooks/useAgency';
+import { useAgencyEdit } from '../hooks/useAgencyEdit';
 
-export const EditHospitalDialog = () => {
-  const { isOpen, setIsOpen } = useHospitalEdit();
+export const EditAgencyDialog = () => {
+  const { isOpen, setIsOpen } = useAgencyEdit();
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Hospital</DialogTitle>
+          <DialogTitle>Edit Agency</DialogTitle>
           <DialogDescription>
             <EditForm />
           </DialogDescription>
@@ -40,22 +40,22 @@ export const EditHospitalDialog = () => {
   );
 };
 
-const schema = hospitalUpdateSchema.pick({
+const schema = agencyUpdateSchema.pick({
   address: true,
   contact_email: true,
   contact_number: true,
   contact_person: true,
-  hospital_name: true,
+  agency_name: true,
 });
 
 const EditForm = () => {
-  const hospital = useHospital();
+  const agency = useAgency();
 
-  const { isPending, mutate } = useHospitalEdit();
+  const { isPending, mutate } = useAgencyEdit();
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    defaultValues: hospital,
+    defaultValues: agency,
   });
 
   function onSubmit(values: z.infer<typeof schema>) {
@@ -69,7 +69,7 @@ const EditForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
         <FormField
           control={form.control}
-          name='hospital_name'
+          name='agency_name'
           rules={{
             required: 'Name cannot be empty',
           }}

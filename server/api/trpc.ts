@@ -11,7 +11,7 @@ import type { ProcedureBuilder } from '@trpc/server/unstable-core-do-not-import'
 import { type TypeOf, type ZodSchema } from 'zod';
 
 import { t } from './init';
-import { applicant, auth, hospital, timing } from './middleware';
+import { applicant, auth, agency, timing } from './middleware';
 
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   return opts;
@@ -30,11 +30,8 @@ export type PrivateProcedure<T = unknown> = Procedure<
   T
 >;
 
-export const hospitalProcedure = t.procedure.use(hospital);
-export type HospitalProcedure<T = unknown> = Procedure<
-  typeof hospitalProcedure,
-  T
->;
+export const agencyProcedure = t.procedure.use(agency);
+export type AgencyProcedure<T = unknown> = Procedure<typeof agencyProcedure, T>;
 
 export const applicantProcedure = t.procedure.use(applicant);
 export type ApplicantProcedure<T = unknown> = Procedure<

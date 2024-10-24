@@ -12,8 +12,8 @@ import {
 import { useRouter } from 'next/navigation';
 import React, { type ReactNode } from 'react';
 
-import { EditHospitalDialog } from '@/agency/components/EditDialog';
-import { useHospitalEdit } from '@/agency/hooks/useHospitalEdit';
+import { EditAgencyDialog } from '@/agency/components/EditDialog';
+import { useAgencyEdit } from '@/agency/hooks/useAgencyEdit';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -160,7 +160,7 @@ function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
-  const { setIsOpen } = useHospitalEdit();
+  const { setIsOpen } = useAgencyEdit();
 
   return (
     <>
@@ -217,7 +217,7 @@ function NavUser({
           </DropdownMenu>
         </SidebarMenuItem>
       </SidebarMenu>
-      <EditHospitalDialog />
+      <EditAgencyDialog />
     </>
   );
 }

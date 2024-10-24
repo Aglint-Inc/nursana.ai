@@ -50,7 +50,7 @@ const mutation = async ({
           name: campaign.name,
           user_id: userId,
           campaign_id: campaign.id,
-          hospital_id: campaign.hospital_id,
+          agency_id: campaign.agency_id,
           version_id: campaign.version_id,
           ai_ending_message: campaign.version.ai_ending_message,
           ai_instructions: [campaign.version.ai_instructions ?? ''],

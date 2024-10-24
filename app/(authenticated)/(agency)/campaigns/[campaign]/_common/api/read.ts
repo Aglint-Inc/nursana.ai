@@ -3,21 +3,21 @@ import 'server-only';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
-import { type HospitalProcedure, hospitalProcedure } from '@/server/api/trpc';
+import { type AgencyProcedure, agencyProcedure } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
 
 const schema = z.object({
   id: z.string(),
 });
 
-const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
+const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
   const db = createPrivateClient();
   const campaign = (
     await db
       .from('campaign')
       .select('*, version!inner(*)')
       .eq('id', input.id)
-      .eq('hospital_id', ctx.hospital.id)
+      .eq('agency_id', ctx.agency.id)
       .single()
       .throwOnError()
   ).data;
@@ -29,4 +29,4 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
   return campaign;
 };
 
-export const read = hospitalProcedure.input(schema).query(query);
+export const read = agencyProcedure.input(schema).query(query);

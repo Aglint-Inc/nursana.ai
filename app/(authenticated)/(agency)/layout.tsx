@@ -6,17 +6,17 @@ import type { Routes } from '@/agency/types';
 import { AppSidebar } from '@/components/sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 
-import { HospitalEditProvider } from './_common/hooks/useHospitalEdit';
+import { AgencyEditProvider } from './_common/hooks/useAgencyEdit';
 
 const Layout = (props: PropsWithChildren<Routes>) => {
   unstable_noStore();
-  void api.authenticated.hospital.read.prefetch();
-  void api.authenticated.hospital.user.prefetch();
-  void api.authenticated.hospital.templates.read.prefetch();
-  void api.authenticated.hospital.read.prefetch();
+  void api.authenticated.agency.read.prefetch();
+  void api.authenticated.agency.user.prefetch();
+  void api.authenticated.agency.templates.read.prefetch();
+  void api.authenticated.agency.read.prefetch();
   return (
     <HydrateClient>
-      <HospitalEditProvider>
+      <AgencyEditProvider>
         <SidebarProvider
           style={
             {
@@ -27,7 +27,7 @@ const Layout = (props: PropsWithChildren<Routes>) => {
           <AppSidebar secondarySidebar={props.subNavigation} />
           {props.children}
         </SidebarProvider>
-      </HospitalEditProvider>
+      </AgencyEditProvider>
     </HydrateClient>
   );
 };

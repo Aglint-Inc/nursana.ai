@@ -7,7 +7,7 @@ import { useCurrentCampaign } from './useCurrentCampaign';
 export const useCampaignEdit = () => {
   const { campaign } = useCurrentCampaign();
   const mutation =
-    api.authenticated.hospital.campaigns.campaign.edit.useMutation();
+    api.authenticated.agency.campaigns.campaign.edit.useMutation();
   const mutate = (
     input: Omit<Edit['input'], 'id'>,
     mutationOptions?: Parameters<(typeof mutation)['mutate']>[1],

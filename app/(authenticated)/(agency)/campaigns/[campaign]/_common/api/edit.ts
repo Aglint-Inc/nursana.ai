@@ -1,8 +1,8 @@
 import 'server-only';
 
 import {
-  type HospitalProcedure,
-  hospitalProcedure,
+  type AgencyProcedure,
+  agencyProcedure,
   type ProcedureDefinition,
 } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
@@ -17,19 +17,19 @@ const schema = campaignUpdateSchema.pick({
   version_id: true,
 });
 
-const mutation = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
+const mutation = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
   const db = createPrivateClient();
   return (
     await db
       .from('campaign')
       .update(input)
       .eq('id', input.id!)
-      .eq('hospital_id', ctx.hospital.id)
+      .eq('agency_id', ctx.agency.id)
       .single()
       .throwOnError()
   ).data;
 };
 
-export const edit = hospitalProcedure.input(schema).mutation(mutation);
+export const edit = agencyProcedure.input(schema).mutation(mutation);
 
 export type Edit = ProcedureDefinition<typeof edit>;

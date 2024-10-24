@@ -5,8 +5,8 @@ import { z } from 'zod';
 
 import { schema as interviewsSchema } from '@/campaigns/schema/interviews.schema';
 import {
-  type HospitalProcedure,
-  hospitalProcedure,
+  type AgencyProcedure,
+  agencyProcedure,
   type ProcedureDefinition,
 } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
@@ -17,7 +17,7 @@ export const schema = interviewsSchema.merge(
   }),
 );
 
-const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
+const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
   const db = createPrivateClient();
   const query = db
     .from('interview')
@@ -26,7 +26,7 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
       { count: 'exact' },
     )
     .eq('campaign_id', input.id)
-    .eq('hospital_id', ctx.hospital.id);
+    .eq('agency_id', ctx.agency.id);
 
   if (input.interview_stage && input.interview_stage.length)
     query.in('interview_stage', input.interview_stage);
@@ -51,6 +51,6 @@ const query = async ({ ctx, input }: HospitalProcedure<typeof schema>) => {
   );
 };
 
-export const interviews = hospitalProcedure.input(schema).query(query);
+export const interviews = agencyProcedure.input(schema).query(query);
 
 export type Interviews = ProcedureDefinition<typeof interviews>;

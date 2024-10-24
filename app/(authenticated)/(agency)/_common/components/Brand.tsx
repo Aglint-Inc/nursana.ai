@@ -1,12 +1,12 @@
 import Link from 'next/link';
 
-import { useHospital } from '../hooks/useHospital';
+import { useAgency } from '../hooks/useAgency';
 
 export const Brand = () => {
-  const { hospital_name } = useHospital();
+  const { agency_name } = useAgency();
   return (
     <Link href='/dashboard' className='text-xl font-bold'>
-      {hospital_name}
+      {agency_name}
     </Link>
   );
 };

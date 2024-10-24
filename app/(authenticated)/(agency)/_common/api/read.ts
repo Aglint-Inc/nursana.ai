@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { type HospitalProcedure, hospitalProcedure } from '@/server/api/trpc';
+import { type AgencyProcedure, agencyProcedure } from '@/server/api/trpc';
 
-const query = ({ ctx }: HospitalProcedure) => ctx.hospital;
+const query = ({ ctx }: AgencyProcedure) => ctx.agency;
 
-export const read = hospitalProcedure.query(query);
+export const read = agencyProcedure.query(query);

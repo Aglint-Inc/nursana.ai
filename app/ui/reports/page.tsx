@@ -8,7 +8,7 @@ import {
   ChevronRight,
   Clock,
   GraduationCap,
-  Hospital,
+  Agency,
   MapPin,
   ThumbsUp,
   Users,
@@ -136,7 +136,7 @@ const leaderboardData = [
     licenseMatch: { score: 100, details: 'RN, LPN' },
     locationMatch: { score: 95, details: 'New York, NY' },
     overallFit: 98,
-    hospitalMatch: { score: 90, details: 'Mount Sinai Hospital' },
+    agencyMatch: { score: 90, details: 'Mount Sinai Agency' },
     schoolMatch: { score: 85, details: 'Columbia University' },
   },
   {
@@ -145,7 +145,7 @@ const leaderboardData = [
     licenseMatch: { score: 100, details: 'RN, NP' },
     locationMatch: { score: 100, details: 'Los Angeles, CA' },
     overallFit: 97,
-    hospitalMatch: { score: 85, details: 'Cedars-Sinai Medical Center' },
+    agencyMatch: { score: 85, details: 'Cedars-Sinai Medical Center' },
     schoolMatch: { score: 90, details: 'UCLA' },
   },
   // ... Add more detailed data for other applicants ...
@@ -195,8 +195,8 @@ function ApplicantLeaderboard() {
                   <span>{applicant.locationMatch.details}</span>
                 </div>
                 <div className='flex items-center space-x-2'>
-                  <Hospital size={16} />
-                  <span>{applicant.hospitalMatch.details}</span>
+                  <Agency size={16} />
+                  <span>{applicant.agencyMatch.details}</span>
                 </div>
                 <div className='flex items-center space-x-2'>
                   <GraduationCap size={16} />

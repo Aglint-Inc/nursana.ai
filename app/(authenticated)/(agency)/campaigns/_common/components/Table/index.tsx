@@ -11,7 +11,7 @@ export const Table = async (props: PageProps) => {
 
   const search = searchParamsCache.parse(props.searchParams);
 
-  void api.authenticated.hospital.campaigns.interviews.prefetch({
+  void api.authenticated.agency.campaigns.interviews.prefetch({
     interview_stage: search.interview_stage ?? undefined,
     updated_at: search.updated_at ?? undefined,
     terms_accepted: search.terms_accepted ?? undefined,

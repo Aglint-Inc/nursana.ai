@@ -10,7 +10,7 @@ export const useCampaignInterviews = (): Interviews['output'] => {
   const { campaign } = useCurrentCampaign();
   const { search: _search } = useCampaignsParams();
   const search = useDeferredValue(_search);
-  return api.authenticated.hospital.campaigns.campaign.interviews.useSuspenseQuery(
+  return api.authenticated.agency.campaigns.campaign.interviews.useSuspenseQuery(
     {
       id: campaign,
       interview_stage: search.interview_stage ?? undefined,

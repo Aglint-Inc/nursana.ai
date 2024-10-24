@@ -4,7 +4,7 @@ import { createPrivateClient } from '@/server/db';
 
 import { auth } from './auth';
 
-export const hospital = auth.unstable_pipe(
+export const agency = auth.unstable_pipe(
   async ({ next, ctx: { role, ...ctx } }) => {
     if (role !== 'user')
       throw new TRPCError({
@@ -16,7 +16,7 @@ export const hospital = auth.unstable_pipe(
     const data = (
       await db
         .from('user')
-        .select('*, hospital!tenant_hospital_id_fkey!inner(*)')
+        .select('*, agency!tenant_agency_id_fkey!inner(*)')
         .eq('user_id', ctx.user_id)
         .single()
         .throwOnError()
@@ -28,14 +28,14 @@ export const hospital = auth.unstable_pipe(
         message: 'User not found',
       });
 
-    const { hospital, ...user } = data;
+    const { agency, ...user } = data;
 
     return await next({
       ctx: {
         ...ctx,
         role,
         user,
-        hospital,
+        agency,
       },
     });
   },

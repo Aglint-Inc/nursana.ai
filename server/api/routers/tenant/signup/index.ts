@@ -19,16 +19,16 @@ const mutation = async ({
 
   const res = (
     await db
-      .from('hospital')
+      .from('agency')
       .insert({
-        hospital_name: '',
+        agency_name: '',
       })
       .select('id')
       .single()
       .throwOnError()
   ).data;
 
-  if (!res?.id) throw new Error('Failed to create hospital');
+  if (!res?.id) throw new Error('Failed to create agency');
 
   await db
     .from('user')
@@ -37,7 +37,7 @@ const mutation = async ({
       email,
       first_name,
       last_name,
-      hospital_id: res.id,
+      agency_id: res.id,
     })
     .throwOnError();
 
@@ -49,7 +49,7 @@ const mutation = async ({
     })
     .throwOnError();
 
-  return { success: true, hospital_id: res.id };
+  return { success: true, agency_id: res.id };
 };
 
 export const tenantSignup = publicProcedure.input(schema).mutation(mutation);

@@ -31,7 +31,7 @@ const mockCampaigns = [
     id: '3',
     name: 'Pediatric Nurse Outreach',
     status: 'draft',
-    description: "Reaching out to pediatric nurses for the children's hospital",
+    description: "Reaching out to pediatric nurses for the children's agency",
   },
   {
     id: '4',
@@ -69,7 +69,7 @@ export function CampaignSidebar() {
                 <a
                   href={`/campaign/${campaign.id}`}
                   key={campaign.id}
-                  className='hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0'
+                  className='flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
                 >
                   <div className='flex w-full items-center gap-2'>
                     <span>{campaign.name}</span>{' '}
