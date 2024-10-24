@@ -14,7 +14,7 @@ const query = async ({ input }: ApplicantProcedure<typeof schema>) => {
   const { interview_id } = input;
   const { data: interview } = await supabase
     .from('interview')
-    .select('*')
+    .select('*,version!inner(*)')
     .eq('id', interview_id)
     .single();
 

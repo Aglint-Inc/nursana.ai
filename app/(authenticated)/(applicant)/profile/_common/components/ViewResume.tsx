@@ -56,7 +56,7 @@ export default function ViewResume() {
         <div className='flex flex-col gap-4 rounded-lg bg-muted p-4'>
           <div className='flex items-center gap-4'>
             <Avatar className='rounded-md'>
-              <AvatarFallback className='flex h-10 w-10 items-center justify-center bg-muted-foreground text-background rounded-md'>
+              <AvatarFallback className='flex h-10 w-10 items-center justify-center rounded-md bg-muted-foreground text-background'>
                 <User />
               </AvatarFallback>
             </Avatar>
@@ -252,7 +252,7 @@ export default function ViewResume() {
       <div>
         <h2 className='text-md mb-3 font-medium'>Certifications</h2>
         <div className='flex flex-col gap-4'>
-          {resume.certificates.length > 0 ? (
+          {resume.certificates && resume.certificates.length > 0 ? (
             resume.certificates.map((cert, index) => (
               <div key={index}>
                 <div className='grid grid-cols-[max-content_1fr] items-center gap-4'>
@@ -291,7 +291,7 @@ export default function ViewResume() {
       <div>
         <h2 className='text-md mb-3 font-medium'>Licenses</h2>
         <div className='flex flex-col gap-4'>
-          {resume.licenses.length > 0 ? (
+          {resume.licenses && resume.licenses.length > 0 ? (
             resume.licenses.map((license, index) => (
               <div key={index}>
                 <div className='grid grid-cols-[max-content_1fr] items-center gap-4'>

@@ -24,7 +24,7 @@ const query = async ({ input }: ApplicantProcedure<typeof schema>) => {
       ...rest,
     })
     .eq('id', id)
-    .select()
+    .select('*,version!inner(*)')
     .single();
 
   return {

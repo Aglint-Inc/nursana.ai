@@ -66,7 +66,7 @@ const mutation = async ({
           candidate_intro_video_url: campaign.version.candidate_intro_video_url,
           candidate_overview: [campaign.version.candidate_overview ?? ''],
         })
-        .select()
+        .select('*,version!inner(*)')
         .single()
         .throwOnError(),
     ]);
