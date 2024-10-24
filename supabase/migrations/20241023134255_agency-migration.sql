@@ -499,19 +499,19 @@ grant truncate on table "public"."applicant_user" to "service_role";
 
 grant update on table "public"."applicant_user" to "service_role";
 
--- grant delete on table "public"."user" to "supabase_auth_admin";
+grant delete on table "public"."user" to "supabase_auth_admin";
 
--- grant insert on table "public"."user" to "supabase_auth_admin";
+grant insert on table "public"."user" to "supabase_auth_admin";
 
--- grant references on table "public"."user" to "supabase_auth_admin";
+grant references on table "public"."user" to "supabase_auth_admin";
 
--- grant select on table "public"."user" to "supabase_auth_admin";
+grant select on table "public"."user" to "supabase_auth_admin";
 
--- grant trigger on table "public"."user" to "supabase_auth_admin";
+grant trigger on table "public"."user" to "supabase_auth_admin";
 
--- grant truncate on table "public"."user" to "supabase_auth_admin";
+grant truncate on table "public"."user" to "supabase_auth_admin";
 
--- grant update on table "public"."user" to "supabase_auth_admin";
+grant update on table "public"."user" to "supabase_auth_admin";
 
 grant delete on table "public"."user" to "anon";
 
