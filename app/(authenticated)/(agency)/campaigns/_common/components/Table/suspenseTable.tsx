@@ -7,6 +7,7 @@ import { COLUMNS } from '@/campaigns/constants/columns';
 import { useCampaignsParams } from '@/campaigns/hooks/useCampaignsParams';
 import { useInterviews } from '@/campaigns/hooks/useInterviews';
 import { getFilterFields } from '@/campaigns/utils/getFilterFields';
+import { ApplicantDetailProvider } from '../DataTable/applicantDetails/Context';
 
 export const SuspenseTable = () => {
   const data = useInterviews();
@@ -25,16 +26,20 @@ export const SuspenseTable = () => {
   const filterFields = getFilterFields(data);
 
   return (
-    <DataTable
-      columns={COLUMNS}
-      data={data}
-      defaultColumnFilters={defaultColumnFilters}
-      filterFields={filterFields}
-      paginationState={{
-        pageIndex: page,
-        pageSize: rows,
-      }}
-      setSearch={setSearch}
-    />
+    <>
+      <ApplicantDetailProvider>
+        <DataTable
+          columns={COLUMNS}
+          data={data}
+          defaultColumnFilters={defaultColumnFilters}
+          filterFields={filterFields}
+          paginationState={{
+            pageIndex: page,
+            pageSize: rows,
+          }}
+          setSearch={setSearch}
+        />
+      </ApplicantDetailProvider>
+    </>
   );
 };

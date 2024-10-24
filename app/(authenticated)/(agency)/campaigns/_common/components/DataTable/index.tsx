@@ -19,8 +19,6 @@ import {
 } from '@tanstack/react-table';
 import * as React from 'react';
 
-import { schema } from '@/campaigns/schema/columnFilters.schema';
-import { DataTableFilterCommand } from '@/components/fancy-data-table/data-table-filter-command';
 import { DataTableFilterControls } from '@/components/fancy-data-table/data-table-filter-controls';
 import { DataTablePagination } from '@/components/fancy-data-table/data-table-pagination';
 import { DataTableToolbar } from '@/components/fancy-data-table/data-table-toolbar';
@@ -47,6 +45,8 @@ export interface DataTableProps<TData, TValue> {
 }
 
 import type { SetValues } from 'nuqs';
+import { ApplicationDetailsDrawer } from './applicantDetails';
+import { useApplicantDetail } from './applicantDetails/Context';
 
 export function DataTable<TData, TValue>({
   columns,
@@ -71,6 +71,8 @@ export function DataTable<TData, TValue>({
     'data-table-controls',
     true,
   );
+
+  const { setIsOpen, setApplicantId } = useApplicantDetail();
 
   const table = useReactTable({
     data,
@@ -173,22 +175,30 @@ export function DataTable<TData, TValue>({
                 </TableRow>
               ))}
             </TableHeader>
+
             <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && 'selected'}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
+                  <div className='cursor-pointer'>
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && 'selected'}
+                      onClick={() => {
+                        const orgRow = row.original!;
+                        setIsOpen(true);
+                        setApplicantId(orgRow?.id);
+                      }}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </div>
                 ))
               ) : (
                 <TableRow>
@@ -201,6 +211,7 @@ export function DataTable<TData, TValue>({
                 </TableRow>
               )}
             </TableBody>
+            <ApplicationDetailsDrawer />
           </Table>
         </div>
         <DataTablePagination table={table} />
