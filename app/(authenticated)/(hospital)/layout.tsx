@@ -20,7 +20,7 @@ const Layout = (props: PropsWithChildren<Routes>) => {
         <SidebarProvider
           style={
             {
-              '--sidebar-width': '450px',
+              '--sidebar-width': '350px',
             } as React.CSSProperties
           }
         >

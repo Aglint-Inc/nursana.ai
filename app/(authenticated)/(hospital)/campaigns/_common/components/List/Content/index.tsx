@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useCampaigns } from '@/campaigns/hooks/useCampaigns';
 import {
   SidebarContent,
@@ -7,6 +8,8 @@ import {
 
 import { useList } from '../Context';
 import { Card } from './Card';
+import EmptyState from '@/hospital/components/EmptyState';
+import { Tag } from 'lucide-react';
 
 export const Content = () => {
   return (
@@ -23,16 +26,28 @@ export const Content = () => {
 const List = () => {
   const { search } = useList();
   const campaigns = useCampaigns();
+  
+  // State to store the currently selected campaign's id
+  const [selectedCampaignId, setSelectedCampaignId] = useState<string | null>(null);
+
+  // Filter campaigns based on the search query
   const filteredCampaigns = campaigns.filter(({ name }) =>
-    name.toLowerCase().includes(search.toLowerCase()),
+    name.toLowerCase().includes(search.toLowerCase())
   );
+
   if (filteredCampaigns.length === 0)
-    return <div className='w-full p-4'>No Campaigns found</div>;
+    return <EmptyState Icon={Tag} heading='No campagins found' description=''/>;
+
   return (
-    <>
+    <div className='flex flex-col gap-2'>
       {filteredCampaigns.map((campaign) => (
-        <Card key={campaign.id} {...campaign} />
+        <Card
+          key={campaign.id}
+          {...campaign}
+          selected={campaign.id === selectedCampaignId}
+          onClick={() => setSelectedCampaignId(campaign.id)}
+        />
       ))}
-    </>
+    </div>
   );
 };
