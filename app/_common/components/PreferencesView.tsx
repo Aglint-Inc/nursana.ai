@@ -1,4 +1,3 @@
-//@ts-nocheck Dheeraj
 'use client';
 
 import type { Database } from 'src/supabase-types/database.types';
