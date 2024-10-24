@@ -1,3 +1,5 @@
+alter table "public"."user_interview_rating" drop constraint "user_interview_rating_applicant_id_fkey";
+
 drop policy "Allow auth admin to read user roles" on "public"."role";
 
 revoke delete on table "public"."applicant" from "anon";
@@ -693,3 +695,10 @@ AS $function$
   end;
 $function$
 ;
+
+
+
+
+alter table "public"."user_interview_rating" add constraint "user_interview_rating_applicant_id_fkey" FOREIGN KEY (applicant_id) REFERENCES applicant_user(id) ON DELETE CASCADE not valid;
+
+alter table "public"."user_interview_rating" validate constraint "user_interview_rating_applicant_id_fkey";
