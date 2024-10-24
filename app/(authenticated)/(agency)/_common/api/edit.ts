@@ -9,10 +9,9 @@ import { createPrivateClient } from '@/server/db';
 import { agencyUpdateSchema } from '@/supabase-types/zod-schema.types';
 
 const schema = agencyUpdateSchema.pick({
-  agency_name: true,
+  name: true,
   contact_email: true,
   contact_number: true,
-  contact_person: true,
   address: true,
 });
 

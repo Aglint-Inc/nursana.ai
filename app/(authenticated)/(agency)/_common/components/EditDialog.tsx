@@ -44,8 +44,7 @@ const schema = agencyUpdateSchema.pick({
   address: true,
   contact_email: true,
   contact_number: true,
-  contact_person: true,
-  agency_name: true,
+  name: true,
 });
 
 const EditForm = () => {
@@ -69,7 +68,7 @@ const EditForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
         <FormField
           control={form.control}
-          name='agency_name'
+          name='name'
           rules={{
             required: 'Name cannot be empty',
           }}
@@ -78,23 +77,6 @@ const EditForm = () => {
               <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input placeholder='Enter a name' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='contact_person'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Contact Person</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder='Enter a contact person'
-                  {...field}
-                  value={field.value || ''}
-                />
               </FormControl>
               <FormMessage />
             </FormItem>
