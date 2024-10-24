@@ -13,7 +13,7 @@ export const schema = z.object({
   expected_salary: z.number().nullable(),
 });
 
-const mutation = async ({ ctx, input }: PrivateProcedure<typeof schema>) => {
+const mutation = async ({ ctx }: PrivateProcedure<typeof schema>) => {
   const { user_id } = ctx;
   const db = createPrivateClient();
 

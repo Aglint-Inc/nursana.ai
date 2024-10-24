@@ -1,14 +1,17 @@
-import { createWorker,PSM } from "tesseract.js";
+import { createWorker, PSM } from 'tesseract.js';
 
 const cleanText = (text: string) => {
-  return text.replace(/\b(eo)\b|\b[eo]\b|©/g, "*").replace(/[\r\n]+|\s+/g, " ");
+  return text
+    .replace(/\b(eo)\b|\b[eo]\b|©/g, '*')
+    .replace(/[\r\n]+|\s+/g, ' ');
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const performOCR = async (image: any) => {
-  const worker = await createWorker("eng");
+  const worker = await createWorker('eng');
   await worker.setParameters({
     tessedit_pageseg_mode: PSM.AUTO,
-    langPath: "eng.traineddata",
+    langPath: 'eng.traineddata',
   });
   const {
     data: { text },
@@ -22,13 +25,13 @@ const performOCR = async (image: any) => {
 // import path from "path";
 
 export const getImageToText = async (
-  images: string[]
+  images: string[],
 ): Promise<{ imageText: string | null; imageError: string | null }> => {
   try {
     const imagesTexts: string[] = [];
     for (let x = 0; x < images.length; x++) {
       const base64Image = images[x];
-      const data = base64Image.replace(/^data:image\/\w+;base64,/, "");
+      const data = base64Image.replace(/^data:image\/\w+;base64,/, '');
       const dataUri = `data:image/png;base64,${data}`;
       const text = await performOCR(dataUri);
 
@@ -40,11 +43,11 @@ export const getImageToText = async (
 
       imagesTexts.push(text);
     }
-    const text = cleanText(imagesTexts.join(" "));
+    const text = cleanText(imagesTexts.join(' '));
     return { imageText: text, imageError: null };
   } catch (error) {
-    let errorMessage = "Internal Server Error at: image to text";
-    if (typeof error === "string") {
+    let errorMessage = 'Internal Server Error at: image to text';
+    if (typeof error === 'string') {
       errorMessage = error.toUpperCase();
     } else if (error instanceof Error) {
       errorMessage = error.message;

@@ -1,4 +1,5 @@
-import axios from "axios";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import axios from 'axios';
 
 // const GEO_LOCATION_API_KEY = process.env.GEO_LOCATION_API_KEY;
 // if (!GEO_LOCATION_API_KEY) {
@@ -7,20 +8,20 @@ import axios from "axios";
 export const getLocation = (address: string) => {
   return axios
     .get(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDO-310g2JDNPmN3miVdhXl2gJtsBRYUrI`
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDO-310g2JDNPmN3miVdhXl2gJtsBRYUrI`,
     )
     .then(({ data }) => {
       try {
         const result = data?.results[0];
 
         const city = result?.address_components.find((component: any) =>
-          component.types.includes("locality")
+          component.types.includes('locality'),
         )?.long_name as string | undefined;
         const state = result?.address_components.find((component: any) =>
-          component.types.includes("administrative_area_level_1")
+          component.types.includes('administrative_area_level_1'),
         )?.long_name as string | undefined;
         const country = result?.address_components.find((component: any) =>
-          component.types.includes("country")
+          component.types.includes('country'),
         )?.long_name as string | undefined;
 
         // const city = cityObj ? cityObj.long_name : null;
@@ -33,7 +34,7 @@ export const getLocation = (address: string) => {
             country,
             geolocation: `POINT(${result?.geometry?.location.lng} ${result?.geometry?.location.lat})`,
           };
-        throw new Error("No location data");
+        throw new Error('No location data');
       } catch (e) {
         throw new Error(`Error in getLocation: ${String(e)}`);
       }
