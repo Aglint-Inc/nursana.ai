@@ -143,11 +143,11 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
       <div className='flex max-w-full flex-1 flex-col gap-4 overflow-hidden p-1'>
-        <DataTableFilterCommand
+        {/* <DataTableFilterCommand
           table={table}
           schema={schema}
           filterFields={filterFields}
-        />
+        /> */}
         <DataTableToolbar
           table={table}
           controlsOpen={controlsOpen}
