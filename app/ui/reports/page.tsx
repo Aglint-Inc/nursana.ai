@@ -8,7 +8,7 @@ import {
   ChevronRight,
   Clock,
   GraduationCap,
-  Agency,
+  Hospital,
   MapPin,
   ThumbsUp,
   Users,
@@ -195,7 +195,7 @@ function ApplicantLeaderboard() {
                   <span>{applicant.locationMatch.details}</span>
                 </div>
                 <div className='flex items-center space-x-2'>
-                  <Agency size={16} />
+                  <Hospital size={16} />
                   <span>{applicant.agencyMatch.details}</span>
                 </div>
                 <div className='flex items-center space-x-2'>

@@ -11,7 +11,7 @@ import type { ProcedureBuilder } from '@trpc/server/unstable-core-do-not-import'
 import { type TypeOf, type ZodSchema } from 'zod';
 
 import { t } from './init';
-import { applicant, auth, agency, timing } from './middleware';
+import { agency, applicant, auth, timing } from './middleware';
 
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   return opts;

@@ -2,11 +2,10 @@ import { unstable_noStore } from 'next/cache';
 import type { PropsWithChildren } from 'react';
 import { api, HydrateClient } from 'trpc/server';
 
+import { AgencyEditProvider } from '@/agency/hooks/useAgencyEdit';
 import type { Routes } from '@/agency/types';
 import { AppSidebar } from '@/components/sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
-
-import { AgencyEditProvider } from './_common/hooks/useAgencyEdit';
 
 const Layout = (props: PropsWithChildren<Routes>) => {
   unstable_noStore();
