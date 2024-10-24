@@ -8,6 +8,7 @@ import {
 
 import { useDetails } from './Context';
 import { EditForm } from './EditForm';
+import { Button } from '@/components/ui/button';
 
 export const Edit = () => {
   return (
@@ -21,9 +22,9 @@ export const Edit = () => {
 const Header = () => {
   return (
     <SheetHeader className='translate-y-[-16px]'>
-      <SheetTitle className='flex flex-row items-center gap-2'>
+      <SheetTitle className='flex flex-row items-center gap-2 text-base font-medium'>
         <Back />
-        Edit Version
+        Edit Template
       </SheetTitle>
     </SheetHeader>
   );
@@ -32,13 +33,10 @@ const Header = () => {
 const Back = () => {
   const { setMode } = useDetails();
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-    <div
-      onClick={() => setMode('view')}
-      className='cursor-pointer rounded-sm p-1 hover:bg-gray-200'
-    >
-      <ChevronLeft size={15} />
-    </div>
+    <Button variant={'secondary'} size={'sm'} onClick={() => setMode('view')}>
+      <ChevronLeft size={12} />
+      Back
+    </Button>
   );
 };
 
