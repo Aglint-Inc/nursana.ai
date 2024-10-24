@@ -1,45 +1,44 @@
-"use client";
+'use client';
 
-import { Sparkles, UploadCloud, UserCheck } from "lucide-react";
-import React from "react";
+import { Sparkles, UploadCloud, UserCheck } from 'lucide-react';
+import React from 'react';
 
-import Section from "../section";
-import StepperCard from "../stepperCard";
+import Section from '../section';
+import StepperCard from '../stepperCard';
 
 function HowItWorks() {
   return (
     <Section>
-      <div className="flex flex-col gap-10 md:gap-20">
-        <div className="max-w-screen-xl flex flex-col gap-2 md:items-center text-left md:text-center md:px-0">
-          <h1 className="text-3xl md:text-5xl font-medium ">
-            Nursana connects you with top-tier opportunities, opening doors you didn’t even know existed.
+      <div className='flex flex-col gap-10 md:gap-20'>
+        <div className='flex max-w-screen-xl flex-col gap-2 text-left md:items-center md:px-0 md:text-center'>
+          <h1 className='text-3xl font-medium md:text-5xl'>
+            Nursana connects you with top-tier opportunities, opening doors you
+            didn’t even know existed.
           </h1>
-            
-   
         </div>
         <div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-28">
+          <div className='grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-28'>
             <StepperCard
-              heading="Upload your resume"
-              description=" Add your resume, choose your ideal job title, and get
+              heading='Upload Your Resume'
+              description=' Add your resume, choose your ideal job title, and get
                 interview-ready. This helps us match you with the right
-                opportunities!"
+                opportunities!'
               icon={UploadCloud}
-              color="blue"
+              color='blue'
             />
 
             <StepperCard
-              heading="Take A Brief Interview"
-              description=" Spend 10 minutes in a quick interview based on your job title and resume, which will be used to assess your suitability for the job."
+              heading='Take A Brief Interview'
+              description=' Spend 10 minutes in a quick interview based on your job title and resume, which will be used to assess your suitability for the job.'
               icon={Sparkles}
-              color="orange"
+              color='orange'
             />
 
             <StepperCard
-              heading="Sit back and relax!"
-              description=" Set your preferences and watch as the AI instantly matches you with ideal job opportunities tailored just for you!"
+              heading='Sit Back and Relax!!'
+              description=' Set your preferences and watch as the AI instantly matches you with ideal job opportunities tailored just for you!'
               icon={UserCheck}
-              color="green"
+              color='green'
             />
           </div>
         </div>

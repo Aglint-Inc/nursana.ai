@@ -21,7 +21,7 @@ export function UIMultiSelect({
   level = 'item',
   onDelete,
 }: {
-  defaultValue?: { value: string; label: string }[];
+  defaultValue?: string[];
   listItems: ItemType[];
   onChange: (_x: string[], _value: string) => void;
   level?: string;
@@ -29,18 +29,13 @@ export function UIMultiSelect({
 }) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState<
-    {
-      value: string;
-      label: string;
-    }[]
-  >(defaultValue);
+  const [selected, setSelected] = React.useState<string[]>(defaultValue);
   const [inputValue, setInputValue] = React.useState('');
 
-  const handleUnselect = React.useCallback((item: ItemType) => {
+  const handleUnselect = React.useCallback((item: string) => {
     setSelected((prev) => {
-      onDelete(item.value);
-      return prev.filter((s) => s.value !== item.value);
+      onDelete(item);
+      return prev.filter((s) => s !== item);
     });
   }, []);
 
@@ -54,8 +49,8 @@ export function UIMultiSelect({
               const newSelected = [...prev];
               newSelected.pop();
               onChange(
-                newSelected.map((ele) => ele.value),
-                newSelected[0].value,
+                newSelected.map((ele) => ele),
+                newSelected[0],
               );
               return newSelected;
             });
@@ -70,7 +65,9 @@ export function UIMultiSelect({
     [],
   );
 
-  const selectables = listItems.filter((item) => !selected.includes(item));
+  const selectables = listItems.filter(
+    (item) => !selected.includes(item.value),
+  );
 
   return (
     <Command
@@ -79,32 +76,34 @@ export function UIMultiSelect({
     >
       <div className='group rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2'>
         <div className='mb-1 flex flex-wrap gap-2'>
-          {selected.map((item) => {
-            return (
-              <Badge
-                key={item.value}
-                variant='secondary'
-                className='disabled rounded-md text-sm font-medium'
-              >
-                {item.label}
-                <button
-                  className='ml-1 rounded-md outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2'
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      handleUnselect(item);
-                    }
-                  }}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                  onClick={() => handleUnselect(item)}
+          {listItems
+            .filter((item) => selected.includes(item.value))
+            .map((item) => {
+              return (
+                <Badge
+                  key={item.value}
+                  variant='secondary'
+                  className='disabled rounded-md text-sm font-medium'
                 >
-                  <X className='h-3 w-3 text-muted-foreground hover:text-foreground' />
-                </button>
-              </Badge>
-            );
-          })}
+                  {item.label}
+                  <button
+                    className='ml-1 rounded-md outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2'
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleUnselect(item.value);
+                      }
+                    }}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onClick={() => handleUnselect(item.value)}
+                  >
+                    <X className='h-3 w-3 text-muted-foreground hover:text-foreground' />
+                  </button>
+                </Badge>
+              );
+            })}
           {/* Avoid having the "Search" Icon */}
           <CommandPrimitive.Input
             ref={inputRef}
@@ -133,11 +132,8 @@ export function UIMultiSelect({
                       onSelect={(_value) => {
                         setInputValue('');
                         setSelected((prev) => {
-                          onChange(
-                            [...prev, item].map((ele) => ele.value),
-                            item.value,
-                          );
-                          return [...prev, item];
+                          onChange([...prev, item.value], item.value);
+                          return [...prev, item.value];
                         });
                       }}
                       className={'cursor-pointer'}
