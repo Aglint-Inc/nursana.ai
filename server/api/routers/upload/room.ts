@@ -6,7 +6,6 @@ import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
 import { createTRPCRouter, publicProcedure } from '../../trpc';
 
 export const uploadFileSchema = zfd.formData({
-  name: zfd.text(),
   image: zfd.file(),
 });
 

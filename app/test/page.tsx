@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import { api } from 'trpc/client';
 
-import { uploadFileSchema } from '@/server/api/routers/upload/room';
 import { useZodFormData } from '@/utils/zod-form-data';
+import { uploadFileSchema } from '@/server/api/routers/upload/room';
 
 export default function Page() {
-  const mutation = api.upload.sendMessage.useMutation({
+  const mutation = api.uploadRouter.sendMessage.useMutation({
     onError(err) {
       alert('Error from server: ' + err.message);
     },
@@ -22,7 +22,7 @@ export default function Page() {
   const form = useZodFormData({
     schema: uploadFileSchema,
     defaultValues: {
-      name: 'whadaaaap',
+      email: 'chinmai@aglithq.com',
     },
   });
 
@@ -55,9 +55,9 @@ export default function Page() {
             <legend>Form with file upload</legend>
             <div style={{}}>
               <label htmlFor='name'>Enter your name</label>
-              <input {...form.register('name')} />
-              {form.formState.errors.name && (
-                <div>{form.formState.errors.name.message}</div>
+              <input {...form.register('email')} />
+              {form.formState.errors.email && (
+                <div>{form.formState.errors.email.message}</div>
               )}
             </div>
 

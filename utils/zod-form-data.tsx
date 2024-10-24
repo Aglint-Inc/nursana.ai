@@ -1,7 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRef } from 'react';
 import type { UseFormProps } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
@@ -19,28 +18,10 @@ export function useZodFormData<TSchema extends z.ZodType>(
     schema: TSchema;
   },
 ) {
-  const formRef = useRef<HTMLFormElement>(null);
-  const _resolver = zodResolver(props.schema, undefined, {
-    raw: false,
-  });
-
   const form = useForm<GetInput<TSchema>>({
     ...props,
-    resolver: (_, ctx, opts) => {
-      if (!formRef.current) {
-        return {
-          values: {},
-          errors: {
-            root: {
-              message: 'Form not mounted',
-            },
-          },
-        };
-      }
-      const values = new FormData(formRef.current);
-      return _resolver(values, ctx, opts);
-    },
+    resolver: zodResolver(props.schema),
   });
 
-  return { ...form, formRef };
+  return { ...form };
 }

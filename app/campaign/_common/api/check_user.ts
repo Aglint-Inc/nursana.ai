@@ -10,7 +10,7 @@ export const schema = z.object({
   campaign_id: z.string(),
 });
 
-const mutation = async ({
+const query = async ({
   input: { email, campaign_id },
 }: PublicProcedure<typeof schema>) => {
   const db = createPublicClient();
@@ -32,4 +32,4 @@ const mutation = async ({
   return { user: user ? user[0] : null, resume: resume ? resume[0] : null };
 };
 
-export const userCheck = publicProcedure.input(schema).mutation(mutation);
+export const userCheck = publicProcedure.input(schema).query(query);

@@ -1,8 +1,10 @@
 import 'server-only';
 
-import { authenticated } from '@/authenticated/api';
+import { campaignUser } from 'app/campaign/_common/api';
 
-import { campaign } from './routers/campaign';
+import { authenticated } from '@/authenticated/api';
+import { campaign } from '@/campaign/api';
+
 import { example } from './routers/example';
 import { interview } from './routers/interview';
 import { interviewAnalysis } from './routers/interview_analysis';
@@ -26,7 +28,8 @@ export const appRouter = createTRPCRouter({
   interview,
   interviewAnalysis,
   supabase_storage,
-  upload: uploadRouter,
+  campaign_user: campaignUser,
+  uploadRouter,
 });
 
 // export type definition of API
