@@ -11,7 +11,14 @@ const useApplicantHook = () => {
       },
       { enabled: !!applicantId },
     );
-  return { isOpen, setIsOpen, applicantId, setApplicantId, data, isLoading };
+  return {
+    isOpen,
+    setIsOpen,
+    applicantId,
+    setApplicantId,
+    data: data!,
+    isLoading,
+  };
 };
 
 const ApplicationContext = createContext<
