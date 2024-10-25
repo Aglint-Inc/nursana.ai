@@ -36,12 +36,14 @@ export function ResumeFeedback() {
 
   const userData = useUserData();
   const resumeFeedback = resume?.resume_feedback as FeedbackData;
+  const resumeStatusError =
+    (Object.values(resume?.processing_status)[0] as any).error ?? '';
   const breakdown = resumeFeedback?.breakdown;
   if (!resumeFeedback && (resume?.error_status || resume?.processing_status))
     return (
       <NotAvailable
         Icon={Notebook}
-        description={`${(Object.values(resume?.processing_status)[0] as any).error} : Resume Feedback is currently unavailable`}
+        description={`${resumeStatusError ? resumeStatusError + ':' : ''} Resume Feedback is currently unavailable`}
         heading={`Data temporarily unavailable`}
       />
     );
