@@ -27,7 +27,7 @@ const PUBLIC_ROUTES = new RegExp(
     '^/tenant/sign-up$',
     '^/openAiRealTime$',
     '^/tenant/sign-up$',
-    '^/campaign$',
+    '^/campaign(/.*)?$',
     '^/auth(?!/sign-in$)',
     '^/applications(/.*)?$',
     '^/ui(/.*)?$',
@@ -51,6 +51,7 @@ const APPLICANT_ROUTES = new RegExp(
     '/jobs',
     '/resume-review',
     '^/profile(/.*)?$',
+    '^/interview(/.*)?$',
   ].join('|'),
 );
 
