@@ -21,6 +21,7 @@ const mutation = async ({
     user_id,
     applicant_id,
     role,
+    terms_accepted,
   },
 }: PublicProcedure<typeof campaignFormDataSchema>) => {
   const db = createPublicClient();
@@ -35,6 +36,7 @@ const mutation = async ({
       first_name,
       last_name,
       role,
+      terms_accepted,
     });
 
     userId = resUser.userId;
@@ -163,12 +165,14 @@ const createUser = async ({
   first_name,
   last_name,
   role,
+  terms_accepted,
 }: {
   db: SupabaseClient<Database>;
   email: string;
   first_name: string;
   last_name?: string | null;
   role: z.infer<typeof jobTitlesSchema>;
+  terms_accepted: string;
 }) => {
   const res = await db.auth.admin.createUser({
     email: email,
@@ -195,6 +199,7 @@ const createUser = async ({
       .insert({
         id: userId,
         job_title: role,
+        terms_accepted: Boolean(terms_accepted),
       })
       .select()
       .single()

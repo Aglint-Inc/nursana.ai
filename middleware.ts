@@ -125,5 +125,5 @@ const getRole = async () => {
 };
 
 type MiddlewareType<T extends NextRequest = NextRequest> = (
-  req: T,
+  _req: T,
 ) => Promise<NextResponse | undefined>;

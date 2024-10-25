@@ -26,6 +26,7 @@ export const useUploadCampaign = () => {
       last_name: '',
       campaign_id: campaignData?.id,
       user_id: null,
+      terms_accepted: 'true',
     },
   });
 
@@ -42,7 +43,7 @@ export const useUploadCampaign = () => {
 
   const { mutateAsync: upload } = api.campaign_user.upload.useMutation({
     onError(err) {
-      alert('Error from server: ' + err.message);
+      toast({ title: err.message });
     },
     trpc: {
       context: {
@@ -84,7 +85,7 @@ export const useUploadCampaign = () => {
         user_id: resCheckUser?.user_id ?? null,
         applicant_id: resCheckUser?.applicant_id ?? null,
       };
-
+      console.log({ data });
       Object.entries(data)
         .filter((d) => d[1] !== null)
         .forEach(([key, value]) => {

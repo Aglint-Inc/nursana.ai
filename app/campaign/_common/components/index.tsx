@@ -10,6 +10,7 @@ import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -32,7 +33,7 @@ export default function FormCampaign() {
     clearErrors,
     formState: { isDirty },
   } = form;
-
+  console.log(form.getValues('terms_accepted'));
   return (
     <Section>
       <div className='flex h-[calc(100vh-72px)] w-full flex-col items-center gap-8'>
@@ -162,10 +163,36 @@ export default function FormCampaign() {
                       </FormItem>
                     )}
                   />
+                  <div className='flex items-center space-x-2'>
+                    <FormField
+                      control={form.control}
+                      name='terms_accepted'
+                      render={({ field }) => (
+                        <FormItem className='flex flex-row items-start space-x-3 space-y-0 p-4'>
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value === 'true' ? true : false}
+                              onCheckedChange={(value) => {
+                                console.log(value);
+                                field.onChange(String(value));
+                              }}
+                            />
+                          </FormControl>
+                          <div className='space-y-1 leading-none'>
+                            <FormLabel>Accept terms and conditions</FormLabel>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                   <Button
                     className='w-full'
                     type='submit'
-                    disabled={!isDirty || saving}
+                    disabled={
+                      !isDirty ||
+                      saving ||
+                      form.getValues('terms_accepted') === 'false'
+                    }
                   >
                     <div className='flex items-center gap-2'>
                       {saving && <Loader />}
@@ -175,7 +202,7 @@ export default function FormCampaign() {
                 </div>
               </CardContent>
               <CardFooter className='flex flex-col items-center'>
-                <p className='mt-4 text-sm text-muted-foreground'>
+                <p className='text-sm text-muted-foreground'>
                   Already have an account?{' '}
                   <a
                     href='/auth/sign-in'
