@@ -46,6 +46,7 @@ export interface DataTableProps<TData, TValue> {
   setSearch?: SetValues<any>;
 }
 
+import Link from 'next/link';
 import type { SetValues } from 'nuqs';
 
 export function DataTable<TData, TValue>({
@@ -85,6 +86,7 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getRowId: (originalRow) => (originalRow as any)?.id,
     getFacetedUniqueValues: (table, columnId: string) => () => {
       const map = getFacetedUniqueValues<(typeof data)[number]>()(
         table,
@@ -179,6 +181,7 @@ export function DataTable<TData, TValue>({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
+                    className='relative'
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
@@ -188,6 +191,10 @@ export function DataTable<TData, TValue>({
                         )}
                       </TableCell>
                     ))}
+                    <Link
+                      className='absolute left-0 top-0 h-full w-full'
+                      href={`interviews/${row.id}`}
+                    />
                   </TableRow>
                 ))
               ) : (
