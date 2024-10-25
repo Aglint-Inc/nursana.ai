@@ -43,7 +43,7 @@ import { capitalizeFirstLetter } from '@/utils/utils';
 import WaitingForMatch from './WaitingForMatch';
 
 function PreferenceForm() {
-  const { user } = useUserData();
+  const { applicant_user: user } = useUserData();
   const { updateUserDetails } = useUpdateUserData();
   const { locationList } = useLocationsList();
 

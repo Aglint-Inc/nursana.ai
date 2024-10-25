@@ -14,7 +14,7 @@ export const auth = timing.unstable_pipe(async ({ next, ctx }) => {
 
   let user_id: string | null = null;
 
-  let role: Database['public']['Enums']['app_role'] | null = null;
+  let role: Database['public']['Enums']['user_role'] | null = null;
 
   const { session } = (await db.auth.getSession()).data;
 
@@ -25,7 +25,7 @@ export const auth = timing.unstable_pipe(async ({ next, ctx }) => {
     });
 
   const jwt = jwtDecode(session.access_token) as JwtPayload & {
-    user_role: Database['public']['Enums']['app_role'];
+    user_role: Database['public']['Enums']['user_role'];
   };
   role = jwt?.user_role ?? null;
 

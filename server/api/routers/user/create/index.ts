@@ -5,21 +5,17 @@ import { z } from 'zod';
 
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
 import { createPublicClient } from '@/server/db';
-import {
-  appRoleSchema,
-  jobTitlesSchema,
-} from '@/supabase-types/zod-schema.types';
+import { jobTitlesSchema } from '@/supabase-types/zod-schema.types';
 
 export const schema = z.object({
   email: z.string().email(),
-  role: appRoleSchema,
   first_name: z.string(),
   last_name: z.string().optional(),
-  current_job_title: jobTitlesSchema,
+  job_title: jobTitlesSchema,
 });
 
 const mutation = async ({
-  input: { email, role, first_name, last_name, current_job_title },
+  input: { email, first_name, last_name, job_title },
 }: PublicProcedure<typeof schema>) => {
   const supabase = createPublicClient();
 
@@ -33,21 +29,21 @@ const mutation = async ({
   if (!userId) throw new Error('User not created');
 
   await supabase
-    .from('applicant')
+    .from('user')
     .insert({
       id: userId,
       email,
       first_name,
       last_name,
-      current_job_title,
+      user_role: 'applicant_user',
     })
     .throwOnError();
 
   await supabase
-    .from('role')
+    .from('applicant_user')
     .insert({
-      user_id: userId,
-      role: role,
+      id: userId,
+      job_title,
     })
     .throwOnError();
 

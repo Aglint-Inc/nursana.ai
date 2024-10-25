@@ -1,46 +1,41 @@
 import 'server-only';
 
-/* eslint-disable no-console */
-import { z } from 'zod';
-
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
 import { createPublicClient } from '@/server/db';
+import { userRowSchema } from '@/supabase-types/zod-schema.types';
 
-export const schema = z.object({
-  email: z.string().email(),
-  role: z.enum(['nurse', 'company']),
-});
+export const schema = userRowSchema.pick({ email: true, user_role: true });
 
 const mutation = async ({
-  input: { email, role },
+  input: { email, user_role },
 }: PublicProcedure<typeof schema>) => {
   const db = createPublicClient();
-  if (role === 'nurse') {
-    const user = (
+  if (user_role === 'applicant_user') {
+    const applicant_user = (
       await db
-        .from('applicant')
-        .select('*')
-        .eq('email', email)
+        .from('applicant_user')
+        .select('*, user!applicant_user_id_fkey!inner(*)')
+        .eq('user.email', email)
         .single()
         .throwOnError()
     ).data;
 
-    if (user) {
+    if (applicant_user) {
       return true;
     } else {
       return false;
     }
   } else {
-    const tenant = (
+    const agency_user = (
       await db
-        .from('user')
-        .select('*')
-        .eq('email', email)
+        .from('agency_user')
+        .select('*, user!agency_user_id_fkey!inner(*)')
+        .eq('user.email', email)
         .single()
         .throwOnError()
     ).data;
 
-    if (tenant) {
+    if (agency_user) {
       return true;
     } else {
       return false;

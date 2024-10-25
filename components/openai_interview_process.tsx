@@ -89,7 +89,6 @@ export default function Interview({
   }, []);
 
   const processAndUploadInterview = useCallback(async () => {
-    console.log(conversationHistory);
     try {
       setIsProcessing(true);
 
@@ -97,7 +96,6 @@ export default function Interview({
       await new Promise<void>((resolve) => {
         const checkBlob = () => {
           if (videoBlobRef.current) {
-            console.log('Video blob created:', videoBlobRef.current);
             resolve();
           } else {
             setTimeout(checkBlob, 100);
@@ -143,7 +141,6 @@ export default function Interview({
       if (updateInterviewResult.error) throw updateInterviewResult.error;
       if (updateAnalysisResult.error) throw updateAnalysisResult.error;
 
-      console.log('Video upload and database updates completed successfully');
       router.push(`/interview/${interviewId}/summary`);
     } catch (error) {
       console.error('Error processing and uploading interview:', error);
@@ -237,10 +234,10 @@ export default function Interview({
     client.updateSession({
       // Set instructions
       instructions: getInstructions({
-        aiWelcomeMessage: interviewData.ai_welcome_message ?? '',
-        aiEndingMessage: interviewData.ai_ending_message ?? '',
-        aiQuestions: [interviewData.ai_questions || ''],
-        aiInstructions: interviewData.ai_instructions ?? [],
+        aiWelcomeMessage: interviewData.version.ai_welcome_message ?? '',
+        aiEndingMessage: interviewData.version.ai_ending_message ?? '',
+        aiQuestions: interviewData.version.ai_questions ?? '',
+        aiInstructions: interviewData.version.ai_instructions ?? '',
         resume: `${JSON.stringify(resumeData)}`,
       }),
       input_audio_transcription: { model: 'whisper-1' },
@@ -306,7 +303,6 @@ export default function Interview({
   if (videoError || error) {
     return <AllowCameraPermission />;
   }
-  console.log(conversationHistory);
   return (
     <div>
       <div className='flex h-[calc(100vh-72px)] flex-col items-center'>

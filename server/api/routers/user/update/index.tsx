@@ -16,7 +16,7 @@ export const userProfileSchema = z.object({
     .min(2, 'Name must be at least 2 characters long')
     .max(30, 'Name must be at most 30 characters long')
     .optional(),
-  last_name: z.string().nullable().optional(),
+  last_name: z.string().optional(),
   phone_number: z
     .string()
     .min(10, 'Phone number must be at least 10 digits')
@@ -30,21 +30,27 @@ export const userProfileSchema = z.object({
 
 const mutation = async ({
   ctx,
-  input,
+  input: { first_name, last_name, ...applicant_user },
 }: PrivateProcedure<typeof userProfileSchema>) => {
   const { user_id } = ctx;
   const db = createPrivateClient();
 
-  const { data } = await db
-    .from('applicant')
-    .update({
-      ...input,
-    })
-    .eq('id', user_id)
-    .select()
-    .throwOnError();
+  await Promise.all([
+    await db
+      .from('user')
+      .update({
+        first_name,
+        last_name,
+      })
+      .eq('id', user_id),
 
-  return data;
+    await db
+      .from('applicant_user')
+      .update({
+        ...applicant_user,
+      })
+      .eq('id', user_id),
+  ]);
 };
 
 export const updateUser = privateProcedure

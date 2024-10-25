@@ -105,7 +105,7 @@ This document outlines how to calculate and generate data for the various charts
 2. Calculate match scores:
    - License match
    - Location match
-   - Hospital preference match
+   - Agency preference match
    - School match
 3. Calculate overall fit score
 4. Rank applicants based on overall fit

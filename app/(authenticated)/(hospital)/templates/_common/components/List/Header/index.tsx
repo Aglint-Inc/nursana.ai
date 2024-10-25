@@ -2,8 +2,8 @@ import { Plus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { SidebarHeader, SidebarInput } from '@/components/ui/sidebar';
+import { useList } from '@/templates/components/List/Context';
 
-import { useList } from '../Context';
 import { AddTemplateDialog } from './addTempate/AddTemplateDialog';
 import { ActionProvider, useAction } from './addTempate/Context';
 

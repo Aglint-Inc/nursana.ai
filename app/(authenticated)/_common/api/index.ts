@@ -1,8 +1,8 @@
 import 'server-only';
 
-import { hospital } from '@/hospital/api';
+import { agency } from '@/agency/api';
 import { createTRPCRouter } from '@/server/api/trpc';
 
 import { role } from './role';
 
-export const authenticated = createTRPCRouter({ role, hospital });
+export const authenticated = createTRPCRouter({ role, agency });
