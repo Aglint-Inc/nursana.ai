@@ -1,9 +1,9 @@
-import { Suspense, type PropsWithChildren } from 'react';
+import { type PropsWithChildren, Suspense } from 'react';
 
 import { Drawer } from '@/agency/components/Drawer';
+import { NavigationLoading } from '@/agency/components/NavigationLoading';
 import { SidebarInset } from '@/components/ui/sidebar';
 import { List } from '@/interview/components/List';
-import { NavigationLoading } from '@/agency/components/NavigationLoading';
 
 const Layout = (props: PropsWithChildren) => {
   return (
