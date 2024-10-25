@@ -1,13 +1,5 @@
 'use client';
 
-import Content from '@/interview/components/Page';
-
-const Page = () => {
-  return (
-    <>
-      <Content />
-    </>
-  );
-};
+import Page from '@/interview/components/Page';
 
 export default Page;
