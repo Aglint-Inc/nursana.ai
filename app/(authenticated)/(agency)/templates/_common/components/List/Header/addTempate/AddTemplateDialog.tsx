@@ -22,7 +22,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { templateAddSchema } from '@/templates/template.schema';
 
-import { useAction } from './context';
+import { useAction } from './Context';
 
 export const AddTemplateDialog = () => {
   const { isOpen, setIsOpen } = useAction();
