@@ -31,6 +31,7 @@ const PUBLIC_ROUTES = new RegExp(
     '^/auth(?!/sign-in$)',
     '^/applications(/.*)?$',
     '^/ui(/.*)?$',
+    '^/terms$',
     ...PUBLIC_API,
   ].join('|'),
 );
