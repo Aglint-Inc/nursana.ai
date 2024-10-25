@@ -89,7 +89,6 @@ export default function Interview({
   }, []);
 
   const processAndUploadInterview = useCallback(async () => {
-    console.log(conversationHistory);
     try {
       setIsProcessing(true);
 
@@ -97,7 +96,6 @@ export default function Interview({
       await new Promise<void>((resolve) => {
         const checkBlob = () => {
           if (videoBlobRef.current) {
-            console.log('Video blob created:', videoBlobRef.current);
             resolve();
           } else {
             setTimeout(checkBlob, 100);
@@ -143,7 +141,6 @@ export default function Interview({
       if (updateInterviewResult.error) throw updateInterviewResult.error;
       if (updateAnalysisResult.error) throw updateAnalysisResult.error;
 
-      console.log('Video upload and database updates completed successfully');
       router.push(`/interview/${interviewId}/summary`);
     } catch (error) {
       console.error('Error processing and uploading interview:', error);
@@ -306,7 +303,6 @@ export default function Interview({
   if (videoError || error) {
     return <AllowCameraPermission />;
   }
-  console.log(conversationHistory);
   return (
     <div>
       <div className='flex h-[calc(100vh-72px)] flex-col items-center'>

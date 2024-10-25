@@ -94,7 +94,6 @@ const EditForm = () => {
   const { register, control, setValue, clearErrors } = form;
 
   function onSubmit(values: z.infer<typeof schema>) {
-    console.log(values);
     mutate(values);
   }
 
@@ -203,7 +202,6 @@ const EditForm = () => {
               const selTemp = templates.find(
                 (temp) => temp.id === seletedTempId,
               );
-              console.log(selTemp);
               if (selTemp) {
                 setSeletedVersions(selTemp.version);
               }

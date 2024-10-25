@@ -11,7 +11,6 @@ import RadialProgress from './RadialProgress';
 function UserLanding() {
   const { applicant_user, resume, analysis, interview } = useUserData();
   const { overallScore } = resume?.resume_feedback || {};
-  console.log('interview', interview);
   if (!analysis) {
     return (
       <NotAvailable

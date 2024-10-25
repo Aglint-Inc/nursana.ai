@@ -40,7 +40,7 @@ export function useRetellClient() {
   const stopCall = useCallback(() => {
     if (retellClientRef.current) {
       retellClientRef.current.stopCall();
-      console.log('Call stopped using Telephony Web Client.');
+      console.error('Call stopped using Telephony Web Client.');
     } else {
       console.error('Telephony Web Client is not initialized.');
     }

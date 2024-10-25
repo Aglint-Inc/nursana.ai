@@ -202,9 +202,8 @@ const Campaign = () => {
     );
   }
 
-  const handleEditSubmit = (updatedCampaign: Partial<typeof mockCampaign>) => {
+  const handleEditSubmit = (_updatedCampaign: Partial<typeof mockCampaign>) => {
     // Here you would typically update the campaign data
-    console.log('Updated campaign:', updatedCampaign);
     setIsEditing(false);
   };
 
