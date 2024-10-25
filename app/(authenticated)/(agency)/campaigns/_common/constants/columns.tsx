@@ -2,7 +2,6 @@
 
 import type { ColumnDef } from '@tanstack/react-table';
 import { format, isSameDay } from 'date-fns';
-import { Check, Minus } from 'lucide-react';
 
 import { TAGS_COLOR } from '@/campaigns/constants/tagsColor';
 import type { ColumnSchema } from '@/campaigns/types';

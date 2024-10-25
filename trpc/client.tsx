@@ -2,11 +2,7 @@
 import { type QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { loggerLink } from '@trpc/client/links/loggerLink';
-import {
-  createTRPCReact,
-  httpLink,
-  unstable_httpBatchStreamLink,
-} from '@trpc/react-query';
+import { createTRPCReact, httpLink } from '@trpc/react-query';
 import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
 import { useState } from 'react';
 import superjson from 'superjson';
