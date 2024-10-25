@@ -19,8 +19,6 @@ import {
 } from '@tanstack/react-table';
 import * as React from 'react';
 
-import { schema } from '@/campaigns/schema/columnFilters.schema';
-import { DataTableFilterCommand } from '@/components/fancy-data-table/data-table-filter-command';
 import { DataTableFilterControls } from '@/components/fancy-data-table/data-table-filter-controls';
 import { DataTablePagination } from '@/components/fancy-data-table/data-table-pagination';
 import { DataTableToolbar } from '@/components/fancy-data-table/data-table-toolbar';
@@ -143,11 +141,12 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
       <div className='flex max-w-full flex-1 flex-col gap-4 overflow-hidden p-1'>
-        <DataTableFilterCommand
+        {/* <DataTableFilterCommand
           table={table}
           schema={schema}
           filterFields={filterFields}
-        />
+        /> */}
+
         <DataTableToolbar
           table={table}
           controlsOpen={controlsOpen}

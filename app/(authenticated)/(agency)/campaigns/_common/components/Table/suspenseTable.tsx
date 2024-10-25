@@ -22,7 +22,8 @@ export const SuspenseTable = () => {
     }))
     .filter(({ value }) => value ?? undefined);
 
-  const filterFields = getFilterFields(data);
+  // const filterFields = getFilterFields(data);
+  const filterFields = getFilterFields();
 
   return (
     <DataTable
