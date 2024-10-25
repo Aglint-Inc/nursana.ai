@@ -1,3 +1,3 @@
-import { List } from '@/campaigns/components/List';
+const Page = () => null;
 
-export default List;
+export default Page;
