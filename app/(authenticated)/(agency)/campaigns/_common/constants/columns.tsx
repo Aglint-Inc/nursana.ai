@@ -2,7 +2,6 @@
 
 import type { ColumnDef } from '@tanstack/react-table';
 import { format, isSameDay } from 'date-fns';
-import { Check, Minus } from 'lucide-react';
 
 import { TAGS_COLOR } from '@/campaigns/constants/tagsColor';
 import type { ColumnSchema } from '@/campaigns/types';
@@ -12,14 +11,14 @@ import { Badge } from '@/components/ui/badge';
 import { removeUnderscore } from '../utils/removeUnderscore';
 
 export const COLUMNS: ColumnDef<ColumnSchema>[] = [
-  {
-    accessorKey: 'id',
-    header: 'ID',
-    cell: ({ row }) => {
-      const value = row.getValue('id');
-      return <div className='max-w-[200px] truncate'>{`${value}`}</div>;
-    },
-  },
+  // {
+  //   accessorKey: 'id',
+  //   header: 'ID',
+  //   cell: ({ row }) => {
+  //     const value = row.getValue('id');
+  //     return <div className='max-w-[200px] truncate'>{`${value}`}</div>;
+  //   },
+  // },
   {
     accessorKey: 'name',
     header: 'Name',
@@ -63,22 +62,22 @@ export const COLUMNS: ColumnDef<ColumnSchema>[] = [
       return false;
     },
   },
-  {
-    accessorKey: 'terms_accepted',
-    header: 'Terms accepted',
-    cell: ({ row }) => {
-      const value = row.getValue('terms_accepted');
-      if (value) return <Check className='h-4 w-4' />;
-      return <Minus className='h-4 w-4 text-muted-foreground/50' />;
-    },
-    filterFn: (row, id, value) => {
-      const rowValue = row.getValue(id);
-      if (typeof value === 'string') return value === String(rowValue);
-      if (typeof value === 'boolean') return value === rowValue;
-      if (Array.isArray(value)) return value.includes(rowValue);
-      return false;
-    },
-  },
+  // {
+  //   accessorKey: 'terms_accepted',
+  //   header: 'Terms accepted',
+  //   cell: ({ row }) => {
+  //     const value = row.getValue('terms_accepted');
+  //     if (value) return <Check className='h-4 w-4' />;
+  //     return <Minus className='h-4 w-4 text-muted-foreground/50' />;
+  //   },
+  //   filterFn: (row, id, value) => {
+  //     const rowValue = row.getValue(id);
+  //     if (typeof value === 'string') return value === String(rowValue);
+  //     if (typeof value === 'boolean') return value === rowValue;
+  //     if (Array.isArray(value)) return value.includes(rowValue);
+  //     return false;
+  //   },
+  // },
   {
     accessorKey: 'updated_at',
     header: ({ column }) => (

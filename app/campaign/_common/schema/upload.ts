@@ -12,4 +12,6 @@ export const campaignFormDataSchema = zfd.formData({
   campaign_id: z.string().uuid(),
   fileExt: z.string(),
   user_id: z.string().uuid().optional().nullable(),
+  applicant_id: z.string().uuid().optional().nullable(),
+  terms_accepted: z.string(),
 });

@@ -96,7 +96,7 @@ export default function EditProfileForm() {
         phone_number: data.phone_number || null,
       });
     } catch (error) {
-      console.log(Array.from(JSON.parse(error.message)));
+      //
     }
   };
   const first_name = useDebounce(firstName, 1000);

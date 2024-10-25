@@ -87,7 +87,7 @@ export const newAbortSignal = (timeoutMs: number, funcName: string) => {
   const abortController = new AbortController();
   setTimeout(() => {
     abortController.abort();
-    console.log('Aborting Signal for:', funcName);
+    console.error('Aborting Signal for:', funcName);
   }, timeoutMs || 0);
   return abortController.signal;
 };

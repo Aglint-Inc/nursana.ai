@@ -23,7 +23,6 @@ export default function NPSForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Here you would typically send the data to your backend
-    console.log({ rating, feedback });
     setSubmitted(true);
   };
 

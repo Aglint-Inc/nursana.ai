@@ -26,7 +26,7 @@ const query = async ({
     ? (
         await db
           .from('resume')
-          .select('*')
+          .select('id')
           .eq('campaign_id', campaign_id)
           .eq('applicant_id', app_user[0].applicant_user.id)
           .throwOnError()
@@ -38,7 +38,8 @@ const query = async ({
     applicant_id: app_user[0]?.applicant_user
       ? app_user[0].applicant_user.id
       : null,
-    resume: resume ? resume[0] : null,
+    resume_id: resume ? (resume[0]?.id ? resume[0].id : null) : null,
+    role: app_user[0]?.user_role ? app_user[0].user_role : null,
   };
 };
 

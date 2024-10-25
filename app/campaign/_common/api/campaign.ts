@@ -1,9 +1,11 @@
 import { type SupabaseClient } from '@supabase/supabase-js';
 import { Readable } from 'stream';
+import { type z } from 'zod';
 
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
 import { createPublicClient } from '@/server/db';
 import { type Database } from '@/supabase-types/database.types';
+import { type jobTitlesSchema } from '@/supabase-types/zod-schema.types';
 import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
 
 import { campaignFormDataSchema } from '../schema/upload';
@@ -17,43 +19,39 @@ const mutation = async ({
     campaign_id,
     fileExt,
     user_id,
+    applicant_id,
     role,
+    terms_accepted,
   },
 }: PublicProcedure<typeof campaignFormDataSchema>) => {
   const db = createPublicClient();
 
-  const userId = user_id ?? (await createUser({ db, email }));
+  let userId: string | null = user_id ?? null;
+  let applicantId: string | null = applicant_id ?? null;
 
-  await db
-    .from('user')
-    .insert({
-      id: userId,
+  if (!user_id) {
+    const resUser = await createUser({
+      db,
       email,
       first_name,
-      last_name: last_name ?? undefined,
-      user_role: 'applicant_user',
-    })
-    .throwOnError();
+      last_name,
+      role,
+      terms_accepted,
+    });
 
-  const applicant = (
-    await db
-      .from('applicant_user')
-      .insert({
-        id: userId,
-        job_title: role,
-      })
-      .select()
-      .single()
-      .throwOnError()
-  ).data!;
+    userId = resUser.userId;
+    applicantId = resUser.applicant.id;
+  }
 
-  const fileName = `${campaign_id}/${applicant.id}_${Date.now()}.${fileExt}`;
-  const resume_url = await upload(image, fileName);
+  if (!userId || !applicantId || !campaign_id) throw new Error();
+
+  const fileName = `${campaign_id}/${applicantId}_${Date.now()}.${fileExt}`;
+  const resume_url = await upload(image, fileName, fileExt);
 
   const resIntCreate = await createInterview({
     db,
     campaign_id,
-    applicant_id: applicant.id,
+    applicant_id: applicantId,
     resume_url: resume_url.url,
   });
 
@@ -66,7 +64,7 @@ export const uploadCampaign = publicProcedure
   .input(campaignFormDataSchema)
   .mutation(mutation);
 
-const upload = async (file: File, fileName: string) => {
+const upload = async (file: File, fileName: string, fileExt: string) => {
   const fileStream = Readable.fromWeb(
     // @ts-expect-error - unsure why this is not working
     file.stream(),
@@ -81,6 +79,13 @@ const upload = async (file: File, fileName: string) => {
       cacheControl: '3600',
       upsert: false,
       duplex: 'half',
+      contentType: fileExt.includes('pdf')
+        ? 'application/pdf'
+        : fileExt.includes('doc')
+          ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          : fileExt.includes('txt')
+            ? 'text/plain'
+            : 'application/pdf',
     });
 
   if (uploadError) {
@@ -141,25 +146,13 @@ const createInterview = async ({
         campaign_id: campaign.id,
         agency_id: campaign.agency_id,
         version_id: campaign.version_id,
-        ai_ending_message: campaign.version.ai_ending_message,
-        ai_instructions: [campaign.version.ai_instructions ?? ''],
-        ai_interview_duration: campaign.version.ai_interview_duration,
-        ai_questions: campaign.version.ai_questions,
-        ai_welcome_message: campaign.version.ai_welcome_message,
-        candidate_estimated_time: campaign.version.candidate_estimated_time,
-        candidate_instructions: [campaign.version.candidate_instructions ?? ''],
-        candidate_intro_video_cover_image_url:
-          campaign.version.candidate_intro_video_cover_image_url,
-        candidate_intro_video_url: campaign.version.candidate_intro_video_url,
-        candidate_overview: [campaign.version.candidate_overview ?? ''],
       })
-      .select()
+      .select('*,version!inner(*)')
       .single()
       .throwOnError(),
   ]);
 
-  const updatedResume = resumeResult.data;
-  if (!updatedResume) throw new Error('Error uploading resume');
+  if (!resumeResult.data) throw new Error('Error uploading resume');
 
   const interview = interviewResult.data;
   if (!interview) throw new Error('Error creating interview');
@@ -169,9 +162,17 @@ const createInterview = async ({
 const createUser = async ({
   db,
   email,
+  first_name,
+  last_name,
+  role,
+  terms_accepted,
 }: {
   db: SupabaseClient<Database>;
   email: string;
+  first_name: string;
+  last_name?: string | null;
+  role: z.infer<typeof jobTitlesSchema>;
+  terms_accepted: string;
 }) => {
   const res = await db.auth.admin.createUser({
     email: email,
@@ -181,5 +182,28 @@ const createUser = async ({
   const userId = res.data?.user?.id;
 
   if (!userId) throw new Error('User not created');
-  return userId;
+  await db
+    .from('user')
+    .insert({
+      id: userId,
+      email,
+      first_name,
+      last_name: last_name ?? undefined,
+      user_role: 'applicant_user',
+    })
+    .throwOnError();
+
+  const applicant = (
+    await db
+      .from('applicant_user')
+      .insert({
+        id: userId,
+        job_title: role,
+        terms_accepted: Boolean(terms_accepted),
+      })
+      .select()
+      .single()
+      .throwOnError()
+  ).data!;
+  return { userId, applicant };
 };

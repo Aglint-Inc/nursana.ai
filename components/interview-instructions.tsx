@@ -93,7 +93,6 @@ export default function InterviewInstructions({
       if (data?.resume?.structured_resume || data?.resume?.error_status) {
         clearInterval(interval);
       } else {
-        console.log({ data: data?.resume?.structured_resume });
         refetch();
       }
     }, 5000);
@@ -103,7 +102,6 @@ export default function InterviewInstructions({
     }, 10000);
     return () => clearInterval(interval);
   }, [data]);
-  console.log(data?.resume?.structured_resume, data?.resume?.error_status);
   if (
     !ignoreResume &&
     !data?.resume?.error_status &&

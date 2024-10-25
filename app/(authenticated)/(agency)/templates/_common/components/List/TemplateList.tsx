@@ -23,7 +23,7 @@ export const TemplateList = () => {
     name.toLowerCase().includes(search.toLowerCase()),
   );
   if (filteredTemplates.length === 0)
-    return <div className='w-full p-4'>No Campaigns found</div>;
+    return <div className='w-full p-4'>No Templates found</div>;
 
   return (
     <SidebarContent>

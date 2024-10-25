@@ -69,6 +69,7 @@ export function DataTableFilterControls<TData, TValue>({
           ) : null}
         </div>
       </div>
+
       <Accordion
         type='multiple'
         // REMINDER: open all filters by default

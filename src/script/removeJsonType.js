@@ -18,6 +18,6 @@ var filePath = path.join("src/supabase-types/database.types.ts");
         .replace(/Args:\s*Record<PropertyKey,\s*never>/g, "Args: {}"); // Replaces 'Args: Record<PropertyKey, never>' with 'Args: {}'
     (0, fs_1.writeFile)(filePath, result, "utf8", function (err) {
         if (err)
-            return console.log(err);
+            return console.error(err);
     });
 });

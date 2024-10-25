@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { SidebarHeader, SidebarInput } from '@/components/ui/sidebar';
 
 import { useList } from './Context';
+import { useAction } from './Header/addTempate/Context';
 
 export const Header = () => {
   return (
@@ -22,8 +23,9 @@ const Title = () => (
 );
 
 const Actions = () => {
+  const { setIsOpen } = useAction();
   return (
-    <Button variant='outline' size='icon'>
+    <Button variant='outline' onClick={() => setIsOpen(true)} size='icon'>
       <Plus />
     </Button>
   );

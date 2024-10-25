@@ -26,10 +26,11 @@ export const useUploadCampaign = () => {
       last_name: '',
       campaign_id: campaignData?.id,
       user_id: null,
+      terms_accepted: 'true',
     },
   });
 
-  const { getValues, setError } = form;
+  const { getValues } = form;
 
   useEffect(() => {
     if (form.getValues().image && getValues().image.name.split('.').pop()) {
@@ -42,7 +43,7 @@ export const useUploadCampaign = () => {
 
   const { mutateAsync: upload } = api.campaign_user.upload.useMutation({
     onError(err) {
-      alert('Error from server: ' + err.message);
+      toast({ title: err.message });
     },
     trpc: {
       context: {
@@ -60,20 +61,30 @@ export const useUploadCampaign = () => {
         campaign_id: campaignData?.id,
       });
 
-      if (resCheckUser.resume?.id) {
-        setError('email', {
-          message: 'User already exists',
+      if (resCheckUser.role === 'agency_user') {
+        toast({
+          description: 'You cant apply. As your role is different.',
+          variant: 'destructive',
         });
         return;
       }
+
+      if (resCheckUser.resume_id) {
+        toast({
+          description: 'You have already applied .',
+          variant: 'destructive',
+        });
+        return;
+      }
+
       const fileExt = getValues().image.name.split('.').pop() as string;
       const formData = new FormData();
       const data: z.infer<typeof campaignFormDataSchema> = {
         ...form.getValues(),
         fileExt,
         user_id: resCheckUser?.user_id ?? null,
+        applicant_id: resCheckUser?.applicant_id ?? null,
       };
-
       Object.entries(data)
         .filter((d) => d[1] !== null)
         .forEach(([key, value]) => {

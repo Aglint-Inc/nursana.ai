@@ -1,6 +1,5 @@
-import { notFound } from 'next/navigation';
-
-import { supabase } from '@/utils/supabase/client';
+import { unstable_noStore } from 'next/cache';
+import { api } from 'trpc/server';
 
 export default async function InterviewLayout({
   children,
@@ -9,15 +8,8 @@ export default async function InterviewLayout({
   children: React.ReactNode;
   params: { id: string };
 }) {
-  const { data: interview, error } = await supabase
-    .from('interview')
-    .select('*')
-    .eq('id', params.id)
-    .single();
-
-  if (error || !interview) {
-    notFound();
-  }
+  unstable_noStore();
+  void api.interview.getInterviewDetails.prefetch({ interview_id: params.id });
 
   return <div className=''>{children}</div>;
 }

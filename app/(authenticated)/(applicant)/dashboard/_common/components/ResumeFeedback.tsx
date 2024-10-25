@@ -1,10 +1,11 @@
 'use client';
-import { ExternalLink, FileText, Lightbulb } from 'lucide-react';
+import { ExternalLink, FileText, Lightbulb, Notebook } from 'lucide-react';
 import Link from 'next/link';
 
 import { useUserData } from '@/applicant/hooks/useUserData';
 import { Card, CardContent } from '@/components/ui/card';
 
+import NotAvailable from './NotAvailable';
 import ProgressBarCard from './ProgressBarCard';
 import RadialProgress from './RadialProgress';
 
@@ -33,14 +34,23 @@ export interface FeedbackData {
 export function ResumeFeedback() {
   const { resume } = useUserData();
 
-  const { summary, breakdown, overallScore } =
-    resume?.resume_feedback as FeedbackData;
   const userData = useUserData();
-
+  const resumeFeedback = resume?.resume_feedback as FeedbackData;
+  const resumeStatusError =
+    (Object.values(resume?.processing_status)[0] as any).error ?? '';
+  const breakdown = resumeFeedback?.breakdown;
+  if (!resumeFeedback && (resume?.error_status || resume?.processing_status))
+    return (
+      <NotAvailable
+        Icon={Notebook}
+        description={`${resumeStatusError ? resumeStatusError + ':' : ''} Resume Feedback is currently unavailable`}
+        heading={`Data temporarily unavailable`}
+      />
+    );
   const ResumeScore = [
     {
       name: 'Score',
-      value: overallScore,
+      value: resumeFeedback?.overallScore ?? 0,
       fill: '#db2777',
       path: '#fbcfe8',
     },
@@ -49,7 +59,7 @@ export function ResumeFeedback() {
     <div className='mb-6'>
       <div className='mb-6 text-xl font-medium'>Resume Review</div>
       <div className='mb-10 flex flex-col gap-2'>
-        <ProgressBarCard summary={summary} color='pink'>
+        <ProgressBarCard summary={resumeFeedback?.summary ?? ''} color='pink'>
           <RadialProgress chartData={ResumeScore} size={200} />
         </ProgressBarCard>
         {!userData?.resume?.error_status && userData?.resume?.file_url ? (
