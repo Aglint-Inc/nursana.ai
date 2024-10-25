@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
 
 import {
   type AgencyProcedure,
@@ -8,7 +8,6 @@ import {
   type ProcedureDefinition,
 } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
-import { z } from 'zod';
 
 const schema = z.object({
   applicant_id: z.string(),

@@ -45,8 +45,9 @@ export interface DataTableProps<TData, TValue> {
 }
 
 import type { SetValues } from 'nuqs';
+
 import { ApplicationDetailsDrawer } from './applicantDetails';
-import { useApplicantDetail } from './applicantDetails/Context';
+import { useApplicant } from './applicantDetails/Context';
 
 export function DataTable<TData, TValue>({
   columns,
@@ -72,7 +73,7 @@ export function DataTable<TData, TValue>({
     true,
   );
 
-  const { setIsOpen, setApplicantId } = useApplicantDetail();
+  const { setApplicantId } = useApplicant();
 
   const table = useReactTable({
     data,
@@ -179,26 +180,24 @@ export function DataTable<TData, TValue>({
             <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <div className='cursor-pointer'>
-                    <TableRow
-                      key={row.id}
-                      data-state={row.getIsSelected() && 'selected'}
-                      onClick={() => {
-                        const orgRow = row.original!;
-                        setIsOpen(true);
-                        setApplicantId(orgRow?.applicant_id);
-                      }}
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </div>
+                  <TableRow
+                    data-state={row.getIsSelected() && 'selected'}
+                    className='cursor-pointer'
+                    key={row.id}
+                    onClick={() => {
+                      const orgRow = row.original!;
+                      setApplicantId(orgRow?.applicant_id);
+                    }}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
                 ))
               ) : (
                 <TableRow>

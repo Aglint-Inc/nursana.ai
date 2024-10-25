@@ -2,22 +2,22 @@ import React, { createContext, useContext, useState } from 'react';
 import { api } from 'trpc/client';
 
 const useApplicantHook = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [applicantId, setApplicantId] = useState('');
+  const [applicantId, setApplicantId] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState<string | null>(null);
   const { data, isLoading } =
     api.authenticated.agency.campaigns.get_applicant_detail.useQuery(
       {
-        applicant_id: applicantId,
+        applicant_id: applicantId as string,
       },
       { enabled: !!applicantId },
     );
   return {
-    isOpen,
-    setIsOpen,
     applicantId,
     setApplicantId,
     data: data!,
     isLoading,
+    isOpen,
+    setIsOpen,
   };
 };
 
@@ -38,7 +38,7 @@ export const ApplicantDetailProvider = ({
   );
 };
 
-export const useApplicantDetail = () => {
+export const useApplicant = () => {
   const context = useContext(ApplicationContext);
   if (!context) throw new Error('applicant context not available as provider');
   return context;

@@ -1,19 +1,13 @@
 'use client';
-import {
-  ExternalLink,
-  File,
-  FileText,
-  Lightbulb,
-  TvMinimalPlay,
-} from 'lucide-react';
+import { ExternalLink, File, FileText, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
 
-import { useUserData } from '@/applicant/hooks/useUserData';
 import { Card, CardContent } from '@/components/ui/card';
+import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
-import { useApplicantDetail } from './Context';
-import NotAvailable from '@/dashboard/components/NotAvailable';
+
+import { useApplicant } from '../../Context';
 
 export interface FeedbackData {
   summary: string;
@@ -38,7 +32,7 @@ export interface FeedbackData {
 }
 
 export function ResumeFeedback() {
-  const { data } = useApplicantDetail();
+  const { data } = useApplicant();
   const { resume } = data;
 
   if (!resume?.resume_feedback)

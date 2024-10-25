@@ -1,5 +1,3 @@
-import NotAvailable from '@/dashboard/components/NotAvailable';
-import { useApplicantDetail } from './Context';
 import {
   Brain,
   ExternalLink,
@@ -11,13 +9,17 @@ import {
   UserCheck,
   Zap,
 } from 'lucide-react';
-import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
-import RadialProgress from '@/dashboard/components/RadialProgress';
+
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import NotAvailable from '@/dashboard/components/NotAvailable';
+import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
+import RadialProgress from '@/dashboard/components/RadialProgress';
+
+import { useApplicant } from '../../Context';
 
 export const InterviewReview = () => {
-  const { data } = useApplicantDetail();
+  const { data } = useApplicant();
 
   const { analysis: ana } = data;
   const analysis = ana?.structured_analysis;
@@ -51,7 +53,7 @@ export const InterviewReview = () => {
         >
           <RadialProgress chartData={chartData} size={200} />
         </ProgressBarCard>
-        <div onClick={() => {}}>
+        <div>
           <Card className='group border-border shadow-none duration-300 hover:bg-muted'>
             <CardContent className='p-4'>
               <div className='flex items-center justify-between'>

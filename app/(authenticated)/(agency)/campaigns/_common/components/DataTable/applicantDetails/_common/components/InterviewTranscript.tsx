@@ -1,13 +1,13 @@
 'use client';
 import { Sparkle, TvMinimalPlay, User } from 'lucide-react';
 
-import { useUserData } from '@/applicant/hooks/useUserData';
 import { Loader } from '@/common/components/Loader';
 import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { Card, CardContent } from '@/components/ui/card';
-import { useBucket } from '@/hooks/use-bucket';
 import NotAvailable from '@/dashboard/components/NotAvailable';
-import { useApplicantDetail } from './Context';
+import { useBucket } from '@/hooks/use-bucket';
+
+import { useApplicant } from '../../Context';
 
 interface Message {
   role: 'agent' | 'user';
@@ -29,7 +29,7 @@ function isMessageArray(arr: any): arr is Message[] {
 }
 
 export function InterviewTranscript() {
-  const { data } = useApplicantDetail();
+  const { data } = useApplicant();
   const analysis = data.analysis;
 
   const transcriptData = analysis?.transcript_json;

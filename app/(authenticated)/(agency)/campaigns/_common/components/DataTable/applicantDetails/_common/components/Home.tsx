@@ -1,10 +1,14 @@
-import NotAvailable from '@/dashboard/components/NotAvailable';
-import { useApplicantDetail } from './Context';
-import { House, Sparkles } from 'lucide-react';
-import RadialProgress from '@/dashboard/components/RadialProgress';
+import { House } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
+import NotAvailable from '@/dashboard/components/NotAvailable';
+import RadialProgress from '@/dashboard/components/RadialProgress';
+
+import { useApplicant } from '../../Context';
 
 export const Home = () => {
+  const { data } = useApplicant();
+  if (!data) return <>No data</>;
   return (
     <div>
       <Header />
@@ -14,8 +18,11 @@ export const Home = () => {
 };
 
 const Header = () => {
-  const { data } = useApplicantDetail();
+  const { data } = useApplicant();
+
+  if (!data?.user) return <>User detail not found</>;
   const { user } = data;
+
   return (
     <div className='m-4'>
       <h1 className='text-2xl font-semibold'>Home</h1>
@@ -32,8 +39,8 @@ const Header = () => {
 };
 
 const Progress = () => {
-  const { data } = useApplicantDetail();
-  const { analysis, resume } = data;
+  const { data } = useApplicant();
+  const { resume, analysis } = data;
   const { overallScore } = resume?.resume_feedback || {};
 
   if (!analysis?.structured_analysis?.overall_score || !overallScore) {

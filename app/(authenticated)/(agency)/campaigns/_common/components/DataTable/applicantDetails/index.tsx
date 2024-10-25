@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Loader } from '@/common/components/Loader';
 import { Button } from '@/components/ui/button';
 import {
@@ -6,20 +8,18 @@ import {
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from '@/components/ui/drawer';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { useApplicantDetail } from './Context';
-import { Home } from './Home';
-import { InterviewReview } from './InterviewReview';
-import { InterviewTranscript } from './InterviewTranscript';
-import { ResumeFeedback } from './ResumeFeedback';
+
+import { Home } from './_common/components/Home';
+import { InterviewReview } from './_common/components/InterviewReview';
+import { InterviewTranscript } from './_common/components/InterviewTranscript';
+import { ResumeFeedback } from './_common/components/ResumeFeedback';
+import { useApplicant } from './Context';
 
 export const ApplicationDetailsDrawer = () => {
-  const { isOpen, setIsOpen, data, isLoading } = useApplicantDetail();
+  const { applicantId, setApplicantId } = useApplicant();
   return (
-    <Drawer open={isOpen} onClose={() => setIsOpen(false)}>
+    <Drawer open={!!applicantId} onClose={() => setApplicantId(null)}>
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Applicant</DrawerTitle>
@@ -33,12 +33,13 @@ export const ApplicationDetailsDrawer = () => {
 };
 
 const Content = () => {
-  const { isOpen, setIsOpen, data, isLoading } = useApplicantDetail();
+  const { data, isLoading } = useApplicant();
+  console.log(data);
   const [tab, setTab] = useState<
     'home' | 'interview_review' | 'interview_transcript' | 'resume_feedback'
   >('home');
-  const { push } = useRouter();
   if (isLoading) return <Loader />;
+
   return (
     <div className='flex h-full w-full gap-2'>
       <div className='flex w-fit flex-col gap-2'>
