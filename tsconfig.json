@@ -47,6 +47,15 @@
       "@/interview/*": [
         "app/(authenticated)/(agency)/interviews/[interview]/_common/*"
       ],
+      "@/interview/resume/*": [
+        "app/(authenticated)/(agency)/interviews/[interview]/resume/_common/*"
+      ],
+      "@/interview/review/*": [
+        "app/(authenticated)/(agency)/interviews/[interview]/review/_common/*"
+      ],
+      "@/interview/transcript/*": [
+        "app/(authenticated)/(agency)/interviews/[interview]/transcript/_common/*"
+      ],
       "@/version/*": [
         "./app/(authenticated)/(agency)/templates/[version]/_common/*"
       ]

@@ -1,5 +1,3 @@
-const Page = () => {
-  return <>Resume</>;
-};
+import { Page } from '@/interview/resume/components/Page';
 
 export default Page;
