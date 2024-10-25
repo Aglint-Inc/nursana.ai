@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 
 export default function CheckEmail() {
-  console.log('checking email');
   const router = useRouter();
   const searchParams = useSearchParams();
 

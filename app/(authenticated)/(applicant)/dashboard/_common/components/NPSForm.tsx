@@ -54,7 +54,7 @@ export default function NPSForm() {
   useEffect(() => {
     if (
       !openInterviewRating &&
-      interview &&
+      interview?.interview_stage === 'interview_completed' &&
       !interviewRating &&
       interviewRatingRound.counter <= 2 &&
       (interviewRatingRound.firstRound || interviewRatingRound.secondRound)

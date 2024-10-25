@@ -1,13 +1,13 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 /** Strings used to separate the URL params */
-export const ARRAY_DELIMITER = ",";
-export const SLIDER_DELIMITER = "-";
-export const SPACE_DELIMITER = "_";
-export const RANGE_DELIMITER = "-";
+export const ARRAY_DELIMITER = ',';
+export const SLIDER_DELIMITER = '-';
+export const SPACE_DELIMITER = '_';
+export const RANGE_DELIMITER = '-';
 
-export const REGIONS = ["ams", "gru", "syd", "hkg", "fra", "iad"] as const;
-export const TAGS = ["web", "api", "enterprise", "app"] as const;
+export const REGIONS = ['ams', 'gru', 'syd', 'hkg', 'fra', 'iad'] as const;
+export const TAGS = ['web', 'api', 'enterprise', 'app'] as const;
 
 // https://github.com/colinhacks/zod/issues/2985#issue-2008642190
 const stringToBoolean = z
@@ -17,7 +17,6 @@ const stringToBoolean = z
     try {
       return JSON.parse(val);
     } catch (e) {
-      console.log(e);
       return undefined;
     }
   })
@@ -47,7 +46,7 @@ export const columnFilterSchema = z.object({
       z
         .string()
         .transform((val) => val.split(SLIDER_DELIMITER))
-        .pipe(z.coerce.number().array().length(2))
+        .pipe(z.coerce.number().array().length(2)),
     )
     .optional(), // TBD: we could transform to `{ min: x, max: y}`
   public: z
@@ -66,7 +65,7 @@ export const columnFilterSchema = z.object({
       z
         .string()
         .transform((val) => val.split(ARRAY_DELIMITER))
-        .pipe(z.enum(REGIONS).array())
+        .pipe(z.enum(REGIONS).array()),
     )
     .optional(),
   tags: z
@@ -75,7 +74,7 @@ export const columnFilterSchema = z.object({
       z
         .string()
         .transform((val) => val.split(ARRAY_DELIMITER))
-        .pipe(z.enum(TAGS).array())
+        .pipe(z.enum(TAGS).array()),
     )
     .optional(),
   date: z.coerce
@@ -85,7 +84,7 @@ export const columnFilterSchema = z.object({
       z
         .string()
         .transform((val) => val.split(RANGE_DELIMITER).map(Number))
-        .pipe(z.coerce.date().array())
+        .pipe(z.coerce.date().array()),
     )
     .optional(),
   // .default([subDays(new Date(), -7), new Date()]),
