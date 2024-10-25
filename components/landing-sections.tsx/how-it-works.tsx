@@ -20,23 +20,21 @@ function HowItWorks() {
           <div className='grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-28'>
             <StepperCard
               heading='Upload Your Resume'
-              description=' Add your resume, choose your ideal job title, and get
-                interview-ready. This helps us match you with the right
-                opportunities!'
+              description=' Add your resume to get feedback and help us match you with the right opportunity.'
               icon={UploadCloud}
               color='blue'
             />
 
             <StepperCard
               heading='Take A Brief Interview'
-              description=' Spend 10 minutes in a quick interview based on your job title and resume, which will be used to assess your suitability for the job.'
+              description='Spend 10 in a quick interview to assess your skills and get instant feedback.'
               icon={Sparkles}
               color='orange'
             />
 
             <StepperCard
               heading='Sit Back and Relax!!'
-              description=' Set your preferences and watch as the AI instantly matches you with ideal job opportunities tailored just for you!'
+              description='Our AI acts as your recruiter to find ideal job opportunities tailored just for you.'
               icon={UserCheck}
               color='green'
             />
