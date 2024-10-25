@@ -1,10 +1,8 @@
-import { api } from 'trpc/client';
-
-import { useCurrentCampaign } from './useCurrentCampaign';
+import { useContext } from 'react';
+import { CampaignContext } from '@/campaign/context/campaign.context';
 
 export const useCampaign = () => {
-  const { campaign } = useCurrentCampaign();
-  return api.authenticated.agency.campaigns.campaign.read.useSuspenseQuery({
-    id: campaign,
-  })[0];
+  const value = useContext(CampaignContext);
+  if (!value) throw new Error('CampaignContext not found as a provider');
+  return value;
 };
