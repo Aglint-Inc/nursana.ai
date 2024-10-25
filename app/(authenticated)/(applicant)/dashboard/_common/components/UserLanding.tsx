@@ -1,30 +1,20 @@
 'use client';
-import { FileCheck, Sparkles, TvMinimalPlay } from 'lucide-react';
+import { FileCheck, TvMinimalPlay } from 'lucide-react';
 import Link from 'next/link';
 
 import { useUserData } from '@/applicant/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 
-import NotAvailable from './NotAvailable';
 import RadialProgress from './RadialProgress';
 
 function UserLanding() {
   const { applicant_user, resume, analysis, interview } = useUserData();
   const { overallScore } = resume?.resume_feedback || {};
-  if (!analysis) {
-    return (
-      <NotAvailable
-        heading='Data temporarily unavailable'
-        description='We’re currently analyzing the data. Please check back in a little while for updated information.'
-        Icon={Sparkles}
-      />
-    );
-  }
 
   const InterviewScore = [
     {
       name: 'Score',
-      value: analysis.structured_analysis?.overall_score || 0,
+      value: (analysis && analysis.structured_analysis?.overall_score) || 0,
       fill: '#8b5cf6',
       path: '#ddd6fe',
     },
@@ -56,7 +46,19 @@ function UserLanding() {
           opportunity coming your way.
         </p>
       </div>
-
+      {interview?.interview_stage !== 'interview_completed' && (
+        <div className='flex w-full items-center justify-between rounded-md border border-yellow-500 p-4 text-center'>
+          <p className='font-bold text-yellow-500'>
+            You have not completed your interview yet.
+          </p>
+          <Link
+            className='text-blue-600'
+            href={`/interview/${interview?.id}/start-interview`}
+          >
+            Start Now
+          </Link>
+        </div>
+      )}
       <div className='grid w-full grid-cols-3 gap-4'>
         <div className='flex flex-col items-center gap-2 rounded-lg bg-purple-50 p-4'>
           <div className='mb-[-32px] mt-[10px] font-medium text-purple-600'>
@@ -104,6 +106,7 @@ function UserLanding() {
               <span>Edit Basic Information</span>
             </Link>
           </div>
+
           <div className='flex flex-col justify-between gap-2 rounded-lg bg-muted p-5'>
             <div className='flex flex-col gap-2'>
               <TvMinimalPlay
@@ -112,29 +115,42 @@ function UserLanding() {
               />
               <div className='flex flex-col gap-0.5'>
                 <span className='text-sm text-muted-foreground'>
-                  Interview completed on,
+                  {interview?.interview_stage === 'interview_completed'
+                    ? 'Interview completed on,'
+                    : 'You have an interview scheduled'}
                 </span>
-                <span className='text-sm'>
-                  {interview?.updated_at
-                    ? new Date(interview?.updated_at).toLocaleDateString(
-                        'en-US',
-                        {
-                          weekday: 'long',
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        },
-                      )
-                    : 'Date not available'}
-                </span>
+                {interview?.interview_stage === 'interview_completed' && (
+                  <span className='text-sm'>
+                    {interview?.updated_at
+                      ? new Date(interview?.updated_at).toLocaleDateString(
+                          'en-US',
+                          {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          },
+                        )
+                      : 'Date not available'}
+                  </span>
+                )}
               </div>
             </div>
-            <Link
-              href='/interview-transcript'
-              className='flex items-center gap-2 text-sm text-blue-600'
-            >
-              <span>Replay Interview</span>
-            </Link>
+            {interview?.interview_stage === 'interview_completed' ? (
+              <Link
+                href='/interview-transcript'
+                className='flex items-center gap-2 text-sm text-blue-600'
+              >
+                <span>Replay Interview</span>
+              </Link>
+            ) : (
+              <Link
+                href={`/interview/${interview?.id}/start-interview`}
+                className='flex items-center gap-2 text-sm text-blue-600'
+              >
+                <span className='cursor-pointer'>Start now</span>
+              </Link>
+            )}
           </div>
         </div>
       </div>
