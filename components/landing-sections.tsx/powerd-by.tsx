@@ -14,7 +14,7 @@ function PoweredBy() {
           <div className='flex h-full flex-col items-start justify-center gap-6 px-0 md:gap-8 md:px-8'>
             <div className='flex items-center gap-2 text-base text-purple-700 md:text-lg'>
               <Sparkles strokeWidth={1.2} size={20} />
-              Powered by Aglint AI
+              Powered by AI
             </div>
             <h1 className='text-3xl font-medium md:text-5xl'>
               Get an Unbiased and Professional Evaluation of Your Resume.
