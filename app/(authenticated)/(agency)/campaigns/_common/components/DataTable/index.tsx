@@ -193,7 +193,8 @@ export function DataTable<TData, TValue>({
                     ))}
                     <Link
                       className='absolute left-0 top-0 h-full w-full'
-                      href={`interviews/${row.id}`}
+                      href={`/interviews/${row.id}`}
+                      prefetch={true}
                     />
                   </TableRow>
                 ))
