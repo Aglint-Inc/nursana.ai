@@ -1,9 +1,9 @@
 'use client';
 
+import { createContext, type PropsWithChildren } from 'react';
 import { api } from 'trpc/client';
 
 import { useCurrentCampaign } from '@/campaign/hooks/useCurrentCampaign';
-import { createContext, PropsWithChildren } from 'react';
 
 const useCampaignContext = () => {
   const { campaign } = useCurrentCampaign();
