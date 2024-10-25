@@ -2,6 +2,7 @@ import React from 'react';
 
 import Footer from './footer';
 import CTA from './landing-sections/call-to-action';
+import { Faqs } from './landing-sections/faqs';
 import Hero from './landing-sections/hero';
 import HowItWorks from './landing-sections/how-it-works';
 import PoweredBy from './landing-sections/powerd-by';
@@ -12,26 +13,12 @@ import WhyUS from './landing-sections/why-us';
 function HomePage() {
   return (
     <div className='w-full'>
-     {/* <nav className='flex h-16 w-full items-center justify-center px-5 md:px-0 '>
-        <div className='flex w-full items-center justify-between max-w-[1280px]'>
-          <div className='flex items-center gap-5 font-semibold'>
-            <Link href='/' className='flex items-center justify-center'>
-              <NursanaLogo variant='md' />
-            </Link>
-          </div>
-          <Button asChild variant={'default'}>
-        <Link href='/campaign/?campaign_code=SUMMER23NURSE'>Get Started</Link>
-      </Button>
-        </div>
-      </nav> */}
       <Hero/>
-      {/* <PurpleHero /> */}
       <div className='relative z-20 flex flex-col gap-20 rounded-[50px] bg-white pb-20 pt-20 md:container md:gap-40 md:pb-40'>
-        {/* <LandingHero /> */}
-
         <HowItWorks/>
         <PoweredBy />
         <WhyUS />
+        <Faqs/>
         <CTA />
       </div>
       <Footer />

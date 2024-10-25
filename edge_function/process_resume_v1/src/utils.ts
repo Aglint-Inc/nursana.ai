@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { supabase } from './client/supabaseClient';
+
+import { SupabaseClient } from '@supabase/supabase-js';
 
 export type ErrorType =
   | 'SYSTEM_ERROR'
@@ -8,23 +9,26 @@ export type ErrorType =
   | 'DB_ERROR'
   | 'PARSING_ERROR';
 
-export const getResponse = ({
-  data,
-  saved = false,
-  error,
-  resume_id,
-  type = 'SYSTEM_ERROR',
-  test,
-}: {
-  data?: any;
-  saved?: boolean;
-  error?: string;
-  resume_id?: string;
-  type?: ErrorType;
-  test: boolean;
-}) => {
+export const getResponse = (
+  supabase: SupabaseClient,
+  {
+    data,
+    saved = false,
+    error,
+    resume_id,
+    type = 'SYSTEM_ERROR',
+    test,
+  }: {
+    data?: any;
+    saved?: boolean;
+    error?: string;
+    resume_id?: string;
+    type?: ErrorType;
+    test: boolean;
+  },
+) => {
   if (!test && error && resume_id) {
-    logs(resume_id, {
+    logs(supabase, resume_id, {
       step: 'process_resume_v1',
       message: error,
       type,
@@ -33,23 +37,29 @@ export const getResponse = ({
   return { data, saved, error, type };
 };
 
-export const saveToDB = async ({
-  data,
-  id,
-}: {
-  data: { structured_resume?: any; processing_status?: any };
-  id: string;
-}) => {
+export const saveToDB = async (
+  supabase: SupabaseClient,
+  {
+    data,
+    id,
+  }: {
+    data: { structured_resume?: any; processing_status?: any };
+    id: string;
+  },
+) => {
   const { error } = await supabase
     .from('resume')
     .update({ ...data })
-    .eq('id', id);
+    .eq('id', id)
+    .select()
+    .single();
   // .throwOnError()
-  if (error) throw new Error(`saveToDB: 'resume' error:${error.message}`);
+  if (error) throw new Error(`saveToDB: 'resumes' error: ${error.message}`);
   return;
 };
 
 export const logs = async (
+  supabase: SupabaseClient,
   id: string,
   error_status: {
     step: string;
@@ -58,7 +68,7 @@ export const logs = async (
   },
 ) => {
   console.error('Logging Error: ', error_status);
-  return await saveToDB({
+  return await saveToDB(supabase, {
     id,
     data: {
       processing_status: {
@@ -82,8 +92,8 @@ export const newAbortSignal = (timeoutMs: number, funcName: string) => {
   return abortController.signal;
 };
 
-export async function setToProcessing(id: string) {
-  await saveToDB({
+export async function setToProcessing(supabase: SupabaseClient, id: string) {
+  await saveToDB(supabase, {
     id,
     data: {
       processing_status: {
@@ -97,12 +107,13 @@ export async function setToProcessing(id: string) {
 }
 
 export async function getFileUrl(
+  supabase: SupabaseClient,
   bucket: 'videos' | 'audio' | 'resumes',
   fileName: string,
 ) {
   const { data, error } = await supabase.storage
     .from(bucket)
-    .createSignedUrl(fileName, 60);
+    .createSignedUrl(fileName, 60 * 5);
   if (error) {
     throw new Error(`Supabase signedURL error: ${error.message}`);
   }
