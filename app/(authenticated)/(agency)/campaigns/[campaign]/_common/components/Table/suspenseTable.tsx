@@ -22,19 +22,21 @@ export const SuspenseTable = () => {
     }))
     .filter(({ value }) => value ?? undefined);
 
-  const filterFields = getFilterFields(data);
+  const filterFields = getFilterFields();
 
   return (
-    <DataTable
-      columns={COLUMNS}
-      data={data}
-      defaultColumnFilters={defaultColumnFilters}
-      filterFields={filterFields}
-      paginationState={{
-        pageIndex: page,
-        pageSize: rows,
-      }}
-      setSearch={setSearch}
-    />
+    <>
+      <DataTable
+        columns={COLUMNS}
+        data={data}
+        defaultColumnFilters={defaultColumnFilters}
+        filterFields={filterFields}
+        paginationState={{
+          pageIndex: page,
+          pageSize: rows,
+        }}
+        setSearch={setSearch}
+      />
+    </>
   );
 };
