@@ -24,6 +24,7 @@ const Layout = (props: PropsWithChildren<Routes>) => {
           }
         >
           <AppSidebar secondarySidebar={props.subNavigation} />
+          {props.interview}
           {props.children}
         </SidebarProvider>
       </AgencyEditProvider>
