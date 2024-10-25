@@ -47,7 +47,7 @@ import {
 
 type ProfileDataType = z.infer<typeof userProfileSchema>;
 export default function EditProfileForm() {
-  const { user } = useUserData();
+  const { applicant_user } = useUserData();
   const { locationList } = useLocationsList();
   const { preferredJobTitle } = usePreferredJobTitles();
   const { preferredJobTypes } = usePreferredJobTypes();
@@ -68,27 +68,35 @@ export default function EditProfileForm() {
   const phoneRef = useRef<HTMLInputElement>(null);
 
   const { updateUserDetails, isPending } = useUpdateUserData();
-  const [firstName, setFirstName] = useState(user?.first_name || '');
-  const [lastName, setLastName] = useState(user?.last_name || '');
-  const [openToWork, setOpenToWork] = useState(user?.open_to_work || false);
-  const [phone, setPhone] = useState(user?.phone_number || null);
-  const [salary, setSalary] = useState((user?.salary_range as string) || '');
+  const [firstName, setFirstName] = useState(
+    applicant_user?.user.first_name || '',
+  );
+  const [lastName, setLastName] = useState(
+    applicant_user?.user.last_name || '',
+  );
+  const [openToWork, setOpenToWork] = useState(
+    applicant_user?.open_to_work || false,
+  );
+  const [phone, setPhone] = useState(applicant_user?.phone_number || null);
+  const [salary, setSalary] = useState(
+    (applicant_user?.salary_range as string) || '',
+  );
   const [jobTitle, setJobTitle] = useState<z.infer<typeof jobTitlesSchema>>(
-    user?.current_job_title || 'nurse-practitioner',
+    (applicant_user?.job_title as any) || 'nurse-practitioner',
   );
   const [travelPreference, setTravelPreference] = useState<
     z.infer<typeof travelPreferrenceSchema>
-  >(user?.preferred_travel_preference || 'no-travel');
+  >(applicant_user?.preferred_travel_preference || 'no-travel');
 
   const onSubmitForm = async (data: ProfileDataType) => {
     try {
       await updateUserDetails({
         ...data,
-        last_name: data.last_name || null,
+        last_name: data.last_name || undefined,
         phone_number: data.phone_number || null,
       });
     } catch (error) {
-      console.log(Array.from(JSON.parse(error.message)));
+      //
     }
   };
   const first_name = useDebounce(firstName, 1000);

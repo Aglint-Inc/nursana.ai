@@ -99,7 +99,7 @@ const items = [
 
 export function NurseSidebar() {
   const params = usePathname();
-  const { user } = useUserData();
+  const { applicant_user } = useUserData();
   return (
     <Sidebar>
       <SidebarHeader className='p-4'>
@@ -164,11 +164,12 @@ export function NurseSidebar() {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton className='h-12 bg-muted transition-all duration-300 hover:bg-gray-200/65'>
                   <div className='flex h-8 w-8 items-center justify-center rounded-sm bg-purple-600 text-white'>
-                    {user?.first_name?.charAt(0)}
-                    {user?.last_name?.charAt(0)}
+                    {applicant_user?.user.first_name?.charAt(0)}
+                    {applicant_user?.user.last_name?.charAt(0)}
                   </div>
                   <span className='line-clamp-1 font-medium'>
-                    {user?.first_name} {user?.last_name}
+                    {applicant_user?.user.first_name}{' '}
+                    {applicant_user?.user.last_name}
                   </span>
                   <ChevronsUpDown className='ml-auto' />
                 </SidebarMenuButton>

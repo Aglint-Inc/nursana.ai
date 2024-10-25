@@ -4,6 +4,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { loggerLink } from '@trpc/client/links/loggerLink';
 import {
   createTRPCReact,
+  httpLink,
+  splitLink,
   unstable_httpBatchStreamLink,
 } from '@trpc/react-query';
 import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
@@ -36,7 +38,7 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
 
 /**
  * Inference helper for outputs.
- *
+ *P
  * @example type HelloOutput = RouterOutputs['example']['hello']
  */
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
@@ -47,7 +49,7 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
   const { logout } = useLogout();
   const queryClient = getQueryClient(logout);
 
-  const url = getBaseUrl();
+  const url = getBaseUrl() + `/api/trpc`;
   const [trpcClient] = useState(() =>
     api.createClient({
       links: [
@@ -56,15 +58,28 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
             process.env.NODE_ENV === 'development' ||
             (opts.direction === 'down' && opts.result instanceof Error),
         }),
-        unstable_httpBatchStreamLink({
-          url: `${url}/api/trpc`,
-          transformer: superjson,
-          methodOverride: 'POST',
-          headers: () => {
-            const headers = new Headers();
-            headers.set('x-trpc-source', 'nextjs-react');
-            return headers;
-          },
+        splitLink({
+          condition: (op) => !!op.context.upload,
+          true: httpLink({
+            url,
+            transformer: {
+              input: {
+                serialize: (data) => data,
+                deserialize: (data) => data,
+              },
+              output: superjson,
+            },
+          }),
+          false: unstable_httpBatchStreamLink({
+            url,
+            transformer: superjson,
+            methodOverride: 'POST',
+            headers: () => {
+              const headers = new Headers();
+              headers.set('x-trpc-source', 'nextjs-react');
+              return headers;
+            },
+          }),
         }),
       ],
     }),

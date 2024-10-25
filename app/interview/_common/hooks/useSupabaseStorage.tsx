@@ -13,7 +13,6 @@ export const useUploadRecordedVideo = () => {
   const uploadRecordedVideo = async (
     payload: Unvoid<RouterInputs['supabase_storage']['uploadRecordedVideo']>,
   ) => {
-    console.log({ ...payload }, '❤️‍🔥');
     return await updateMutation.mutateAsync({
       ...payload,
     });

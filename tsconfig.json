@@ -37,14 +37,14 @@
         "./app/(authenticated)/(applicant)/dashboard/_common/*"
       ],
       "@/authenticated/*": ["./app/(authenticated)/_common/*"],
-      "@/hospital/*": ["./app/(authenticated)/(hospital)/_common/*"],
-      "@/campaigns/*": ["./app/(authenticated)/(hospital)/campaigns/_common/*"],
-      "@/templates/*": ["./app/(authenticated)/(hospital)/templates/_common/*"],
+      "@/agency/*": ["./app/(authenticated)/(agency)/_common/*"],
+      "@/campaigns/*": ["./app/(authenticated)/(agency)/campaigns/_common/*"],
+      "@/templates/*": ["./app/(authenticated)/(agency)/templates/_common/*"],
       "@/version/*": [
-        "./app/(authenticated)/(hospital)/templates/[version]/_common/*"
+        "./app/(authenticated)/(agency)/templates/[version]/_common/*"
       ],
       "@/campaign/*": [
-        "./app/(authenticated)/(hospital)/campaigns/[campaign]/_common/*"
+        "./app/(authenticated)/(agency)/campaigns/[campaign]/_common/*"
       ]
     }
   },

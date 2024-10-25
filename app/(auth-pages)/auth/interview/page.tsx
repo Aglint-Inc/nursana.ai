@@ -17,7 +17,6 @@ function Page() {
   const asyncFunction = async () => {
     const code = searchParams.get('code');
     const interview_id = searchParams.get('id');
-    console.log(interview_id);
 
     if (code) {
       await supabase.auth.exchangeCodeForSession(code);

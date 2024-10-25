@@ -35,7 +35,7 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
   const [expectedSalary, setExpectedSalary] = useState('');
 
   useEffect(() => {
-    if (userData?.user) {
+    if (userData?.applicant_user) {
       setSelectedJobTitles(
         preferredJobTitle.map((title) => title.job_title) || [],
       );
@@ -46,7 +46,9 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
       // setTravelPreference(userData.user.travel_preference || '');
       setJobType('');
       setTravelPreference('');
-      setExpectedSalary(userData.user.salary_range?.toString() || '');
+      setExpectedSalary(
+        userData.applicant_user?.salary_range?.toString() || '',
+      );
     }
   }, [userData]);
 

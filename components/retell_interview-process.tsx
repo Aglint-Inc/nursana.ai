@@ -5,6 +5,7 @@ import {
   useUpdateInterviews,
   useUpdateInterviewsAnalysis,
 } from 'app/interview/_common/hooks';
+import { useCreateWelCall } from 'app/interview/_common/hooks/useCreateWebCall';
 import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RetellWebClient } from 'retell-client-js-sdk';
@@ -93,7 +94,7 @@ export default function Interview({
       await new Promise<void>((resolve) => {
         const checkBlob = () => {
           if (videoBlobRef.current) {
-            console.log('Video blob created:', videoBlobRef.current);
+            console.error('Video blob created:', videoBlobRef.current);
             resolve();
           } else {
             setTimeout(checkBlob, 100);
@@ -139,7 +140,7 @@ export default function Interview({
       if (updateInterviewResult.error) throw updateInterviewResult.error;
       if (updateAnalysisResult.error) throw updateAnalysisResult.error;
 
-      console.log('Video upload and database updates completed successfully');
+      console.error('Video upload and database updates completed successfully');
       router.push(`/dashboard`);
     } catch (error) {
       console.error('Error processing and uploading interview:', error);
@@ -168,19 +169,19 @@ export default function Interview({
 
   const setupRetellEventListeners = useCallback(
     (retellWebClient: RetellWebClient) => {
-      retellWebClient.on('call_started', () => console.log('Call started'));
+      retellWebClient.on('call_started', () => console.error('Call started'));
       retellWebClient.on('call_ended', () => {
-        console.log('Call ended');
+        console.error('Call ended');
         setIsInterviewStarted(false);
       });
       retellWebClient.on('agent_start_talking', () =>
-        console.log('Agent started talking'),
+        console.error('Agent started talking'),
       );
       retellWebClient.on('agent_stop_talking', () =>
-        console.log('Agent stopped talking'),
+        console.error('Agent stopped talking'),
       );
       retellWebClient.on('update', (update) => {
-        console.log('Received update:', JSON.stringify(update, null, 2));
+        console.error('Received update:', JSON.stringify(update, null, 2));
 
         if (update.transcript && Array.isArray(update.transcript)) {
           const newHistory: ConversationTurn[] = update.transcript.map(
@@ -191,7 +192,7 @@ export default function Interview({
           );
 
           setConversationHistory(newHistory);
-          console.log(
+          console.error(
             'Updated conversation history:',
             JSON.stringify(newHistory, null, 2),
           );
@@ -205,37 +206,31 @@ export default function Interview({
     },
     [],
   );
-
+  const { createWebCall } = useCreateWelCall();
   const handleStartInterview = useCallback(async () => {
     setError(null);
     setIsInitializingClient(true);
 
     try {
-      const response = await fetch('/api/create-web-call', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          interviewId: interviewId,
-          resumeData: `${JSON.stringify(resumeData)}`,
-        }),
+      const response = await createWebCall({
+        interview_id: interviewId,
+        resumeData: `${JSON.stringify(resumeData)}`,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create web call');
+      console.error({ response });
+
+      if (!response) {
+        throw new Error('Failed to create web call');
       }
 
-      const data = await response.json();
-      setCallData(data);
+      setCallData(response);
 
       const retellWebClient = new RetellWebClient();
       retellWebClientRef.current = retellWebClient;
       setupRetellEventListeners(retellWebClient);
 
       await retellWebClient.startCall({
-        accessToken: data.accessToken,
+        accessToken: response.accessToken,
         sampleRate: 24000,
       });
 
@@ -293,7 +288,7 @@ export default function Interview({
           <InterviewRecording
             handleStopInterview={handleStopInterview}
             isInterviewStarted={isInterviewStarted}
-            interviewDuration={interviewData.ai_interview_duration}
+            interviewDuration={interviewData.version.ai_interview_duration}
             videoRef={videoRef}
           />
         )}

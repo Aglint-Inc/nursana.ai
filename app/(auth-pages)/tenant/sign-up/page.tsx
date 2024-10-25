@@ -11,10 +11,9 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/utils/supabase/client';
 
-type Hospital = {
+type Agency = {
   name: string;
   address: string;
-  contact_person: string;
   contact_email: string;
   contact_number: string;
 };
@@ -29,10 +28,9 @@ export default function Signup() {
   const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [hospital, setHospital] = useState<Hospital>({
+  const [agency, setAgency] = useState<Agency>({
     name: '',
     address: '',
-    contact_person: '',
     contact_email: '',
     contact_number: '',
   });
@@ -66,30 +64,27 @@ export default function Signup() {
     });
 
     if (res.success) {
-      router.push('?step=create-hospital');
+      router.push('?step=create-agency');
     } else {
       toast({ title: 'Error in teant.signup', variant: 'destructive' });
     }
   };
 
-  const { mutateAsync: updateHospital, isPending: isPendingHospital } =
-    api.tenant.update_hospital.useMutation();
-  const handleHospitalSubmit = async () => {
-    if (!hospital.name || !hospital.contact_person || !hospital.contact_email)
-      return;
+  const { mutateAsync: updateAgency, isPending: isPendingAgency } =
+    api.tenant.update_agency.useMutation();
+  const handleAgencySubmit = async () => {
+    if (!agency.name || !agency.contact_email) return;
     const { data } = await supabase.auth.getSession();
 
     if (!data?.session?.user?.id) {
       router.push('/tenant/sign-up');
       return toast({ title: 'User not found', variant: 'destructive' });
     }
-    const res = await updateHospital({
-      hospital_name: hospital.name,
-      address: hospital.address,
-      contact_email: hospital.contact_email,
-      contact_person: hospital.contact_person,
-      contact_number: hospital.contact_number,
-      created_by: data.session?.user?.id,
+    const res = await updateAgency({
+      name: agency.name,
+      address: agency.address,
+      contact_email: agency.contact_email,
+      contact_number: agency.contact_number,
       user_id: data?.session?.user?.id,
     });
     if (res.success) {
@@ -102,32 +97,20 @@ export default function Signup() {
 
   return (
     <div className='mx-auto mt-36 flex min-w-80 flex-col'>
-      {searchParams.get('step') === 'create-hospital' ? (
+      {searchParams.get('step') === 'create-agency' ? (
         <div className='flex flex-col gap-4'>
           <div className='flex flex-row gap-4'>
             <UITextField
               fullWidth
-              label='Hospital Name'
-              placeholder='Ex: Apollo Hospital'
+              label='Agency Name'
+              placeholder='Ex: Apollo Agency'
               onChange={(e) => {
-                setHospital((pre) => ({
+                setAgency((pre) => ({
                   ...pre,
                   name: e.target.value,
                 }));
               }}
-              value={hospital.name}
-            />
-            <UITextField
-              fullWidth
-              label='Contact Person'
-              placeholder='Ex: John Doe'
-              onChange={(e) => {
-                setHospital((pre) => ({
-                  ...pre,
-                  contact_person: e.target.value,
-                }));
-              }}
-              value={hospital.contact_person}
+              value={agency.name}
             />
           </div>
           <div className='flex flex-row gap-4'>
@@ -136,12 +119,12 @@ export default function Signup() {
               label='Contact Number'
               placeholder='Ex: 1234567890'
               onChange={(val) => {
-                setHospital((pre) => ({
+                setAgency((pre) => ({
                   ...pre,
                   contact_number: val,
                 }));
               }}
-              value={hospital.contact_number}
+              value={agency.contact_number}
             />
 
             <UITextField
@@ -149,29 +132,29 @@ export default function Signup() {
               label='Contact Email'
               placeholder='Ex: john@example.com'
               onChange={(e) => {
-                setHospital((pre) => ({
+                setAgency((pre) => ({
                   ...pre,
                   contact_email: e.target.value,
                 }));
               }}
-              value={hospital.contact_email}
+              value={agency.contact_email}
             />
           </div>
           <UITextArea
             label='Address'
             placeholder='Ex: 123, Main Street, New York'
             onChange={(e) => {
-              setHospital((pre) => ({
+              setAgency((pre) => ({
                 ...pre,
                 address: e.target.value,
               }));
             }}
-            value={hospital.address}
+            value={agency.address}
           />
           <Button
-            disabled={isPendingHospital}
+            disabled={isPendingAgency}
             onClick={() => {
-              handleHospitalSubmit();
+              handleAgencySubmit();
             }}
           >
             Continue
