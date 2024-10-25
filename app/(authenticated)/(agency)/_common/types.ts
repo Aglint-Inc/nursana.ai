@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 
-export type Routes = {
+export type PageProps = {
   subNavigation: ReactNode;
-  interview: ReactNode;
 };
