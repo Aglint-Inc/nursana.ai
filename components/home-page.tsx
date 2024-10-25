@@ -1,12 +1,13 @@
 import React from 'react';
 
 import Footer from './footer';
-import CTA from './landing-sections.tsx/call-to-action';
-import { Faqs } from './landing-sections.tsx/faqs';
-import Hero from './landing-sections.tsx/hero';
-import HowItWorks from './landing-sections.tsx/how-it-works';
-import PoweredBy from './landing-sections.tsx/powerd-by';
-import WhyUS from './landing-sections.tsx/why-us';
+import CTA from './landing-sections/call-to-action';
+import { Faqs } from './landing-sections/faqs';
+import Hero from './landing-sections/hero';
+import HowItWorks from './landing-sections/how-it-works';
+import PoweredBy from './landing-sections/powerd-by';
+import WhyUS from './landing-sections/why-us';
+
 
 
 function HomePage() {

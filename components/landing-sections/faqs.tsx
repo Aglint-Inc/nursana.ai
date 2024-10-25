@@ -41,14 +41,14 @@ const faqData = [
 
 export function Faqs() {
   return (
-    <div className='max-w-3xl flex flex-col md:items-center md:gap-8 gap-4 mx-auto w-full'>
+    <div className='max-w-3xl flex flex-col md:items-center md:gap-8 gap-4 mx-auto w-full px-5'>
     <h1 className='text-2xl font-medium md:text-4xl'>
             Frequently Asked Questions
           </h1>
     <Accordion type='single' collapsible className='w-full'>
       {faqData.map((item, index) => (
         <AccordionItem key={index} value={`item-${index + 1}`}>
-          <AccordionTrigger className='text-lg'>{item.question}</AccordionTrigger>
+          <AccordionTrigger className='text-lg text-left'>{item.question}</AccordionTrigger>
           <AccordionContent className='text-lg'>{item.answer}</AccordionContent>
         </AccordionItem>
       ))}
