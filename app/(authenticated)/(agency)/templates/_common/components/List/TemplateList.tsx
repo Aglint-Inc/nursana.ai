@@ -1,12 +1,6 @@
 import Link from 'next/link';
 
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
@@ -42,16 +36,10 @@ const TemplateCard = (props: Template) => {
   const { name, version: versions } = props;
   return (
     <>
-      <Accordion type='single' collapsible className='w-full'>
-        <AccordionItem value='item-1'>
-          <AccordionTrigger>{name}</AccordionTrigger>
-          <AccordionContent>
+          {name}
             {versions.map((version) => (
               <VersionCard key={version.id} version={version} />
             ))}
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
     </>
   );
 };

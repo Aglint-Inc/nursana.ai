@@ -1,4 +1,4 @@
-import { FilePenLine, X } from 'lucide-react';
+import { FilePenLine, Sparkles, X } from 'lucide-react';
 import { type PropsWithChildren } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -69,6 +69,7 @@ type DetailType = {
   label: string;
   value: string | number | null | string[];
   textArea?: boolean;
+  ai?:boolean;
 };
 
 const Content = () => {
@@ -79,36 +80,43 @@ const Content = () => {
     {
       label: 'Interview Duration',
       value: version.ai_interview_duration + ' Minutes',
+      ai:false
     },
     {
       label: 'Video cover image url',
       value: version.candidate_intro_video_cover_image_url,
+      ai:false
     },
     {
       label: 'Video url',
       value: version.candidate_intro_video_url,
+      ai:false
     },
     {
       label: 'Welcome Message',
       value: version.ai_welcome_message,
       textArea: true,
+      ai:true
     },
     {
       label: 'AI Ending Message',
       value: version.ai_ending_message,
       textArea: true,
+      ai:true
     },
 
     {
       label: 'Questions',
       value: version.ai_questions,
       textArea: true,
+      ai:true
     },
 
     {
       label: 'AI Instructions',
       value: version.ai_instructions,
       textArea: true,
+      ai:true
     },
   ];
 
@@ -148,10 +156,17 @@ const Content = () => {
   );
 };
 
-const Detail = ({ label, value, textArea = false }: DetailType) => {
+const Detail = ({ label, value, textArea = false , ai }: DetailType) => {
   return (
     <div className='mb-4 w-full'>
-      <p className='mb-2 text-sm font-normal'>{label}</p>
+      <div className='mb-2 text-sm font-normal flex items-center'>
+        {ai ? (
+          <Sparkles className='text-purple-600 mr-2' size={16} strokeWidth={1.5}/>
+        ):(
+          <></>
+        )}
+        {label}
+        </div>
       {textArea ? (
         <div className='min-h-32 overflow-auto whitespace-pre-wrap rounded-lg bg-muted p-4 text-base text-foreground'>
           {value}
