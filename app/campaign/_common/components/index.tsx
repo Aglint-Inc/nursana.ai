@@ -33,7 +33,6 @@ export default function FormCampaign() {
     clearErrors,
     formState: { isDirty },
   } = form;
-  console.log(form.getValues('terms_accepted'));
   return (
     <Section>
       <div className='flex h-[calc(100vh-72px)] w-full flex-col items-center gap-8'>
@@ -173,7 +172,6 @@ export default function FormCampaign() {
                             <Checkbox
                               checked={field.value === 'true' ? true : false}
                               onCheckedChange={(value) => {
-                                console.log(value);
                                 field.onChange(String(value));
                               }}
                             />

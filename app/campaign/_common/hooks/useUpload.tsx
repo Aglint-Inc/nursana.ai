@@ -85,7 +85,6 @@ export const useUploadCampaign = () => {
         user_id: resCheckUser?.user_id ?? null,
         applicant_id: resCheckUser?.applicant_id ?? null,
       };
-      console.log({ data });
       Object.entries(data)
         .filter((d) => d[1] !== null)
         .forEach(([key, value]) => {

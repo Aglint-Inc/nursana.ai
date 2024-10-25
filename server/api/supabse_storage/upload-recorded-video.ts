@@ -11,13 +11,7 @@ const schema = z.object({
 
 const query = async ({ input }: ApplicantProcedure<typeof schema>) => {
   const { filePath, file } = input;
-  console.log(
-    {
-      filePath,
-      file,
-    },
-    '💕',
-  );
+
   const { error } = await supabase.storage
     .from('videos')
     .upload(filePath, file, {

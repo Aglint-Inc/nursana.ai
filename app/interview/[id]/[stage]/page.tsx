@@ -81,7 +81,6 @@ export default async function InterviewPage({
           </Suspense>
         );
       default:
-        console.log('Unknown stage:', redirectStage);
         notFound();
     }
   };
