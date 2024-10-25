@@ -1,7 +1,9 @@
+/* eslint-disable security/detect-non-literal-regexp */
+import { jwtDecode, type JwtPayload } from 'jwt-decode';
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { Database } from '@/supabase-types/database.types';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { type Database } from '@/supabase-types/database.types';
+
 import { createPrivateClient } from './server/db';
 
 export const config = {
@@ -25,6 +27,7 @@ const PUBLIC_ROUTES = new RegExp(
     '^/tenant/sign-up$',
     '^/openAiRealTime$',
     '^/tenant/sign-up$',
+    '^/campaign$',
     '^/auth(?!/sign-in$)',
     '^/applications(/.*)?$',
     '^/ui(/.*)?$',
@@ -123,5 +126,5 @@ const getRole = async () => {
 };
 
 type MiddlewareType<T extends NextRequest = NextRequest> = (
-  req: T,
+  _req: T,
 ) => Promise<NextResponse | undefined>;
