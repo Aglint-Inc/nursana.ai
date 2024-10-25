@@ -93,9 +93,9 @@ function ResumeUpload({
           </div>
         ) : (
           <div className='mt-2'>
-            <div className='flex items-center justify-between rounded border-input bg-background px-4 py-6 shadow-none'>
+            <div className='flex items-center justify-between rounded-lg bg-muted border border-border px-4 py-4 shadow-none'>
               <div className='flex items-center gap-3'>
-                <File size={30} className='text-muted-foreground' />
+                <File size={24} strokeWidth={1.5} className='text-muted-foreground' />
                 <span className='text-md truncate'>{value?.name}</span>
               </div>
 
