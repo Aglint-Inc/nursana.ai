@@ -71,34 +71,10 @@ export const EditForm = () => {
             <div className='flex w-full flex-col gap-4'>
               <FormField
                 control={form.control}
-                name='ai_interview_duration'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Interview Duration</FormLabel>
-                    <FormControl>
-                      <Input
-                        type='number'
-                        placeholder='Enter interview duration'
-                        {...field}
-                        onChange={(e) => {
-                          const value = e.target.value
-                            ? parseFloat(e.target.value)
-                            : '';
-                          field.onChange(value);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
                 name='ai_welcome_message'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Welcome Message</FormLabel>
+                    <FormLabel>AI Welcome Message</FormLabel>
                     <FormControl>
                       <Textarea
                         className='h-[100px] overflow-auto'
@@ -129,6 +105,30 @@ export const EditForm = () => {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name='ai_interview_duration'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Interview Duration</FormLabel>
+                    <FormControl>
+                      <Input
+                        type='number'
+                        placeholder='Enter interview duration'
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value
+                            ? parseFloat(e.target.value)
+                            : '';
+                          field.onChange(value);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name='ai_questions'
@@ -172,10 +172,10 @@ export const EditForm = () => {
                 name='candidate_estimated_time'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Estimated Time</FormLabel>
+                    <FormLabel>Candidate Estimated Time</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder='Enter Estimated Time'
+                        placeholder='Enter Candidate Estimated Time'
                         {...field}
                         value={field.value || ''}
                       />
@@ -226,14 +226,7 @@ export const EditForm = () => {
                   <FormItem>
                     <FormLabel>Candidate Overview</FormLabel>
                     <FormControl>
-                      {/* <Textarea
-                        className='h-[100px] overflow-auto'
-                        placeholder='Enter Candidate Overview'
-                        {...field}
-                        value={field.value || ''}
-                      /> */}
                       <RichTextEditor
-                        // isTool={false}
                         placeholder='Enter Candidate Overview'
                         {...field}
                         value={field.value || ''}
@@ -255,7 +248,6 @@ export const EditForm = () => {
                     <FormLabel>Candidate Instructions</FormLabel>
                     <FormControl>
                       <RichTextEditor
-                        // isTool={false}
                         {...field}
                         value={field.value || ''}
                         onChange={(value) => {
