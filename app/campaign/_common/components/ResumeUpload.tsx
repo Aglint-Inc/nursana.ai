@@ -52,7 +52,7 @@ function ResumeUpload({
       <div className='flex flex-col gap-1'>
         {!file ? (
           <div
-            className={`relative mt-2 flex justify-center rounded-lg border border-dashed ${
+            className={`relative mt-2 flex justify-center rounded-lg bg-muted/50 hover:bg-muted transition-all duration-300 border border-dashed ${
               dragActive ? 'bg-background' : 'bg-background'
             } px-6 py-6`}
             onDragEnter={handleDrag}
