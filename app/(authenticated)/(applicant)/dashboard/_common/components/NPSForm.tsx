@@ -41,32 +41,21 @@ export default function NPSForm() {
   };
   const [openInterviewRating, setOpenOpenInterviewRating] =
     useLocalStorage<boolean>('open-interview-rating', false);
-
-  const [interviewRatingRound, setInterviewRatingRound] = useLocalStorage<{
-    firstRound: boolean;
-    secondRound: boolean;
-    counter: number;
-  }>('interview-rating-round', {
-    firstRound: false,
-    secondRound: false,
-    counter: 0,
-  });
+  const [loginStage, setLoginStage] = useLocalStorage<string | null>(
+    'login-stage',
+    null,
+  );
   useEffect(() => {
     if (
       !openInterviewRating &&
       interview?.interview_stage === 'interview_completed' &&
       !interviewRating &&
-      interviewRatingRound.counter <= 2 &&
-      (interviewRatingRound.firstRound || interviewRatingRound.secondRound)
+      loginStage
     ) {
-      const timer = interviewRatingRound.firstRound ? 60000 : 30000;
+      const timer = loginStage === 'first' ? 60000 : 30000;
       setTimeout(() => {
         setOpenOpenInterviewRating(true);
-        setInterviewRatingRound({
-          firstRound: false,
-          secondRound: false,
-          counter: interviewRatingRound.counter,
-        });
+        setLoginStage(null);
       }, timer);
     } else {
       setOpenOpenInterviewRating(false);
