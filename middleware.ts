@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-non-literal-regexp */
 import { jwtDecode, type JwtPayload } from 'jwt-decode';
 import { type NextRequest, NextResponse } from 'next/server';
 
