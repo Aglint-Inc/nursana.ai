@@ -1,5 +1,5 @@
 'use client';
 
-import { Page } from '@/interview/components/Page';
+import { Page } from '@/interview/components/Home/Page';
 
 export default Page;
