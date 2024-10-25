@@ -585,7 +585,7 @@ export type Database = {
             foreignKeyName: "user_interview_rating_applicant_id_fkey"
             columns: ["applicant_id"]
             isOneToOne: false
-            referencedRelation: "applicant"
+            referencedRelation: "applicant_user"
             referencedColumns: ["id"]
           },
         ]
@@ -683,6 +683,23 @@ export type Database = {
           event: Json
         }
         Returns: Json
+      }
+      get_resume_analytics: {
+        Args: {
+          version_uuid: string
+          start_date?: string
+          end_date?: string
+        }
+        Returns: {
+          total_experience: string
+          schools: Json
+          x_job_title: string
+          skills: Json
+          licenses: Json
+          location: Json
+          call_analysis: Json
+          resume_analysis: Json
+        }[]
       }
     }
     Enums: {

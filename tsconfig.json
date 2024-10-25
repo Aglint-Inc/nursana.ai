@@ -45,6 +45,9 @@
       ],
       "@/campaign/*": [
         "./app/(authenticated)/(agency)/campaigns/[campaign]/_common/*"
+      ],
+      "@/reports/*": [
+        "app/(authenticated)/(agency)/templates/[version]/reports/_common/*"
       ]
     }
   },

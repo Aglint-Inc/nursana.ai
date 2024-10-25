@@ -1,6 +1,5 @@
-import { type SupabaseClientType } from '@/utils/supabase/supabaseAdmin';
-
 import { type retellAiGetCallType } from './schema.type';
+import { SupabaseClientType } from '@/utils/supabase/type';
 
 const RETELL_API_KEY = process.env.RETELL_API_KEY;
 

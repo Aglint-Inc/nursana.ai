@@ -1,4 +1,4 @@
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 import { type Database } from 'src/supabase-types/database.types';
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -14,4 +14,3 @@ if (!key) {
 export function getSupabaseAdminServer() {
   return createClient<Database>(url, key);
 }
-export type SupabaseClientType = SupabaseClient<Database>;

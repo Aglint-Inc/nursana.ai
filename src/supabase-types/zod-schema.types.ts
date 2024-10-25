@@ -584,7 +584,7 @@ export const userInterviewRatingRelationshipsSchema = z.tuple([
     foreignKeyName: z.literal("user_interview_rating_applicant_id_fkey"),
     columns: z.tuple([z.literal("applicant_id")]),
     isOneToOne: z.literal(false),
-    referencedRelation: z.literal("applicant"),
+    referencedRelation: z.literal("applicant_user"),
     referencedColumns: z.tuple([z.literal("id")]),
   }),
 ]);

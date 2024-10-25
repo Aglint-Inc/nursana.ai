@@ -7,6 +7,7 @@ import { templates } from '@/templates/api';
 import { edit } from './edit';
 import { read } from './read';
 import { user } from './user';
+import { reports } from 'app/(authenticated)/(agency)/templates/[version]/reports/_common/api';
 
 export const agency = createTRPCRouter({
   read,
@@ -14,4 +15,5 @@ export const agency = createTRPCRouter({
   user,
   campaigns,
   templates,
+  reports,
 });
