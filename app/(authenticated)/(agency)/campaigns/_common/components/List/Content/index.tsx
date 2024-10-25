@@ -1,5 +1,6 @@
 import { Tag } from 'lucide-react';
-import { useState } from 'react';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 import EmptyState from '@/agency/components/EmptyState';
 import { useCampaigns } from '@/campaigns/hooks/useCampaigns';
@@ -29,9 +30,8 @@ const List = () => {
   const campaigns = useCampaigns();
 
   // State to store the currently selected campaign's id
-  const [selectedCampaignId, setSelectedCampaignId] = useState<string | null>(
-    null,
-  );
+  const params = useParams();
+  const campagin_id = params.campaign as string;
 
   // Filter campaigns based on the search query
   const filteredCampaigns = campaigns.filter(({ name }) =>
@@ -45,12 +45,20 @@ const List = () => {
 
   return (
     <div className='flex flex-col gap-2'>
+      {/*eslint-disable-next-line jsx-a11y/click-events-have-key-events*/}
+      <Link
+        href={`/campaigns`}
+        className={`flex w-[284px] flex-col items-start gap-2 rounded-md border p-3 text-sm leading-tight ${
+          !campagin_id ? 'border-border bg-white' : 'border-muted bg-muted'
+        }`}
+      >
+        All Campaigns
+      </Link>
       {filteredCampaigns.map((campaign) => (
         <Card
           key={campaign.id}
           {...campaign}
-          selected={campaign.id === selectedCampaignId}
-          onClick={() => setSelectedCampaignId(campaign.id)}
+          selected={campaign.id === campagin_id}
         />
       ))}
     </div>
