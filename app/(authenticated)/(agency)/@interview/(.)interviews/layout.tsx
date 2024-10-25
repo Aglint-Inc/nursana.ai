@@ -1,9 +1,9 @@
 import type { PropsWithChildren } from 'react';
 
-import { Modal } from '@/agency/components/Modal';
+import { Drawer } from '@/agency/components/Drawer';
 
 const Layout = (props: PropsWithChildren) => {
-  return <Modal>{props.children}</Modal>;
+  return <Drawer>{props.children}</Drawer>;
 };
 
 export default Layout;
