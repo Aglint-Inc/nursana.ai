@@ -1,26 +1,19 @@
-import {
-  createContext,
-  type PropsWithChildren,
-  useContext,
-  useState,
-} from 'react';
+import { createContext, type PropsWithChildren, useContext } from 'react';
 
-const useListContext = () => {
-  const [search, setSearch] = useState<string>('');
-  return {
-    search,
-    setSearch,
-  };
+type Props = {
+  intercepted?: boolean;
 };
 
-const ListContext = createContext<
-  ReturnType<typeof useListContext> | undefined
->(undefined);
+const ListContext = createContext<Props | undefined>(undefined);
 
-export const ListProvider = (props: PropsWithChildren) => {
-  const value = useListContext();
+export const ListProvider = ({
+  intercepted = false,
+  ...props
+}: PropsWithChildren<Props>) => {
   return (
-    <ListContext.Provider value={value}>{props.children}</ListContext.Provider>
+    <ListContext.Provider value={{ intercepted, ...props }}>
+      {props.children}
+    </ListContext.Provider>
   );
 };
 

@@ -8,7 +8,7 @@ const Layout = (props: PropsWithChildren) => {
     <Drawer>
       <div className='flex w-full flex-row'>
         <div className='flex basis-1/6'>
-          <List />
+          <List intercepted />
         </div>
         <div className='flex basis-1'>{props.children}</div>
       </div>
