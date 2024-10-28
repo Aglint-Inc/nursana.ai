@@ -33,90 +33,88 @@ function InterviewCard({ interviewDetails, analysis }: ResumeCardProps) {
   }
   return (
     <>
-      {!isUserDetailsFetching &&
-        !interviewFeedbackFetching &&
-        interviewAnalysis &&
-        interviewDetails?.interview_stage !== 'interview_completed' && (
-          <div className='w-full rounded-lg border border-border p-6'>
-            <div className='grid grid-cols-1'>
-              <div className='flex h-full min-h-[230px] flex-col justify-between gap-4'>
-                <div className='flex flex-col gap-2'>
-                  <div className='flex h-14 w-14 items-center justify-center rounded-lg bg-purple-50'>
-                    <TvMinimalPlay
-                      className='h-8 w-8 text-purple-600'
-                      strokeWidth={1.4}
-                    />
-                  </div>
-                  <p className='text-lg font-medium'>
-                    Take Your Interview Now.
-                  </p>
-                  <p className='text-muted-foreground'>
-                    Please start the interview to receive feedback and a score,
-                    which will help you match with the perfect job.{' '}
-                  </p>
-                </div>
-                <Link
-                  href={`/interview/${interviewDetails?.id}/start-interview`}
-                  className='w-full'
-                >
-                  <Button className='w-full'>Take Interview</Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
-
-      {!isUserDetailsFetching &&
-        !interviewFeedbackFetching &&
-        !interviewAnalysis && (
-          <div className='w-full rounded-lg border border-border p-6'>
-            <div className='grid grid-cols-1'>
-              <div className='flex h-full min-h-[230px] flex-col justify-between gap-4'>
-                <div className='flex flex-col gap-2'>
-                  <div className='flex h-14 w-14 items-center justify-center rounded-lg bg-red-50'>
-                    <TriangleAlert
-                      className='h-8 w-8 text-red-600'
-                      strokeWidth={1.4}
-                    />
-                  </div>
-                  <p className='text-lg font-medium'>
-                    Unable to load interview details
-                  </p>
-
-                  <p className='text-muted-foreground'>
-                    Something went wrong. Please try again later.
-                  </p>
-                </div>
-                <Button onClick={fetchInterviewFeedback}>Try again</Button>
-              </div>
-            </div>
-          </div>
-        )}
-
-      {(isUserDetailsFetching || interviewFeedbackFetching) && (
+      {interviewDetails?.interview_stage !== 'interview_completed' ? (
         <div className='w-full rounded-lg border border-border p-6'>
           <div className='grid grid-cols-1'>
             <div className='flex h-full min-h-[230px] flex-col justify-between gap-4'>
               <div className='flex flex-col gap-2'>
-                <div className='flex h-14 w-14 items-center justify-center rounded-lg bg-blue-50'>
-                  <Loader size={20} className='text-blue-600' />
+                <div className='flex h-14 w-14 items-center justify-center rounded-lg bg-purple-50'>
+                  <TvMinimalPlay
+                    className='h-8 w-8 text-purple-600'
+                    strokeWidth={1.4}
+                  />
                 </div>
-                <p className='text-lg font-medium'>Analysing Interview..</p>
+                <p className='text-lg font-medium'>Take Your Interview Now.</p>
                 <p className='text-muted-foreground'>
-                  We are analyzing your interview now. Please check back shortly
-                  to view your interview score and feedback.
+                  Please start the interview to receive feedback and a score,
+                  which will help you match with the perfect job.{' '}
                 </p>
               </div>
+              <Link
+                href={`/interview/${interviewDetails?.id}/start-interview`}
+                className='w-full'
+              >
+                <Button className='w-full'>Take Interview</Button>
+              </Link>
             </div>
           </div>
         </div>
+      ) : (
+        <>
+          {!isUserDetailsFetching &&
+            !interviewFeedbackFetching &&
+            interviewAnalysis &&
+            interviewDetails?.interview_stage === 'interview_completed' && (
+              <CompletedInterviewCard interviewScore={interviewScore} />
+            )}
+
+          {(isUserDetailsFetching || interviewFeedbackFetching) && (
+            <div className='w-full rounded-lg border border-border p-6'>
+              <div className='grid grid-cols-1'>
+                <div className='flex h-full min-h-[230px] flex-col justify-between gap-4'>
+                  <div className='flex flex-col gap-2'>
+                    <div className='flex h-14 w-14 items-center justify-center rounded-lg bg-blue-50'>
+                      <Loader size={20} className='text-blue-600' />
+                    </div>
+                    <p className='text-lg font-medium'>Analysing Interview..</p>
+                    <p className='text-muted-foreground'>
+                      We are analyzing your interview now. Please check back
+                      shortly to view your interview score and feedback.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {!isUserDetailsFetching &&
+            !interviewFeedbackFetching &&
+            !interviewAnalysis && (
+              <div className='w-full rounded-lg border border-border p-6'>
+                <div className='grid grid-cols-1'>
+                  <div className='flex h-full min-h-[230px] flex-col justify-between gap-4'>
+                    <div className='flex flex-col gap-2'>
+                      <div className='flex h-14 w-14 items-center justify-center rounded-lg bg-red-50'>
+                        <TriangleAlert
+                          className='h-8 w-8 text-red-600'
+                          strokeWidth={1.4}
+                        />
+                      </div>
+                      <p className='text-lg font-medium'>
+                        Unable to load interview details
+                      </p>
+
+                      <p className='text-muted-foreground'>
+                        Something went wrong. Please try again later.
+                      </p>
+                    </div>
+                    <Button onClick={fetchInterviewFeedback}>Try again</Button>
+                  </div>
+                </div>
+              </div>
+            )}
+        </>
       )}
-      {!isUserDetailsFetching &&
-        !interviewFeedbackFetching &&
-        interviewAnalysis &&
-        interviewDetails?.interview_stage === 'interview_completed' && (
-          <CompletedInterviewCard interviewScore={interviewScore} />
-        )}
     </>
   );
 }
