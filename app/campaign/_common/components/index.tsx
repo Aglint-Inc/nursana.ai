@@ -37,7 +37,7 @@ export default function FormCampaign() {
   return (
     <Section>
       <div className='flex min-h-[calc(100vh-72px)] w-full flex-col items-center justify-center gap-8'>
-        <div className='grid grid-cols-2 border border-border rounded-xl overflow-hidden'>
+        <div className='grid grid-cols-2 overflow-hidden rounded-xl border border-border'>
           <Form {...form}>
             <form
               className='mb-4 w-full'
@@ -220,8 +220,13 @@ export default function FormCampaign() {
               </Card>
             </form>
           </Form>
-          <div className='relative w-full h-full'>
-                <Image src={'/images/nurse-1.jpg'} layout='fill' alt='nurse' className='object-cover'/>
+          <div className='relative h-full w-full'>
+            <Image
+              src={'/images/nurse-1.jpg'}
+              layout='fill'
+              alt='nurse'
+              className='object-cover'
+            />
           </div>
         </div>
       </div>
