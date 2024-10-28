@@ -4,18 +4,36 @@ import Link from 'next/link';
 
 import { useUserData } from '@/applicant/hooks/useUserData';
 import { Button } from '@/components/ui/button';
+import { type Database } from '@/supabase-types/database.types';
 
 import ProgressSteps from './ProgressSteps';
 import RadialProgress from './RadialProgress';
+import {
+  UserLandingProps,
+  InterviewHomeUI,
+} from '@/authenticated/components/InterviewHomeUI';
+
+type ScoreType = {
+  name: string;
+  value: any;
+  fill: string;
+  path: string;
+};
 
 function UserLanding() {
-  const { applicant_user, resume, analysis, interview } = useUserData();
+  const {
+    applicant_user,
+    resume,
+    analysis,
+    interview: interviewData,
+  } = useUserData();
+  const { overallScore } = resume?.resume_feedback || {};
 
   const interviewScore =
     (analysis && analysis.structured_analysis?.overall_score) || 0;
   const resumeScore = resume?.resume_feedback?.overallScore || 0;
 
-  const InterviewScore = [
+  const InterviewScore: ScoreType[] = [
     {
       name: 'Score',
       value: interviewScore,
@@ -24,7 +42,7 @@ function UserLanding() {
     },
   ];
 
-  const ResumeScore = [
+  const ResumeScore: ScoreType[] = [
     {
       name: 'Score',
       value: resumeScore,
@@ -33,118 +51,19 @@ function UserLanding() {
     },
   ];
 
-  return (
-    <div className='flex h-[85vh] flex-col items-center justify-center gap-10'>
-      <div className='flex flex-col items-center gap-2'>
-        <div className='flex items-center gap-2 text-center text-3xl font-medium'>
-          <div className='text-purple-700'>
-            {' '}
-            Hello {applicant_user?.user.first_name || 'Nurse'} 👋,
-          </div>
-          <div>Welcome to Nursana 💜</div>
-        </div>
-        <p className='text-center text-muted-foreground'>
-          {' '}
-          Keep your profile up to date, collect valuable feedback on your resume
-          and interview responses, and stay tuned for the perfect job
-          opportunity coming your way.
-        </p>
-      </div>
-      {interview?.interview_stage !== 'interview_completed' && (
-        <ProgressSteps />
-      )}
-      {interview?.interview_stage === 'interview_completed' && (
-        <div className='grid w-full grid-cols-3 gap-4'>
-          {analysis?.structured_analysis && (
-            <div className='flex flex-col items-center gap-2 rounded-lg bg-purple-50 p-4'>
-              <div className='mb-[-32px] mt-[10px] font-medium text-purple-600'>
-                Interview Score
-              </div>
-              <RadialProgress chartData={InterviewScore} size={250} />
-              <Link href={'/interview-feedback'} className='w-full'>
-                <Button className='w-full'>View Detail</Button>
-              </Link>
-            </div>
-          )}
-          {resume?.resume_feedback && (
-            <div className='flex flex-col items-center gap-2 rounded-lg bg-pink-50 p-4'>
-              <div className='mb-[-32px] mt-[10px] font-medium text-pink-600'>
-                Resume Score
-              </div>
-              <RadialProgress chartData={ResumeScore} size={250} />
-              <Link href={'/resume-review'} className='w-full'>
-                <Button className='w-full'>View Detail</Button>
-              </Link>
-            </div>
-          )}
-          <div className='grid grid-cols-1 grid-rows-2 gap-4'>
-            <div className='flex flex-col justify-between gap-2 rounded-lg bg-muted p-5'>
-              <div className='flex flex-col gap-2'>
-                <FileCheck
-                  className='h-8 w-8 text-muted-foreground'
-                  strokeWidth={1.5}
-                />
-                <div className='flex flex-col gap-1'>
-                  <span>Resume Submitted</span>
-                  <span>
-                    {resume?.created_at
-                      ? new Date(resume.created_at).toLocaleDateString(
-                          'en-US',
-                          {
-                            weekday: 'long',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          },
-                        )
-                      : 'Date not available'}
-                  </span>
-                </div>
-              </div>
-              <Link
-                href='/profile/basic-information'
-                className='flex items-center gap-2 text-sm text-blue-600'
-              >
-                <span>Edit Basic Information</span>
-              </Link>
-            </div>
+  const interview: UserLandingProps['interview'] = {
+    id: interviewData?.id || '',
+    stage: interviewData?.interview_stage || '',
+    updated_at: interviewData?.updated_at || '',
+  };
 
-            <div className='flex flex-col justify-between gap-2 rounded-lg bg-muted p-5'>
-              <div className='flex flex-col gap-2'>
-                <TvMinimalPlay
-                  className='h-8 w-8 text-muted-foreground'
-                  strokeWidth={1.5}
-                />
-                <div className='flex flex-col gap-0.5'>
-                  <span className='text-sm text-muted-foreground'>
-                    Interview completed on,
-                  </span>
-                  <span className='text-sm'>
-                    {interview?.updated_at
-                      ? new Date(interview?.updated_at).toLocaleDateString(
-                          'en-US',
-                          {
-                            weekday: 'long',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          },
-                        )
-                      : 'Date not available'}
-                  </span>
-                </div>
-              </div>
-              <Link
-                href='/interview-transcript'
-                className='flex items-center gap-2 text-sm text-blue-600'
-              >
-                <span>Replay Interview</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+  return (
+    <InterviewHomeUI
+      InterviewScore={InterviewScore}
+      ResumeScore={ResumeScore}
+      first_name={applicant_user?.user.first_name}
+      interview={interview}
+    />
   );
 }
 

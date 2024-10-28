@@ -29,10 +29,10 @@ const query = async ({ ctx: { user_id } }: PrivateProcedure) => {
         .single(),
     ]);
   return {
-    applicant_user: userResult.data,
-    resume: resumeResult.data,
-    interview: interviewResult.data,
-    analysis: analysisResult.data,
+    applicant_user: userResult.data!,
+    resume: resumeResult.data!,
+    interview: interviewResult.data!,
+    analysis: analysisResult.data!,
   };
 };
 
