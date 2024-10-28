@@ -155,10 +155,10 @@ const Detail = ({ label, value, textArea = false }: DetailType) => {
       <p className='mb-2 text-sm font-normal'>{label}</p>
       {textArea ? (
         <div className='min-h-32 overflow-auto whitespace-pre-wrap rounded-lg bg-muted p-4 text-base text-foreground'>
-          {parse(value as string)}
+          {parse((value || ' - ') as string)}
         </div>
       ) : (
-        <div className='text-base text-foreground'>{value}</div>
+        <div className='text-base text-foreground'>{value || ' - '}</div>
       )}
     </div>
   );
