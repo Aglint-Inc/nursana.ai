@@ -19,7 +19,6 @@ import { useVideoRecording } from '@/hooks/useVideoRecording';
 import { getInstructions } from '@/utils/audio/instructions';
 import { supabase } from '@/utils/supabase/client';
 
-
 import Footer from './footer';
 import InterviewConversations from './interview-conversations';
 import InterviewRecording from './interview-recording';

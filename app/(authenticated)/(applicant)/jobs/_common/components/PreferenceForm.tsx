@@ -4,7 +4,6 @@ import {
   JOB_TYPES,
   TRAVEL_PREFERENCES,
 } from 'app/(authenticated)/(applicant)/profile/_common/constant';
-import { XCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Label } from 'recharts';
 import { type z } from 'zod';
@@ -24,7 +23,7 @@ import {
 } from '@/applicant/hooks/useUserData';
 import { useLocationsList } from '@/authenticated/hooks/useLocationsList';
 import { UIMultiSelect } from '@/common/components/UIMultiSelect';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
@@ -41,7 +40,6 @@ import {
 import { capitalizeFirstLetter } from '@/utils/utils';
 
 import WaitingForMatch from './WaitingForMatch';
-import { Button } from '@/components/ui/button';
 
 function PreferenceForm() {
   const { applicant_user: user } = useUserData();
