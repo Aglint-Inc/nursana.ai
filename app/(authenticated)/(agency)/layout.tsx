@@ -3,16 +3,14 @@ import type { PropsWithChildren } from 'react';
 import { api, HydrateClient } from 'trpc/server';
 
 import { AgencyEditProvider } from '@/agency/hooks/useAgencyEdit';
-import type { Routes } from '@/agency/types';
+import type { PageProps } from '@/agency/types';
 import { AppSidebar } from '@/components/sidebar/app-sidebar';
-import { SidebarProvider } from '@/components/ui/sidebar';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
-const Layout = (props: PropsWithChildren<Routes>) => {
+const Layout = (props: PropsWithChildren<PageProps>) => {
   unstable_noStore();
   void api.authenticated.agency.read.prefetch();
   void api.authenticated.agency.user.prefetch();
-  void api.authenticated.agency.templates.read.prefetch();
-  void api.authenticated.agency.read.prefetch();
   return (
     <HydrateClient>
       <AgencyEditProvider>
@@ -23,8 +21,8 @@ const Layout = (props: PropsWithChildren<Routes>) => {
             } as React.CSSProperties
           }
         >
-          <AppSidebar secondarySidebar={props.subNavigation} />
-          {props.children}
+          <AppSidebar secondarySidebar={props.navigation} />
+          <SidebarInset>{props.children}</SidebarInset>
         </SidebarProvider>
       </AgencyEditProvider>
     </HydrateClient>

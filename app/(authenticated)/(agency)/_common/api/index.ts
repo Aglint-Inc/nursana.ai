@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { campaigns } from '@/campaigns/api';
+import { interviews } from '@/interviews/api';
 import { createTRPCRouter } from '@/server/api/trpc';
 import { templates } from '@/templates/api';
 
@@ -14,4 +15,5 @@ export const agency = createTRPCRouter({
   user,
   campaigns,
   templates,
+  interviews,
 });
