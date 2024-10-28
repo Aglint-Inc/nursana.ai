@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useUserData } from '@/applicant/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 
+import ResumeCard from './DashboardResumeCard';
 import RadialProgress from './RadialProgress';
 
 function UserLanding() {
@@ -153,6 +154,11 @@ function UserLanding() {
             )}
           </div>
         </div>
+      </div>
+      <div className='grid grid-cols-2'>
+        <div className='flex flex-col gap-4'>
+            <ResumeCard status='completed'/>
+            </div>
       </div>
     </div>
   );
