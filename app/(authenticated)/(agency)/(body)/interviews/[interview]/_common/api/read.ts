@@ -2,17 +2,15 @@ import 'server-only';
 
 import { TRPCError } from '@trpc/server';
 
-import {
-  type AgencyProcedure,
-  agencyProcedure,
-  type ProcedureDefinition,
-} from '@/server/api/trpc';
+import { type ProcedureDefinition } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
-import { interviewRowSchema } from '@/supabase-types/zod-schema.types';
+import {
+  InterviewProcedure,
+  interviewProcedure,
+} from '@/interview/utils/interviewProcedure';
+import { z } from 'zod';
 
-const schema = interviewRowSchema.pick({ id: true });
-
-const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
+const query = async ({ ctx, input }: InterviewProcedure) => {
   const db = createPrivateClient();
   const data = (
     await db
@@ -31,6 +29,6 @@ const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
   return data;
 };
 
-export const read = agencyProcedure.input(schema).query(query);
+export const read = interviewProcedure.query(query);
 
 export type Read = ProcedureDefinition<typeof read>;
