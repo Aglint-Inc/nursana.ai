@@ -41,6 +41,7 @@ import {
 import { capitalizeFirstLetter } from '@/utils/utils';
 
 import WaitingForMatch from './WaitingForMatch';
+import { Button } from '@/components/ui/button';
 
 function PreferenceForm() {
   const { applicant_user: user } = useUserData();
@@ -99,7 +100,7 @@ function PreferenceForm() {
     <div className='flex flex-col gap-10'>
       {(!localStoragePreference || !isCompletePreferenceForm) && (
         <div className='relative w-full rounded-lg bg-muted p-6'>
-          {isCompletePreferenceForm && (
+          {/* {isCompletePreferenceForm && (
             <div className='absolute right-[-4px] top-[-4px]'>
               <XCircle
                 onClick={() => {
@@ -108,7 +109,7 @@ function PreferenceForm() {
                 className='h-5 w-5 cursor-pointer text-muted-foreground'
               />
             </div>
-          )}
+          )} */}
           <div className='flex flex-col gap-2'>
             <div className='text-xl font-medium text-yellow-600'>
               🔒 Complete Your Profile to Unlock More Job Matches!
@@ -118,21 +119,7 @@ function PreferenceForm() {
               profile now. It takes only a few minutes and will help us match
               you with the best opportunities.
             </div>
-            <Card>
-              <CardHeader className='flex flex-row items-center justify-between'>
-                <CardTitle>Preferences</CardTitle>
-                <div>
-                  <span className='text-muted-foreground'>
-                    {isSaving ? 'Saving...' : ''}
-                  </span>
-                  <p>
-                    {!isSaving && isCompletePreferenceForm
-                      ? 'Preference Complete : ✅ '
-                      : ''}
-                  </p>
-                </div>
-              </CardHeader>
-              <CardContent className='grid grid-cols-2 gap-4'>
+            <div className='grid grid-cols-2 gap-2 mt-4'>
                 <div className='col-span-2'>
                   <div>
                     <Label>Preferred Travel Preference</Label>
@@ -237,8 +224,16 @@ function PreferenceForm() {
                     />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+                {isCompletePreferenceForm && (
+            <div className='col-span-2 flex items-start'>
+              <Button onClick={() => {
+                  setLocalStoragePreference(true);
+                }}>
+                Save Preferences
+              </Button>
+            </div>
+          )}
+              </div>
           </div>
         </div>
       )}
