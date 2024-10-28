@@ -29,7 +29,6 @@ const PUBLIC_ROUTES = new RegExp(
     '^/tenant/sign-up$',
     '^/campaign(/.*)?$',
     '^/auth(?!/sign-in$)',
-    '^/applications(/.*)?$',
     '^/ui(/.*)?$',
     '^/terms$',
     ...PUBLIC_API,
@@ -37,9 +36,7 @@ const PUBLIC_ROUTES = new RegExp(
 );
 
 const AGENCY_ROUTES = new RegExp(
-  ['^/campaigns(/.*)?$', '^/applications(/.*)?$', '^/templates(/.*)?$'].join(
-    '|',
-  ),
+  ['^/campaigns(/.*)?$', '^/interviews/.+', '^/templates(/.*)?$'].join('|'),
 );
 
 const AGENCY_DEFAULT = '/campaigns';
