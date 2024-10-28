@@ -78,6 +78,16 @@ const Content = () => {
   // eslint-disable-next-line no-unused-vars
   const AiDetails: DetailType[] = [
     {
+      label: 'AI Instructions',
+      value: version.ai_instructions,
+      textArea: true,
+    },
+    {
+      label: 'Questions',
+      value: version.ai_questions,
+      textArea: true,
+    },
+    {
       label: 'AI Welcome Message',
       value: version.ai_welcome_message,
       textArea: true,
@@ -90,18 +100,6 @@ const Content = () => {
     {
       label: 'Interview Duration',
       value: version.ai_interview_duration + ' Minutes',
-    },
-
-    {
-      label: 'Questions',
-      value: version.ai_questions,
-      textArea: true,
-    },
-
-    {
-      label: 'AI Instructions',
-      value: version.ai_instructions,
-      textArea: true,
     },
   ];
 

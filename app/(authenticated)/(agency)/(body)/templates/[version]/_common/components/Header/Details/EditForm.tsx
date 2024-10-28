@@ -1,3 +1,5 @@
+import './editform.css';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { type z } from 'zod';
@@ -52,7 +54,7 @@ export const EditForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form className='tiptap_editor' onSubmit={form.handleSubmit(onSubmit)}>
         <ScrollArea className='h-[calc(100vh-120px)] w-full rounded-lg border border-border bg-muted'>
           <div className='flex flex-col gap-4 p-4 text-foreground'>
             <FormField
@@ -69,6 +71,42 @@ export const EditForm = () => {
               )}
             />
             <div className='flex w-full flex-col gap-4'>
+              <FormField
+                control={form.control}
+                name='ai_instructions'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>AI Instructions</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className='h-[200px] overflow-auto'
+                        placeholder='Enter AI Instructions'
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='ai_questions'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Questions</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className='h-[500px] overflow-auto'
+                        placeholder='Enter questions'
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name='ai_welcome_message'
@@ -122,43 +160,6 @@ export const EditForm = () => {
                             : '';
                           field.onChange(value);
                         }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name='ai_questions'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Questions</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        className='h-[500px] overflow-auto'
-                        placeholder='Enter questions'
-                        {...field}
-                        value={field.value || ''}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='ai_instructions'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>AI Instructions</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        className='h-[100px] overflow-auto'
-                        placeholder='Enter AI Instructions'
-                        {...field}
-                        value={field.value || ''}
                       />
                     </FormControl>
                     <FormMessage />
