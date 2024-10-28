@@ -1,4 +1,4 @@
-import { useCallback,useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 export function useVideoRecording() {
   const [isRecording, setIsRecording] = useState(false);
@@ -10,7 +10,10 @@ export function useVideoRecording() {
 
   const initializeCamera = useCallback(async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { width: 640, height: 480, frameRate: 24 },
+        audio: true,
+      });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
@@ -28,7 +31,10 @@ export function useVideoRecording() {
 
     try {
       const stream = videoRef.current.srcObject as MediaStream;
-      mediaRecorderRef.current = new MediaRecorder(stream);
+      mediaRecorderRef.current = new MediaRecorder(stream, {
+        mimeType: 'video/webm; codecs=vp9',
+        videoBitsPerSecond: 1000000,
+      });
       mediaRecorderRef.current.start();
       setIsRecording(true);
       mediaRecorderRef.current.ondataavailable = (event) => {

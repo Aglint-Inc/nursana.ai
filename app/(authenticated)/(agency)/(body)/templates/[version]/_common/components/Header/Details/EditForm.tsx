@@ -227,6 +227,7 @@ export const EditForm = () => {
                     <FormLabel>Candidate Overview</FormLabel>
                     <FormControl>
                       <RichTextEditor
+                        minHeight='200px'
                         placeholder='Enter Candidate Overview'
                         {...field}
                         value={field.value || ''}
@@ -248,6 +249,7 @@ export const EditForm = () => {
                     <FormLabel>Candidate Instructions</FormLabel>
                     <FormControl>
                       <RichTextEditor
+                        minHeight='200px'
                         {...field}
                         value={field.value || ''}
                         onChange={(value) => {

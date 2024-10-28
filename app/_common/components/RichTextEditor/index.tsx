@@ -13,22 +13,22 @@ const RichTextEditor = ({
   value,
   onChange,
   placeholder,
-  maxHeight = '200px',
-  minHeight = '100px',
+  // maxHeight = '200px',
+  minHeight = '200px',
   isTool = true,
 }: {
   value: string;
   // eslint-disable-next-line no-unused-vars
   onChange: (value: string) => void;
   placeholder?: string;
-  maxHeight?: string;
+  // maxHeight?: string;
   minHeight?: string;
   isTool?: boolean;
 }) => {
   const editor = useEditor({
     editorProps: {
       attributes: {
-        class: `min-h-[${minHeight}] bg-white max-h-[${maxHeight}] ${isTool ? 'rounded-tr-none rounded-tl-none border-t-0' : ''} w-full rounded-md  border border-input bg-transparent px-3   text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 overflow-auto`,
+        class: `min-h-[${minHeight}] bg-white max-h-[300px] ${isTool ? 'rounded-tr-none rounded-tl-none border-t-0' : ''} w-full rounded-md  border border-input bg-transparent px-3   text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 overflow-auto`,
       },
     },
     // ${isTool ? 'rounded-br-none rounded-bl-none' : ''}

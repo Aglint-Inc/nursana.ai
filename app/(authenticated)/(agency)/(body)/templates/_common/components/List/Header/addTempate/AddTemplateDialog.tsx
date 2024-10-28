@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { type z } from 'zod';
 
+import RichTextEditor from '@/common/components/RichTextEditor';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -95,63 +96,6 @@ const AddForm = () => {
             />
             <FormField
               control={form.control}
-              name='version.ai_interview_duration'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Interview Duration</FormLabel>
-                  <FormControl>
-                    <Input
-                      type='number'
-                      placeholder='Enter interview duration'
-                      {...field}
-                      onChange={(e) => {
-                        const value = e.target.value
-                          ? parseFloat(e.target.value)
-                          : '';
-                        field.onChange(value);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='version.candidate_intro_video_cover_image_url'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Video cover image url</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='Enter cover image url'
-                      {...field}
-                      value={field.value || ''}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='version.candidate_intro_video_url'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Video url</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='Enter video url '
-                      {...field}
-                      value={field.value || ''}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name='version.ai_welcome_message'
               render={({ field }) => (
                 <FormItem>
@@ -188,6 +132,30 @@ const AddForm = () => {
             />
             <FormField
               control={form.control}
+              name='version.ai_interview_duration'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Interview Duration</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='number'
+                      placeholder='Enter interview duration'
+                      {...field}
+                      onChange={(e) => {
+                        const value = e.target.value
+                          ? parseFloat(e.target.value)
+                          : '';
+                        field.onChange(value);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name='version.ai_questions'
               render={({ field }) => (
                 <FormItem>
@@ -222,10 +190,7 @@ const AddForm = () => {
                 </FormItem>
               )}
             />
-          </div>
 
-          <div className='mb-2 mt-4 text-lg'>Candidate details</div>
-          <div className='mx-auto flex flex-col gap-4 px-2 pb-2'>
             <FormField
               control={form.control}
               name='version.candidate_estimated_time'
@@ -243,6 +208,46 @@ const AddForm = () => {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name='version.candidate_intro_video_cover_image_url'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Video cover image url</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder='Enter cover image url'
+                      {...field}
+                      value={field.value || ''}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='version.candidate_intro_video_url'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Video url</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder='Enter video url '
+                      {...field}
+                      value={field.value || ''}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className='mb-2 mt-4 text-lg'>Candidate details</div>
+          <div className='mx-auto flex flex-col gap-4 px-2 pb-2'>
             <FormField
               control={form.control}
               name='version.candidate_overview'
@@ -250,11 +255,14 @@ const AddForm = () => {
                 <FormItem>
                   <FormLabel>Candidate Overview</FormLabel>
                   <FormControl>
-                    <Textarea
-                      className='min-h-[150px]'
+                    <RichTextEditor
+                      minHeight='200px'
                       placeholder='Enter Candidate Overview'
                       {...field}
                       value={field.value || ''}
+                      onChange={(value) => {
+                        field.onChange(value);
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -268,11 +276,14 @@ const AddForm = () => {
                 <FormItem>
                   <FormLabel>Candidate Instructions</FormLabel>
                   <FormControl>
-                    <Textarea
-                      className='min-h-[150px]'
+                    <RichTextEditor
+                      minHeight='200px'
                       placeholder='Enter Candidate Instructions'
                       {...field}
                       value={field.value || ''}
+                      onChange={(value) => {
+                        field.onChange(value);
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
