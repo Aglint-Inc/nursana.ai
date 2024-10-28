@@ -1,15 +1,14 @@
+import axios from 'axios';
 import { TriangleAlert, TvMinimalPlay } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 
+import { useUserDataQuery } from '@/applicant/hooks/useUserData';
 import { Loader } from '@/common/components/Loader';
 import { Button } from '@/components/ui/button';
+import { type Database } from '@/supabase-types/database.types';
 
 import RadialProgress from './RadialProgress';
-import { Database } from '@/supabase-types/database.types';
-import axios from 'axios';
-import { useState } from 'react';
-import { useUserDataQuery } from '@/applicant/hooks/useUserData';
-type Status = 'in_progress' | 'completed' | 'error' | '';
 type ResumeCardProps = {
   interviewDetails: Database['public']['Tables']['interview']['Row'] | null;
   analysis: Database['public']['Tables']['interview_analysis']['Row'] | null;

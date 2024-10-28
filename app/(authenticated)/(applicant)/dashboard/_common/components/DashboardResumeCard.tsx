@@ -30,7 +30,7 @@ function ResumeCard({ resumeDetails }: ResumeCardProps) {
   const resumeScore = resumeFeedback?.overallScore || 0;
   const { refetch, isFetching: isUserDetailsFetching } = useUserDataQuery();
 
-  const { resume, analysis, interview, applicant_user } = useUserData();
+  const { resume, applicant_user } = useUserData();
   const { mutateAsync: upload, isPending: resumeUploadingPending } =
     api.uploadResume.useMutation({
       onSuccess: () => {
@@ -167,6 +167,7 @@ function ResumeCard({ resumeDetails }: ResumeCardProps) {
                 </div>
               )}
               {!resumeFile && !resumeDetails?.file_url && (
+                // eslint-disable-next-line jsx-a11y/label-has-associated-control
                 <label htmlFor='resume-file' className='cursor-pointer'>
                   <input
                     id='resume-file'
