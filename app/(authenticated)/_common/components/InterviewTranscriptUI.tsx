@@ -11,12 +11,12 @@ interface Message {
 }
 
 export const InterviewTranscriptUI = ({
-  isPending,
+  isPending = false,
   audioUrl,
   videoUrl,
   transcript,
 }: {
-  isPending: boolean;
+  isPending?: boolean;
   audioUrl: string;
   videoUrl: string;
   transcript: Message[] | null;
