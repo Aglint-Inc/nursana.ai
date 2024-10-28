@@ -55,7 +55,7 @@ export async function POST(
         failed_reason: 'NO_REPLY' | 'PREMATURELY_CALL_ENDED';
       }
     | undefined;
-  if (duration_minutes < 5) {
+  if (duration_minutes < 2) {
     structured_analysis = {
       parsed: false,
       failed_reason: 'PREMATURELY_CALL_ENDED',
@@ -101,11 +101,10 @@ export async function POST(
     setInterviewAnalysis(supabase, interview_analysis_id, {
       audio_url: audioFileUrl,
       call_analysis,
-      transcript_json:
-        transcript_object?.map((item) => ({
-          role: item.role,
-          content: item.content,
-        })) || [],
+      transcript_json: transcript_object?.map((item) => ({
+        role: item.role,
+        content: item.content,
+      })),
       structured_analysis,
     });
     return NextResponse.json({
