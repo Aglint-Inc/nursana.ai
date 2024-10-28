@@ -1,18 +1,10 @@
 'use client';
 
 import { useUserData } from '@/applicant/hooks/useUserData';
-
 import {
   InterviewHomeUI,
-  UserLandingProps,
+  type UserLandingProps,
 } from '@/authenticated/components/InterviewHomeUI';
-
-type ScoreType = {
-  name: string;
-  value: any;
-  fill: string;
-  path: string;
-};
 
 function UserLanding() {
   const {
@@ -21,7 +13,6 @@ function UserLanding() {
     analysis,
     interview: interviewData,
   } = useUserData();
-  const { overallScore } = resume?.resume_feedback || {};
 
   const interviewScore =
     (analysis && analysis.structured_analysis?.overall_score) || 0;

@@ -14,17 +14,19 @@ const query = async ({ ctx, input }: InterviewProcedure) => {
   const data = (
     await db
       .from('interview')
-      .select()
+      .select(
+        'applicant_user!interview_applicant_id_fkey!inner(resume!resume_applicant_id_fkey!inner(*))',
+      )
       .eq('id', input.id)
       .eq('agency_id', ctx.agency.id)
       .single()
       .throwOnError()
   ).data;
   if (!data)
-    throw new TRPCError({ code: 'NOT_FOUND', message: 'Interview not found' });
-  return data;
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'Resume not found' });
+  return data.applicant_user.resume;
 };
 
-export const read = interviewProcedure.query(query);
+export const resume = interviewProcedure.query(query);
 
-export type Read = ProcedureDefinition<typeof read>;
+export type Resume = ProcedureDefinition<typeof resume>;

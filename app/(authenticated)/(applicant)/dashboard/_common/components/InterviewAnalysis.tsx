@@ -2,8 +2,8 @@
 import { Sparkles } from 'lucide-react';
 
 import { useUserData } from '@/applicant/hooks/useUserData';
-
 import { InterviewAnalysisUI } from '@/authenticated/components/InterviewAbalysisUI';
+
 import NotAvailable from './NotAvailable';
 
 export function InterviewAnalysis() {

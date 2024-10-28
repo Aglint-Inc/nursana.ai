@@ -1,29 +1,29 @@
 import {
   InterviewHomeUI,
-  UserLandingProps,
+  type UserLandingProps,
 } from '@/authenticated/components/InterviewHomeUI';
 import { useInterview } from '@/interview/hooks/useInterview';
+import { useInterviewAnalysis } from '@/interview/hooks/useInterviewAnalysis';
+import { useInterviewApplicant } from '@/interview/hooks/useInterviewApplicant';
+import { useInterviewResume } from '@/interview/hooks/useInterviewResume';
 
 export const Home = () => {
-  const {
-    applicant,
-    interview_analysis,
-    resume,
-    interview: interviewData,
-  } = useInterview();
+  const { first_name } = useInterviewApplicant();
 
-  const first_name = applicant.first_name;
+  const { structured_analysis } = useInterviewAnalysis();
 
-  const interviewScore =
-    (interview_analysis &&
-      interview_analysis.structured_analysis?.overall_score) ||
-    0;
-  const resumeScore = resume?.resume_feedback?.overallScore || 0;
+  const { resume_feedback } = useInterviewResume();
+
+  const { id, interview_stage, updated_at } = useInterview();
+
+  const interviewScore = structured_analysis?.overall_score || 0;
+
+  const resumeScore = resume_feedback?.overallScore || 0;
 
   const interview: UserLandingProps['interview'] = {
-    id: interviewData?.id || '',
-    stage: interviewData?.interview_stage || '',
-    updated_at: interviewData?.updated_at || '',
+    id,
+    stage: interview_stage || '',
+    updated_at: updated_at || '',
   };
 
   return (

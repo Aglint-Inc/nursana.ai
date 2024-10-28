@@ -1,7 +1,3 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
-import RadialProgress from '@/dashboard/components/RadialProgress';
 import {
   Brain,
   ExternalLink,
@@ -13,6 +9,11 @@ import {
   Zap,
 } from 'lucide-react';
 import Link from 'next/link';
+
+import { Card, CardContent } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
+import RadialProgress from '@/dashboard/components/RadialProgress';
 
 export const InterviewAnalysisUI = ({ analysis }: { analysis: any }) => {
   const chartData = [
