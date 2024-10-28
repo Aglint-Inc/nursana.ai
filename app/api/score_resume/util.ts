@@ -413,6 +413,8 @@ export const schema = z.object({
   ),
 });
 export type schemaType = z.infer<typeof schema>;
+export type ResumeStructureType = z.infer<typeof schema>;
+
 export type scoringSchemaType = {
   [key in (typeof scoringAspects)[number]]: z.infer<
     (typeof scoringAspectsSchema)[key]

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { campaignUser } from 'app/campaign/_common/api';
+import { uploadResume } from 'app/campaign/_common/api/uploadCandidateResume';
 
 import { authenticated } from '@/authenticated/api';
 
@@ -30,6 +31,7 @@ export const appRouter = createTRPCRouter({
   campaign_user: campaignUser,
   getLocationList,
   interviewFeedback,
+  uploadResume,
 });
 
 // export type definition of API
