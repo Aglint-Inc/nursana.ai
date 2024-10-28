@@ -203,7 +203,7 @@ export const AddForm = () => {
           <ScrollBar />
         </ScrollArea>
         <div className='mt-3 flex justify-end gap-2'>
-          <Button variant={'secondary'} size={'sm'}>
+          <Button variant={'secondary'} type='button' size={'sm'}>
             Cancel
           </Button>
           <Button type='submit' size={'sm'} disabled={isPending}>

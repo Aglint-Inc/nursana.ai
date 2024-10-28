@@ -39,7 +39,7 @@ const schema = versionUpdateSchema.pick({
 export const EditForm = () => {
   const version = useVersion();
 
-  const { isPending, mutate } = useDetails();
+  const { isPending, mutate, setMode } = useDetails();
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -267,7 +267,12 @@ export const EditForm = () => {
           <ScrollBar />
         </ScrollArea>
         <div className='mt-3 flex justify-end gap-2'>
-          <Button variant={'secondary'} size={'sm'}>
+          <Button
+            variant={'secondary'}
+            type='button'
+            onClick={() => setMode('view')}
+            size={'sm'}
+          >
             Cancel
           </Button>
           <Button type='submit' size={'sm'} disabled={isPending}>
