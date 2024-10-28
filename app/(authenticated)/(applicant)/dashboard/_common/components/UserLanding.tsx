@@ -159,13 +159,11 @@ function UserLanding() {
       <div className='grid grid-cols-2 w-full gap-4'>
       <div className='flex flex-col gap-6'>
             <InterviewCard status='completed' interviewScore={InterviewScore}/>
-            <InterviewCard status='analysing' interviewScore={InterviewScore}/>
-            <InterviewCard status='start' interviewScore={InterviewScore}/>
+           
         </div>
         <div className='flex flex-col gap-6'>
             <ResumeCard status='completed' resumeScore={ResumeScore}/>
-            <ResumeCard status='inProgress'/>
-            <ResumeCard status='reupload'/>
+           
         </div>
         <div>
 
