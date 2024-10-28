@@ -15,12 +15,12 @@ import { Button } from '@/components/ui/button';
 import { useVideoRecording } from '@/hooks/useVideoRecording';
 import { supabase } from '@/utils/supabase/client';
 
-import AllowCameraPermission from './allow-camera-permission';
 import Footer from './footer';
 import InterviewConversations from './interview-conversations';
 import InterviewRecording from './interview-recording';
 import MultiStepLoader from './multi-step.loader';
 import NursanaLogo from './nursana-logo';
+import Retry from './Retry';
 
 interface InterviewProps {
   interviewId: string;
@@ -259,7 +259,7 @@ export default function Interview({
   // }, []);
 
   if (videoError || error) {
-    return <AllowCameraPermission />;
+    return <Retry />;
   }
 
   return (
