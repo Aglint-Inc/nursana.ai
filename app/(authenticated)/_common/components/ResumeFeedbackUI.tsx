@@ -1,11 +1,12 @@
+import { ExternalLink, FileText, Lightbulb, Notebook } from 'lucide-react';
+import Link from 'next/link';
+
 import { Card, CardContent } from '@/components/ui/card';
 import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
-import { FeedbackData } from '@/dashboard/components/ResumeFeedback';
-import { Database } from '@/supabase-types/database.types';
-import { ExternalLink, FileText, Lightbulb, Notebook } from 'lucide-react';
-import Link from 'next/link';
+import { type FeedbackData } from '@/dashboard/components/ResumeFeedback';
+import { type Database } from '@/supabase-types/database.types';
 
 export const ResumeFeedbackUI = ({
   resume,

@@ -14,17 +14,22 @@ const query = async ({ ctx, input }: InterviewProcedure) => {
   const data = (
     await db
       .from('interview')
-      .select()
+      .select(
+        'interview_analysis!interview_analysis_interview_id_fkey!inner(*)',
+      )
       .eq('id', input.id)
       .eq('agency_id', ctx.agency.id)
       .single()
       .throwOnError()
   ).data;
   if (!data)
-    throw new TRPCError({ code: 'NOT_FOUND', message: 'Interview not found' });
-  return data;
+    throw new TRPCError({
+      code: 'NOT_FOUND',
+      message: 'Analysis not found',
+    });
+  return data.interview_analysis;
 };
 
-export const read = interviewProcedure.query(query);
+export const analysis = interviewProcedure.query(query);
 
-export type Read = ProcedureDefinition<typeof read>;
+export type Analysis = ProcedureDefinition<typeof analysis>;

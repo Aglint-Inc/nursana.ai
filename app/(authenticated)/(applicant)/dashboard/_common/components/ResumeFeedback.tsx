@@ -1,7 +1,6 @@
 'use client';
 
 import { useUserData } from '@/applicant/hooks/useUserData';
-
 import { ResumeFeedbackUI } from '@/authenticated/components/ResumeFeedbackUI';
 
 export interface FeedbackData {
@@ -28,7 +27,6 @@ export interface FeedbackData {
 
 export function ResumeFeedback() {
   const { resume } = useUserData();
-  const userData = useUserData();
 
   return <ResumeFeedbackUI resume={resume} />;
 }

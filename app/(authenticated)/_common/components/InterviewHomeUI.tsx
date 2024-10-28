@@ -1,8 +1,9 @@
-import { Button } from '@/components/ui/button';
-import RadialProgress from '@/dashboard/components/RadialProgress';
-import { Database } from '@/supabase-types/database.types';
 import { FileCheck, TvMinimalPlay } from 'lucide-react';
 import Link from 'next/link';
+
+import { Button } from '@/components/ui/button';
+import RadialProgress from '@/dashboard/components/RadialProgress';
+import { type Database } from '@/supabase-types/database.types';
 
 export const InterviewHomeUI = ({
   first_name,

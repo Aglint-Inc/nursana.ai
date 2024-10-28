@@ -2,12 +2,14 @@ import { api } from 'trpc/client';
 
 import { useCurrentInterview } from './useCurrentInterview';
 
-export const useInterview = () => {
+export const useInterviewAnalysis = () => {
   const { interview } = useCurrentInterview();
-  return api.authenticated.agency.interviews.interview.read.useSuspenseQuery(
+  return api.authenticated.agency.interviews.interview.analysis.useSuspenseQuery(
     {
       id: interview,
     },
-    { refetchOnMount: false },
+    {
+      refetchOnMount: false,
+    },
   )[0];
 };

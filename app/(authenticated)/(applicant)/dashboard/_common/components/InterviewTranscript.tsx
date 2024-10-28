@@ -1,14 +1,11 @@
 'use client';
-import { Sparkle, TvMinimalPlay, User } from 'lucide-react';
+import { TvMinimalPlay } from 'lucide-react';
 
 import { useUserData } from '@/applicant/hooks/useUserData';
-import { Loader } from '@/common/components/Loader';
-import { VideoPlayer } from '@/common/components/VideoPlayer';
-import { Card, CardContent } from '@/components/ui/card';
+import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscriptUI';
 import { useBucket } from '@/hooks/use-bucket';
 
 import NotAvailable from './NotAvailable';
-import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscriptUI';
 
 interface Message {
   role: 'agent' | 'user';

@@ -1,7 +1,8 @@
+import { Sparkle, User } from 'lucide-react';
+
 import { Loader } from '@/common/components/Loader';
 import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { Card, CardContent } from '@/components/ui/card';
-import { Sparkle, User } from 'lucide-react';
 
 interface Message {
   role: 'agent' | 'user';
