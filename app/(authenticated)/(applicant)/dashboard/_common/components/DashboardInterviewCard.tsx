@@ -1,11 +1,11 @@
+import { TvMinimalPlay } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
 
+import { Loader } from '@/common/components/Loader';
 import { Button } from '@/components/ui/button';
 
 import RadialProgress from './RadialProgress';
-import { FileCheck, TvMinimalPlay } from 'lucide-react';
-import { Loader } from '@/common/components/Loader';
-import Link from 'next/link';
 
 type ResumeCardProps = {
   status: 'start' | 'completed' | 'analysing';
@@ -23,7 +23,7 @@ function InterviewCard({ status, interviewScore = [] }: ResumeCardProps) {
       {status === 'start' && (
         <div className='w-full rounded-lg border border-border p-6'>
           <div className='grid grid-cols-1'>
-            <div className='flex h-full flex-col justify-between gap-4 min-h-[230px]'>
+            <div className='flex h-full min-h-[230px] flex-col justify-between gap-4'>
               <div className='flex flex-col gap-2'>
                 <div className='flex h-14 w-14 items-center justify-center rounded-lg bg-purple-50'>
                   <TvMinimalPlay
@@ -43,7 +43,7 @@ function InterviewCard({ status, interviewScore = [] }: ResumeCardProps) {
         </div>
       )}
       {status === 'completed' && (
-        <div className='w-full rounded-lg border border-border p-6 flex flex-col gap-8 min-h-[230px] justify-between'>
+        <div className='flex min-h-[230px] w-full flex-col justify-between gap-8 rounded-lg border border-border p-6'>
           <div className='grid grid-cols-2'>
             <div className='flex h-full flex-col justify-between'>
               <div className='flex flex-col gap-2'>
@@ -55,26 +55,25 @@ function InterviewCard({ status, interviewScore = [] }: ResumeCardProps) {
                 </div>
                 <p className='text-lg font-medium'>Interview Completed</p>
               </div>
-           
             </div>
 
             {interviewScore && (
-                <div className='relative'>
-                    <div className='absolute top-[-40px] left-[-10px]'>
-              <RadialProgress chartData={interviewScore} size={200} />
-              </div>
+              <div className='relative'>
+                <div className='absolute left-[-10px] top-[-40px]'>
+                  <RadialProgress chartData={interviewScore} size={200} />
+                </div>
               </div>
             )}
           </div>
           <Link href={'/interview-feedback'} className='w-full'>
-          <Button className='w-full'>View Detail</Button>
+            <Button className='w-full'>View Detail</Button>
           </Link>
         </div>
       )}
       {status === 'analysing' && (
         <div className='w-full rounded-lg border border-border p-6'>
           <div className='grid grid-cols-1'>
-            <div className='flex h-full flex-col justify-between gap-4 min-h-[230px]'>
+            <div className='flex h-full min-h-[230px] flex-col justify-between gap-4'>
               <div className='flex flex-col gap-2'>
                 <div className='flex h-14 w-14 items-center justify-center rounded-lg bg-blue-50'>
                   <Loader size={20} className='text-blue-600' />
