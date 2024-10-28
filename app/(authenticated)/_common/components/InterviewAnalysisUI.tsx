@@ -4,6 +4,7 @@ import {
   Lightbulb,
   MessageCircle,
   Puzzle,
+  Sparkles,
   TvMinimalPlay,
   UserCheck,
   Zap,
@@ -12,14 +13,26 @@ import Link from 'next/link';
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
 
 export const InterviewAnalysisUI = ({ analysis }: { analysis: any }) => {
+  if (!analysis)
+    return (
+      <>
+        <NotAvailable
+          heading='Data temporarily unavailable'
+          description='We’re currently analyzing the data. Please check back in a little while for updated information.'
+          Icon={Sparkles}
+        />
+      </>
+    );
+
   const chartData = [
     {
       name: 'Score',
-      value: analysis.overall_score,
+      value: analysis.overall_score ?? 0,
       fill: '#8b5cf6',
       path: '#ddd6fe',
     },

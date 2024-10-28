@@ -1,7 +1,6 @@
 import { Sparkle, TvMinimalPlay, User } from 'lucide-react';
+import React from 'react';
 
-import { Loader } from '@/common/components/Loader';
-import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { Card, CardContent } from '@/components/ui/card';
 import NotAvailable from '@/dashboard/components/NotAvailable';
 
@@ -11,14 +10,10 @@ interface Message {
 }
 
 export const InterviewTranscriptUI = ({
-  isPending = false,
-  audioUrl,
-  videoUrl,
+  videoPlayerComponent,
   transcript,
 }: {
-  isPending?: boolean;
-  audioUrl: string;
-  videoUrl: string;
+  videoPlayerComponent: React.ReactNode;
   transcript: Message[] | null;
 }) => {
   if (!transcript || transcript.length === 0) {
@@ -33,24 +28,10 @@ export const InterviewTranscriptUI = ({
 
   return (
     <div className='min-h-[calc(100vh-164px)]'>
-      <div className='mb-6 text-xl font-medium'>Interview & Transcript</div>
+      <div className='mb-6 text-xl font-medium'>Intperview & Transcript</div>
       <div className='flex flex-col gap-12'>
         <Card className='overflow-hidden border-none bg-secondary shadow-none'>
-          <CardContent className='p-0'>
-            {isPending ? (
-              <>
-                <div className='h-[516px]'>
-                  <Loader />
-                </div>
-              </>
-            ) : (
-              <VideoPlayer
-                // videoUrl={userData.analysis?.video_url ?? ''}
-                videoUrl={videoUrl || ''}
-                audioUrl={audioUrl || ''}
-              />
-            )}
-          </CardContent>
+          <CardContent className='p-0'>{videoPlayerComponent}</CardContent>
         </Card>
 
         <div className='flex flex-col gap-6'>

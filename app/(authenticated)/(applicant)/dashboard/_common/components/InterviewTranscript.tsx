@@ -2,6 +2,7 @@
 
 import { useUserData } from '@/applicant/hooks/useUserData';
 import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscriptUI';
+import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { useBucket } from '@/hooks/use-bucket';
 
 interface Message {
@@ -45,10 +46,19 @@ export function InterviewTranscript() {
 
   return (
     <InterviewTranscriptUI
-      isPending={isPending}
       transcript={transcript}
-      audioUrl={audioUrl || ''}
-      videoUrl={videoUrl || ''}
+      // audioUrl={audioUrl || ''}
+
+      // videoUrl={videoUrl || ''}
+      videoPlayerComponent={
+        <>
+          {isPending ? (
+            <>Loading</>
+          ) : (
+            <VideoPlayer audioUrl={audioUrl || ''} videoUrl={videoUrl || ''} />
+          )}
+        </>
+      }
     />
   );
 }

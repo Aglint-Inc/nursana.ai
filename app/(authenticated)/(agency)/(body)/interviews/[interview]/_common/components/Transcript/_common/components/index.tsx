@@ -1,6 +1,17 @@
+// import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
+
+import { Sparkles } from 'lucide-react';
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+
 import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscriptUI';
+import { Loader } from '@/common/components/Loader';
+import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import NotAvailable from '@/dashboard/components/NotAvailable';
 import { useInterviewAnalysis } from '@/interview/hooks/useInterviewAnalysis';
+import { useInterviewInterviewAudio } from '@/interview/hooks/useInterviewAudio';
+import { useInterviewInterviewVideo } from '@/interview/hooks/useInterviewVideo';
 
 interface Message {
   role: 'agent' | 'user';
@@ -22,7 +33,7 @@ function isMessageArray(arr: any): arr is Message[] {
 }
 
 export const Transcript = () => {
-  const { audio_url, video_url, transcript_json } = useInterviewAnalysis();
+  const { transcript_json } = useInterviewAnalysis();
   const transcript: Message[] | null =
     transcript_json && isMessageArray(transcript_json) ? transcript_json : null;
 
@@ -31,10 +42,37 @@ export const Transcript = () => {
       <ScrollArea className='mx-auto h-[800px] max-w-5xl'>
         <InterviewTranscriptUI
           transcript={transcript}
-          audioUrl={audio_url || ''}
-          videoUrl={video_url || ''}
+          videoPlayerComponent={
+            <ErrorBoundary
+              fallback={
+                <>
+                  <NotAvailable
+                    heading='Video is not available'
+                    description='Please check back in a little while for updated information.'
+                    Icon={Sparkles}
+                  />
+                </>
+              }
+            >
+              <Suspense
+                fallback={
+                  <div className='h-[516px]'>
+                    <Loader />
+                  </div>
+                }
+              >
+                <Video />
+              </Suspense>
+            </ErrorBoundary>
+          }
         />
       </ScrollArea>
     </div>
   );
+};
+
+const Video = () => {
+  const video_url = useInterviewInterviewVideo();
+  const audio_url = useInterviewInterviewAudio();
+  return <VideoPlayer videoUrl={video_url || ''} audioUrl={audio_url || ''} />;
 };
