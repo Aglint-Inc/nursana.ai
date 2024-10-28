@@ -17,7 +17,7 @@ type ResumeCardProps = {
 function InterviewCard({ interviewDetails, analysis }: ResumeCardProps) {
   const { refetch, isFetching: isUserDetailsFetching } = useUserDataQuery();
 
-  const interviewScore = 0;
+  const interviewScore = analysis?.structured_analysis?.overall_score || 0;
   const interviewAnalysis = analysis?.structured_analysis;
   const [interviewFeedbackFetching, setInterviewFeedbackFetching] =
     useState<boolean>(false);
