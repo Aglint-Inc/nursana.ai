@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 
 import ResumeCard from './DashboardResumeCard';
 import RadialProgress from './RadialProgress';
+import InterviewCard from './DashboardInterviewCard';
 
 function UserLanding() {
   const { applicant_user, resume, analysis, interview } = useUserData();
@@ -31,7 +32,7 @@ function UserLanding() {
   ];
 
   return (
-    <div className='flex h-[85vh] flex-col items-center justify-center gap-10'>
+    <div className='flex h-[85vh] overflow-auto flex-col items-center justify-center gap-10'>
       <div className='flex flex-col items-center gap-2'>
         <div className='flex items-center gap-2 text-center text-3xl font-medium'>
           <div className='text-purple-700'>
@@ -155,10 +156,20 @@ function UserLanding() {
           </div>
         </div>
       </div>
-      <div className='grid grid-cols-2'>
-        <div className='flex flex-col gap-4'>
-            <ResumeCard status='completed'/>
-            </div>
+      <div className='grid grid-cols-2 w-full gap-4'>
+      <div className='flex flex-col gap-6'>
+            <InterviewCard status='completed' interviewScore={InterviewScore}/>
+            <InterviewCard status='analysing' interviewScore={InterviewScore}/>
+            <InterviewCard status='start' interviewScore={InterviewScore}/>
+        </div>
+        <div className='flex flex-col gap-6'>
+            <ResumeCard status='completed' resumeScore={ResumeScore}/>
+            <ResumeCard status='inProgress'/>
+            <ResumeCard status='reupload'/>
+        </div>
+        <div>
+
+        </div>
       </div>
     </div>
   );

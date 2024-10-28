@@ -67,7 +67,7 @@ const RadialProgress: React.FC<RadialProgressProps> = ({
               fill: chartData[0].fill,
               fontSize: '24px',
               fontWeight: 'bold',
-            }} // Dynamically use the fill color from chartData
+            }} 
           >
             {chartData[0].value && chartData[0].value.toFixed(1)}
           </text>
