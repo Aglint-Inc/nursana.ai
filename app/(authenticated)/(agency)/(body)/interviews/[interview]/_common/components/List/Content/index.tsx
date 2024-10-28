@@ -3,6 +3,7 @@ import {
   SidebarGroup,
   SidebarGroupContent,
 } from '@/components/ui/sidebar';
+import { PATHS } from '@/interview/constants/paths';
 
 import { Card } from './Card';
 
@@ -21,10 +22,9 @@ export const Content = () => {
 const List = () => {
   return (
     <>
-      <Card path='home' />
-      <Card path='resume' />
-      <Card path='transcript' />
-      <Card path='review' />
+      {PATHS.map((path) => (
+        <Card key={path} path={path} />
+      ))}
     </>
   );
 };

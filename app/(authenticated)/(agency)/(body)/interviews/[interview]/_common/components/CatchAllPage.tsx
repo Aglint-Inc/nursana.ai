@@ -2,8 +2,8 @@
 
 import { usePathname } from 'next/navigation';
 
+import { Page as FeedbackPage } from '@/interview/components/Feedback/Page';
 import { Page as ResumePage } from '@/interview/components/Resume/Page';
-import { Page as ReviewPage } from '@/interview/components/Review/Page';
 import { Page as TranscriptPage } from '@/interview/components/Transcript/Page';
 import { getInterviewCatchAllPath } from '@/interview/utils/getInterviewCatchAllPath';
 
@@ -13,8 +13,8 @@ export const CatchAllPage = () => {
   switch (path) {
     case 'resume':
       return <ResumePage />;
-    case 'review':
-      return <ReviewPage />;
+    case 'feedback':
+      return <FeedbackPage />;
     case 'transcript':
       return <TranscriptPage />;
     default:

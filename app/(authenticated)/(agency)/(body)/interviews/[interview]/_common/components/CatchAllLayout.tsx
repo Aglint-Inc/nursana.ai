@@ -11,7 +11,7 @@ export const CatchAllLayout = (props: PropsWithChildren<PageProps>) => {
   switch (path) {
     case 'resume':
       break;
-    case 'review':
+    case 'feedback':
       break;
     case 'transcript':
       break;
