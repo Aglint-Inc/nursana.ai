@@ -1,3 +1,4 @@
+import parse from 'html-react-parser';
 import { FilePenLine, X } from 'lucide-react';
 import { type PropsWithChildren } from 'react';
 
@@ -77,19 +78,7 @@ const Content = () => {
   // eslint-disable-next-line no-unused-vars
   const AiDetails: DetailType[] = [
     {
-      label: 'Interview Duration',
-      value: version.ai_interview_duration + ' Minutes',
-    },
-    {
-      label: 'Video cover image url',
-      value: version.candidate_intro_video_cover_image_url,
-    },
-    {
-      label: 'Video url',
-      value: version.candidate_intro_video_url,
-    },
-    {
-      label: 'Welcome Message',
+      label: 'AI Welcome Message',
       value: version.ai_welcome_message,
       textArea: true,
     },
@@ -97,6 +86,10 @@ const Content = () => {
       label: 'AI Ending Message',
       value: version.ai_ending_message,
       textArea: true,
+    },
+    {
+      label: 'Interview Duration',
+      value: version.ai_interview_duration + ' Minutes',
     },
 
     {
@@ -116,6 +109,14 @@ const Content = () => {
     {
       label: 'Candidate Estimated Time',
       value: version.candidate_estimated_time,
+    },
+    {
+      label: 'Video cover image url',
+      value: version.candidate_intro_video_cover_image_url,
+    },
+    {
+      label: 'Video url',
+      value: version.candidate_intro_video_url,
     },
     {
       label: 'Candidate Overview',
@@ -154,7 +155,7 @@ const Detail = ({ label, value, textArea = false }: DetailType) => {
       <p className='mb-2 text-sm font-normal'>{label}</p>
       {textArea ? (
         <div className='min-h-32 overflow-auto whitespace-pre-wrap rounded-lg bg-muted p-4 text-base text-foreground'>
-          {value}
+          {parse(value as string)}
         </div>
       ) : (
         <div className='text-base text-foreground'>{value}</div>
