@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import {
   ChevronsUpDown,
   Command,
@@ -14,6 +15,7 @@ import React, { type ReactNode } from 'react';
 
 import { EditAgencyDialog } from '@/agency/components/EditDialog';
 import { useAgencyEdit } from '@/agency/hooks/useAgencyEdit';
+import { useLogout } from '@/authenticated/hooks/useLogout';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -161,6 +163,8 @@ function NavUser({
 }) {
   const { isMobile } = useSidebar();
   const { setIsOpen } = useAgencyEdit();
+  const queryClient = useQueryClient();
+  const { logout } = useLogout();
 
   return (
     <>
@@ -207,7 +211,7 @@ function NavUser({
                   Edit
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => logout(queryClient)}>
                 <div className='flex w-full cursor-pointer items-center gap-2'>
                   <LogOut size={'14'} />
                   Log out
