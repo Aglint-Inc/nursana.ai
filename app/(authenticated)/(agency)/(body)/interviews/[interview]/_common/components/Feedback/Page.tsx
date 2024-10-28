@@ -1,8 +1,7 @@
 'use client';
 
-import { useInterview } from '@/interview/hooks/useInterview';
+import { Feedback } from './_common/components';
 
 export const Page = () => {
-  const { id } = useInterview();
-  return <div>Feedback for interview:{id}</div>;
+  return <Feedback />;
 };
