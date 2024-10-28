@@ -12,7 +12,7 @@ export async function processResumeToJson(resume_text: string) {
           `${json_resume?.basics?.location.city}, ${json_resume?.basics?.location.state}, ${json_resume?.basics?.location.country}`,
         );
       } catch (e) {
-        console.warn('Warning: Error in getting geolocation.', e);
+        console.error('Warning: Error in getting geolocation.', e);
       }
     }
     const geoDataAndExp = {

@@ -9,7 +9,8 @@ import { cn } from '@/utils/cn';
 
 import { removeUnderscore } from './removeUnderscore';
 
-export const getFilterFields = (data: ColumnSchema[]) =>
+// export const getFilterFields = (data: ColumnSchema[]) =>
+export const getFilterFields = () =>
   [
     // {
     //   label: 'Updated At',
@@ -18,12 +19,12 @@ export const getFilterFields = (data: ColumnSchema[]) =>
     //   defaultOpen: true,
     //   commandDisabled: true,
     // },
-    {
-      label: 'Email',
-      value: 'email',
-      type: 'input',
-      options: data.map(({ email }) => ({ label: email, value: email })),
-    },
+    // {
+    //   label: 'Email',
+    //   value: 'email',
+    //   type: 'input',
+    //   options: data.map(({ email }) => ({ label: email, value: email })),
+    // },
     {
       label: 'Interview Stage',
       value: 'interview_stage',
@@ -53,13 +54,13 @@ export const getFilterFields = (data: ColumnSchema[]) =>
         value: tag,
       })),
     },
-    {
-      label: 'Terms accepted',
-      value: 'terms_accepted',
-      type: 'checkbox',
-      options: [true, false].map((bool) => ({
-        label: `${bool}` as any as string,
-        value: bool,
-      })),
-    },
+    // {
+    //   label: 'Terms accepted',
+    //   value: 'terms_accepted',
+    //   type: 'checkbox',
+    //   options: [true, false].map((bool) => ({
+    //     label: `${bool}` as any as string,
+    //     value: bool,
+    //   })),
+    // },
   ] satisfies DataTableFilterField<ColumnSchema>[];

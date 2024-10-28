@@ -19,8 +19,8 @@ const Details = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant='outline' size='sm'>
-          Details
+        <Button size='sm'>
+          View Details
         </Button>
       </SheetTrigger>
       <SheetContent className='min-w-[900px]'>

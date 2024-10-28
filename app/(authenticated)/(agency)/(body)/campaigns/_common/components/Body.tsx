@@ -40,7 +40,7 @@ const Right = () => {
 
 const Title = () => {
   return (
-    <h1 className='flex flex-row items-center gap-2 text-xl font-bold'>
+    <h1 className='flex flex-row items-center gap-2 text-xl font-medium'>
       All Campaigns
     </h1>
   );

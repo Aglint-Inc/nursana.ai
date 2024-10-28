@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const RESUME_TO_JSON = process.env.NEXT_PUBLIC_RESUME_TO_JSON;
 if (!RESUME_TO_JSON) {
-  console.log('RESUME_TO_JSON not set', process.env);
   throw new Error('RESUME_TO_JSON not set');
 }
 

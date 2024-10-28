@@ -14,7 +14,7 @@ function PoweredBy() {
           <div className='flex h-full flex-col items-start justify-center gap-6 px-0 md:gap-8 md:px-8'>
             <div className='flex items-center gap-2 text-base text-purple-700 md:text-lg'>
               <Sparkles strokeWidth={1.2} size={20} />
-              Powered by Aglint AI
+              Powered by AI
             </div>
             <h1 className='text-3xl font-medium md:text-5xl'>
               Get an Unbiased and Professional Evaluation of Your Resume.
@@ -22,9 +22,9 @@ function PoweredBy() {
             <p className='text-base text-gray-600 md:text-lg'>
               Our AI-driven resume analysis delivers an objective assessment of
               your resume, offering tailored recommendations to enhance its
-              effectiveness while eliminating bias. Trust Nursana.ai to empower
-              your job search by showcasing your qualifications in a way that
-              stands out to potential employers.
+              effectiveness while eliminating bias. Elevate your job search by
+              showcasing your skills and qualifications in a way that makes you
+              stand out to potential employers.
             </p>
             <Link href='/campaign/?campaign_code=SUMMER23NURSE'>
               <Button size={'lg'}>Get Started</Button>
@@ -32,7 +32,7 @@ function PoweredBy() {
           </div>
           <div className='flex w-full items-center justify-center'>
             <Image
-              alt='powered by aglint ai'
+              alt='powered by ai'
               src={'/images/powered-by.png'}
               width={400}
               height={600}

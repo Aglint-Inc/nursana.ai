@@ -27,15 +27,22 @@ function Hero() {
         </Link>
 
         <div className='flex w-full flex-col gap-4 md:items-center'>
-          <h1 className='max-w-[1000px] text-4xl font-medium md:text-center md:text-6xl'>
-            Fast-Track Your Nursing Career with
-            <span className='ml-2.5 text-purple-700'>
-              💪 AI-Powered Interviews.
+          <div className='flex flex-col gap-2'>
+          <h1 className='max-w-[1100px] text-4xl font-medium md:text-center md:text-5xl'>
+          Accelerate Your Nursing Career with
+
+            <span className=' text-purple-700 md:hidden block'>
+            AI-Powered Resume & Interview Feedback
             </span>
           </h1>
-          <p className='max-w-[600px] text-xl text-muted-foreground md:text-center md:text-lg'>
-            Get hired faster with AI-driven resume feedback and interviews
-            designed to match you with the perfect job.
+          <h1 className='max-w-[1000px] md:block hidden text-purple-700 text-4xl font-medium md:text-center md:text-5xl'>
+        
+            AI-Powered Resume & Interview Feedback
+           
+          </h1>
+          </div>
+          <p className='max-w-[650px] text-xl  md:text-center md:text-lg'>
+          Get hired faster with AI-driven job search and feedback, designed to match you with the perfect opportunity
           </p>
           <div className='mt-2 flex gap-4 md:items-center'>
             <Link href='/campaign/?campaign_code=SUMMER23NURSE'>

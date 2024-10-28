@@ -7,7 +7,6 @@ import { cn } from 'src/utils/cn';
 import UIDialog from '@/common/components/UIDialog';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Card, CardContent } from '@/components/ui/card';
-import { useLocalStorage } from '@/hooks/use-local-storage';
 
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
@@ -23,15 +22,6 @@ function InterviewRecording({
   interviewDuration: number;
   videoRef: React.RefObject<HTMLVideoElement>;
 }) {
-  const [_interviewRatingRound, setInterviewRatingRound] = useLocalStorage<{
-    firstRound: boolean;
-    secondRound: boolean;
-    counter: number;
-  }>('interview-rating-round', {
-    firstRound: false,
-    secondRound: false,
-    counter: 0,
-  });
   const [timer, setTimer] = useState(interviewDuration * 60);
   const [showStopInterviewModal, setShowStopInterviewModal] = useState(false);
   const warningTime = 3 * 60; // 3 minutes
@@ -63,7 +53,6 @@ function InterviewRecording({
           const newTimer = prevTimer - 1;
           if (newTimer <= 0) {
             handleStopInterview();
-            interviewRatingOpenCountHandler();
           }
           return newTimer;
         });
@@ -71,13 +60,7 @@ function InterviewRecording({
     }
     return () => clearInterval(interval);
   }, [isInterviewStarted, interviewDuration, handleStopInterview]);
-  function interviewRatingOpenCountHandler() {
-    setInterviewRatingRound({
-      firstRound: true,
-      secondRound: false,
-      counter: 1,
-    }); // count for open user interview feedback rating form
-  }
+
   return (
     <>
       <UIDialog
@@ -89,7 +72,7 @@ function InterviewRecording({
             <Button
               onClick={() => {
                 handleStopInterview();
-                interviewRatingOpenCountHandler();
+
                 stopCamera();
               }}
               variant='secondary'

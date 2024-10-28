@@ -16,7 +16,6 @@ const schema = agencyUpdateSchema.pick({
 });
 
 const mutation = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
-  console.log(input);
   const db = createPrivateClient();
   return (
     await db
