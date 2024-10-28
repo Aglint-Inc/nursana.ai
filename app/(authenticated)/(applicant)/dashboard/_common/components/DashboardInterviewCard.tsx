@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import RadialProgress from './RadialProgress';
 import { FileCheck, TvMinimalPlay } from 'lucide-react';
 import { Loader } from '@/common/components/Loader';
+import Link from 'next/link';
 
 type ResumeCardProps = {
   status: 'start' | 'completed' | 'analysing';
@@ -65,7 +66,9 @@ function InterviewCard({ status, interviewScore = [] }: ResumeCardProps) {
               </div>
             )}
           </div>
-          <Button>View Detail</Button>
+          <Link href={'/interview-feedback'} className='w-full'>
+          <Button className='w-full'>View Detail</Button>
+          </Link>
         </div>
       )}
       {status === 'analysing' && (

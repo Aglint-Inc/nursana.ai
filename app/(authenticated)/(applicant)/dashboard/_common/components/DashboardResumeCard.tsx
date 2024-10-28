@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 
 import RadialProgress from './RadialProgress';
 import { Loader } from '@/common/components/Loader';
+import Link from 'next/link';
 
 type ResumeCardProps = {
   status: 'reupload' | 'inProgress' | 'completed';
@@ -89,7 +90,9 @@ function ResumeCard({ status, resumeScore }: ResumeCardProps) {
               </div>
             )}
           </div>
-          <Button>View Detail</Button>
+          <Link href={'/resume-review'} className='w-full'>
+          <Button className='w-full'>View Detail</Button>
+          </Link>
         </div>
       )}
     </>
