@@ -1,8 +1,7 @@
 'use client';
 
-import { useInterview } from '@/interview/hooks/useInterview';
+import { Transcript } from './_common/components';
 
 export const Page = () => {
-  const { id } = useInterview();
-  return <div>Transcript for interview:{id}</div>;
+  return <Transcript />;
 };

@@ -1,8 +1,7 @@
 'use client';
 
-import { useInterview } from '@/interview/hooks/useInterview';
+import { ResumePage } from './_common/components';
 
 export const Page = () => {
-  const { id } = useInterview();
-  return <div>Resume for interview:{id}</div>;
+  return <ResumePage />;
 };

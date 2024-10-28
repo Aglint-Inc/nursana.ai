@@ -1,8 +1,9 @@
-import { Sparkle, User } from 'lucide-react';
+import { Sparkle, TvMinimalPlay, User } from 'lucide-react';
 
 import { Loader } from '@/common/components/Loader';
 import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { Card, CardContent } from '@/components/ui/card';
+import NotAvailable from '@/dashboard/components/NotAvailable';
 
 interface Message {
   role: 'agent' | 'user';
@@ -12,16 +13,24 @@ interface Message {
 export const InterviewTranscriptUI = ({
   isPending,
   audioUrl,
-  userData,
   videoUrl,
   transcript,
 }: {
   isPending: boolean;
   audioUrl: string;
-  userData: any;
   videoUrl: string;
-  transcript: Message[];
+  transcript: Message[] | null;
 }) => {
+  if (!transcript || transcript.length === 0) {
+    return (
+      <NotAvailable
+        heading='Data temporarily unavailable'
+        description='Please check back in a little while for updated information.'
+        Icon={TvMinimalPlay}
+      />
+    );
+  }
+
   return (
     <div className='min-h-[calc(100vh-164px)]'>
       <div className='mb-6 text-xl font-medium'>Interview & Transcript</div>
@@ -38,7 +47,7 @@ export const InterviewTranscriptUI = ({
               <VideoPlayer
                 // videoUrl={userData.analysis?.video_url ?? ''}
                 videoUrl={videoUrl || ''}
-                audioUrl={audioUrl || userData.analysis?.audio_url || ''}
+                audioUrl={audioUrl || ''}
               />
             )}
           </CardContent>

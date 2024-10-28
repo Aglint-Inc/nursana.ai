@@ -13,7 +13,7 @@ export function useBucket(bucket: 'videos' | 'audio', fileName: string) {
     refetchOnWindowFocus: false,
   });
 }
-
+// write this code in trpc
 export async function getFileUrl(bucket: 'videos' | 'audio', fileName: string) {
   const { data, error } = await supabase.storage
     .from(bucket)

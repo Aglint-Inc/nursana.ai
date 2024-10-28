@@ -1,11 +1,8 @@
 'use client';
-import { TvMinimalPlay } from 'lucide-react';
 
 import { useUserData } from '@/applicant/hooks/useUserData';
 import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscriptUI';
 import { useBucket } from '@/hooks/use-bucket';
-
-import NotAvailable from './NotAvailable';
 
 interface Message {
   role: 'agent' | 'user';
@@ -29,10 +26,8 @@ function isMessageArray(arr: any): arr is Message[] {
 export function InterviewTranscript() {
   const userData = useUserData();
   const transcriptData = userData?.analysis?.transcript_json;
-  const transcript: Message[] | undefined =
-    transcriptData && isMessageArray(transcriptData)
-      ? transcriptData
-      : undefined;
+  const transcript: Message[] | null =
+    transcriptData && isMessageArray(transcriptData) ? transcriptData : null;
 
   const videoBucketName = 'videos';
   // get file name
@@ -40,29 +35,18 @@ export function InterviewTranscript() {
     userData.analysis?.video_url?.split(`${videoBucketName}/`).pop() ?? '';
   // get file url
   const { data: videoUrl, isPending } = useBucket(videoBucketName, fileName);
-  const audioBucketName = 'audio';
 
+  const audioBucketName = 'audio';
   // get file name
   const audioFileName =
     userData.analysis?.audio_url?.split(`${audioBucketName}/`).pop() ?? '';
   // get file url
   const { data: audioUrl } = useBucket(audioBucketName, audioFileName);
 
-  // if (true) {
-  if (!transcript || transcript.length === 0) {
-    return (
-      <NotAvailable
-        heading='Data temporarily unavailable'
-        description='Please check back in a little while for updated information.'
-        Icon={TvMinimalPlay}
-      />
-    );
-  }
   return (
     <InterviewTranscriptUI
       isPending={isPending}
       transcript={transcript}
-      userData={userData}
       audioUrl={audioUrl || ''}
       videoUrl={videoUrl || ''}
     />
