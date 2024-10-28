@@ -1,73 +1,129 @@
+/* eslint-disable security/detect-non-literal-regexp */
+import { jwtDecode, type JwtPayload } from 'jwt-decode';
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { updateSession } from '@/utils/supabase/middleware';
+import { type Database } from '@/supabase-types/database.types';
 
-const corsOptions = {
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-};
-
-export async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
-
-  const origin = req.headers.get('origin') ?? '';
-  const isAllowedOrigin = origin.startsWith('http://localhost');
-
-  const isPreflight = req.method === 'OPTIONS';
-
-  if (isPreflight) {
-    const preflightHeaders = {
-      ...(isAllowedOrigin && { 'Access-Control-Allow-Origin': origin }),
-      ...corsOptions,
-    };
-    return NextResponse.json({}, { headers: preflightHeaders });
-  }
-
-  // Check if the current path matches any public route pattern
-  if (PUBLIC_ROUTES_REGEX.test(pathname)) {
-    return NextResponse.next();
-  }
-
-  return await updateSession(req);
-}
+import { createPrivateClient } from './server/db';
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - images - .svg, .png, .jpg, .jpeg, .gif, .webp
-     * Feel free to modify this pattern to include more paths.
-     */
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };
 
-// Define public routes and folders
-const PUBLIC_ROUTES = [
-  // Exact matches
-  '^/$', // Homepage
-  '^/login$',
-  '^/signup$',
-  '^/about$',
-  '^/contact$',
-  // Folders (everything under these paths)
-  // Starts with
+const PUBLIC_API = [
+  'trpc',
   'score_resume',
-  '^/auth/',
-  '^/ui/',
-  '/campaign',
-  '/api/trpc',
-  '/api/score_resume',
-  '/api/score_call',
-  '/tenant/sign-up',
-  '/api/backup-interview-data',
-  '/auth/confirm',
-  '/auth/interview',
-  '/openAiRealTime',
-];
+  'score_call',
+  'backup-interview-data',
+].map((api) => `^/api/${api}(/.*)?$`);
 
-// eslint-disable-next-line security/detect-non-literal-regexp
-const PUBLIC_ROUTES_REGEX = new RegExp(PUBLIC_ROUTES.join('|'));
+const PUBLIC_ROUTES = new RegExp(
+  [
+    '^/$',
+    '^/forgot-password$',
+    '^/reset-password$',
+    '^/tenant/sign-up$',
+    '^/openAiRealTime$',
+    '^/tenant/sign-up$',
+    '^/campaign(/.*)?$',
+    '^/auth(?!/sign-in$)',
+    '^/ui(/.*)?$',
+    '^/terms$',
+    ...PUBLIC_API,
+  ].join('|'),
+);
+
+const AGENCY_ROUTES = new RegExp(
+  ['^/campaigns(/.*)?$', '^/interviews/.+', '^/templates(/.*)?$'].join('|'),
+);
+
+const AGENCY_DEFAULT = '/campaigns';
+
+const APPLICANT_ROUTES = new RegExp(
+  [
+    '/dashboard',
+    '/interview-feedback',
+    '/interview-transcript',
+    '/jobs',
+    '/resume-review',
+    '^/profile(/.*)?$',
+    '^/interview(/.*)?$',
+  ].join('|'),
+);
+
+const APPLICANT_DEFAULT = '/dashboard';
+
+const SIGN_IN = '/auth/sign-in';
+
+export const middleware = async (request: NextRequest) => {
+  return (
+    (await preflightCheck(request)) ??
+    (await publicPageCheck(request)) ??
+    (await sessionCheck(request)) ??
+    NextResponse.redirect(new URL(SIGN_IN, request.nextUrl))
+  );
+};
+
+const preflightCheck: MiddlewareType = async (request) => {
+  const isPreflight = request.method === 'OPTIONS';
+
+  if (isPreflight) {
+    const preflightHeaders: HeadersInit = {
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    };
+
+    const origin = request.headers.get('origin') ?? '';
+
+    const isAllowedOrigin = origin.startsWith('http://localhost');
+
+    if (isAllowedOrigin)
+      preflightHeaders['Access-Control-Allow-Origin'] = origin;
+
+    return NextResponse.json({}, { headers: preflightHeaders });
+  }
+};
+
+const publicPageCheck: MiddlewareType = async (request) => {
+  const { pathname } = request.nextUrl;
+
+  if (PUBLIC_ROUTES.test(pathname)) return NextResponse.next();
+};
+
+const sessionCheck: MiddlewareType = async (request) => {
+  const { pathname } = request.nextUrl;
+
+  const role = await getRole();
+
+  if (!role && pathname === SIGN_IN) return NextResponse.next();
+
+  if (role === 'agency_user') {
+    if (pathname === SIGN_IN || !AGENCY_ROUTES.test(pathname))
+      return NextResponse.redirect(new URL(AGENCY_DEFAULT, request.nextUrl));
+    return NextResponse.next();
+  }
+
+  if (role === 'applicant_user') {
+    if (pathname === SIGN_IN || !APPLICANT_ROUTES.test(pathname))
+      return NextResponse.redirect(new URL(APPLICANT_DEFAULT, request.nextUrl));
+    return NextResponse.next();
+  }
+};
+
+const getRole = async () => {
+  const { data } = await createPrivateClient().auth.getSession();
+
+  if (!data.session?.access_token) return null;
+
+  const jwt = jwtDecode(data.session.access_token) as JwtPayload & {
+    user_role: Database['public']['Enums']['user_role'];
+  };
+
+  return jwt?.user_role ?? null;
+};
+
+type MiddlewareType<T extends NextRequest = NextRequest> = (
+  _req: T,
+) => Promise<NextResponse | undefined>;

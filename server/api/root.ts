@@ -1,14 +1,17 @@
 import 'server-only';
 
+import { campaignUser } from 'app/campaign/_common/api';
+import { uploadResume } from 'app/campaign/_common/api/uploadCandidateResume';
+
 import { authenticated } from '@/authenticated/api';
 
-import { campaign } from './routers/campaign';
 import { example } from './routers/example';
 import { interview } from './routers/interview';
 import { interviewAnalysis } from './routers/interview_analysis';
 import { getLocationList } from './routers/location-list';
 import { tenant } from './routers/tenant';
 import { user } from './routers/user';
+import { interviewFeedback } from './routers/user_interiew_rating';
 import { supabase_storage } from './supabse_storage';
 import { createCallerFactory, createTRPCRouter } from './trpc';
 
@@ -21,12 +24,14 @@ export const appRouter = createTRPCRouter({
   authenticated,
   example,
   user,
-  campaign,
   tenant,
   interview,
   interviewAnalysis,
   supabase_storage,
+  campaign_user: campaignUser,
   getLocationList,
+  interviewFeedback,
+  uploadResume,
 });
 
 // export type definition of API

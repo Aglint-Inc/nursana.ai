@@ -23,19 +23,19 @@ export const getInstructions = ({
 }: {
   aiWelcomeMessage: string;
   aiEndingMessage: string;
-  aiQuestions: string[];
-  aiInstructions: string[];
+  aiQuestions: string;
+  aiInstructions: string;
   resume: string;
 }) => {
   return `
         Instructions:
-        ${aiInstructions ? aiInstructions.join('\n') : null}
+        ${aiInstructions ? aiInstructions : null}
         
         Welcome message:
         ${aiWelcomeMessage}
 
         Questions:
-        ${aiQuestions ? aiQuestions.join('\n') : null}
+        ${aiQuestions ? aiQuestions : null}
 
         Ending message:
         ${aiEndingMessage}

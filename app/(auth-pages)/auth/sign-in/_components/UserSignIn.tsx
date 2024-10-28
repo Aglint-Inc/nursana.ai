@@ -40,7 +40,10 @@ function UserSignIn() {
 
   async function onSubmitForm(data: z.infer<typeof schema>) {
     try {
-      const res = await mutateAsync({ email: data.email, role: 'nurse' });
+      const res = await mutateAsync({
+        email: data.email,
+        user_role: 'applicant_user',
+      });
       if (res) {
         await nurseSignIn({ email: data.email });
       }

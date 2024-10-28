@@ -23,6 +23,8 @@ function InterviewRecording({
   videoRef: React.RefObject<HTMLVideoElement>;
 }) {
   const [timer, setTimer] = useState(interviewDuration * 60);
+  const [showStopInterviewModal, setShowStopInterviewModal] = useState(false);
+  const warningTime = 3 * 60; // 3 minutes
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60)
       .toString()
@@ -58,8 +60,7 @@ function InterviewRecording({
     }
     return () => clearInterval(interval);
   }, [isInterviewStarted, interviewDuration, handleStopInterview]);
-  const [showStopInterviewModal, setShowStopInterviewModal] = useState(false);
-  const warningTime = 3 * 60; // 3 minutes
+
   return (
     <>
       <UIDialog
@@ -71,6 +72,7 @@ function InterviewRecording({
             <Button
               onClick={() => {
                 handleStopInterview();
+
                 stopCamera();
               }}
               variant='secondary'

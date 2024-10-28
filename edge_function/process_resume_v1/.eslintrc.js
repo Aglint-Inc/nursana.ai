@@ -15,10 +15,17 @@ module.exports = {
       },
     ],
     'no-unused-vars': 'off', // Turn off the base rule as it can report incorrect errors
-    '@typescript-eslint/no-explicit-any': 'error',
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'react/no-unescaped-entities': 'off',
     'react/display-name': 'off',
-    '@next/next/no-img-element': 'off', // Enable this if you want to enforce next/image usage
+    '@typescript-eslint/consistent-type-imports': [
+      'error',
+      {
+        prefer: 'type-imports',
+        fixStyle: 'inline-type-imports',
+      },
+    ],
   },
 };

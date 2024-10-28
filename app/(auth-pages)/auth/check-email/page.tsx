@@ -2,11 +2,13 @@
 
 import { MailCheck } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
 import Section from '@/components/section';
 import { Button } from '@/components/ui/button';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 
 export default function CheckEmail() {
   const router = useRouter();
@@ -14,6 +16,22 @@ export default function CheckEmail() {
 
   const type = searchParams.get('type') as string;
   const email = searchParams.get('email') as string;
+
+  const [loginStage, setLoginStage] = useLocalStorage<string | null>(
+    'login-stage',
+    null,
+  );
+  function interviewRatingOpenCountHandler() {
+    if (type === 'interview' || loginStage === 'first') {
+      setLoginStage('first');
+    } else {
+      setLoginStage('second');
+    }
+  }
+
+  useEffect(() => {
+    interviewRatingOpenCountHandler(); // count for open user interview feedback rating form
+  }, []);
   return (
     <Section>
       <div className='flex h-[100vh] flex-col items-center justify-between pt-6'>
