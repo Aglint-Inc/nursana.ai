@@ -49,8 +49,8 @@ export const COLUMNS: ColumnDef<ColumnSchema>[] = [
         );
       }
       return (
-        <Badge className={TAGS_COLOR[value].badge}>
-          {removeUnderscore(value)}
+        <Badge className={`${TAGS_COLOR[value].badge} rounded-sm font-normal border-none`} >
+          {removeUnderscore(value)} 
         </Badge>
       );
     },

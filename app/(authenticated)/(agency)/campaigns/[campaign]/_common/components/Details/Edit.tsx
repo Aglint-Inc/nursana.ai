@@ -47,8 +47,8 @@ const Header = () => {
   return (
     <SheetHeader className='translate-y-[-16px]'>
       <SheetTitle className='flex flex-row items-center gap-2'>
-        Edit Campaign
         <Back />
+        Edit Campaign
       </SheetTitle>
     </SheetHeader>
   );
@@ -57,8 +57,14 @@ const Header = () => {
 const Back = () => {
   const { setMode } = useDetails();
   return (
-    <Button variant={'ghost'} onClick={() => setMode('view')}>
+    <Button
+      variant={'secondary'}
+      size={'sm'}
+      className='mr-2'
+      onClick={() => setMode('view')}
+    >
       <ArrowLeft size={16} />
+      Back
     </Button>
   );
 };
@@ -125,13 +131,18 @@ const EditForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className='flex flex-col gap-4 text-black'
+      >
         <FormField
           control={form.control}
           name='campaign_code'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Campaign code</FormLabel>
+              <FormLabel className='font-normal text-muted-foreground'>
+                Campaign code
+              </FormLabel>
               <FormControl>
                 <Input placeholder='Campaign code' {...field} />
               </FormControl>
@@ -144,7 +155,9 @@ const EditForm = () => {
           name='name'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel className='font-normal text-muted-foreground'>
+                Name
+              </FormLabel>
               <FormControl>
                 <Input placeholder='Name' {...field} />
               </FormControl>
@@ -157,12 +170,15 @@ const EditForm = () => {
           name='description'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel className='font-normal text-muted-foreground'>
+                Description
+              </FormLabel>
               <FormControl>
                 <Textarea
                   placeholder='Enter description'
                   {...field}
                   value={field.value || ''}
+                  className='h-40'
                 />
               </FormControl>
               <FormMessage />
@@ -170,7 +186,7 @@ const EditForm = () => {
           )}
         />
         <div>
-          <p className='mb-1 font-medium'>Active status</p>
+          <p className='mb-1 text-muted-foreground'>Active status</p>
           <FormField
             control={form.control}
             name='status'
@@ -195,7 +211,7 @@ const EditForm = () => {
         </div>
 
         <div>
-          <p className='mb-2 font-medium'>Templates</p>
+          <p className='mb-2 text-muted-foreground'>Templates</p>
           <Select
             onValueChange={(value) => {
               setSeletedTempId(value);
@@ -227,7 +243,9 @@ const EditForm = () => {
             name='version_id'
             render={({ field: { value } }) => (
               <FormItem>
-                <FormLabel>Version</FormLabel>
+                <FormLabel className='font-normal text-muted-foreground'>
+                  Version
+                </FormLabel>
                 <FormControl>
                   <Select
                     {...register('version_id')}
@@ -254,10 +272,11 @@ const EditForm = () => {
             )}
           />
         )}
-
-        <Button type='submit' disabled={isPending}>
-          Submit
-        </Button>
+        <div className='h-[calc(100vh-680px)] flex flex-col justify-end'>
+          <Button type='submit' disabled={isPending}>
+            Update Changes
+          </Button>
+        </div>
       </form>
     </Form>
   );

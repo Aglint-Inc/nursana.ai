@@ -7,7 +7,7 @@ import { SidebarInset } from '@/components/ui/sidebar';
 const Page = (props: Parameters<typeof Table>['0']) => {
   unstable_noStore();
   return (
-    <SidebarInset>
+    <SidebarInset  className='h-[calc(100vh-300px)] overflow-auto border border-border'>
       <Body>
         <Table {...props} />
       </Body>
