@@ -1,16 +1,10 @@
 'use client';
-import { FileCheck, TvMinimalPlay } from 'lucide-react';
-import Link from 'next/link';
 
 import { useUserData } from '@/applicant/hooks/useUserData';
-import { Button } from '@/components/ui/button';
-import { type Database } from '@/supabase-types/database.types';
 
-import ProgressSteps from './ProgressSteps';
-import RadialProgress from './RadialProgress';
 import {
-  UserLandingProps,
   InterviewHomeUI,
+  UserLandingProps,
 } from '@/authenticated/components/InterviewHomeUI';
 
 type ScoreType = {
@@ -33,24 +27,6 @@ function UserLanding() {
     (analysis && analysis.structured_analysis?.overall_score) || 0;
   const resumeScore = resume?.resume_feedback?.overallScore || 0;
 
-  const InterviewScore: ScoreType[] = [
-    {
-      name: 'Score',
-      value: interviewScore,
-      fill: '#8b5cf6',
-      path: '#ddd6fe',
-    },
-  ];
-
-  const ResumeScore: ScoreType[] = [
-    {
-      name: 'Score',
-      value: resumeScore,
-      fill: '#db2777',
-      path: '#fbcfe8',
-    },
-  ];
-
   const interview: UserLandingProps['interview'] = {
     id: interviewData?.id || '',
     stage: interviewData?.interview_stage || '',
@@ -59,8 +35,8 @@ function UserLanding() {
 
   return (
     <InterviewHomeUI
-      InterviewScore={InterviewScore}
-      ResumeScore={ResumeScore}
+      interviewScore={interviewScore}
+      resumeScore={resumeScore}
       first_name={applicant_user?.user.first_name}
       interview={interview}
     />

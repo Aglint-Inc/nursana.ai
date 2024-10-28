@@ -7,10 +7,29 @@ import Link from 'next/link';
 export const InterviewHomeUI = ({
   first_name,
   interview,
-  InterviewScore,
-  ResumeScore,
+  interviewScore,
+  resumeScore,
 }: UserLandingProps) => {
   const { id, stage, updated_at } = interview;
+
+  const InterviewScores: ScoreType[] = [
+    {
+      name: 'Score',
+      value: interviewScore,
+      fill: '#8b5cf6',
+      path: '#ddd6fe',
+    },
+  ];
+
+  const ResumeScores: ScoreType[] = [
+    {
+      name: 'Score',
+      value: resumeScore,
+      fill: '#db2777',
+      path: '#fbcfe8',
+    },
+  ];
+
   return (
     <div className='flex h-[85vh] flex-col items-center justify-center gap-10'>
       <div className='flex flex-col items-center gap-2'>
@@ -46,7 +65,7 @@ export const InterviewHomeUI = ({
           <div className='mb-[-32px] mt-[10px] font-medium text-purple-600'>
             Interview Score
           </div>
-          <RadialProgress chartData={InterviewScore} size={250} />
+          <RadialProgress chartData={InterviewScores} size={250} />
           <Link href={'/interview-feedback'} className='w-full'>
             <Button className='w-full'>View Detail</Button>
           </Link>
@@ -55,7 +74,7 @@ export const InterviewHomeUI = ({
           <div className='mb-[-32px] mt-[10px] font-medium text-pink-600'>
             Resume Score
           </div>
-          <RadialProgress chartData={ResumeScore} size={250} />
+          <RadialProgress chartData={ResumeScores} size={250} />
           <Link href={'/resume-review'} className='w-full'>
             <Button className='w-full'>View Detail</Button>
           </Link>
@@ -144,8 +163,8 @@ export type UserLandingProps = {
     stage: Database['public']['Enums']['interview_stage'] | '';
     updated_at: string;
   };
-  InterviewScore: ScoreType[];
-  ResumeScore: ScoreType[];
+  interviewScore: any;
+  resumeScore: any;
 };
 type ScoreType = {
   name: string;
