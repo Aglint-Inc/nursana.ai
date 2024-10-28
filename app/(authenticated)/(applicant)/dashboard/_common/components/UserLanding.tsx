@@ -5,10 +5,8 @@ import Link from 'next/link';
 import { useUserData } from '@/applicant/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 
-import ResumeCard from './DashboardResumeCard';
 import ProgressSteps from './ProgressSteps';
 import RadialProgress from './RadialProgress';
-import InterviewCard from './DashboardInterviewCard';
 
 function UserLanding() {
   const { applicant_user, resume, analysis, interview } = useUserData();
@@ -36,7 +34,7 @@ function UserLanding() {
   ];
 
   return (
-    <div className='flex h-[85vh] overflow-auto flex-col items-center justify-center gap-10'>
+    <div className='flex h-[85vh] flex-col items-center justify-center gap-10'>
       <div className='flex flex-col items-center gap-2'>
         <div className='flex items-center gap-2 text-center text-3xl font-medium'>
           <div className='text-purple-700'>
