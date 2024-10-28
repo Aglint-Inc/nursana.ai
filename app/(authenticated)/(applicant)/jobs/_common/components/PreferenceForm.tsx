@@ -229,6 +229,16 @@ function PreferenceForm() {
                 }}>
                 Save Preferences
               </Button>
+              <div className='hidden'>
+                  <span className='text-muted-foreground'>
+                    {isSaving ? 'Saving...' : ''}
+                  </span>
+                  <p>
+                    {!isSaving && isCompletePreferenceForm
+                      ? 'Preference Complete : ✅ '
+                      : ''}
+                  </p>
+                </div>
             </div>
           )}
               </div>
