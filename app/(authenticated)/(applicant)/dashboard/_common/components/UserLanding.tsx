@@ -146,19 +146,6 @@ function UserLanding() {
           </div>
         </div>
       )}
-      <div className='grid grid-cols-2 w-full gap-4'>
-      <div className='flex flex-col gap-6'>
-            <InterviewCard status='completed' interviewScore={InterviewScore}/>
-           
-        </div>
-        <div className='flex flex-col gap-6'>
-            <ResumeCard status='completed' resumeScore={ResumeScore}/>
-           
-        </div>
-        <div>
-
-        </div>
-      </div>
     </div>
   );
 }
