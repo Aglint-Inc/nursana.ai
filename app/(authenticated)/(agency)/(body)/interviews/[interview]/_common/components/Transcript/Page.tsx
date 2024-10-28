@@ -1,8 +1,13 @@
 'use client';
 
-import { useInterview } from '@/interview/hooks/useInterview';
+import { ErrorBoundary } from 'react-error-boundary';
+
+import { Transcript } from './_common/components';
 
 export const Page = () => {
-  const { id } = useInterview();
-  return <div>Transcript for interview:{id}</div>;
+  return (
+    <ErrorBoundary fallback={<>Error</>}>
+      <Transcript />
+    </ErrorBoundary>
+  );
 };

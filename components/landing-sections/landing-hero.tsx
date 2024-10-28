@@ -33,7 +33,7 @@ function LandingHero() {
             className='h-auto w-full'
           />
         </div>
-        <Link href='/campaign/?campaign_code=SUMMER23NURSE'>
+        <Link href='/campaign/?campaign_code=NURSANA-AI'>
           <Button size='lg' className='text-lg'>
             Get Started
           </Button>

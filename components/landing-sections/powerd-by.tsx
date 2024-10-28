@@ -26,7 +26,7 @@ function PoweredBy() {
               showcasing your skills and qualifications in a way that makes you
               stand out to potential employers.
             </p>
-            <Link href='/campaign/?campaign_code=SUMMER23NURSE'>
+            <Link href='/campaign/?campaign_code=NURSANA-AI'>
               <Button size={'lg'}>Get Started</Button>
             </Link>
           </div>

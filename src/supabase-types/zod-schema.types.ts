@@ -478,7 +478,7 @@ export const resumeRelationshipsSchema = z.tuple([
   z.object({
     foreignKeyName: z.literal("resume_applicant_id_fkey"),
     columns: z.tuple([z.literal("applicant_id")]),
-    isOneToOne: z.literal(false),
+    isOneToOne: z.literal(true),
     referencedRelation: z.literal("applicant_user"),
     referencedColumns: z.tuple([z.literal("id")]),
   }),
@@ -545,15 +545,7 @@ export const userUpdateSchema = z.object({
   user_role: userRoleSchema.optional(),
 });
 
-export const userRelationshipsSchema = z.tuple([
-  z.object({
-    foreignKeyName: z.literal("user_id_fkey"),
-    columns: z.tuple([z.literal("id")]),
-    isOneToOne: z.literal(true),
-    referencedRelation: z.literal("users"),
-    referencedColumns: z.tuple([z.literal("id")]),
-  }),
-]);
+export const userRelationshipsSchema = z.tuple([]);
 
 export const userInterviewRatingRowSchema = z.object({
   applicant_id: z.string(),
@@ -584,7 +576,7 @@ export const userInterviewRatingRelationshipsSchema = z.tuple([
     foreignKeyName: z.literal("user_interview_rating_applicant_id_fkey"),
     columns: z.tuple([z.literal("applicant_id")]),
     isOneToOne: z.literal(false),
-    referencedRelation: z.literal("applicant"),
+    referencedRelation: z.literal("applicant_user"),
     referencedColumns: z.tuple([z.literal("id")]),
   }),
 ]);

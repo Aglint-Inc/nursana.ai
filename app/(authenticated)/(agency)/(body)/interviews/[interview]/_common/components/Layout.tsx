@@ -6,8 +6,25 @@ import type { PageProps } from '@/interview/types';
 
 export const Layout = async (props: PropsWithChildren<PageProps>) => {
   unstable_noStore();
+
+  void api.authenticated.agency.interviews.interview.analysis.prefetch({
+    id: props.params.interview,
+  });
+  void api.authenticated.agency.interviews.interview.applicant.prefetch({
+    id: props.params.interview,
+  });
   void api.authenticated.agency.interviews.interview.read.prefetch({
     id: props.params.interview,
   });
+  void api.authenticated.agency.interviews.interview.resume.prefetch({
+    id: props.params.interview,
+  });
+  void api.authenticated.agency.interviews.interview.audio.prefetch({
+    id: props.params.interview,
+  });
+  void api.authenticated.agency.interviews.interview.video.prefetch({
+    id: props.params.interview,
+  });
+
   return <HydrateClient>{props.children}</HydrateClient>;
 };

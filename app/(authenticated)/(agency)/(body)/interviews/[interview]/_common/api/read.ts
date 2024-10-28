@@ -3,16 +3,13 @@ import 'server-only';
 import { TRPCError } from '@trpc/server';
 
 import {
-  type AgencyProcedure,
-  agencyProcedure,
-  type ProcedureDefinition,
-} from '@/server/api/trpc';
+  type InterviewProcedure,
+  interviewProcedure,
+} from '@/interview/utils/interviewProcedure';
+import { type ProcedureDefinition } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
-import { interviewRowSchema } from '@/supabase-types/zod-schema.types';
 
-const schema = interviewRowSchema.pick({ id: true });
-
-const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
+const query = async ({ ctx, input }: InterviewProcedure) => {
   const db = createPrivateClient();
   const data = (
     await db
@@ -24,13 +21,10 @@ const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
       .throwOnError()
   ).data;
   if (!data)
-    throw new TRPCError({
-      code: 'NOT_FOUND',
-      message: 'Interview not found',
-    });
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'Interview not found' });
   return data;
 };
 
-export const read = agencyProcedure.input(schema).query(query);
+export const read = interviewProcedure.query(query);
 
 export type Read = ProcedureDefinition<typeof read>;

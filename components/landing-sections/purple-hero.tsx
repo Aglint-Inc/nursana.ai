@@ -31,7 +31,7 @@ function PurpleHero() {
                 Get hired faster with AI-driven resume feedback and interviews
                 designed to match you with the perfect job.
               </p>
-              <Link href='/campaign/?campaign_code=SUMMER23NURSE'>
+              <Link href='/campaign/?campaign_code=NURSANA-AI'>
                 <Button size='lg' className='text-lg'>
                   Get Started
                 </Button>
