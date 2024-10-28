@@ -227,7 +227,7 @@ function PreferenceForm() {
               <Button onClick={() => {
                   setLocalStoragePreference(true);
                 }}>
-                Save Preferences
+                Close
               </Button>
               <div className='hidden'>
                   <span className='text-muted-foreground'>
