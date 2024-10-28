@@ -133,7 +133,6 @@ export default function Interview({
         updateInterviewAnalysis({
           interview_id: interviewId ?? '',
           video_url: videoUrl ?? '',
-          transcript_json: conversationHistory,
         }),
       ]);
 
