@@ -223,12 +223,22 @@ function PreferenceForm() {
                   </div>
                 </div>
                 {isCompletePreferenceForm && (
-            <div className='col-span-2 flex items-start'>
+            <div className='col-span-2 flex items-center gap-4 '>
               <Button onClick={() => {
                   setLocalStoragePreference(true);
                 }}>
-                Save Preferences
+               
               </Button>
+              <div className='hidden'>
+                  <span className='text-muted-foreground'>
+                    {isSaving ? 'Saving...' : ''}
+                  </span>
+                  <p>
+                    {!isSaving && isCompletePreferenceForm
+                      ? 'Preference Complete : ✅ '
+                      : ''}
+                  </p>
+                </div>
             </div>
           )}
               </div>
