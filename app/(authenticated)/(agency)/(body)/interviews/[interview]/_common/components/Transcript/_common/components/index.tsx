@@ -1,12 +1,14 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 // import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 
+import { AspectRatio } from '@radix-ui/react-aspect-ratio';
 import { Sparkles } from 'lucide-react';
-import { Suspense } from 'react';
+import { forwardRef, type RefObject, Suspense, useRef } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscriptUI';
+import { AudioPlayer } from '@/common/components/AudioPlayer';
 import { Loader } from '@/common/components/Loader';
-import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import NotAvailable from '@/dashboard/components/NotAvailable';
 import { useInterviewAnalysis } from '@/interview/hooks/useInterviewAnalysis';
@@ -61,7 +63,7 @@ export const Transcript = () => {
                   </div>
                 }
               >
-                <Video />
+                <VideoAndAudio />
               </Suspense>
             </ErrorBoundary>
           }
@@ -71,8 +73,43 @@ export const Transcript = () => {
   );
 };
 
-const Video = () => {
-  const video_url = useInterviewInterviewVideo();
-  const audio_url = useInterviewInterviewAudio();
-  return <VideoPlayer videoUrl={video_url || ''} audioUrl={audio_url || ''} />;
+const VideoAndAudio = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  return (
+    <div className='flex flex-col'>
+      <div className='basis-11/12'>
+        <ErrorBoundary fallback={<>Video Failed</>}>
+          <Video ref={videoRef} />
+        </ErrorBoundary>
+      </div>
+      <div className='basis-1/12'>
+        <ErrorBoundary fallback={<>Audio Failed</>}>
+          <Audio ref={videoRef} />
+        </ErrorBoundary>
+      </div>
+    </div>
+  );
 };
+
+const Video = forwardRef(function Video(_props, ref) {
+  const video_url = useInterviewInterviewVideo();
+  return (
+    <AspectRatio ratio={16 / 9}>
+      <video
+        ref={ref as RefObject<HTMLVideoElement>}
+        src={video_url}
+        className='flex h-full w-full object-cover'
+      />
+    </AspectRatio>
+  );
+});
+
+const Audio = forwardRef(function Audio(_props, ref) {
+  const audio_url = useInterviewInterviewAudio();
+  return (
+    <AudioPlayer
+      videoRef={ref as RefObject<HTMLVideoElement>}
+      audioUrl={audio_url}
+    />
+  );
+});
