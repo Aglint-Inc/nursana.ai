@@ -2,7 +2,7 @@
 import { Sparkles } from 'lucide-react';
 
 import { useUserData } from '@/applicant/hooks/useUserData';
-import { InterviewAnalysisUI } from '@/authenticated/components/InterviewAbalysisUI';
+import { InterviewAnalysisUI } from '@/authenticated/components/InterviewAnalysisUI';
 
 import NotAvailable from './NotAvailable';
 
