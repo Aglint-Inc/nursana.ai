@@ -45,7 +45,7 @@ function Hero() {
           Get hired faster with AI-driven job search and feedback, designed to match you with the perfect opportunity
           </p>
           <div className='mt-2 flex gap-4 md:items-center'>
-            <Link href='/campaign/?campaign_code=SUMMER23NURSE'>
+            <Link href='/campaign/?campaign_code=NURSANA-AI'>
               <Button size='lg' className='rounded-full text-lg'>
                 Get Started
               </Button>

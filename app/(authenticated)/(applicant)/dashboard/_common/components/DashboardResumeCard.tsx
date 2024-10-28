@@ -88,7 +88,10 @@ function ResumeCard({ resumeDetails }: ResumeCardProps) {
   async function resumeRefetch() {
     if (resume) {
       await fetchResumeStructure({
-        env: 'dev',
+        env:
+          process.env.NEXT_PUBLIC_SITE_URL === 'https://nursana.ai/'
+            ? 'prod'
+            : 'dev',
         resume: resume?.file_url,
         resume_id: resume?.id,
       });

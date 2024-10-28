@@ -27,7 +27,7 @@ function GetStarted() {
   return (
     <div className='flex gap-2'>
       <Button asChild variant={'default'}>
-        <Link href='/campaign/?campaign_code=SUMMER23NURSE'>Get Started</Link>
+        <Link href={'/campaign/?campaign_code=NURSANA-AI'}>Get Started</Link>
       </Button>
     </div>
   );
