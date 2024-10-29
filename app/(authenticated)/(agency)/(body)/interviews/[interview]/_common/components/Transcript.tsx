@@ -1,5 +1,5 @@
+'use client';
 /* eslint-disable jsx-a11y/media-has-caption */
-// import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 
 import { AspectRatio } from '@radix-ui/react-aspect-ratio';
 import { Sparkles } from 'lucide-react';

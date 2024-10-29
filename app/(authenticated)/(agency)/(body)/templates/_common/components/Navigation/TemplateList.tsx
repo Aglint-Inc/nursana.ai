@@ -14,10 +14,10 @@ import {
 import { useTemplates } from '@/templates/hooks/useTemplates';
 import { type Template } from '@/templates/types';
 
-import { useList } from './Context';
+import { useNavigation } from './Context';
 
 export const TemplateList = () => {
-  const { search } = useList();
+  const { search } = useNavigation();
   const templates = useTemplates();
   const filteredTemplates = templates.filter(({ name }) =>
     name.toLowerCase().includes(search.toLowerCase()),

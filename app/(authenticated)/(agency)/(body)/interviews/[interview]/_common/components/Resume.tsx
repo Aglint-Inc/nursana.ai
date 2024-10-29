@@ -2,7 +2,7 @@ import { ResumeFeedbackUI } from '@/authenticated/components/ResumeFeedbackUI';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useInterviewResume } from '@/interview/hooks/useInterviewResume';
 
-export const ResumePage = () => {
+export const Resume = () => {
   const resume = useInterviewResume();
   return (
     <div>

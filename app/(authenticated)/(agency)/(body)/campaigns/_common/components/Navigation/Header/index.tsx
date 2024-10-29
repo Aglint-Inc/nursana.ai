@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SidebarHeader, SidebarInput } from '@/components/ui/sidebar';
 
-import { useList } from '../Context';
+import { useNavigation } from '../Context';
 import { AddCampaignSlider } from './AddCampaign/AddCompaignSlider';
 import { ActionProvider, useAction } from './AddCampaign/Context';
 
@@ -36,7 +36,7 @@ const Actions = () => {
 };
 
 const Search = () => {
-  const { search, setSearch } = useList();
+  const { search, setSearch } = useNavigation();
   return (
     <SidebarInput
       placeholder='Type to search...'

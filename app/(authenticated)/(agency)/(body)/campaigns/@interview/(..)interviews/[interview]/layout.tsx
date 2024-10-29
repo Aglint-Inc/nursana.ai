@@ -1,3 +1,3 @@
-import { Layout } from '@/interview/components/Layout';
+import { Navigation } from '@/interview/components/Navigation';
 
-export default Layout;
+export default Navigation;
