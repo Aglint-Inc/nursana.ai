@@ -211,16 +211,16 @@ function PreferenceForm() {
                   <UIMultiSelect
                     onDelete={(value) => {
                       deletePreferredJobTitles({
-                        job_title: value as z.infer<typeof nerseTitlesSchema>,
+                        job_titles: value as z.infer<typeof nerseTitlesSchema>,
                       });
                     }}
                     listItems={JOB_TITLES.map((item) => ({
-                      label: capitalizeFirstLetter(item),
+                      label: capitalizeFirstLetter(item.split('-').join(' ')),
                       value: item,
                     }))}
                     onChange={(_values, value) => {
                       createPreferredJobTitles({
-                        job_title: value as z.infer<typeof nerseTitlesSchema>,
+                        job_titles: value as z.infer<typeof nerseTitlesSchema>,
                       });
                     }}
                     defaultValue={
