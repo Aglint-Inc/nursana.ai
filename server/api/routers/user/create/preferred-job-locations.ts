@@ -42,7 +42,6 @@ const mutation = async ({
   const supabase = createPublicClient();
 
   const { city, country, state } = await getPlaceDetails(maps_place_id);
-  let location_list_id = '';
 
   const { data: location_list } = await supabase
     .from('locations_list')
@@ -50,9 +49,7 @@ const mutation = async ({
     .eq('place_id', maps_place_id)
     .throwOnError();
 
-  if (location_list && location_list.length > 0) {
-    location_list_id = location_list[0].id;
-  } else {
+  if (!location_list || location_list?.length === 0) {
     const { data: inserted_location } = await supabase
       .from('locations_list')
       .insert({
@@ -69,14 +66,13 @@ const mutation = async ({
     if (!inserted_location) {
       throw new Error('Some thing went wrong');
     }
-    location_list_id = inserted_location.id;
   }
 
   await supabase
     .from('preferred_locations')
     .upsert({
       applicant_id: user_id,
-      location_id: location_list_id,
+      place_id: maps_place_id,
     })
     .select()
     .throwOnError();

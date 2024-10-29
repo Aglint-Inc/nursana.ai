@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
 'use client';
 import { debouncedAsync } from 'lib/debouncedAsync';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { api } from 'trpc/client';
 import { type z } from 'zod';
 
@@ -18,7 +18,6 @@ import {
   useUpdateUserData,
   useUserData,
 } from '@/applicant/hooks/useUserData';
-import { useLocationsList } from '@/authenticated/hooks/useLocationsList';
 import { UIMultiSelect } from '@/common/components/UIMultiSelect';
 import UIPhoneInput from '@/common/components/UIPhoneInput';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -52,7 +51,6 @@ import {
 type ProfileDataType = z.infer<typeof userProfileSchema>;
 export default function EditProfileForm() {
   const { applicant_user } = useUserData();
-  const { locationList } = useLocationsList();
   const { preferredJobTitle } = usePreferredJobTitles();
   const { preferredJobTypes } = usePreferredJobTypes();
   const { preferredLocations } = usePreferredJobLocations();
@@ -149,6 +147,27 @@ export default function EditProfileForm() {
     preferred_travel_preference,
     open_to_work,
   ]);
+
+  const merged_locations = useMemo(() => {
+    const temp: NonNullable<typeof addressSugg> = [
+      ...(addressSugg ?? []),
+      ...preferredLocations.map((l) => ({
+        description: l.locations_list.level,
+        place_id: l.place_id,
+      })),
+    ];
+    const uniq_places: Record<string, NonNullable<typeof addressSugg>[0]> = {};
+    temp.forEach((t) => {
+      uniq_places[t.place_id] = t;
+    });
+    const merged: NonNullable<typeof addressSugg> = [];
+    Object.values(uniq_places).forEach((t) => {
+      merged.push(t);
+    });
+
+    return merged;
+  }, [preferredLocations, addressSugg]);
+
   return (
     <Card className='w-full bg-gray-50'>
       <CardHeader className='p-4'>
@@ -371,10 +390,10 @@ export default function EditProfileForm() {
                 }}
                 onDelete={(value) => {
                   deletePreferredLocations({
-                    location_id: value,
+                    place_id: value,
                   });
                 }}
-                listItems={(addressSugg ?? []).map((item) => ({
+                listItems={merged_locations.map((item) => ({
                   label: capitalizeFirstLetter(item.description),
                   value: item.place_id,
                 }))}
@@ -386,6 +405,7 @@ export default function EditProfileForm() {
                     place_description: place.description,
                   });
                 }}
+                defaultValue={preferredLocations.map((item) => item.place_id)}
                 level='Preferred Locations'
               />
             </div>

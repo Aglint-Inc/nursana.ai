@@ -111,7 +111,9 @@ export function UIMultiSelect({
             ref={inputRef}
             value={inputValue}
             onValueChange={(value) => {
-              onInputChnage(value);
+              if (onInputChnage) {
+                onInputChnage(value);
+              }
               setInputValue(value);
             }}
             onBlur={() => setOpen(false)}
