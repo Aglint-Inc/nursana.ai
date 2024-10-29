@@ -1,3 +1,5 @@
+'use client';
+
 import { InterviewAnalysisUI } from '@/authenticated/components/InterviewAnalysisUI';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useInterviewAnalysis } from '@/interview/hooks/useInterviewAnalysis';

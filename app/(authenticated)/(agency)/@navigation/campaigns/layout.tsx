@@ -1,3 +1,3 @@
-import { List } from '@/campaigns/components/List';
+import { Navigation } from '@/campaigns/components/Navigation';
 
-export default List;
+export default Navigation;

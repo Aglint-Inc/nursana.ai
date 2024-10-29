@@ -4,7 +4,7 @@ import type { PropsWithChildren } from 'react';
 import { type PATHS } from '@/interview/constants/paths';
 import { useCurrentInterview } from '@/interview/hooks/useCurrentInterview';
 
-import { useList } from '../Context';
+import { useNavigation } from '../Context';
 
 type Props = {
   path: (typeof PATHS)[number];
@@ -20,7 +20,7 @@ export const Card = (props: Props) => {
 
 const Link = (props: PropsWithChildren<Props>) => {
   const { interview } = useCurrentInterview();
-  const { intercepted } = useList();
+  const { intercepted } = useNavigation();
   return (
     <NextLink
       replace={intercepted}
