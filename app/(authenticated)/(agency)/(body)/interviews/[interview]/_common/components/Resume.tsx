@@ -16,9 +16,8 @@ const Content = () => {
   const resume = useInterviewResume();
   console.log(resume);
   return (
-    <ScrollArea className='mx-auto h-[800px] max-w-5xl'>
+    <ScrollArea className='mx-auto max-w-5xl'>
       <ResumeFeedbackUI resume={resume} />
-      {/* <>rekjfsakdlfj</> */}
     </ScrollArea>
   );
 };

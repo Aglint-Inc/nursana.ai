@@ -502,12 +502,10 @@ function calculateSectionScore<T extends (typeof scoringAspects)[number]>(
 }
 
 const professionalSummarySchema = {
-  summary: z.object({
+  summary_feedback: z.object({
     summary: z.string(),
+    overall_feedback: z.string(),
   }),
-  // professional_summary: z.object({
-  //   professional_summary: z.string(),
-  // }),
 } as const;
 
 export type professionalSummaryType = {
@@ -526,7 +524,7 @@ export const professionalSummaryPromptArchive: {
   schema: (typeof professionalSummarySchema)[keyof typeof professionalSummarySchema];
 }[] = [
   {
-    key: 'summary',
+    key: 'summary_feedback',
     dataMapper: ({ score_json }) => {
       try {
         const st = Object.keys(score_json).reduce((acc, key) => {
@@ -550,8 +548,8 @@ export const professionalSummaryPromptArchive: {
         return { result: null, error: String(e) };
       }
     },
-    prompt: `You will receive the evaluation results of a nurse's resume in JSON format, which includes the assessments for licensure, experience, and education & certifications. Summarize the information for recruiter. Don't mention ratings in summary`,
-    schema: professionalSummarySchema['summary'],
+    prompt: `You will receive the evaluation results of a nurse's resume in JSON format, which includes the assessments for licensure, experience, and education & certifications. Summarize the information for recruiter in summary and provide overall_feedback (use suggestions) for candidate . Don't mention ratings in summary`,
+    schema: professionalSummarySchema['summary_feedback'],
   },
   // {
   //   key: 'professional_summary',
