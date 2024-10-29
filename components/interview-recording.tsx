@@ -81,6 +81,7 @@ function InterviewRecording({
             </Button>
             <Button
               variant={'default'}
+              type='button'
               onClick={() => {
                 setShowStopInterviewModal(false);
               }}

@@ -37,7 +37,7 @@ const schema = campaignInsertSchema.pick({
 });
 
 export const AddForm = () => {
-  const { isPending, mutate } = useAction();
+  const { isPending, mutate, setIsOpen } = useAction();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: { status: 'archived' },
@@ -203,7 +203,12 @@ export const AddForm = () => {
           <ScrollBar />
         </ScrollArea>
         <div className='mt-3 flex justify-end gap-2'>
-          <Button variant={'secondary'} size={'sm'}>
+          <Button
+            variant={'secondary'}
+            type='button'
+            onClick={() => setIsOpen(false)}
+            size={'sm'}
+          >
             Cancel
           </Button>
           <Button type='submit' size={'sm'} disabled={isPending}>
