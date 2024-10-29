@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SidebarHeader, SidebarInput } from '@/components/ui/sidebar';
 
-import { useList } from './Context';
+import { useNavigation } from './Context';
 import { useAction } from './Header/addTempate/Context';
 
 export const Header = () => {
@@ -32,7 +32,7 @@ const Actions = () => {
 };
 
 const Search = () => {
-  const { search, setSearch } = useList();
+  const { search, setSearch } = useNavigation();
   return (
     <SidebarInput
       value={search}
