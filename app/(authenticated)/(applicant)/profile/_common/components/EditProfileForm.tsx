@@ -131,11 +131,11 @@ export default function EditProfileForm() {
     open_to_work,
   ]);
   return (
-    <Card className='w-full bg-gray-50'>
+    <Card className='w-full bg-gray-50 mb-[500px]'>
       <CardHeader className='p-4'>
         <div className='flex flex-row items-center justify-between'>
           <CardTitle className='text-lg font-medium'>
-            Edit Basic Information
+            Edit Basic Information ehjnhjndeh 
           </CardTitle>
           <span className='text-muted-foreground'>
             {(isPending ||
