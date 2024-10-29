@@ -2,7 +2,6 @@ import {
   Brain,
   ExternalLink,
   Lightbulb,
-  MessageCircle,
   Puzzle,
   Sparkles,
   TvMinimalPlay,
@@ -16,7 +15,7 @@ import { Progress } from '@/components/ui/progress';
 import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
-import { InterviewAnalysisType } from '@/dashboard/types';
+import type { InterviewAnalysisType } from '@/dashboard/types';
 
 const ErrorFallback = () => {
   return (
