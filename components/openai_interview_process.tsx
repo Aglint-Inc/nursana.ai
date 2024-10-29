@@ -312,7 +312,7 @@ export default function Interview({
             <div className='mt-6 flex flex-col items-center'>
               <NursanaLogo />
               <h1 className='mb-2 text-center text-3xl font-medium'>
-                Let&apos;s Start Your AI Interview
+                Let&apos;s Start Your Interview
               </h1>
               <p className='mb-6 max-w-xl text-center text-muted-foreground'>
                 Your camera has been initialized. Once you&apos;re ready, click

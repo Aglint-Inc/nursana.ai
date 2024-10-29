@@ -41,10 +41,10 @@ export const InterviewTranscriptUI = ({
                 <div>
                   {message.role === 'agent' ? (
                     <div className='grid grid-cols-[max-content_1fr] items-center gap-2'>
-                      <div className='flex h-6 w-6 items-center justify-center rounded-sm bg-secondary'>
+                      <div className='flex h-6 w-6 items-center justify-center rounded-sm bg-purple-100'>
                         <Sparkle size={16} strokeWidth={1.2} />
                       </div>
-                      <div className='text-md'>AI Interviewer</div>
+                      <div className='text-md text-purple-600'>Nursana</div>
                     </div>
                   ) : (
                     <div className='flex items-center gap-2'>
