@@ -1,9 +1,9 @@
-import { FileCheck, TvMinimalPlay } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { type Database } from '@/supabase-types/database.types';
 
+import { InterviewInfo } from './InterviewInfo';
 import { ScoreCard } from './ScoreCard';
 
 export const InterviewHomeUI = ({
@@ -59,77 +59,35 @@ export const InterviewHomeUI = ({
             <Button className='w-full'>View Detail</Button>
           </Link>
         </ScoreCard>
-        <div className='grid grid-cols-1 grid-rows-2 gap-4'>
-          <div className='flex flex-col justify-between gap-2 rounded-lg bg-muted p-5'>
-            <div className='flex flex-col gap-2'>
-              <FileCheck
-                className='h-8 w-8 text-muted-foreground'
-                strokeWidth={1.5}
-              />
-              <div className='flex flex-col gap-1'>
-                <span>Resume Submitted</span>
-                {/* <span>
-                {resume?.created_at
-                  ? new Date(resume.created_at).toLocaleDateString('en-US', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })
-                  : 'Date not available'}
-              </span> */}
-              </div>
-            </div>
+        <div className='flex flex-col gap-4'>
+          <InterviewInfo variant='resume' submitted>
             <Link
               href='/profile/basic-information'
               className='flex items-center gap-2 text-sm text-blue-600'
             >
-              <span>Edit Basic Information</span>
+              Edit Basic Information
             </Link>
-          </div>
-
-          <div className='flex flex-col justify-between gap-2 rounded-lg bg-muted p-5'>
-            <div className='flex flex-col gap-2'>
-              <TvMinimalPlay
-                className='h-8 w-8 text-muted-foreground'
-                strokeWidth={1.5}
-              />
-              <div className='flex flex-col gap-0.5'>
-                <span className='text-sm text-muted-foreground'>
-                  {stage === 'interview_completed'
-                    ? 'Interview completed on,'
-                    : 'You have an interview scheduled'}
-                </span>
-                {stage === 'interview_completed' && (
-                  <span className='text-sm'>
-                    {updated_at
-                      ? new Date(updated_at).toLocaleDateString('en-US', {
-                          weekday: 'long',
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })
-                      : 'Date not available'}
-                  </span>
-                )}
-              </div>
-            </div>
-            {stage === 'interview_completed' ? (
-              <Link
-                href='/interview-transcript'
-                className='flex items-center gap-2 text-sm text-blue-600'
-              >
-                <span>Replay Interview</span>
-              </Link>
-            ) : (
-              <Link
-                href={`/interview/${id}/start-interview`}
-                className='flex items-center gap-2 text-sm text-blue-600'
-              >
-                <span className='cursor-pointer'>Start now</span>
-              </Link>
-            )}
-          </div>
+          </InterviewInfo>
+          <InterviewInfo
+            variant='interview'
+            completed={stage === 'interview_completed'}
+            completedAt={updated_at}
+          >
+            <Link
+              href={
+                stage === 'interview_completed'
+                  ? '/interview-transcript'
+                  : `/interview/${id}/start-interview`
+              }
+              className='flex items-center gap-2 text-sm text-blue-600'
+            >
+              <span>
+                {stage === 'interview_completed'
+                  ? 'Replay interview'
+                  : `Start now`}
+              </span>
+            </Link>
+          </InterviewInfo>
         </div>
       </div>
     </div>
