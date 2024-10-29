@@ -86,8 +86,8 @@ const ResumeExperienceCard = ({
       <h3 className='mb-2 text-lg font-medium'>Experience</h3>
       <p className='mb-2 text-muted-foreground'>{feedback}</p>
       <ul className='list-inside list-disc space-y-2'>
-        {Experience.map(({ label, value }) => (
-          <li>
+        {Experience.map(({ label, value }, i) => (
+          <li key={i}>
             <span className='font-semibold'>{label} : </span>
             <span>{value}</span>
           </li>
@@ -137,8 +137,8 @@ const ResumeEducationCard = ({
       <h3 className='mb-2 text-lg font-medium'>Education and Certifications</h3>
       <p className='mb-2 text-muted-foreground'>{feedback}</p>
       <ul className='list-inside list-disc space-y-2'>
-        {Education.map(({ label, value }) => (
-          <li>
+        {Education.map(({ label, value }, i) => (
+          <li key={i}>
             <span className='font-semibold'>{label} : </span>
             <span>{value}</span>
           </li>

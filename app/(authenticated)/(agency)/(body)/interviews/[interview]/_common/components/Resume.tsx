@@ -14,7 +14,6 @@ export const Resume = () => {
 
 const Content = () => {
   const resume = useInterviewResume();
-  console.log(resume);
   return (
     <ScrollArea className='mx-auto max-w-5xl'>
       <ResumeFeedbackUI resume={resume} />
