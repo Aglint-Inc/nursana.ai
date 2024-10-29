@@ -17,7 +17,13 @@ import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
 
-export const InterviewAnalysisUI = ({ analysis }: { analysis: any }) => {
+export const InterviewAnalysisUI = ({
+  analysis,
+  summary,
+}: {
+  analysis: any;
+  summary: string;
+}) => {
   if (!analysis)
     return (
       <>
@@ -43,7 +49,7 @@ export const InterviewAnalysisUI = ({ analysis }: { analysis: any }) => {
       <div className='mb-6 text-xl font-medium'>Interview Feedback</div>
       <div className='mb-16 flex flex-col gap-2'>
         <ProgressBarCard
-          summary={analysis.overall_summary || 'No summary available.'}
+          summary={summary || 'No summary available.'}
           color='purple'
         >
           <RadialProgress chartData={chartData} size={200} />

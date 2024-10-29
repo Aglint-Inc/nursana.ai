@@ -110,10 +110,11 @@ function ResumeCard({ resumeDetails }: ResumeCardProps) {
     }
   }
   const status: status =
-    resumeUploadingPending ||
-    isUserDetailsFetching ||
-    resumeAnalyzing ||
-    resumeFetchingPending
+    (!resumeStructured || !resumeDetails?.file_url) &&
+    (resumeUploadingPending ||
+      isUserDetailsFetching ||
+      resumeAnalyzing ||
+      resumeFetchingPending)
       ? 'inProgress'
       : !resumeDetails?.file_url
         ? 'reupload'
@@ -121,9 +122,7 @@ function ResumeCard({ resumeDetails }: ResumeCardProps) {
           ? 're-fetch'
           : !resumeScore
             ? 're-analysis'
-            : resumeScore
-              ? 'completed'
-              : 'inProgress';
+            : 'completed';
 
   if (!resumeDetails) {
     return null;
