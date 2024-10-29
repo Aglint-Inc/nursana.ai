@@ -28,5 +28,12 @@ export interface FeedbackData {
 export function ResumeFeedback() {
   const { resume } = useUserData();
 
-  return <ResumeFeedbackUI resume={resume} />;
+  return (
+    <ResumeFeedbackUI
+      resume={resume}
+      summary={
+        resume.resume_feedback?.overall_feedback || ' Feedback not available '
+      }
+    />
+  );
 }
