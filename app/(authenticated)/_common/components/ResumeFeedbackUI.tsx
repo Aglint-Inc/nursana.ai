@@ -43,10 +43,16 @@ export const ResumeFeedbackUI = ({
 
       <ResumeScoreCard resume={resume} summary={summary} />
       <div className='flex flex-col gap-10'>
-        {experience && <ResumeExperienceCard experience={experience} />}
+        {experience && (
+          <ResumeExperienceCard
+            experience={experience}
+            isCandidateView={isCandidateView}
+          />
+        )}
         {educationAndCertifications && (
           <ResumeEducationCard
             educationAndCertifications={educationAndCertifications}
+            isCandidateView={isCandidateView}
           />
         )}
       </div>
@@ -58,8 +64,10 @@ ResumeFeedbackUI.ErrorFallback = ErrorFallback;
 
 const ResumeExperienceCard = ({
   experience,
+  isCandidateView,
 }: {
   experience: FeedbackData['breakdown']['experience'];
+  isCandidateView: boolean;
 }) => {
   const feedback = experience?.feedback;
   const suggestions = experience?.suggestions;
@@ -90,23 +98,28 @@ const ResumeExperienceCard = ({
   return (
     <div>
       <h3 className='mb-2 text-lg font-medium'>Experience</h3>
-      <p className='mb-2 text-muted-foreground'>{feedback}</p>
-      <ul className='list-inside list-disc space-y-2'>
-        {Experience.map(({ label, value }, i) => (
-          <li key={i}>
-            <span className='font-semibold'>{label} : </span>
-            <span>{value}</span>
-          </li>
-        ))}
-      </ul>
-      {suggestions && (
-        <div className='mt-4 flex flex-col gap-1 rounded-lg bg-purple-50 p-4'>
-          <div className='text-md flex items-center gap-2 font-medium text-purple-700'>
-            <Lightbulb className='h-5 w-5' />
-            <span>Suggestion</span>
+      {isCandidateView ? (
+        suggestions && (
+          <div className='mt-4 flex flex-col gap-1 rounded-lg bg-purple-50 p-4'>
+            <div className='text-md flex items-center gap-2 font-medium text-purple-700'>
+              <Lightbulb className='h-5 w-5' />
+              <span>Suggestion</span>
+            </div>
+            <p className='text-md mt-2 font-normal'>{suggestions}</p>
           </div>
-          <p className='text-md mt-2 font-normal'>{suggestions}</p>
-        </div>
+        )
+      ) : (
+        <>
+          <p className='mb-2 text-muted-foreground'>{feedback}</p>
+          <ul className='list-inside list-disc space-y-2'>
+            {Experience.map(({ label, value }, i) => (
+              <li key={i}>
+                <span className='font-semibold'>{label} : </span>
+                <span>{value}</span>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </div>
   );
@@ -114,8 +127,10 @@ const ResumeExperienceCard = ({
 
 const ResumeEducationCard = ({
   educationAndCertifications,
+  isCandidateView,
 }: {
   educationAndCertifications: FeedbackData['breakdown']['education_and_certifications'];
+  isCandidateView: boolean;
 }) => {
   const feedback = educationAndCertifications?.feedback;
   const suggestions = educationAndCertifications?.suggestions;
@@ -141,24 +156,28 @@ const ResumeEducationCard = ({
   return (
     <div>
       <h3 className='mb-2 text-lg font-medium'>Education and Certifications</h3>
-      <p className='mb-2 text-muted-foreground'>{feedback}</p>
-      <ul className='list-inside list-disc space-y-2'>
-        {Education.map(({ label, value }, i) => (
-          <li key={i}>
-            <span className='font-semibold'>{label} : </span>
-            <span>{value}</span>
-          </li>
-        ))}
-      </ul>
-
-      {suggestions && (
-        <div className='mt-4 flex flex-col gap-1 rounded-lg bg-purple-50 p-4'>
-          <div className='text-md flex items-center gap-2 font-medium text-purple-700'>
-            <Lightbulb className='h-5 w-5' />
-            <span>Suggestion</span>
+      {isCandidateView ? (
+        suggestions && (
+          <div className='mt-4 flex flex-col gap-1 rounded-lg bg-purple-50 p-4'>
+            <div className='text-md flex items-center gap-2 font-medium text-purple-700'>
+              <Lightbulb className='h-5 w-5' />
+              <span>Suggestion</span>
+            </div>
+            <p className='text-md mt-2 font-normal'>{suggestions}</p>
           </div>
-          <p className='text-md mt-2 font-normal'>{suggestions}</p>
-        </div>
+        )
+      ) : (
+        <>
+          <p className='mb-2 text-muted-foreground'>{feedback}</p>
+          <ul className='list-inside list-disc space-y-2'>
+            {Education.map(({ label, value }, i) => (
+              <li key={i}>
+                <span className='font-semibold'>{label} : </span>
+                <span>{value}</span>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </div>
   );

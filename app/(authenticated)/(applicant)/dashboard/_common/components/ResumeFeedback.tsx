@@ -103,7 +103,7 @@ export function ResumeFeedback() {
 
   return (
     <>
-      <ResumeFeedbackUI resume={resume} />
+      <ResumeFeedbackUI resume={resume} isCandidateView={true} />
     </>
   );
 }
