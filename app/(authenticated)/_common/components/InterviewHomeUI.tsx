@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import RadialProgress from '@/dashboard/components/RadialProgress';
 import { type Database } from '@/supabase-types/database.types';
 
+import { ScoreCard } from './ScoreCard';
+
 export const InterviewHomeUI = ({
   first_name,
   interview,
@@ -62,24 +64,20 @@ export const InterviewHomeUI = ({
         </div>
       )}
       <div className='grid w-full grid-cols-3 gap-4'>
-        <div className='flex flex-col items-center gap-2 rounded-lg bg-purple-50 p-4'>
-          <div className='mb-[-32px] mt-[10px] font-medium text-purple-600'>
-            Interview Score
-          </div>
-          <RadialProgress chartData={InterviewScores} size={250} />
+        <ScoreCard
+          score={interviewScore}
+          title='Interview Score'
+          variant='purple'
+        >
           <Link href={'/interview-feedback'} className='w-full'>
             <Button className='w-full'>View Detail</Button>
           </Link>
-        </div>
-        <div className='flex flex-col items-center gap-2 rounded-lg bg-pink-50 p-4'>
-          <div className='mb-[-32px] mt-[10px] font-medium text-pink-600'>
-            Resume Score
-          </div>
-          <RadialProgress chartData={ResumeScores} size={250} />
+        </ScoreCard>
+        <ScoreCard score={resumeScore} title='Resume Score'>
           <Link href={'/resume-review'} className='w-full'>
             <Button className='w-full'>View Detail</Button>
           </Link>
-        </div>
+        </ScoreCard>
         <div className='grid grid-cols-1 grid-rows-2 gap-4'>
           <div className='flex flex-col justify-between gap-2 rounded-lg bg-muted p-5'>
             <div className='flex flex-col gap-2'>
