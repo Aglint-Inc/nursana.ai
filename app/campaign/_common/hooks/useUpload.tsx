@@ -21,12 +21,13 @@ export const useUploadCampaign = () => {
     schema: campaignFormDataSchema,
     defaultValues: {
       email: '',
-      role: 'nurse-practitioner',
+      role: 'registered-nurse',
       first_name: '',
       last_name: '',
       campaign_id: campaignData?.id,
       user_id: null,
       terms_accepted: 'true',
+      license: 'registered-nurse',
     },
   });
 
@@ -84,6 +85,7 @@ export const useUploadCampaign = () => {
         fileExt,
         user_id: resCheckUser?.user_id ?? null,
         applicant_id: resCheckUser?.applicant_id ?? null,
+        license: form.getValues('license'),
       };
       Object.entries(data)
         .filter((d) => d[1] !== null)

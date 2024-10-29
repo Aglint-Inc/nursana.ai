@@ -5,7 +5,10 @@ import { type z } from 'zod';
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
 import { createPublicClient } from '@/server/db';
 import { type Database } from '@/supabase-types/database.types';
-import { type nerseTitlesSchema } from '@/supabase-types/zod-schema.types';
+import {
+  type nerseTitlesSchema,
+  type nurseLicenseSchema,
+} from '@/supabase-types/zod-schema.types';
 import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
 
 import { campaignFormDataSchema } from '../schema/upload';
@@ -22,6 +25,7 @@ const mutation = async ({
     applicant_id,
     role,
     terms_accepted,
+    license,
   },
 }: PublicProcedure<typeof campaignFormDataSchema>) => {
   const db = createPublicClient();
@@ -37,6 +41,7 @@ const mutation = async ({
       last_name,
       role,
       terms_accepted,
+      license,
     });
 
     userId = resUser.userId;
@@ -166,6 +171,7 @@ const createUser = async ({
   last_name,
   role,
   terms_accepted,
+  license,
 }: {
   db: SupabaseClient<Database>;
   email: string;
@@ -173,6 +179,7 @@ const createUser = async ({
   last_name?: string | null;
   role: z.infer<typeof nerseTitlesSchema>;
   terms_accepted: string;
+  license: z.infer<typeof nurseLicenseSchema> | null;
 }) => {
   const res = await db.auth.admin.createUser({
     email: email,
@@ -200,6 +207,7 @@ const createUser = async ({
         id: userId,
         job_title: role,
         terms_accepted: Boolean(terms_accepted),
+        license,
       })
       .select()
       .single()
