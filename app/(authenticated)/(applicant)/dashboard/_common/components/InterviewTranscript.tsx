@@ -1,9 +1,16 @@
 'use client';
 
-import { useUserData } from '@/applicant/hooks/useUserData';
+import { Sparkles, TvMinimalPlay } from 'lucide-react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+
+import { useUserData, useUserDataQuery } from '@/applicant/hooks/useUserData';
 import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscriptUI';
 import { VideoPlayer } from '@/common/components/VideoPlayer';
+import { Button } from '@/components/ui/button';
 import { useBucket } from '@/hooks/use-bucket';
+
+import NotAvailable from './NotAvailable';
 
 interface Message {
   role: 'agent' | 'user';
@@ -26,6 +33,9 @@ function isMessageArray(arr: any): arr is Message[] {
 
 export function InterviewTranscript() {
   const userData = useUserData();
+  const { refetch } = useUserDataQuery();
+  const [ignoreRefetching, setIgnoreRefetching] = useState<boolean>(false);
+  const interview = userData?.interview;
   const transcriptData = userData?.analysis?.transcript_json;
   const transcript: Message[] | null =
     transcriptData && isMessageArray(transcriptData) ? transcriptData : null;
@@ -35,7 +45,7 @@ export function InterviewTranscript() {
   const fileName =
     userData.analysis?.video_url?.split(`${videoBucketName}/`).pop() ?? '';
   // get file url
-  const { data: videoUrl, isPending } = useBucket(videoBucketName, fileName);
+  const { data: videoUrl } = useBucket(videoBucketName, fileName);
 
   const audioBucketName = 'audio';
   // get file name
@@ -44,6 +54,50 @@ export function InterviewTranscript() {
   // get file url
   const { data: audioUrl } = useBucket(audioBucketName, audioFileName);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (transcriptData) {
+        clearInterval(interval);
+        setIgnoreRefetching(true);
+      } else {
+        refetch();
+      }
+    }, 5000);
+    setTimeout(() => {
+      clearInterval(interval);
+      setIgnoreRefetching(true);
+    }, 30000);
+    return () => clearInterval(interval);
+  }, [transcriptData]);
+
+  if (interview.interview_stage !== 'interview_completed') {
+    return (
+      <NotAvailable
+        heading='Your interview hasn’t been completed yet.'
+        description='Please complete your interview to access your analysis.'
+        Icon={TvMinimalPlay}
+        actionBtn={
+          <Button>
+            <Link href={`/interview/${interview.id}/start-interview`}>
+              Start Interview
+            </Link>
+          </Button>
+        }
+      />
+    );
+  }
+
+  if (!transcriptData && !ignoreRefetching) {
+    return (
+      <NotAvailable
+        heading='We are fetching your transcript'
+        description='Please wait a moment, or check back in a little while for updated information.'
+        Icon={Sparkles}
+        loading={true}
+      />
+    );
+  }
+
   return (
     <InterviewTranscriptUI
       transcript={transcript}
@@ -51,13 +105,7 @@ export function InterviewTranscript() {
 
       // videoUrl={videoUrl || ''}
       videoPlayerComponent={
-        <>
-          {isPending ? (
-            <>Loading</>
-          ) : (
-            <VideoPlayer audioUrl={audioUrl || ''} videoUrl={videoUrl || ''} />
-          )}
-        </>
+        <VideoPlayer audioUrl={audioUrl || ''} videoUrl={videoUrl || ''} />
       }
     />
   );

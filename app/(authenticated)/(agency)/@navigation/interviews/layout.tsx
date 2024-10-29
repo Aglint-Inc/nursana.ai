@@ -1,3 +1,3 @@
-import { List } from '@/interview/components/List';
+import { Navigation } from '@/interview/components/Navigation';
 
-export default List;
+export default Navigation;

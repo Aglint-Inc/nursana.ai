@@ -18,6 +18,7 @@ declare global {
       OPENAI_API_KEY: string;
       RETELL_API_KEY: string;
       DB_PASS: string;
+      GOOGLE_PLACES_API_KEY: string;
     }
   }
 }

@@ -7,17 +7,19 @@ import {
 } from 'recharts';
 
 interface RadialProgressProps {
+  error?: boolean;
   chartData: {
     name: string;
     value: number;
     fill: string;
     path?: string;
   }[];
-  size?: number; // Optional prop for size (defaults to 48px if not provided)
+  size?: number;
 }
 
 const RadialProgress: React.FC<RadialProgressProps> = ({
   chartData,
+  error = false,
   size = 48,
 }) => {
   const containerStyle = {
@@ -67,9 +69,11 @@ const RadialProgress: React.FC<RadialProgressProps> = ({
               fill: chartData[0].fill,
               fontSize: '24px',
               fontWeight: 'bold',
-            }} 
+            }}
           >
-            {chartData[0].value && chartData[0].value.toFixed(1)}
+            {error
+              ? '---'
+              : chartData[0].value && chartData[0].value.toFixed(1)}
           </text>
         </RadialBarChart>
       </ResponsiveContainer>
