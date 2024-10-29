@@ -1,6 +1,6 @@
 'use client';
 
-import { Sparkles } from 'lucide-react';
+import { Sparkles, TvMinimalPlay } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -74,8 +74,8 @@ export function InterviewTranscript() {
     return (
       <NotAvailable
         heading='You have not completed your interview'
-        description='Please complete your interview before viewing your analysis.'
-        Icon={Sparkles}
+        description='Please complete your interview to access your analysis.'
+        Icon={TvMinimalPlay}
         actionBtn={
           <Button>
             <Link href={`/interview/${interview.id}/start-interview`}>
