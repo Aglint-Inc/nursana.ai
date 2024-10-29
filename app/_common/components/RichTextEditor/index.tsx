@@ -1,6 +1,7 @@
 'use client';
 import './editorStyle.css';
 
+import Heading from '@tiptap/extension-heading';
 import Placeholder from '@tiptap/extension-placeholder';
 import { type Editor, EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -31,12 +32,17 @@ const RichTextEditor = ({
         class: `min-h-[${minHeight}] bg-white max-h-[300px] ${isTool ? 'rounded-tr-none rounded-tl-none border-t-0' : ''} w-full rounded-md  border border-input bg-transparent px-3   text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 overflow-auto`,
       },
     },
+
     // ${isTool ? 'rounded-br-none rounded-bl-none' : ''}
     extensions: [
       Placeholder.configure({
         placeholder: placeholder || '',
       }),
+      Heading.configure({
+        levels: [1, 2],
+      }),
       StarterKit.configure({
+        heading: { levels: [1, 2] },
         orderedList: {
           HTMLAttributes: {
             class: 'list-decimal pl-4',
@@ -101,6 +107,25 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
         onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
       >
         <ListOrdered className='h-4 w-4' />
+      </Toggle>
+      <Separator orientation='vertical' className='h-8 w-[1px]' />
+      <Toggle
+        size='sm'
+        pressed={editor.isActive('heading', { level: 1 })}
+        onPressedChange={() =>
+          editor.chain().focus().toggleHeading({ level: 1 }).run()
+        }
+      >
+        <div className='h-4 w-4'>H1</div>
+      </Toggle>
+      <Toggle
+        size='sm'
+        pressed={editor.isActive('heading', { level: 2 })}
+        onPressedChange={() =>
+          editor.chain().focus().toggleHeading({ level: 2 }).run()
+        }
+      >
+        <div className='h-4 w-4'>H2</div>
       </Toggle>
     </div>
   );
