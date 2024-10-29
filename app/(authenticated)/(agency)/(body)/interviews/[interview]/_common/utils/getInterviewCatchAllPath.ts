@@ -1,9 +1,8 @@
 /* eslint-disable security/detect-non-literal-regexp */
 import { PATHS } from '@/interview/constants/paths';
+import { type PageProps } from '@/interview/types';
 
-const BASE_PATH = '^/interviews/.+?';
-
-export const getInterviewCatchAllPath = (path: string) =>
-  PATHS.filter((path) => path !== 'overview').find((p) =>
-    new RegExp(`${BASE_PATH}/${p}$`).test(path),
-  ) ?? null;
+export const getInterviewCatchAllPath = (
+  path: PageProps['params']['all'][number],
+) =>
+  PATHS.filter((path) => path !== 'overview').find((p) => p === path) ?? null;
