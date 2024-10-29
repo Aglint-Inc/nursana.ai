@@ -9,7 +9,9 @@ export const Resume = () => {
       <ScrollArea className='mx-auto h-[800px] max-w-5xl'>
         <ResumeFeedbackUI
           resume={resume}
-          summary={resume.resume_feedback?.summary}
+          summary={
+            resume.resume_feedback?.overall_summary || 'Summary not available'
+          }
         />
       </ScrollArea>
     </div>

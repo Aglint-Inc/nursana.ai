@@ -22,7 +22,7 @@ export function InterviewAnalysis() {
 
   return (
     <InterviewAnalysisUI
-      summary={analysis?.overall_feedback || ' - '}
+      summary={analysis?.overall_feedback || '  Feedback not available '}
       analysis={analysis}
     />
   );

@@ -31,7 +31,9 @@ export function ResumeFeedback() {
   return (
     <ResumeFeedbackUI
       resume={resume}
-      summary={resume.resume_feedback?.summary}
+      summary={
+        resume.resume_feedback?.overall_feedback || ' Feedback not available '
+      }
     />
   );
 }
