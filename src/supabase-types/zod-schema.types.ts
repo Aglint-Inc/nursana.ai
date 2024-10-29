@@ -341,24 +341,19 @@ export const locationsListUpdateSchema = z.object({
 
 export const locationsListRelationshipsSchema = z.tuple([]);
 
-export const jobTitlesSchema = z.union([
-  z.literal("registered-nurse"),
-  z.literal("nurse-practitioner"),
-  z.literal("licensed-practical-nurse"),
-  z.literal("clinical-nurse-specialist"),
-  z.literal("certified-nurse-midwife"),
-]);
+export const preferredJobTitlesRowSchema = z.object({
+  applicant_id: z.string(),
+  id: z.string(),
+});
 
 export const preferredJobTitlesInsertSchema = z.object({
   applicant_id: z.string().optional(),
   id: z.string().optional(),
-  job_title: jobTitlesSchema,
 });
 
 export const preferredJobTitlesUpdateSchema = z.object({
   applicant_id: z.string().optional(),
   id: z.string().optional(),
-  job_title: jobTitlesSchema.optional(),
 });
 
 export const preferredJobTitlesRelationshipsSchema = z.tuple([
@@ -545,7 +540,15 @@ export const userUpdateSchema = z.object({
   user_role: userRoleSchema.optional(),
 });
 
-export const userRelationshipsSchema = z.tuple([]);
+export const userRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("user_id_fkey"),
+    columns: z.tuple([z.literal("id")]),
+    isOneToOne: z.literal(true),
+    referencedRelation: z.literal("users"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
 
 export const userInterviewRatingRowSchema = z.object({
   applicant_id: z.string(),
@@ -688,12 +691,6 @@ export const interviewRowSchema = z.object({
   name: z.string(),
   updated_at: z.string().nullable(),
   version_id: z.string(),
-});
-
-export const preferredJobTitlesRowSchema = z.object({
-  applicant_id: z.string(),
-  id: z.string(),
-  job_title: jobTitlesSchema,
 });
 
 export const preferredJobTypesRowSchema = z.object({

@@ -1,31 +1,6 @@
 export type Json = any;
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string
-          query?: string
-          variables?: Json
-          extensions?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       agency: {
@@ -384,17 +359,14 @@ export type Database = {
         Row: {
           applicant_id: string
           id: string
-          job_title: Database["public"]["Enums"]["job_titles"]
         }
         Insert: {
           applicant_id?: string
           id?: string
-          job_title: Database["public"]["Enums"]["job_titles"]
         }
         Update: {
           applicant_id?: string
           id?: string
-          job_title?: Database["public"]["Enums"]["job_titles"]
         }
         Relationships: [
           {
@@ -573,7 +545,15 @@ export type Database = {
           last_name?: string
           user_role?: Database["public"]["Enums"]["user_role"]
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_interview_rating: {
         Row: {
@@ -709,12 +689,6 @@ export type Database = {
         | "resume_submitted"
         | "interview_inprogress"
         | "interview_completed"
-      job_titles:
-        | "registered-nurse"
-        | "nurse-practitioner"
-        | "licensed-practical-nurse"
-        | "clinical-nurse-specialist"
-        | "certified-nurse-midwife"
       job_types: "full-time" | "part-time" | "contract" | "internship"
       travel_preferrence:
         | "no-travel"
@@ -814,17 +788,3 @@ export type Enums<
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
 
-export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema["CompositeTypes"]
-    | { schema: keyof Database },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
-> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
