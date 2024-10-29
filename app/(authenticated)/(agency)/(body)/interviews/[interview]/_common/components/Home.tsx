@@ -10,24 +10,26 @@ import { useInterviewResume } from '@/interview/hooks/useInterviewResume';
 
 export const Home = () => {
   return (
-    <div className='mx-auto max-w-3xl'>
-      <InterviewHome
-        Title={<Title />}
-        Banner={<Banner />}
-        InterviewScore={
-          <ErrorBoundary fallback={<InterviewScoreFallback />}>
-            <InterviewScore />
-          </ErrorBoundary>
-        }
-        ResumeScore={
-          <ErrorBoundary fallback={<ResumeScoreFallback />}>
-            <ResumeScore />
-          </ErrorBoundary>
-        }
-        ResumeInfo={<ResumeInfo />}
-        InterviewInfo={<InterviewInfo />}
-      />
-    </div>
+    <ErrorBoundary fallback={<InterviewHome.ErrorFallback />}>
+      <div className='mx-auto max-w-3xl'>
+        <InterviewHome
+          Title={<Title />}
+          Banner={<Banner />}
+          InterviewScore={
+            <ErrorBoundary fallback={<InterviewScoreFallback />}>
+              <InterviewScore />
+            </ErrorBoundary>
+          }
+          ResumeScore={
+            <ErrorBoundary fallback={<ResumeScoreFallback />}>
+              <ResumeScore />
+            </ErrorBoundary>
+          }
+          ResumeInfo={<ResumeInfo />}
+          InterviewInfo={<InterviewInfo />}
+        />
+      </div>
+    </ErrorBoundary>
   );
 };
 
@@ -42,6 +44,7 @@ const Banner = () => {
 };
 
 const InterviewScore = () => {
+  // throw new Error('a');
   const { structured_analysis } = useInterviewAnalysis();
   return (
     <InterviewHome.InterviewScore score={structured_analysis.overall_score} />
@@ -55,6 +58,7 @@ const InterviewScoreFallback = () => {
 };
 
 const ResumeScore = () => {
+  // throw new Error('a');
   const { resume_feedback } = useInterviewResume();
   return <InterviewHome.ResumeScore score={resume_feedback.overallScore} />;
 };
@@ -70,6 +74,7 @@ const ResumeInfo = () => {
 };
 
 const InterviewInfo = () => {
+  // throw new Error('a');
   const interview = useInterview();
   return <InterviewHome.InterviewInfo {...interview} />;
 };
