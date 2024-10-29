@@ -7,6 +7,7 @@ import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
 import { type FeedbackData } from '@/dashboard/components/ResumeFeedback';
 import { type Database } from '@/supabase-types/database.types';
+import { useBucket } from '@/hooks/use-bucket';
 
 const ErrorFallback = () => {
   return (
@@ -190,10 +191,14 @@ const ResumeScoreCard = ({
   resume: Database['public']['Tables']['resume']['Row'];
   summary: string;
 }) => {
-  const resumeScore = resume?.resume_feedback?.overallScore ?? 0;
   const file_url = resume?.file_url || '';
-  const errorStatus = resume?.error_status;
 
+  const resumeBucketName = 'resumes';
+  const fileName = file_url?.split(`${resumeBucketName}/`).pop() ?? '';
+  const { data: resumeUrl } = useBucket(resumeBucketName, fileName);
+
+  const resumeScore = resume?.resume_feedback?.overallScore ?? 0;
+  const errorStatus = resume?.error_status;
   const ResumeScores = [
     {
       name: 'Score',
@@ -211,8 +216,8 @@ const ResumeScoreCard = ({
       >
         <RadialProgress chartData={ResumeScores} size={200} />
       </ProgressBarCard>
-      {!errorStatus && file_url && (
-        <Link href={file_url} rel='noopener noreferrer' target='_blank'>
+      {!errorStatus && resumeUrl && (
+        <Link href={resumeUrl} rel='noopener noreferrer' target='_blank'>
           <Card className='group border-border shadow-none duration-300 hover:bg-muted'>
             <CardContent className='p-4'>
               <div className='flex items-center justify-between'>
