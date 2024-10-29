@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 import { type z } from 'zod';
 
@@ -19,6 +20,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
 import { agencyUpdateSchema } from '@/supabase-types/zod-schema.types';
 
 import { useAgency } from '../hooks/useAgency';
@@ -32,7 +34,18 @@ export const EditAgencyDialog = () => {
         <DialogHeader>
           <DialogTitle>Edit Agency</DialogTitle>
           <DialogDescription>
-            <EditForm />
+            <Suspense
+              fallback={
+                <div className='flex min-h-[450px] flex-col gap-4'>
+                  <Skeleton className='h-[50px] w-full'> </Skeleton>
+                  <Skeleton className='h-[50px] w-full'> </Skeleton>
+                  <Skeleton className='h-[50px] w-full'> </Skeleton>
+                  <Skeleton className='h-[50px] w-full'> </Skeleton>
+                </div>
+              }
+            >
+              <EditForm />
+            </Suspense>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

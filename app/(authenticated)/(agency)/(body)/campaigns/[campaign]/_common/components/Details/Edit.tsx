@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { type z } from 'zod';
 
@@ -27,6 +27,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { campaignUpdateSchema } from '@/supabase-types/zod-schema.types';
@@ -72,7 +73,18 @@ const Back = () => {
 const Body = () => {
   return (
     <SheetDescription>
-      <EditForm />
+      <Suspense
+        fallback={
+          <div className='flex flex-col gap-4'>
+            <Skeleton className='h-[50px] w-full'> </Skeleton>
+            <Skeleton className='h-[50px] w-full'> </Skeleton>
+            <Skeleton className='h-[50px] w-full'> </Skeleton>
+            <Skeleton className='h-[50px] w-full'> </Skeleton>
+          </div>
+        }
+      >
+        <EditForm />
+      </Suspense>
     </SheetDescription>
   );
 };
@@ -202,6 +214,7 @@ const EditForm = () => {
                       });
                     }}
                     value={value || ''}
+                    checked={value === 'active'}
                   />
                 </FormControl>
                 <FormMessage />
@@ -272,7 +285,7 @@ const EditForm = () => {
             )}
           />
         )}
-        <div className='h-[calc(100vh-680px)] flex flex-col justify-end'>
+        <div className='flex h-[calc(100vh-680px)] flex-col justify-end'>
           <Button type='submit' disabled={isPending}>
             Update Changes
           </Button>
