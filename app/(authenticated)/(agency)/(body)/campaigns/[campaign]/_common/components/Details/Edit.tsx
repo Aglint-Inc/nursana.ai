@@ -109,7 +109,7 @@ const EditForm = () => {
     defaultValues: campaign,
   });
 
-  const { register, control, setValue, clearErrors } = form;
+  const { register, control, setValue, clearErrors, watch } = form;
 
   function onSubmit(values: z.infer<typeof schema>) {
     mutate(values);
@@ -228,11 +228,11 @@ const EditForm = () => {
           <Select
             onValueChange={(value) => {
               setSeletedTempId(value);
-              const selTemp = templates.find(
-                (temp) => temp.id === seletedTempId,
-              );
+              const selTemp = templates.find((temp) => temp.id === value);
               if (selTemp) {
                 setSeletedVersions(selTemp.version);
+                clearErrors('version_id');
+                setValue('version_id', selTemp.version[0].id);
               }
             }}
             value={seletedTempId}
@@ -266,7 +266,7 @@ const EditForm = () => {
                       clearErrors('version_id');
                       setValue('version_id', value, { shouldDirty: true });
                     }}
-                    value={value || ''}
+                    value={watch('version_id') || value || ''}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder='Select version' />
