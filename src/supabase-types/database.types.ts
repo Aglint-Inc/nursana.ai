@@ -1,4 +1,10 @@
-export type Json = any;
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
 
 export type Database = {
   graphql_public: {
@@ -360,25 +366,22 @@ export type Database = {
         Row: {
           city: string
           country: string
-          id: string
           level: string
-          place_id: string | null
+          place_id: string
           state: string
         }
         Insert: {
           city: string
           country: string
-          id?: string
           level: string
-          place_id?: string | null
+          place_id: string
           state: string
         }
         Update: {
           city?: string
           country?: string
-          id?: string
           level?: string
-          place_id?: string | null
+          place_id?: string
           state?: string
         }
         Relationships: []
@@ -439,17 +442,17 @@ export type Database = {
         Row: {
           applicant_id: string
           id: string
-          location_id: string
+          place_id: string
         }
         Insert: {
           applicant_id: string
           id?: string
-          location_id: string
+          place_id: string
         }
         Update: {
           applicant_id?: string
           id?: string
-          location_id?: string
+          place_id?: string
         }
         Relationships: [
           {
@@ -460,11 +463,11 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "preferred_locations_location_id_fkey"
-            columns: ["location_id"]
+            foreignKeyName: "preferred_locations_place_id_fkey"
+            columns: ["place_id"]
             isOneToOne: false
             referencedRelation: "locations_list"
-            referencedColumns: ["id"]
+            referencedColumns: ["place_id"]
           },
         ]
       }
