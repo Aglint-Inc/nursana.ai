@@ -92,20 +92,27 @@ const getPlaceDetails = async (place_id: string) => {
 
   const address = data as AddressResult;
   const addressComponents = address.addressComponents;
-  const city = addressComponents.find(
+  let city = addressComponents.find(
     (component) =>
       component.types.includes(AddressType.Locality) ||
       component.types.includes(AddressType.AdministrativeAreaLevel2),
   );
 
-  const state = addressComponents.find((component) =>
+  let state = addressComponents.find((component) =>
     component.types.includes(AddressType.AdministrativeAreaLevel1),
   );
   const country = addressComponents.find((component) =>
     component.types.includes(AddressType.Country),
   );
-  if (!city || !state || !country) {
-    throw new Error('Invalid place_id');
+
+  if (!country) {
+    throw new Error('Invalid country');
+  }
+  if (!city) {
+    city = state ? state : country;
+  }
+  if (!state) {
+    state = country;
   }
   return {
     city,
