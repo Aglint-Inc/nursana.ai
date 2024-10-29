@@ -16,6 +16,7 @@ import {
   useUserData,
 } from '@/applicant/hooks/useUserData';
 import { useLocationsList } from '@/authenticated/hooks/useLocationsList';
+import { Loader } from '@/common/components/Loader';
 import { UIMultiSelect } from '@/common/components/UIMultiSelect';
 import UIPhoneInput from '@/common/components/UIPhoneInput';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -131,21 +132,25 @@ export default function EditProfileForm() {
     open_to_work,
   ]);
   return (
-    <Card className='w-full bg-gray-50 mb-[500px]'>
+    <Card className='mb-[500px] w-full bg-gray-50'>
       <CardHeader className='p-4'>
         <div className='flex flex-row items-center justify-between'>
           <CardTitle className='text-lg font-medium'>
-            Edit Basic Information ehjnhjndeh 
+            Edit Basic Information
           </CardTitle>
-          <span className='text-muted-foreground'>
+          <span className='flex items-center text-muted-foreground'>
             {(isPending ||
               isCreateJobTitlePending ||
               isCreateJobTypePending ||
               isCreateLocationPending ||
               isDeleteJobTitlePending ||
               isDeleteJobTypePending ||
-              isDeleteLocationPending) &&
-              'Saving...'}
+              isDeleteLocationPending) && (
+              <>
+                <Loader />
+                <span className='ml-2 text-sm'>Saving</span>
+              </>
+            )}
           </span>
         </div>
       </CardHeader>
