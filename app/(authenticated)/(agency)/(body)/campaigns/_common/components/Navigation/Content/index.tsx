@@ -10,7 +10,7 @@ import {
   SidebarGroupContent,
 } from '@/components/ui/sidebar';
 
-import { useList } from '../Context';
+import { useNavigation } from '../Context';
 import { Card } from './Card';
 
 export const Content = () => {
@@ -26,14 +26,12 @@ export const Content = () => {
 };
 
 const List = () => {
-  const { search } = useList();
+  const { search } = useNavigation();
   const campaigns = useCampaigns();
 
-  // State to store the currently selected campaign's id
   const params = useParams();
   const campagin_id = params.campaign as string;
 
-  // Filter campaigns based on the search query
   const filteredCampaigns = campaigns.filter(({ name }) =>
     name.toLowerCase().includes(search.toLowerCase()),
   );
@@ -45,7 +43,6 @@ const List = () => {
 
   return (
     <div className='flex flex-col gap-2'>
-      {/*eslint-disable-next-line jsx-a11y/click-events-have-key-events*/}
       <Link
         href={`/campaigns`}
         className={`flex w-[284px] flex-col items-start gap-2 rounded-md border p-3 text-sm leading-tight ${

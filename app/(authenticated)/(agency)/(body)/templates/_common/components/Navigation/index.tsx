@@ -2,22 +2,22 @@
 
 import { Sidebar } from '@/components/ui/sidebar';
 
-import { ListProvider } from './Context';
+import { NavigationProvider } from './Context';
 import { Header } from './Header';
 import { AddTemplateDialog } from './Header/addTempate/AddTemplateDialog';
 import { ActionProvider } from './Header/addTempate/Context';
 import { TemplateList } from './TemplateList';
 
-export const List = () => {
+export const Navigation = () => {
   return (
     <Sidebar collapsible='none' className='hidden w-full flex-1 md:flex'>
-      <ListProvider>
+      <NavigationProvider>
         <ActionProvider>
           <Header />
           <AddTemplateDialog />
         </ActionProvider>
         <TemplateList />
-      </ListProvider>
+      </NavigationProvider>
     </Sidebar>
   );
 };
