@@ -6,7 +6,6 @@ import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
 import { type FeedbackData } from '@/dashboard/components/ResumeFeedback';
-import { useBucket } from '@/hooks/use-bucket';
 import { type Database } from '@/supabase-types/database.types';
 
 const ErrorFallback = () => {
@@ -22,9 +21,11 @@ const ErrorFallback = () => {
 export const ResumeFeedbackUI = ({
   resume,
   isCandidateView = false,
+  resumeUrl,
 }: {
   resume: Database['public']['Tables']['resume']['Row'];
   isCandidateView?: boolean;
+  resumeUrl: string;
 }) => {
   const resumeFeedback = resume?.resume_feedback as FeedbackData;
   const experience = resumeFeedback?.breakdown?.experience;
@@ -42,7 +43,11 @@ export const ResumeFeedbackUI = ({
     <div className='mb-6'>
       <div className='mb-6 text-xl font-medium'>Resume Review</div>
 
-      <ResumeScoreCard resume={resume} summary={summary} />
+      <ResumeScoreCard
+        resume={resume}
+        summary={summary}
+        resumeUrl={resumeUrl}
+      />
       <div className='flex flex-col gap-10'>
         {experience && (
           <ResumeExperienceCard
@@ -187,16 +192,12 @@ const ResumeEducationCard = ({
 const ResumeScoreCard = ({
   resume,
   summary,
+  resumeUrl,
 }: {
   resume: Database['public']['Tables']['resume']['Row'];
   summary: string;
+  resumeUrl: string;
 }) => {
-  const file_url = resume?.file_url || '';
-
-  const resumeBucketName = 'resumes';
-  const fileName = file_url?.split(`${resumeBucketName}/`).pop() ?? '';
-  const { data: resumeUrl } = useBucket(resumeBucketName, fileName);
-
   const resumeScore = resume?.resume_feedback?.overallScore ?? 0;
   const errorStatus = resume?.error_status;
   const ResumeScores = [
