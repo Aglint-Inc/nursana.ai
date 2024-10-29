@@ -101,7 +101,6 @@ export function ResumeFeedback() {
 
   return (
     <>
-      sdfsdfsdf
       <ResumeFeedbackUI
         resume={resume}
         summary={
