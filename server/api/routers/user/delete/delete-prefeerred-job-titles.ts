@@ -7,18 +7,18 @@ import { createPublicClient } from '@/server/db';
 import { nerseTitlesSchema } from '@/supabase-types/zod-schema.types';
 
 export const schema = z.object({
-  job_title: nerseTitlesSchema,
+  job_titles: nerseTitlesSchema,
 });
 
 const mutation = async ({
   ctx: { user_id },
-  input: { job_title },
+  input: { job_titles },
 }: ApplicantProcedure<typeof schema>) => {
   const supabase = createPublicClient();
   const { data } = await supabase
     .from('preferred_job_titles')
     .delete()
-    .eq('job_title', job_title)
+    .eq('job_titles', job_titles)
     .eq('applicant_id', user_id)
     .select()
     .throwOnError();
