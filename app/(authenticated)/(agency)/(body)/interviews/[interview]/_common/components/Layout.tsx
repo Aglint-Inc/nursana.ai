@@ -25,6 +25,9 @@ export const Layout = async (props: PropsWithChildren<PageProps>) => {
   void api.authenticated.agency.interviews.interview.video.prefetch({
     id: props.params.interview,
   });
+  void api.authenticated.agency.interviews.interview.resumeUrl.prefetch({
+    id: props.params.interview,
+  });
 
   return <HydrateClient>{props.children}</HydrateClient>;
 };
