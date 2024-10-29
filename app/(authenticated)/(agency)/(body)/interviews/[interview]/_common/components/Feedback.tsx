@@ -9,13 +9,7 @@ export const Feedback = () => {
   return (
     <div>
       <ScrollArea className='mx-auto h-[800px] max-w-5xl'>
-        <InterviewAnalysisUI
-          summary={
-            analysis?.structured_analysis?.overall_summary ||
-            'Summary not available'
-          }
-          analysis={analysis?.structured_analysis}
-        />
+        <InterviewAnalysisUI analysis={analysis?.structured_analysis} />
       </ScrollArea>
     </div>
   );
