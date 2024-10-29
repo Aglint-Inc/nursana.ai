@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  InterviewHomeUI,
-  type UserLandingProps,
-} from '@/authenticated/components/InterviewHomeUI';
+import { InterviewHome } from '@/authenticated/components/InterviewHome';
 import { useInterview } from '@/interview/hooks/useInterview';
 import { useInterviewAnalysis } from '@/interview/hooks/useInterviewAnalysis';
 import { useInterviewApplicant } from '@/interview/hooks/useInterviewApplicant';
@@ -22,7 +19,7 @@ export const Home = () => {
 
   const resumeScore = resume_feedback?.overallScore || 0;
 
-  const interview: UserLandingProps['interview'] = {
+  const interview: Parameters<(typeof InterviewHome)['InterviewInfo']>[0] = {
     id,
     stage: interview_stage || '',
     updated_at: updated_at || '',
@@ -30,11 +27,13 @@ export const Home = () => {
 
   return (
     <div className='mx-auto max-w-3xl'>
-      <InterviewHomeUI
-        first_name={first_name}
-        interviewScore={interviewScore}
-        resumeScore={resumeScore}
-        interview={interview}
+      <InterviewHome
+        Title={<InterviewHome.Title first_name={first_name} />}
+        Banner={<InterviewHome.Banner {...interview} />}
+        InterviewScore={<InterviewHome.InterviewScore score={interviewScore} />}
+        ResumeScore={<InterviewHome.ResumeScore score={resumeScore} />}
+        ResumeInfo={<InterviewHome.ResumeInfo />}
+        InterviewInfo={<InterviewHome.InterviewInfo {...interview} />}
       />
     </div>
   );
