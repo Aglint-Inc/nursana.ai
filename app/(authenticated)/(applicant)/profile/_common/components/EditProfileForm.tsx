@@ -85,8 +85,8 @@ export default function EditProfileForm() {
   const [lastName, setLastName] = useState(
     applicant_user?.user.last_name || '',
   );
-  const [openToWork, setOpenToWork] = useState(
-    applicant_user?.open_to_work || false,
+  const [openToWork, setOpenToWork] = useState<boolean>(
+    applicant_user?.open_to_work ?? true // Default to true if open_to_work is undefined or null
   );
 
   const [phone, setPhone] = useState(applicant_user?.phone_number || null);

@@ -9,6 +9,16 @@ interface Message {
   content: string;
 }
 
+const ErrorFallback = () => {
+  return (
+    <NotAvailable
+      heading='Data temporarily unavailable'
+      description='Please check back in a little while for updated information.'
+      Icon={TvMinimalPlay}
+    />
+  );
+};
+
 export const InterviewTranscriptUI = ({
   videoPlayerComponent,
   transcript,
@@ -17,18 +27,12 @@ export const InterviewTranscriptUI = ({
   transcript: Message[] | null;
 }) => {
   if (!transcript || transcript.length === 0) {
-    return (
-      <NotAvailable
-        heading='Data temporarily unavailable'
-        description='Please check back in a little while for updated information.'
-        Icon={TvMinimalPlay}
-      />
-    );
+    return <ErrorFallback />;
   }
 
   return (
     <div className='min-h-[calc(100vh-164px)]'>
-      <div className='mb-6 text-xl font-medium'>Intperview & Transcript</div>
+      <div className='mb-6 text-xl font-medium'>Interview & Transcript</div>
       <div className='flex flex-col gap-12'>
         <Card className='overflow-hidden border-none bg-secondary shadow-none'>
           <CardContent className='p-0'>{videoPlayerComponent}</CardContent>
@@ -41,10 +45,14 @@ export const InterviewTranscriptUI = ({
                 <div>
                   {message.role === 'agent' ? (
                     <div className='grid grid-cols-[max-content_1fr] items-center gap-2'>
-                      <div className='flex h-6 w-6 items-center justify-center rounded-sm bg-secondary'>
-                        <Sparkle size={16} strokeWidth={1.2} />
+                      <div className='flex h-6 w-6 items-center justify-center rounded-sm bg-purple-100'>
+                        <Sparkle
+                          size={16}
+                          strokeWidth={1.2}
+                          className='text-purple-500'
+                        />
                       </div>
-                      <div className='text-md'>AI Interviewer</div>
+                      <div className='text-md text-purple-600'>Nursana</div>
                     </div>
                   ) : (
                     <div className='flex items-center gap-2'>
@@ -74,3 +82,5 @@ export const InterviewTranscriptUI = ({
     </div>
   );
 };
+
+InterviewTranscriptUI.ErrorFallback = ErrorFallback;

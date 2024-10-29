@@ -9,8 +9,6 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
 const Layout = (props: PropsWithChildren<PageProps>) => {
   unstable_noStore();
-  // void api.authenticated.agency.read.prefetch();
-  // void api.authenticated.agency.user.prefetch();
   return (
     <HydrateClient>
       <AgencyEditProvider>
