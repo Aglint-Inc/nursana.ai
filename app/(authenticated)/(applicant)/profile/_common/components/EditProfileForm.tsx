@@ -112,7 +112,7 @@ export default function EditProfileForm() {
     }
   };
   const debouncedOnChangePlaceInput = useCallback(
-    debouncedAsync(mutateAsync, 300),
+    debouncedAsync(mutateAsync, 100),
     [],
   );
 
