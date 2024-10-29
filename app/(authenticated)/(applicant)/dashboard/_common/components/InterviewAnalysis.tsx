@@ -20,5 +20,10 @@ export function InterviewAnalysis() {
     );
   }
 
-  return <InterviewAnalysisUI analysis={analysis} />;
+  return (
+    <InterviewAnalysisUI
+      summary={analysis?.overall_feedback || ' - '}
+      analysis={analysis}
+    />
+  );
 }
