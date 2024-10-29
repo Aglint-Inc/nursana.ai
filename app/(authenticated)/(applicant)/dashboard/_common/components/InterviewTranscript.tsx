@@ -2,6 +2,7 @@
 
 import { useUserData } from '@/applicant/hooks/useUserData';
 import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscriptUI';
+import { Loader } from '@/common/components/Loader';
 import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { useBucket } from '@/hooks/use-bucket';
 
@@ -53,7 +54,10 @@ export function InterviewTranscript() {
       videoPlayerComponent={
         <>
           {isPending ? (
-            <>Loading</>
+            <div className='flex flex-col gap-2 items-center justify-center h-[432px]'>
+              <Loader className='h-10'/>
+              <p className='text-muted-foreground'>Loading..</p>
+            </div>
           ) : (
             <VideoPlayer audioUrl={audioUrl || ''} videoUrl={videoUrl || ''} />
           )}

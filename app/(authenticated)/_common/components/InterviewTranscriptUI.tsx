@@ -28,7 +28,7 @@ export const InterviewTranscriptUI = ({
 
   return (
     <div className='min-h-[calc(100vh-164px)]'>
-      <div className='mb-6 text-xl font-medium'>Intperview & Transcript</div>
+      <div className='mb-6 text-xl font-medium'>Interview & Transcript</div>
       <div className='flex flex-col gap-12'>
         <Card className='overflow-hidden border-none bg-secondary shadow-none'>
           <CardContent className='p-0'>{videoPlayerComponent}</CardContent>
