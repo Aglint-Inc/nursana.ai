@@ -88,16 +88,11 @@ type InterviewProps = Pick<
 >;
 
 const Interview = ({
-  interview_stage,
-  updated_at,
   children,
+  ...props
 }: PropsWithChildren<InterviewProps>) => {
   return (
-    <InterviewInfo
-      variant='interview'
-      completed={interview_stage === 'interview_completed'}
-      completedAt={updated_at ?? ''}
-    >
+    <InterviewInfo variant='interview' {...props}>
       {children}
     </InterviewInfo>
   );

@@ -1,6 +1,8 @@
 import { FileCheck, FileX, TvMinimalPlay } from 'lucide-react';
 import { type PropsWithChildren } from 'react';
 
+import { type Database } from '@/supabase-types/database.types';
+
 type Variant = 'resume' | 'interview';
 
 type Props = ResumeProps | InterviewProps;
@@ -30,9 +32,10 @@ const Resume = (props: PropsWithChildren<ResumeProps>) => {
 
 type InterviewProps = {
   variant: Extract<Variant, 'interview'>;
-  completed: boolean;
-  completedAt?: string | null;
-};
+} & Pick<
+  Database['public']['Tables']['interview']['Row'],
+  'id' | 'interview_stage' | 'updated_at'
+>;
 
 const Interview = (props: PropsWithChildren<InterviewProps>) => {
   return (
@@ -42,11 +45,7 @@ const Interview = (props: PropsWithChildren<InterviewProps>) => {
         strokeWidth={1.5}
       />
       <div className='flex flex-col gap-0.5'>
-        {props.completed ? (
-          <InterviewCompleted {...props} />
-        ) : (
-          <InterviewIncomplete />
-        )}
+        <InterviewStage {...props} />
       </div>
       {props.children}
     </div>
@@ -75,15 +74,27 @@ const ResumeNotSubmitted = () => {
   );
 };
 
+const InterviewStage = (props: InterviewProps) => {
+  switch (props.interview_stage) {
+    case 'not_started':
+    case 'resume_submitted':
+      return <InterviewIncomplete />;
+    case 'interview_inprogress':
+      return <InterviewInprogress />;
+    case 'interview_completed':
+      return <InterviewCompleted {...props} />;
+  }
+};
+
 const InterviewCompleted = (props: InterviewProps) => {
-  if (!props.completedAt) return <></>;
+  if (!props.updated_at) return <></>;
   return (
     <>
       <span className='text-sm text-muted-foreground'>
         Interview completed on
       </span>
       <span className='text-sm'>
-        {new Date(props.completedAt).toLocaleDateString('en-US', {
+        {new Date(props.updated_at).toLocaleDateString('en-US', {
           weekday: 'long',
           year: 'numeric',
           month: 'long',
@@ -94,10 +105,18 @@ const InterviewCompleted = (props: InterviewProps) => {
   );
 };
 
+const InterviewInprogress = () => {
+  return (
+    <span className='text-sm text-muted-foreground'>
+      An interview is in progress
+    </span>
+  );
+};
+
 const InterviewIncomplete = () => {
   return (
     <span className='text-sm text-muted-foreground'>
-      You have an interview scheduled
+      An interview has been scheduled
     </span>
   );
 };
