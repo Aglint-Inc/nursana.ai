@@ -6,8 +6,8 @@ import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
 import { type FeedbackData } from '@/dashboard/components/ResumeFeedback';
-import { type Database } from '@/supabase-types/database.types';
 import { useBucket } from '@/hooks/use-bucket';
+import { type Database } from '@/supabase-types/database.types';
 
 const ErrorFallback = () => {
   return (

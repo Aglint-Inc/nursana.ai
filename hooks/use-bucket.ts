@@ -24,7 +24,6 @@ export async function getFileUrl(
   const { data, error } = await supabase.storage
     .from(bucket)
     .createSignedUrl(fileName, 60 * 5);
-  console.log('--------- :', data, error);
   if (error) {
     throw new Error(`Supabase signedURL error: ${error.message}`);
   }
