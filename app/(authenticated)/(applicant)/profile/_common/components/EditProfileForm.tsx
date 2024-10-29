@@ -170,7 +170,7 @@ export default function EditProfileForm() {
   }, [preferredLocations, addressSugg]);
 
   return (
-    <Card className='mb-[500px] w-full bg-gray-50'>
+    <Card className='mb-[200px] w-full bg-gray-50'>
       <CardHeader className='p-4'>
         <div className='flex flex-row items-center justify-between'>
           <CardTitle className='text-lg font-medium'>
