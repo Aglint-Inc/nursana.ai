@@ -86,7 +86,7 @@ export default function EditProfileForm() {
     applicant_user?.user.last_name || '',
   );
   const [openToWork, setOpenToWork] = useState<boolean>(
-    applicant_user?.open_to_work ?? true // Default to true if open_to_work is undefined or null
+    applicant_user?.open_to_work ?? true, // Default to true if open_to_work is undefined or null
   );
 
   const [phone, setPhone] = useState(applicant_user?.phone_number || null);
@@ -353,31 +353,7 @@ export default function EditProfileForm() {
               />
             </div>
           </div>
-          {/* <div className='col-span-2'>
-            <div>
-              <Label>Preferred Locations</Label>
-              <UIMultiSelect
-                onDelete={(value) => {
-                  deletePreferredLocations({
-                    location_id: value,
-                  });
-                }}
-                listItems={locationList.map((item) => ({
-                  label: capitalizeFirstLetter(item.level),
-                  value: item.id,
-                }))}
-                onChange={(_values, value) => {
-                  createPreferredLocations({
-                    location_id: value,
-                  });
-                }}
-                defaultValue={preferredLocations.map(
-                  (item) => item.location_id,
-                )}
-                level='Preferred Locations'
-              />
-            </div>
-          </div> */}
+
           <div className='col-span-2'>
             <div>
               <Label>Preferred Locations</Label>
