@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { debouncedAsync } from 'lib/debouncedAsync';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { api } from 'trpc/client';
 import { type z } from 'zod';
 
@@ -112,7 +113,11 @@ export default function EditProfileForm() {
       //
     }
   };
-  const debouncedOnChangePlaceInput = debounceAsync(mutateAsync, 100);
+  const debouncedOnChangePlaceInput = useCallback(
+    debouncedAsync(mutateAsync, 300),
+    [],
+  );
+
   const first_name = useDebounce(firstName, 1000);
   const last_name = useDebounce(lastName, 1000);
   const phone_number = useDebounce(phone, 1000);
@@ -329,7 +334,7 @@ export default function EditProfileForm() {
               />
             </div>
           </div>
-          <div className='col-span-2'>
+          {/* <div className='col-span-2'>
             <div>
               <Label>Preferred Locations</Label>
               <UIMultiSelect
@@ -353,7 +358,7 @@ export default function EditProfileForm() {
                 level='Preferred Locations'
               />
             </div>
-          </div>
+          </div> */}
           <div className='col-span-2'>
             <div>
               <Label>Preferred Locations</Label>
@@ -365,22 +370,22 @@ export default function EditProfileForm() {
                   });
                 }}
                 onDelete={(value) => {
-                  // deletePreferredLocations({
-                  //   location_id: value,
-                  // });
+                  deletePreferredLocations({
+                    location_id: value,
+                  });
                 }}
                 listItems={(addressSugg ?? []).map((item) => ({
                   label: capitalizeFirstLetter(item.description),
                   value: item.place_id,
                 }))}
                 onChange={(_values, value) => {
+                  const place = addressSugg?.find((p) => p.place_id === value);
+                  if (!place) return;
                   createPreferredLocations({
-                    location_id: value,
+                    maps_place_id: place.place_id,
+                    place_description: place.description,
                   });
                 }}
-                // defaultValue={preferredLocations.map(
-                //   (item) => item.location_id,
-                // )}
                 level='Preferred Locations'
               />
             </div>
@@ -390,14 +395,3 @@ export default function EditProfileForm() {
     </Card>
   );
 }
-// Optimized debounce function to use a closure for timeout
-const debounceAsync = (func: Function, delay: number) => {
-  let timeout: NodeJS.Timeout;
-
-  return (...args: any[]) => {
-    if (timeout) {
-      clearTimeout(timeout);
-    }
-    timeout = setTimeout(() => func(...args), delay);
-  };
-};

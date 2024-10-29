@@ -13,8 +13,8 @@ export const schema = z.object({
   place_description: z.string(),
 });
 type AddressComponentType = {
-  long_name: string;
-  short_name: string;
+  longText: string;
+  shortText: string;
   types: AddressType[];
 };
 
@@ -42,29 +42,43 @@ const mutation = async ({
   const supabase = createPublicClient();
 
   const { city, country, state } = await getPlaceDetails(maps_place_id);
+  let location_list_id = '';
+
   const { data: location_list } = await supabase
     .from('locations_list')
-    .upsert({
-      city: city.long_name,
-      country: country.long_name,
-      level: place_description,
-      state: state.long_name,
-      place_id: maps_place_id,
-    })
     .select()
-    .single()
+    .eq('place_id', maps_place_id)
     .throwOnError();
-  if (!location_list) {
-    throw Error('locations list undefined');
+
+  if (location_list && location_list.length > 0) {
+    location_list_id = location_list[0].id;
+  } else {
+    const { data: inserted_location } = await supabase
+      .from('locations_list')
+      .insert({
+        city: city.longText,
+        country: country.longText,
+        level: place_description,
+        state: state.longText,
+        place_id: maps_place_id,
+      })
+      .select()
+      .single()
+      .throwOnError();
+
+    if (!inserted_location) {
+      throw new Error('Some thing went wrong');
+    }
+    location_list_id = inserted_location.id;
   }
-  const { data } = await supabase
+
+  await supabase
     .from('preferred_locations')
     .upsert({
       applicant_id: user_id,
-      location_id: location_list.id,
+      location_id: location_list_id,
     })
     .select()
-    .single()
     .throwOnError();
 };
 
@@ -73,12 +87,13 @@ export const createPreferredJobLocations = applicantProcedure
   .mutation(mutation);
 
 const getPlaceDetails = async (place_id: string) => {
-  const { data } = await axios.get(API_URL + '/' + place_id, {
+  const { data } = await axios.get(API_URL + place_id, {
     headers: {
       'X-Goog-Api-Key': process.env.GOOGLE_PLACES_API_KEY,
       'X-Goog-FieldMask': '*',
     },
   });
+
   const address = data as AddressResult;
   const addressComponents = address.addressComponents;
   const city = addressComponents.find((component) =>
@@ -93,13 +108,12 @@ const getPlaceDetails = async (place_id: string) => {
   const postal_code = addressComponents.find((component) =>
     component.types.includes(AddressType.PostalCode),
   );
-  if (!city || !state || !country || !postal_code) {
+  if (!city || !state || !country) {
     throw new Error('Invalid place_id');
   }
   return {
     city,
     state,
     country,
-    postal_code,
   };
 };
