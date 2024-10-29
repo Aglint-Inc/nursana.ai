@@ -9,10 +9,12 @@ type ScoreWheelProps = Parameters<typeof ScoreWheel>[0];
 
 type Variant = NonNullable<ScoreWheelProps['variant']>;
 
-type BgVariant<T extends Variant = Variant> = { [Bg in T]: `bg-${Bg}-50` };
+type BgVariant<T extends Variant = Variant> = {
+  [Bg in T]: `bg-${Bg extends 'error' ? 'gray' : Bg}-50`;
+};
 
 type ColorVariant<T extends Variant = Variant> = {
-  [Color in T]: `text-${Color}-600`;
+  [Color in T]: `text-${Color extends 'error' ? 'gray' : Color}-600`;
 };
 
 const containerVariant = cva(
@@ -20,6 +22,7 @@ const containerVariant = cva(
   {
     variants: {
       variant: {
+        error: 'bg-gray-50',
         pink: 'bg-pink-50',
         purple: 'bg-purple-50',
       } as const satisfies BgVariant,
@@ -33,6 +36,7 @@ const containerVariant = cva(
 const scoreVariant = cva('font-medium', {
   variants: {
     variant: {
+      error: 'text-gray-600',
       pink: 'text-pink-600',
       purple: 'text-purple-600',
     } as const satisfies ColorVariant,

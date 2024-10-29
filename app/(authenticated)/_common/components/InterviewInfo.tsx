@@ -21,7 +21,7 @@ type ResumeProps = {
 
 const Resume = (props: PropsWithChildren<ResumeProps>) => {
   return (
-    <div className='flex h-full flex-col justify-between gap-2 rounded-lg bg-muted p-5'>
+    <div className='flex h-full flex-col justify-evenly rounded-lg bg-muted p-5'>
       {props.submitted ? <ResumeSubmitted /> : <ResumeNotSubmitted />}
       {props.children}
     </div>
@@ -31,12 +31,12 @@ const Resume = (props: PropsWithChildren<ResumeProps>) => {
 type InterviewProps = {
   variant: Extract<Variant, 'interview'>;
   completed: boolean;
-  completedAt?: string;
+  completedAt?: string | null;
 };
 
 const Interview = (props: PropsWithChildren<InterviewProps>) => {
   return (
-    <div className='flex h-full flex-col justify-between rounded-lg bg-muted p-5'>
+    <div className='flex h-full flex-col justify-evenly rounded-lg bg-muted p-5'>
       <TvMinimalPlay
         className='h-8 w-8 text-muted-foreground'
         strokeWidth={1.5}
@@ -55,12 +55,12 @@ const Interview = (props: PropsWithChildren<InterviewProps>) => {
 
 const ResumeSubmitted = () => {
   return (
-    <div className='flex flex-col gap-2'>
+    <>
       <FileCheck className='h-8 w-8 text-muted-foreground' strokeWidth={1.5} />
       <div className='flex flex-col gap-1'>
         <span>Resume submitted</span>
       </div>
-    </div>
+    </>
   );
 };
 

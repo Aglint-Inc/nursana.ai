@@ -1,23 +1,32 @@
-import Link from 'next/link';
-import { type ReactNode } from 'react';
+import { type PropsWithChildren, type ReactNode } from 'react';
 
-import { Button } from '@/components/ui/button';
 import { type Database } from '@/supabase-types/database.types';
 
 import { InterviewInfo } from './InterviewInfo';
 import { ScoreCard } from './ScoreCard';
 
-const Banner = ({ stage, id }: Pick<InterviewProps, 'id' | 'stage'>) => {
-  if (stage === 'interview_completed') return null;
+const Banner = ({
+  interview_stage,
+  children,
+}: PropsWithChildren<Pick<InterviewProps, 'interview_stage'>>) => {
+  if (interview_stage === 'interview_completed') return null;
   return (
     <div className='flex w-full items-center justify-between rounded-md border border-yellow-500 p-4'>
-      <p className='font-bold text-yellow-500'>
-        You have not completed your interview yet.
-      </p>
-      <Link className='text-blue-600' href={`/interview/${id}/start-interview`}>
-        Start Now
-      </Link>
+      <p className='font-bold text-yellow-500'>Interview not completed</p>
+      {children}
     </div>
+  );
+};
+
+type InterviewScoreFallbackProps = {
+  message: string;
+};
+
+const InterviewScoreFallback = ({ message }: InterviewScoreFallbackProps) => {
+  return (
+    <ScoreCard title='Interview Score' variant='error'>
+      {message}
+    </ScoreCard>
   );
 };
 
@@ -25,68 +34,71 @@ type InterviewScoreProps = {
   score: number;
 };
 
-const InterviewScore = ({ score }: InterviewScoreProps) => {
+const InterviewScore = ({
+  score,
+  children,
+}: PropsWithChildren<InterviewScoreProps>) => {
   return (
     <ScoreCard score={score} title='Interview Score' variant='purple'>
-      <Link href={'/interview-feedback'} className='w-full'>
-        <Button className='w-full'>View Detail</Button>
-      </Link>
+      {children}
     </ScoreCard>
   );
 };
+InterviewScore.Fallback = InterviewScoreFallback;
 
 type ResumeScoreProps = {
   score: number;
 };
 
-const ResumeScore = ({ score }: ResumeScoreProps) => {
+type ResumeScoreFallbackProps = {
+  message: string;
+};
+
+const ResumeScoreFallback = ({ message }: ResumeScoreFallbackProps) => {
   return (
-    <ScoreCard score={score} title='Resume Score'>
-      <Link href={'/resume-review'} className='w-full'>
-        <Button className='w-full'>View Detail</Button>
-      </Link>
+    <ScoreCard title='Resume Score' variant='error'>
+      {message}
     </ScoreCard>
   );
 };
 
-const Resume = () => {
+const ResumeScore = ({
+  score,
+  children,
+}: PropsWithChildren<ResumeScoreProps>) => {
+  return (
+    <ScoreCard score={score} title='Resume Score'>
+      {children}
+    </ScoreCard>
+  );
+};
+ResumeScore.Fallback = ResumeScoreFallback;
+
+const Resume = ({ children }: PropsWithChildren) => {
   return (
     <InterviewInfo variant='resume' submitted>
-      <Link
-        href='/profile/basic-information'
-        className='flex items-center gap-2 text-sm text-blue-600'
-      >
-        Edit Basic Information
-      </Link>
+      {children}
     </InterviewInfo>
   );
 };
 
-type InterviewProps = {
-  id: string;
-  stage: Database['public']['Enums']['interview_stage'] | '';
-  updated_at: string;
-};
+type InterviewProps = Pick<
+  Database['public']['Tables']['interview']['Row'],
+  'id' | 'interview_stage' | 'updated_at'
+>;
 
-const Interview = ({ id, stage, updated_at }: InterviewProps) => {
+const Interview = ({
+  interview_stage,
+  updated_at,
+  children,
+}: PropsWithChildren<InterviewProps>) => {
   return (
     <InterviewInfo
       variant='interview'
-      completed={stage === 'interview_completed'}
-      completedAt={updated_at}
+      completed={interview_stage === 'interview_completed'}
+      completedAt={updated_at ?? ''}
     >
-      <Link
-        href={
-          stage === 'interview_completed'
-            ? '/interview-transcript'
-            : `/interview/${id}/start-interview`
-        }
-        className='flex items-center gap-2 text-sm text-blue-600'
-      >
-        <span>
-          {stage === 'interview_completed' ? 'Replay interview' : `Start now`}
-        </span>
-      </Link>
+      {children}
     </InterviewInfo>
   );
 };
