@@ -23,6 +23,8 @@ export interface FeedbackData {
     };
   };
   overallScore: number;
+  overall_feedback: string;
+  overall_summary: string;
 }
 
 export function ResumeFeedback() {
