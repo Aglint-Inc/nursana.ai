@@ -1,3 +1,3 @@
-import { List } from '@/templates/components/List';
+import { Navigation } from '@/templates/components/Navigation';
 
-export default List;
+export default Navigation;

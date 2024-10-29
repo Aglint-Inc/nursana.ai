@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { TriangleAlert, TvMinimalPlay } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useUserDataQuery } from '@/applicant/hooks/useUserData';
 import { Loader } from '@/common/components/Loader';
@@ -15,12 +15,14 @@ type ResumeCardProps = {
 };
 
 function InterviewCard({ interviewDetails, analysis }: ResumeCardProps) {
-  const { refetch, isFetching: isUserDetailsFetching } = useUserDataQuery();
+  const { refetch } = useUserDataQuery();
 
   const interviewScore = analysis?.structured_analysis?.overall_score || 0;
   const interviewAnalysis = analysis?.structured_analysis;
   const [interviewFeedbackFetching, setInterviewFeedbackFetching] =
     useState<boolean>(false);
+
+  const [ignoreRefetching, setIgnoreRefetching] = useState<boolean>(false);
 
   async function fetchInterviewFeedback() {
     setInterviewFeedbackFetching(true);
@@ -31,6 +33,23 @@ function InterviewCard({ interviewDetails, analysis }: ResumeCardProps) {
     setInterviewFeedbackFetching(false);
     refetch();
   }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (interviewAnalysis) {
+        clearInterval(interval);
+        setIgnoreRefetching(true);
+      } else {
+        refetch();
+      }
+    }, 5000);
+    setTimeout(() => {
+      clearInterval(interval);
+      setIgnoreRefetching(true);
+    }, 30000);
+    return () => clearInterval(interval);
+  }, [interviewDetails]);
+
   return (
     <>
       {interviewDetails?.interview_stage !== 'interview_completed' ? (
@@ -61,14 +80,13 @@ function InterviewCard({ interviewDetails, analysis }: ResumeCardProps) {
         </div>
       ) : (
         <>
-          {!isUserDetailsFetching &&
-            !interviewFeedbackFetching &&
-            interviewAnalysis &&
+          {interviewAnalysis &&
             interviewDetails?.interview_stage === 'interview_completed' && (
               <CompletedInterviewCard interviewScore={interviewScore} />
             )}
 
-          {(isUserDetailsFetching || interviewFeedbackFetching) && (
+          {((!interviewAnalysis && !ignoreRefetching) ||
+            interviewFeedbackFetching) && (
             <div className='w-full rounded-lg border border-border p-6'>
               <div className='grid grid-cols-1'>
                 <div className='flex h-full min-h-[230px] flex-col justify-between gap-4'>
@@ -87,8 +105,8 @@ function InterviewCard({ interviewDetails, analysis }: ResumeCardProps) {
             </div>
           )}
 
-          {!isUserDetailsFetching &&
-            !interviewFeedbackFetching &&
+          {!interviewFeedbackFetching &&
+            ignoreRefetching &&
             !interviewAnalysis && (
               <div className='w-full rounded-lg border border-border p-6'>
                 <div className='grid grid-cols-1'>

@@ -1,3 +1,3 @@
-import { Page } from '@/interview/components/Home/Page';
+import { Home } from '@/interview/components/Home';
 
-export default Page;
+export default Home;
