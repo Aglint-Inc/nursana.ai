@@ -41,8 +41,7 @@ const mutation = async ({
 }: ApplicantProcedure<typeof schema>) => {
   const supabase = createPublicClient();
 
-  const { city, country, postal_code, state } =
-    await getPlaceDetails(maps_place_id);
+  const { city, country, state } = await getPlaceDetails(maps_place_id);
   const { data: location_list } = await supabase
     .from('locations_list')
     .upsert({
@@ -50,6 +49,7 @@ const mutation = async ({
       country: country.long_name,
       level: place_description,
       state: state.long_name,
+      place_id: maps_place_id,
     })
     .select()
     .single()
@@ -61,7 +61,7 @@ const mutation = async ({
     .from('preferred_locations')
     .upsert({
       applicant_id: user_id,
-      location_id: location_list?.id,
+      location_id: location_list.id,
     })
     .select()
     .single()

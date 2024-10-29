@@ -320,6 +320,7 @@ export const locationsListRowSchema = z.object({
   country: z.string(),
   id: z.string(),
   level: z.string(),
+  place_id: z.string().nullable(),
   state: z.string(),
 });
 
@@ -328,6 +329,7 @@ export const locationsListInsertSchema = z.object({
   country: z.string(),
   id: z.string().optional(),
   level: z.string(),
+  place_id: z.string().optional().nullable(),
   state: z.string(),
 });
 
@@ -336,6 +338,7 @@ export const locationsListUpdateSchema = z.object({
   country: z.string().optional(),
   id: z.string().optional(),
   level: z.string().optional(),
+  place_id: z.string().optional().nullable(),
   state: z.string().optional(),
 });
 

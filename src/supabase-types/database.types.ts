@@ -362,6 +362,7 @@ export type Database = {
           country: string
           id: string
           level: string
+          place_id: string | null
           state: string
         }
         Insert: {
@@ -369,6 +370,7 @@ export type Database = {
           country: string
           id?: string
           level: string
+          place_id?: string | null
           state: string
         }
         Update: {
@@ -376,6 +378,7 @@ export type Database = {
           country?: string
           id?: string
           level?: string
+          place_id?: string | null
           state?: string
         }
         Relationships: []
