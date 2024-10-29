@@ -73,7 +73,7 @@ export function InterviewTranscript() {
   if (interview.interview_stage !== 'interview_completed') {
     return (
       <NotAvailable
-        heading='You have not completed your interview'
+        heading='Your interview hasn’t been completed yet.'
         description='Please complete your interview to access your analysis.'
         Icon={TvMinimalPlay}
         actionBtn={
