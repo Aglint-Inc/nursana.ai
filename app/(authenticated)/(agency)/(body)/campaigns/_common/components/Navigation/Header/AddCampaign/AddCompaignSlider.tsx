@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import {
   Sheet,
   SheetContent,
@@ -5,6 +7,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
+import { Skeleton } from '@/components/ui/skeleton';
 
 import { AddForm } from './AddForm';
 import { useAction } from './Context';
@@ -17,7 +20,18 @@ export const AddCampaignSlider = () => {
         <SheetHeader>
           <SheetTitle>Add Campaign</SheetTitle>
           <SheetDescription>
-            <AddForm />
+            <Suspense
+              fallback={
+                <div className='flex flex-col gap-4'>
+                  <Skeleton className='h-[50px] w-full'> </Skeleton>
+                  <Skeleton className='h-[50px] w-full'> </Skeleton>
+                  <Skeleton className='h-[50px] w-full'> </Skeleton>
+                  <Skeleton className='h-[50px] w-full'> </Skeleton>
+                </div>
+              }
+            >
+              <AddForm />
+            </Suspense>
           </SheetDescription>
         </SheetHeader>
       </SheetContent>
