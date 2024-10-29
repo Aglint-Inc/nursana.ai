@@ -35,6 +35,14 @@ function isMessageArray(arr: any): arr is Message[] {
 }
 
 export const Transcript = () => {
+  return (
+    <ErrorBoundary fallback={<>Transcript unavailable</>}>
+      <Content />
+    </ErrorBoundary>
+  );
+};
+
+const Content = () => {
   const { transcript_json } = useInterviewAnalysis();
   const transcript: Message[] | null =
     transcript_json && isMessageArray(transcript_json) ? transcript_json : null;
