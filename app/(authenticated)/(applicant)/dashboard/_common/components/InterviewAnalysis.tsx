@@ -91,11 +91,6 @@ export function InterviewAnalysis() {
   }
 
   return (
-    <InterviewAnalysisUI
-      summary={
-        interviewAnalysis?.overall_feedback || '  Feedback not available '
-      }
-      analysis={interviewAnalysis}
-    />
+    <InterviewAnalysisUI isCandidateView={true} analysis={interviewAnalysis} />
   );
 }
