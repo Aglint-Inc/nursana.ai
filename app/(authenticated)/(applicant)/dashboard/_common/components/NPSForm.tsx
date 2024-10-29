@@ -22,7 +22,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 
 export default function NPSForm() {
-  const { interview } = useUserData();
+  const { interview, analysis } = useUserData();
   const { interviewRating } = useInterviewRating();
   const { createInterviewRating } = useCreateInterviewRating();
 
@@ -49,6 +49,7 @@ export default function NPSForm() {
     if (
       !openInterviewRating &&
       interview?.interview_stage === 'interview_completed' &&
+      analysis.structured_analysis &&
       !interviewRating &&
       loginStage
     ) {
