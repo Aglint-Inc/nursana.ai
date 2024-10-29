@@ -15,8 +15,6 @@ export const ResumeFeedbackUI = ({
   resume: Database['public']['Tables']['resume']['Row'];
   isCandidateView?: boolean;
 }) => {
-  const resumeStatusError =
-    (Object.values(resume?.processing_status)[0] as any).error ?? '';
   const resumeFeedback = resume?.resume_feedback as FeedbackData;
   const experience = resumeFeedback?.breakdown?.experience;
   const educationAndCertifications =
@@ -26,7 +24,7 @@ export const ResumeFeedbackUI = ({
     return (
       <NotAvailable
         Icon={Notebook}
-        description={`${resumeStatusError ? resumeStatusError + ':' : ''} Resume Feedback is currently unavailable`}
+        description={` Resume Feedback is currently unavailable`}
         heading={`Data temporarily unavailable`}
       />
     );
