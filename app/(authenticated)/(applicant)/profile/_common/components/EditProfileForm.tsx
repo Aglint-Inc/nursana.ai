@@ -36,8 +36,8 @@ import { useDebounce } from '@/hooks/use-debounce';
 import { toast } from '@/hooks/use-toast';
 import { type userProfileSchema } from '@/server/api/routers/user/update';
 import {
-  type jobTitlesSchema,
   type jobTypesSchema,
+  type nerseTitlesSchema,
   type travelPreferrenceSchema,
 } from '@/supabase-types/zod-schema.types';
 import { capitalizeFirstLetter } from '@/utils/utils';
@@ -94,7 +94,7 @@ export default function EditProfileForm() {
   const [salary, setSalary] = useState(
     (applicant_user?.salary_range as string) || '',
   );
-  const [jobTitle, setJobTitle] = useState<z.infer<typeof jobTitlesSchema>>(
+  const [jobTitle, setJobTitle] = useState<z.infer<typeof nerseTitlesSchema>>(
     (applicant_user?.job_title as any) || 'nurse-practitioner',
   );
   const [travelPreference, setTravelPreference] = useState<
@@ -121,7 +121,7 @@ export default function EditProfileForm() {
   const last_name = useDebounce(lastName, 1000);
   const phone_number = useDebounce(phone, 1000);
   const salary_range = useDebounce(salary, 1000);
-  const current_job_title = useDebounce(jobTitle, 1000);
+  const job_title = useDebounce(jobTitle, 1000);
   const preferred_travel_preference = useDebounce(travelPreference, 1000);
   const open_to_work = useDebounce(openToWork, 1000);
 
@@ -137,14 +137,14 @@ export default function EditProfileForm() {
       salary_range,
       preferred_travel_preference,
       open_to_work,
-      current_job_title,
+      job_title,
     });
   }, [
     first_name,
     last_name,
     phone_number,
     salary_range,
-    current_job_title,
+    job_title,
     preferred_travel_preference,
     open_to_work,
   ]);
@@ -266,7 +266,7 @@ export default function EditProfileForm() {
             <div>
               <Label>Current Job Title</Label>
               <Select
-                onValueChange={(value: z.infer<typeof jobTitlesSchema>) => {
+                onValueChange={(value: z.infer<typeof nerseTitlesSchema>) => {
                   setJobTitle(value);
                 }}
                 value={jobTitle || ''}
@@ -339,7 +339,7 @@ export default function EditProfileForm() {
               <UIMultiSelect
                 onDelete={(value) => {
                   deletePreferredJobTitles({
-                    job_title: value as z.infer<typeof jobTitlesSchema>,
+                    job_title: value as z.infer<typeof nerseTitlesSchema>,
                   });
                 }}
                 listItems={JOB_TITLES.map((item) => ({
@@ -348,11 +348,11 @@ export default function EditProfileForm() {
                 }))}
                 onChange={(_values, value) => {
                   createPreferredJobTitles({
-                    job_title: value as z.infer<typeof jobTitlesSchema>,
+                    job_title: value as z.infer<typeof nerseTitlesSchema>,
                   });
                 }}
                 defaultValue={
-                  preferredJobTitle.map((item) => item.job_title) as string[]
+                  preferredJobTitle.map((item) => item.job_titles) as string[]
                 }
                 level='Job Titles'
               />

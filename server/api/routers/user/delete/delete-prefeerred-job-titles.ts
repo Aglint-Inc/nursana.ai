@@ -4,10 +4,10 @@ import { z } from 'zod';
 
 import { type ApplicantProcedure, applicantProcedure } from '@/server/api/trpc';
 import { createPublicClient } from '@/server/db';
-import { jobTitlesSchema } from '@/supabase-types/zod-schema.types';
+import { nerseTitlesSchema } from '@/supabase-types/zod-schema.types';
 
 export const schema = z.object({
-  job_title: jobTitlesSchema,
+  job_title: nerseTitlesSchema,
 });
 
 const mutation = async ({

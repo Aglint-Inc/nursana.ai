@@ -5,7 +5,7 @@ import { type z } from 'zod';
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
 import { createPublicClient } from '@/server/db';
 import { type Database } from '@/supabase-types/database.types';
-import { type jobTitlesSchema } from '@/supabase-types/zod-schema.types';
+import { type nerseTitlesSchema } from '@/supabase-types/zod-schema.types';
 import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
 
 import { campaignFormDataSchema } from '../schema/upload';
@@ -171,7 +171,7 @@ const createUser = async ({
   email: string;
   first_name: string;
   last_name?: string | null;
-  role: z.infer<typeof jobTitlesSchema>;
+  role: z.infer<typeof nerseTitlesSchema>;
   terms_accepted: string;
 }) => {
   const res = await db.auth.admin.createUser({

@@ -1,5 +1,5 @@
-import { jobTitlesSchema } from '@/supabase-types/zod-schema.types';
+import { nerseTitlesSchema } from '@/supabase-types/zod-schema.types';
 
-export const JOB_TITLES = jobTitlesSchema._def.options.map(
+export const JOB_TITLES = nerseTitlesSchema._def.options.map(
   (option) => option.value,
 );

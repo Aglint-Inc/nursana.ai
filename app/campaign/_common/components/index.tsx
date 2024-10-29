@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { Loader } from '@/common/components/Loader';
 import UISelectDropDown from '@/common/components/UISelectDropDown';
 import UITextField from '@/common/components/UITextField';
-import { capitalize } from '@/common/utils/capitalize';
 import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
 import { Button } from '@/components/ui/button';
@@ -20,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { capitalizeFirstLetter } from '@/utils/utils';
 
 import Section from '../../../../components/section';
 import { useUploadCampaign } from '../hooks/useUpload';
@@ -65,7 +65,9 @@ export default function FormCampaign() {
                                 disabled={saving}
                                 fullWidth
                                 menuOptions={JOB_TITLES.map((role) => ({
-                                  name: capitalize(role),
+                                  name: capitalizeFirstLetter(
+                                    role.split('-').join(' '),
+                                  ),
                                   value: role,
                                 }))}
                                 onValueChange={(
