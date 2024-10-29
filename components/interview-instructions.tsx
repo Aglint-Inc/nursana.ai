@@ -1,6 +1,9 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 'use client';
 
+import './interview-instructions.css';
+
+import parse from 'html-react-parser';
 import { Pause, Play, Repeat } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -236,12 +239,9 @@ export default function InterviewInstructions({
               <h2 className='mb-1 flex items-center text-lg font-medium'>
                 Instructions
               </h2>
-              <div
-                className='text-md list-inside list-disc space-y-1 text-muted-foreground'
-                dangerouslySetInnerHTML={{
-                  __html: interviewData.version.candidate_instructions ?? '',
-                }}
-              ></div>
+              <div className='text-md html list-inside list-disc space-y-1 text-muted-foreground'>
+                {parse(interviewData.version.candidate_instructions ?? '')}
+              </div>
             </CardContent>
           </Card>
 

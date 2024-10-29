@@ -4,9 +4,11 @@ import {
   JOB_TYPES,
   TRAVEL_PREFERENCES,
 } from 'app/(authenticated)/(applicant)/profile/_common/constant';
+import { debouncedAsync } from 'lib/debouncedAsync';
 import { CheckCircle2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Label } from 'recharts';
+import { api } from 'trpc/client';
 import { type z } from 'zod';
 
 import {
@@ -22,7 +24,6 @@ import {
   useUpdateUserData,
   useUserData,
 } from '@/applicant/hooks/useUserData';
-import { useLocationsList } from '@/authenticated/hooks/useLocationsList';
 import { Loader } from '@/common/components/Loader';
 import { UIMultiSelect } from '@/common/components/UIMultiSelect';
 import { Button } from '@/components/ui/button';
@@ -34,6 +35,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useLocalStorage } from '@/hooks/use-local-storage';
+import { toast } from '@/hooks/use-toast';
 import {
   type jobTitlesSchema,
   type jobTypesSchema,
@@ -46,7 +48,6 @@ import WaitingForMatch from './WaitingForMatch';
 function PreferenceForm() {
   const { applicant_user: user } = useUserData();
   const { updateUserDetails } = useUpdateUserData();
-  const { locationList } = useLocationsList();
 
   const { preferredJobTitle } = usePreferredJobTitles();
   const { preferredJobTypes } = usePreferredJobTypes();
@@ -96,6 +97,40 @@ function PreferenceForm() {
       setLocalStoragePreference(false);
     }
   }, [isCompletePreferenceForm]);
+  const { mutateAsync, data: addressSugg } =
+    api.services.placesAutocomplete.useMutation({
+      onError: (_err) => {
+        toast({
+          title: 'Some thing went wrong',
+          variant: 'destructive',
+        });
+      },
+    });
+
+  const debouncedOnChangePlaceInput = useCallback(
+    debouncedAsync(mutateAsync, 100),
+    [],
+  );
+  const merged_locations = useMemo(() => {
+    const temp: NonNullable<typeof addressSugg> = [
+      ...(addressSugg ?? []),
+      ...preferredLocations.map((l) => ({
+        description: l.locations_list.level,
+        place_id: l.place_id,
+      })),
+    ];
+    const uniq_places: Record<string, NonNullable<typeof addressSugg>[0]> = {};
+    temp.forEach((t) => {
+      uniq_places[t.place_id] = t;
+    });
+    const merged: NonNullable<typeof addressSugg> = [];
+    Object.values(uniq_places).forEach((t) => {
+      merged.push(t);
+    });
+
+    return merged;
+  }, [preferredLocations, addressSugg]);
+
   return (
     <div className='flex flex-col gap-10'>
       {(!localStoragePreference || !isCompletePreferenceForm) && (
@@ -201,22 +236,32 @@ function PreferenceForm() {
                 <div>
                   <Label>Preferred Locations</Label>
                   <UIMultiSelect
-                    onDelete={(value) => {
-                      deletePreferredLocations({
-                        location_id: value,
+                    onInputChnage={(str) => {
+                      debouncedOnChangePlaceInput({
+                        text_query: str,
                       });
                     }}
-                    listItems={locationList.map((item) => ({
-                      label: capitalizeFirstLetter(item.level),
-                      value: item.id,
+                    onDelete={(value) => {
+                      deletePreferredLocations({
+                        place_id: value,
+                      });
+                    }}
+                    listItems={merged_locations.map((item) => ({
+                      label: capitalizeFirstLetter(item.description),
+                      value: item.place_id,
                     }))}
                     onChange={(_values, value) => {
+                      const place = addressSugg?.find(
+                        (p) => p.place_id === value,
+                      );
+                      if (!place) return;
                       createPreferredLocations({
-                        location_id: value,
+                        maps_place_id: place.place_id,
+                        place_description: place.description,
                       });
                     }}
                     defaultValue={preferredLocations.map(
-                      (item) => item.location_id,
+                      (item) => item.place_id,
                     )}
                     level='Preferred Locations'
                   />
@@ -227,12 +272,12 @@ function PreferenceForm() {
                   <div className=''>
                     <span className='text-muted-foreground'>
                       {isSaving ? (
-                        <div className='grid grid-cols-[max-content_1fr] items-center gap-2 '>
+                        <div className='grid grid-cols-[max-content_1fr] items-center gap-2'>
                           <Loader />
                           <p>Saving preferences...</p>
                         </div>
                       ) : (
-                       ''
+                        ''
                       )}
                     </span>
                     <p>
@@ -247,7 +292,7 @@ function PreferenceForm() {
                     </p>
                   </div>
                   <Button
-                  size={'sm'}
+                    size={'sm'}
                     onClick={() => {
                       setLocalStoragePreference(true);
                     }}
