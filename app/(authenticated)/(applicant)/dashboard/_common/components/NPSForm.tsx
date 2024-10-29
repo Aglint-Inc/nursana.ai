@@ -21,6 +21,21 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 
+type RatingLabel = {
+  text: string;
+  color: string;
+};
+
+const ratingLabels: Record<number, RatingLabel> = {
+  1: { text: "Poor 😞", color: "text-red-500" },
+  2: { text: "Average 😐", color: "text-yellow-500" },
+  3: { text: "Good 😊", color: "text-green-500" },
+  4: { text: "Very Good 😃", color: "text-blue-500" },
+  5: { text: "Excellent 🌟", color: "text-purple-500" },
+};
+
+
+
 export default function NPSForm() {
   const { interview, analysis } = useUserData();
   const { interviewRating } = useInterviewRating();
@@ -29,6 +44,7 @@ export default function NPSForm() {
   const [rating, setRating] = useState<number | null>(null);
   const [feedback, setFeedback] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,6 +78,10 @@ export default function NPSForm() {
       setOpenOpenInterviewRating(false);
     }
   }, [interviewRating, interview]);
+  // useEffect(() => {
+  //   setOpenOpenInterviewRating(true);
+  //   setLoginStage(null);
+  // }, []);
 
   return (
     <UIDialog
@@ -72,61 +92,68 @@ export default function NPSForm() {
       slotButtons={<></>}
     >
       {submitted ? (
-        <Card className='mx-auto w-full max-w-md'>
-          <CardContent className='pt-6 text-center'>
-            <h2 className='mb-2 text-2xl font-bold text-green-600'>
-              Thank You!
+        <Card className='w-full max-w-md border-none shadow-none '>
+          <div className='p-0 text-center min-h-[300px] flex flex-col items-center justify-center'>
+            <h2 className='mb-1 text-md font-medium'>
+              Thank You 💜
             </h2>
-            <p>Your feedback has been submitted successfully.</p>
-          </CardContent>
+            <p className='text-sm text-muted-foreground'>Your feedback has been submitted successfully.</p>
+          </div>
         </Card>
       ) : (
-        <Card className='mx-auto w-full max-w-md'>
-          <CardHeader>
-            <CardDescription>
+        <Card className='w-full border-none shadow-none'>
+          <CardHeader className='p-0' >
+            <CardDescription className='p-0 my-2'>
               How likely are you to recommend Nursana to a friend or colleague?
             </CardDescription>
           </CardHeader>
           <form onSubmit={handleSubmit}>
-            <CardContent className='space-y-6'>
-              <RadioGroup
-                value={String(rating)}
-                onValueChange={(value) => {
-                  setRating(Number(value));
-                }}
-                className='flex justify-between'
-              >
-                {[0, 1, 2, 3, 4, 5].map((value) => (
-                  <div key={value} className='flex flex-col items-center'>
-                    <RadioGroupItem
-                      value={value.toString()}
-                      id={`rating-${value}`}
-                      className='sr-only'
-                    />
-                    <Label
-                      htmlFor={`rating-${value}`}
-                      className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-full transition-colors ${
-                        String(rating) === value.toString()
-                          ? 'bg-primary text-primary-foreground'
-                          : 'bg-secondary hover:bg-secondary/80'
-                      }`}
-                    >
-                      {value}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
+            <CardContent className='space-y-6 p-0'>
+            <RadioGroup
+  value={String(rating)}
+  onValueChange={(value) => {
+    setRating(Number(value));
+  }}
+  className="flex items-center gap-4"
+>
+  {[1, 2, 3, 4, 5].map((value) => (
+    <div key={value} className="flex flex-col items-center">
+      <RadioGroupItem
+        value={value.toString()}
+        id={`rating-${value}`}
+        className="sr-only"
+      />
+      <Label
+        htmlFor={`rating-${value}`}
+        className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-full transition-colors ${
+          String(rating) === value.toString()
+            ? 'bg-primary text-primary-foreground'
+            : 'bg-secondary hover:bg-secondary/80'
+        }`}
+      >
+        {value}
+      </Label>
+    </div>
+  ))}
+</RadioGroup>
+
+  {rating && (
+    <span className={`text-sm font-normal  mt-2`}>
+      {ratingLabels[rating]?.text}
+    </span>
+  )}
               <div className='space-y-2'>
-                <Label htmlFor='feedback'>Additional Feedback (Optional)</Label>
+                <Label htmlFor='feedback' className='text-sm text-muted-foreground font-normal'>Additional Feedback (Optional)</Label>
                 <Textarea
                   id='feedback'
                   placeholder='Tell us more about your experience...'
                   value={feedback}
                   onChange={(e) => setFeedback(e.target.value)}
+                  className='h-[150px]'
                 />
               </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className='p-0 mt-4'>
               <Button type='submit' className='w-full' disabled={!rating}>
                 Submit Feedback
               </Button>

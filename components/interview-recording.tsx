@@ -99,7 +99,7 @@ function InterviewRecording({
         }
       >
         <div>
-          <p>Are you sure you want to stop the interview?</p>
+          <p>Are you sure you want to conclude the interview?</p>
           <div className='mt-4 flex justify-end'></div>
         </div>
       </UIDialog>
