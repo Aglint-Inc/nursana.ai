@@ -1,41 +1,75 @@
 'use client';
 
-import {
-  InterviewHomeUI,
-  type UserLandingProps,
-} from '@/authenticated/components/InterviewHomeUI';
+import { ErrorBoundary } from 'react-error-boundary';
+
+import { InterviewHome } from '@/authenticated/components/InterviewHome';
 import { useInterview } from '@/interview/hooks/useInterview';
 import { useInterviewAnalysis } from '@/interview/hooks/useInterviewAnalysis';
 import { useInterviewApplicant } from '@/interview/hooks/useInterviewApplicant';
 import { useInterviewResume } from '@/interview/hooks/useInterviewResume';
 
 export const Home = () => {
-  const { first_name } = useInterviewApplicant();
-
-  const { structured_analysis } = useInterviewAnalysis();
-
-  const { resume_feedback } = useInterviewResume();
-
-  const { id, interview_stage, updated_at } = useInterview();
-
-  const interviewScore = structured_analysis?.overall_score || 0;
-
-  const resumeScore = resume_feedback?.overallScore || 0;
-
-  const interview: UserLandingProps['interview'] = {
-    id,
-    stage: interview_stage || '',
-    updated_at: updated_at || '',
-  };
-
   return (
     <div className='mx-auto max-w-3xl'>
-      <InterviewHomeUI
-        first_name={first_name}
-        interviewScore={interviewScore}
-        resumeScore={resumeScore}
-        interview={interview}
+      <InterviewHome
+        Title={<Title />}
+        Banner={<Banner />}
+        InterviewScore={
+          <ErrorBoundary fallback={<InterviewScoreFallback />}>
+            <InterviewScore />
+          </ErrorBoundary>
+        }
+        ResumeScore={
+          <ErrorBoundary fallback={<ResumeScoreFallback />}>
+            <ResumeScore />
+          </ErrorBoundary>
+        }
+        ResumeInfo={<ResumeInfo />}
+        InterviewInfo={<InterviewInfo />}
       />
     </div>
   );
+};
+
+const Title = () => {
+  const applicant = useInterviewApplicant();
+  return <InterviewHome.Title {...applicant} />;
+};
+
+const Banner = () => {
+  const interview = useInterview();
+  return <InterviewHome.Banner {...interview} />;
+};
+
+const InterviewScore = () => {
+  const { structured_analysis } = useInterviewAnalysis();
+  return (
+    <InterviewHome.InterviewScore score={structured_analysis.overall_score} />
+  );
+};
+
+const InterviewScoreFallback = () => {
+  return (
+    <InterviewHome.InterviewScore.Fallback message='Interview score unavailable' />
+  );
+};
+
+const ResumeScore = () => {
+  const { resume_feedback } = useInterviewResume();
+  return <InterviewHome.ResumeScore score={resume_feedback.overallScore} />;
+};
+
+const ResumeScoreFallback = () => {
+  return (
+    <InterviewHome.ResumeScore.Fallback message='Resume score unavailable' />
+  );
+};
+
+const ResumeInfo = () => {
+  return <InterviewHome.ResumeInfo />;
+};
+
+const InterviewInfo = () => {
+  const interview = useInterview();
+  return <InterviewHome.InterviewInfo {...interview} />;
 };

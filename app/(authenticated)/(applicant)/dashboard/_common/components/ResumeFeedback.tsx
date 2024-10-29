@@ -31,6 +31,8 @@ export interface FeedbackData {
     };
   };
   overallScore: number;
+  overall_feedback: string;
+  overall_summary: string;
 }
 
 export function ResumeFeedback() {
@@ -101,13 +103,7 @@ export function ResumeFeedback() {
 
   return (
     <>
-      sdfsdfsdf
-      <ResumeFeedbackUI
-        resume={resume}
-        summary={
-          resume.resume_feedback?.overall_feedback || ' Feedback not available '
-        }
-      />
+      <ResumeFeedbackUI resume={resume} />
     </>
   );
 }
