@@ -10,8 +10,10 @@ import { type Database } from '@/supabase-types/database.types';
 
 export const ResumeFeedbackUI = ({
   resume,
+  summary,
 }: {
   resume: Database['public']['Tables']['resume']['Row'];
+  summary: string;
 }) => {
   const resumeStatusError =
     (Object.values(resume?.processing_status)[0] as any).error ?? '';
@@ -38,11 +40,13 @@ export const ResumeFeedbackUI = ({
       />
     );
 
+  // resumeFeedback?.summary
+
   return (
     <div className='mb-6'>
       <div className='mb-6 text-xl font-medium'>Resume Review</div>
       <div className='mb-10 flex flex-col gap-2'>
-        <ProgressBarCard summary={resumeFeedback?.summary ?? ''} color='pink'>
+        <ProgressBarCard summary={summary} color='pink'>
           <RadialProgress chartData={ResumeScores} size={200} />
         </ProgressBarCard>
         {!resume?.error_status && resume?.file_url ? (
