@@ -21,7 +21,7 @@ type ResumeProps = {
 
 const Resume = (props: PropsWithChildren<ResumeProps>) => {
   return (
-    <div className='flex flex-col justify-between gap-2 rounded-lg bg-muted p-5'>
+    <div className='flex h-full flex-col justify-between gap-2 rounded-lg bg-muted p-5'>
       {props.submitted ? <ResumeSubmitted /> : <ResumeNotSubmitted />}
       {props.children}
     </div>
