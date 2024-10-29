@@ -1,5 +1,7 @@
+import { Notebook } from 'lucide-react';
 import { type PropsWithChildren, type ReactNode } from 'react';
 
+import NotAvailable from '@/dashboard/components/NotAvailable';
 import { type Database } from '@/supabase-types/database.types';
 
 import { InterviewInfo } from './InterviewInfo';
@@ -121,6 +123,16 @@ const Description = () => {
   );
 };
 
+const ErrorFallback = () => {
+  return (
+    <NotAvailable
+      Icon={Notebook}
+      description={`Overview is currently unavailable`}
+      heading={`Data temporarily unavailable`}
+    />
+  );
+};
+
 export const InterviewHome = (props: Props) => {
   return (
     <div className='flex h-[85vh] flex-col items-center justify-center gap-10'>
@@ -140,6 +152,7 @@ export const InterviewHome = (props: Props) => {
     </div>
   );
 };
+InterviewHome.ErrorFallback = ErrorFallback;
 InterviewHome.Title = Title;
 InterviewHome.Banner = Banner;
 InterviewHome.InterviewScore = InterviewScore;
