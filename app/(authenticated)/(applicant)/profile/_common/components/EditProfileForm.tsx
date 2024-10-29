@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import { api } from 'trpc/client';
 import { type z } from 'zod';
 
 import {
@@ -30,6 +32,7 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { useDebounce } from '@/hooks/use-debounce';
+import { toast } from '@/hooks/use-toast';
 import { type userProfileSchema } from '@/server/api/routers/user/update';
 import {
   type jobTitlesSchema,
@@ -52,6 +55,15 @@ export default function EditProfileForm() {
   const { preferredJobTitle } = usePreferredJobTitles();
   const { preferredJobTypes } = usePreferredJobTypes();
   const { preferredLocations } = usePreferredJobLocations();
+  const { mutateAsync, data: addressSugg } =
+    api.services.placesAutocomplete.useMutation({
+      onError: (_err) => {
+        toast({
+          title: 'Some thing went wrong',
+          variant: 'destructive',
+        });
+      },
+    });
   const { createPreferredJobTitles, isPending: isCreateJobTitlePending } =
     useCreatePreferredJobTitle();
   const { createPreferredJobTypes, isPending: isCreateJobTypePending } =
@@ -77,6 +89,7 @@ export default function EditProfileForm() {
   const [openToWork, setOpenToWork] = useState(
     applicant_user?.open_to_work || false,
   );
+
   const [phone, setPhone] = useState(applicant_user?.phone_number || null);
   const [salary, setSalary] = useState(
     (applicant_user?.salary_range as string) || '',
@@ -99,6 +112,7 @@ export default function EditProfileForm() {
       //
     }
   };
+  const debouncedOnChangePlaceInput = debounceAsync(mutateAsync, 100);
   const first_name = useDebounce(firstName, 1000);
   const last_name = useDebounce(lastName, 1000);
   const phone_number = useDebounce(phone, 1000);
@@ -340,8 +354,50 @@ export default function EditProfileForm() {
               />
             </div>
           </div>
+          <div className='col-span-2'>
+            <div>
+              <Label>Preferred Locations</Label>
+
+              <UIMultiSelect
+                onInputChnage={(str) => {
+                  debouncedOnChangePlaceInput({
+                    text_query: str,
+                  });
+                }}
+                onDelete={(value) => {
+                  // deletePreferredLocations({
+                  //   location_id: value,
+                  // });
+                }}
+                listItems={(addressSugg ?? []).map((item) => ({
+                  label: capitalizeFirstLetter(item.description),
+                  value: item.place_id,
+                }))}
+                onChange={(_values, value) => {
+                  createPreferredLocations({
+                    location_id: value,
+                  });
+                }}
+                // defaultValue={preferredLocations.map(
+                //   (item) => item.location_id,
+                // )}
+                level='Preferred Locations'
+              />
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>
   );
 }
+// Optimized debounce function to use a closure for timeout
+const debounceAsync = (func: Function, delay: number) => {
+  let timeout: NodeJS.Timeout;
+
+  return (...args: any[]) => {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => func(...args), delay);
+  };
+};
