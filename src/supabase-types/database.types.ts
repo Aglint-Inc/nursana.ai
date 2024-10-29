@@ -64,7 +64,8 @@ export type Database = {
         Row: {
           created_at: string | null
           id: string
-          job_title: string | null
+          job_title: Database["public"]["Enums"]["nerse_titles"]
+          license: Database["public"]["Enums"]["nurse_license"] | null
           open_to_work: boolean
           phone_number: string | null
           preferred_travel_preference:
@@ -76,7 +77,8 @@ export type Database = {
         Insert: {
           created_at?: string | null
           id: string
-          job_title?: string | null
+          job_title?: Database["public"]["Enums"]["nerse_titles"]
+          license?: Database["public"]["Enums"]["nurse_license"] | null
           open_to_work?: boolean
           phone_number?: string | null
           preferred_travel_preference?:
@@ -88,7 +90,8 @@ export type Database = {
         Update: {
           created_at?: string | null
           id?: string
-          job_title?: string | null
+          job_title?: Database["public"]["Enums"]["nerse_titles"]
+          license?: Database["public"]["Enums"]["nurse_license"] | null
           open_to_work?: boolean
           phone_number?: string | null
           preferred_travel_preference?:
@@ -359,14 +362,17 @@ export type Database = {
         Row: {
           applicant_id: string
           id: string
+          job_titles: Database["public"]["Enums"]["nerse_titles"]
         }
         Insert: {
           applicant_id?: string
           id?: string
+          job_titles?: Database["public"]["Enums"]["nerse_titles"]
         }
         Update: {
           applicant_id?: string
           id?: string
+          job_titles?: Database["public"]["Enums"]["nerse_titles"]
         }
         Relationships: [
           {
@@ -690,6 +696,61 @@ export type Database = {
         | "interview_inprogress"
         | "interview_completed"
       job_types: "full-time" | "part-time" | "contract" | "internship"
+      nerse_titles:
+        | "registered-nurse"
+        | "licensed-practical-nurse"
+        | "nurse-practitioner"
+        | "certified-registered-nurse-anesthetist"
+        | "certified-nurse-midwife"
+        | "clinical-nurse-specialist"
+        | "cardiac-nurse"
+        | "oncology-nurse"
+        | "pediatric-nurse"
+        | "geriatric-nurse"
+        | "orthopedic-nurse"
+        | "neonatal-nurse"
+        | "perioperative-operating-room-nurse"
+        | "emergency-trauma-nurse"
+        | "critical-care-icu-nurse"
+        | "psychiatric-mental-health-nurse"
+        | "rehabilitation-nurse"
+        | "infection-control-nurse"
+        | "public-health-nurse"
+        | "community-health-nurse"
+        | "home-health-nurse"
+        | "school-nurse"
+        | "nurse-educator"
+        | "nurse-researcher"
+        | "nurse-informaticist"
+        | "nurse-administrator-nurse-executive"
+        | "nurse-case-manager"
+        | "nurse-consultant"
+        | "quality-improvement-nurse"
+        | "forensic-nurse"
+        | "holistic-nurse"
+        | "telehealth-nurse"
+        | "flight-transport-nurse"
+        | "military-nurse"
+        | "occupational-health-nurse"
+        | "hospice-palliative-care-nurse"
+      nurse_license:
+        | "registered-nurse"
+        | "nurse-practitioner"
+        | "licensed-practical-nurse"
+        | "clinical-nurse-specialist"
+        | "certified-nurse-midwife"
+        | "advanced-practice-registered-nurse"
+        | "certified-registered-nurse-anesthetist"
+        | "public-health-nurse"
+        | "registered-nurse-board-certified"
+        | "certified-nursing-assistant"
+        | "home-health-aide"
+        | "acute-care-nurse-practitioner"
+        | "family-nurse-practitioner"
+        | "pediatric-nurse-practitioner"
+        | "adult-gerontology-nurse-practitioner"
+        | "psychiatric-mental-health-nurse-practitioner"
+        | "travel-nurse-license-compact-license"
       travel_preferrence:
         | "no-travel"
         | "occasional-travel"

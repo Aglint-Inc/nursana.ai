@@ -64,6 +64,65 @@ export const agencyUserRelationshipsSchema = z.tuple([
   }),
 ]);
 
+export const nerseTitlesSchema = z.union([
+  z.literal("registered-nurse"),
+  z.literal("licensed-practical-nurse"),
+  z.literal("nurse-practitioner"),
+  z.literal("certified-registered-nurse-anesthetist"),
+  z.literal("certified-nurse-midwife"),
+  z.literal("clinical-nurse-specialist"),
+  z.literal("cardiac-nurse"),
+  z.literal("oncology-nurse"),
+  z.literal("pediatric-nurse"),
+  z.literal("geriatric-nurse"),
+  z.literal("orthopedic-nurse"),
+  z.literal("neonatal-nurse"),
+  z.literal("perioperative-operating-room-nurse"),
+  z.literal("emergency-trauma-nurse"),
+  z.literal("critical-care-icu-nurse"),
+  z.literal("psychiatric-mental-health-nurse"),
+  z.literal("rehabilitation-nurse"),
+  z.literal("infection-control-nurse"),
+  z.literal("public-health-nurse"),
+  z.literal("community-health-nurse"),
+  z.literal("home-health-nurse"),
+  z.literal("school-nurse"),
+  z.literal("nurse-educator"),
+  z.literal("nurse-researcher"),
+  z.literal("nurse-informaticist"),
+  z.literal("nurse-administrator-nurse-executive"),
+  z.literal("nurse-case-manager"),
+  z.literal("nurse-consultant"),
+  z.literal("quality-improvement-nurse"),
+  z.literal("forensic-nurse"),
+  z.literal("holistic-nurse"),
+  z.literal("telehealth-nurse"),
+  z.literal("flight-transport-nurse"),
+  z.literal("military-nurse"),
+  z.literal("occupational-health-nurse"),
+  z.literal("hospice-palliative-care-nurse"),
+]);
+
+export const nurseLicenseSchema = z.union([
+  z.literal("registered-nurse"),
+  z.literal("nurse-practitioner"),
+  z.literal("licensed-practical-nurse"),
+  z.literal("clinical-nurse-specialist"),
+  z.literal("certified-nurse-midwife"),
+  z.literal("advanced-practice-registered-nurse"),
+  z.literal("certified-registered-nurse-anesthetist"),
+  z.literal("public-health-nurse"),
+  z.literal("registered-nurse-board-certified"),
+  z.literal("certified-nursing-assistant"),
+  z.literal("home-health-aide"),
+  z.literal("acute-care-nurse-practitioner"),
+  z.literal("family-nurse-practitioner"),
+  z.literal("pediatric-nurse-practitioner"),
+  z.literal("adult-gerontology-nurse-practitioner"),
+  z.literal("psychiatric-mental-health-nurse-practitioner"),
+  z.literal("travel-nurse-license-compact-license"),
+]);
+
 export const travelPreferrenceSchema = z.union([
   z.literal("no-travel"),
   z.literal("occasional-travel"),
@@ -76,7 +135,8 @@ export const travelPreferrenceSchema = z.union([
 export const applicantUserInsertSchema = z.object({
   created_at: z.string().optional().nullable(),
   id: z.string(),
-  job_title: z.string().optional().nullable(),
+  job_title: nerseTitlesSchema.optional(),
+  license: nurseLicenseSchema.optional().nullable(),
   open_to_work: z.boolean().optional(),
   phone_number: z.string().optional().nullable(),
   preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
@@ -87,7 +147,8 @@ export const applicantUserInsertSchema = z.object({
 export const applicantUserUpdateSchema = z.object({
   created_at: z.string().optional().nullable(),
   id: z.string().optional(),
-  job_title: z.string().optional().nullable(),
+  job_title: nerseTitlesSchema.optional(),
+  license: nurseLicenseSchema.optional().nullable(),
   open_to_work: z.boolean().optional(),
   phone_number: z.string().optional().nullable(),
   preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
@@ -344,16 +405,19 @@ export const locationsListRelationshipsSchema = z.tuple([]);
 export const preferredJobTitlesRowSchema = z.object({
   applicant_id: z.string(),
   id: z.string(),
+  job_titles: nerseTitlesSchema,
 });
 
 export const preferredJobTitlesInsertSchema = z.object({
   applicant_id: z.string().optional(),
   id: z.string().optional(),
+  job_titles: nerseTitlesSchema.optional(),
 });
 
 export const preferredJobTitlesUpdateSchema = z.object({
   applicant_id: z.string().optional(),
   id: z.string().optional(),
+  job_titles: nerseTitlesSchema.optional(),
 });
 
 export const preferredJobTitlesRelationshipsSchema = z.tuple([
@@ -651,7 +715,8 @@ export const customAccessTokenHookReturnsSchema = jsonSchema;
 export const applicantUserRowSchema = z.object({
   created_at: z.string().nullable(),
   id: z.string(),
-  job_title: z.string().nullable(),
+  job_title: nerseTitlesSchema,
+  license: nurseLicenseSchema.nullable(),
   open_to_work: z.boolean(),
   phone_number: z.string().nullable(),
   preferred_travel_preference: travelPreferrenceSchema.nullable(),
