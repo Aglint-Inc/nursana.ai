@@ -1,5 +1,6 @@
-import RadialProgress from '@/dashboard/components/RadialProgress';
 import { forwardRef } from 'react';
+
+import RadialProgress from '@/dashboard/components/RadialProgress';
 
 type Variant = 'pink' | 'purple';
 

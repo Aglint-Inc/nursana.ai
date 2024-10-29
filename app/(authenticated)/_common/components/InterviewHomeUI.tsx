@@ -2,7 +2,6 @@ import { FileCheck, TvMinimalPlay } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
-import RadialProgress from '@/dashboard/components/RadialProgress';
 import { type Database } from '@/supabase-types/database.types';
 
 import { ScoreCard } from './ScoreCard';
@@ -14,24 +13,6 @@ export const InterviewHomeUI = ({
   resumeScore,
 }: UserLandingProps) => {
   const { id, stage, updated_at } = interview;
-
-  const InterviewScores: ScoreType[] = [
-    {
-      name: 'Score',
-      value: interviewScore,
-      fill: '#8b5cf6',
-      path: '#ddd6fe',
-    },
-  ];
-
-  const ResumeScores: ScoreType[] = [
-    {
-      name: 'Score',
-      value: resumeScore,
-      fill: '#db2777',
-      path: '#fbcfe8',
-    },
-  ];
 
   return (
     <div className='flex h-[85vh] flex-col items-center justify-center gap-10'>
@@ -164,10 +145,4 @@ export type UserLandingProps = {
   };
   interviewScore: any;
   resumeScore: any;
-};
-type ScoreType = {
-  name: string;
-  value: any;
-  fill: string;
-  path: string;
 };

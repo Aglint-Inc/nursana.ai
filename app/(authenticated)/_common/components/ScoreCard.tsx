@@ -1,7 +1,8 @@
+import { cva, type VariantProps } from 'class-variance-authority';
 import { forwardRef, type PropsWithChildren } from 'react';
 
 import { cn } from '@/utils/cn';
-import { cva, VariantProps } from 'class-variance-authority';
+
 import { ScoreWheel } from './ScoreWheel';
 
 type ScoreWheelProps = Parameters<typeof ScoreWheel>[0];
