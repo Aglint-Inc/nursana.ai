@@ -8,6 +8,7 @@ import { useUserData, useUserDataQuery } from '@/applicant/hooks/useUserData';
 import { ResumeFeedbackUI } from '@/authenticated/components/ResumeFeedbackUI';
 import { Loader } from '@/common/components/Loader';
 import { Button } from '@/components/ui/button';
+import { useBucket } from '@/hooks/use-bucket';
 
 import NotAvailable from './NotAvailable';
 
@@ -38,6 +39,12 @@ export interface FeedbackData {
 export function ResumeFeedback() {
   const { resume } = useUserData();
   const { refetch, isPending: isUserDetailsFetching } = useUserDataQuery();
+
+  const file_url = resume?.file_url || '';
+
+  const resumeBucketName = 'resumes';
+  const fileName = file_url?.split(`${resumeBucketName}/`).pop() ?? '';
+  const { data: resumeUrl } = useBucket(resumeBucketName, fileName);
 
   const [resumeAnalyzing, setResumeAnalyzing] = useState(false);
   const [ignoreRefetching, setIgnoreRefetching] = useState(false);
@@ -103,7 +110,11 @@ export function ResumeFeedback() {
 
   return (
     <>
-      <ResumeFeedbackUI resume={resume} isCandidateView={true} />
+      <ResumeFeedbackUI
+        resume={resume}
+        isCandidateView={true}
+        resumeUrl={resumeUrl ?? ''}
+      />
     </>
   );
 }

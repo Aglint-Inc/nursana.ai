@@ -37,8 +37,8 @@ import {
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { toast } from '@/hooks/use-toast';
 import {
-  type jobTitlesSchema,
   type jobTypesSchema,
+  type nerseTitlesSchema,
   type travelPreferrenceSchema,
 } from '@/supabase-types/zod-schema.types';
 import { capitalizeFirstLetter } from '@/utils/utils';
@@ -211,21 +211,21 @@ function PreferenceForm() {
                   <UIMultiSelect
                     onDelete={(value) => {
                       deletePreferredJobTitles({
-                        job_title: value as z.infer<typeof jobTitlesSchema>,
+                        job_titles: value as z.infer<typeof nerseTitlesSchema>,
                       });
                     }}
                     listItems={JOB_TITLES.map((item) => ({
-                      label: capitalizeFirstLetter(item),
+                      label: capitalizeFirstLetter(item.split('-').join(' ')),
                       value: item,
                     }))}
                     onChange={(_values, value) => {
                       createPreferredJobTitles({
-                        job_title: value as z.infer<typeof jobTitlesSchema>,
+                        job_titles: value as z.infer<typeof nerseTitlesSchema>,
                       });
                     }}
                     defaultValue={
                       preferredJobTitle.map(
-                        (item) => item.job_title,
+                        (item) => item.job_titles,
                       ) as string[]
                     }
                     level='Job Titles'

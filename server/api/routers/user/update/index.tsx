@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { type PrivateProcedure, privateProcedure } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
 import {
-  jobTitlesSchema,
+  nerseTitlesSchema,
   travelPreferrenceSchema,
 } from '@/supabase-types/zod-schema.types';
 
@@ -24,7 +24,7 @@ export const userProfileSchema = z.object({
     .optional(),
   preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
   salary_range: z.string().nullable().optional(),
-  current_job_title: jobTitlesSchema.optional(),
+  job_title: nerseTitlesSchema.optional(),
   open_to_work: z.boolean().optional(),
 });
 

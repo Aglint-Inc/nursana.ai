@@ -49,11 +49,14 @@ export function UIMultiSelect({
           if (input.value === '') {
             setSelected((prev) => {
               const newSelected = [...prev];
-              newSelected.pop();
+              const deleted = newSelected.pop();
               onChange(
                 newSelected.map((ele) => ele),
                 newSelected[0],
               );
+              if (deleted) {
+                handleUnselect(deleted);
+              }
               return newSelected;
             });
           }

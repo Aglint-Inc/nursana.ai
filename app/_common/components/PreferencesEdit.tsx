@@ -37,7 +37,7 @@ export function PreferencesEdit({ onSave, onCancel }: PreferencesEditProps) {
   useEffect(() => {
     if (userData?.applicant_user) {
       setSelectedJobTitles(
-        preferredJobTitle.map((title) => title.job_title) || [],
+        preferredJobTitle.map((title) => title.job_titles) || [],
       );
       setSelectedLocations(
         preferredLocations.map((ele) => `${ele.locations_list.level}`),

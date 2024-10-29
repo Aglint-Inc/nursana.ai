@@ -1,12 +1,14 @@
 'use client';
 
-import { JOB_TITLES } from 'app/(authenticated)/(applicant)/profile/_common/constant';
+import {
+  JOB_TITLES,
+  NURSE_LICENSE,
+} from 'app/(authenticated)/(applicant)/profile/_common/constant';
 import Image from 'next/image';
 
 import { Loader } from '@/common/components/Loader';
 import UISelectDropDown from '@/common/components/UISelectDropDown';
 import UITextField from '@/common/components/UITextField';
-import { capitalize } from '@/common/utils/capitalize';
 import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
 import { Button } from '@/components/ui/button';
@@ -20,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { capitalizeFirstLetter } from '@/utils/utils';
 
 import Section from '../../../../components/section';
 import { useUploadCampaign } from '../hooks/useUpload';
@@ -56,55 +59,6 @@ export default function FormCampaign() {
                     <div className='grid w-full grid-cols-2 gap-4'>
                       <FormField
                         control={control}
-                        name='role'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Role</FormLabel>
-                            <FormControl>
-                              <UISelectDropDown
-                                disabled={saving}
-                                fullWidth
-                                menuOptions={JOB_TITLES.map((role) => ({
-                                  name: capitalize(role),
-                                  value: role,
-                                }))}
-                                onValueChange={(
-                                  val: (typeof JOB_TITLES)[0],
-                                ) => {
-                                  clearErrors('role');
-                                  setValue('role', val);
-                                }}
-                                value={field.value}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={control}
-                        name='email'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel required>Email</FormLabel>
-                            <FormControl>
-                              <UITextField
-                                disabled={saving}
-                                fullWidth
-                                placeholder='Enter your email'
-                                type='email'
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className='grid w-full grid-cols-2 gap-4'>
-                      <FormField
-                        control={control}
                         name='first_name'
                         render={({ field }) => (
                           <FormItem>
@@ -135,6 +89,87 @@ export default function FormCampaign() {
                                 placeholder='Enter your last name'
                                 {...field}
                                 value={field.value || ''}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div>
+                      <FormField
+                        control={control}
+                        name='email'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel required>Email</FormLabel>
+                            <FormControl>
+                              <UITextField
+                                disabled={saving}
+                                fullWidth
+                                placeholder='Enter your email'
+                                type='email'
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className='grid w-full grid-cols-2 gap-4'>
+                      <FormField
+                        control={control}
+                        name='role'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Title</FormLabel>
+                            <FormControl>
+                              <UISelectDropDown
+                                disabled={saving}
+                                fullWidth
+                                menuOptions={JOB_TITLES.map((role) => ({
+                                  name: capitalizeFirstLetter(
+                                    role.split('-').join(' '),
+                                  ),
+                                  value: role,
+                                }))}
+                                onValueChange={(
+                                  val: (typeof JOB_TITLES)[0],
+                                ) => {
+                                  clearErrors('role');
+                                  setValue('role', val);
+                                }}
+                                value={field.value}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={control}
+                        name='license'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>License</FormLabel>
+                            <FormControl>
+                              <UISelectDropDown
+                                disabled={saving}
+                                fullWidth
+                                menuOptions={NURSE_LICENSE.map((license) => ({
+                                  name: capitalizeFirstLetter(
+                                    license.split('-').join(' '),
+                                  ),
+                                  value: license,
+                                }))}
+                                onValueChange={(
+                                  val: (typeof NURSE_LICENSE)[0],
+                                ) => {
+                                  clearErrors('license');
+                                  setValue('license', val);
+                                }}
+                                value={field.value ?? ''}
                               />
                             </FormControl>
                             <FormMessage />

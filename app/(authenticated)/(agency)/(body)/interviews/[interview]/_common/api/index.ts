@@ -5,6 +5,7 @@ import { applicant } from './applicant';
 import { audio } from './audio';
 import { read } from './read';
 import { resume } from './resume';
+import { resumeUrl } from './resumeUrl';
 import { video } from './video';
 
 export const interview = createTRPCRouter({
@@ -13,5 +14,6 @@ export const interview = createTRPCRouter({
   audio,
   read,
   resume,
+  resumeUrl,
   video,
 });

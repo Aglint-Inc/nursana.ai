@@ -21,9 +21,11 @@ const ErrorFallback = () => {
 export const ResumeFeedbackUI = ({
   resume,
   isCandidateView = false,
+  resumeUrl,
 }: {
   resume: Database['public']['Tables']['resume']['Row'];
   isCandidateView?: boolean;
+  resumeUrl: string;
 }) => {
   const resumeFeedback = resume?.resume_feedback as FeedbackData;
   const experience = resumeFeedback?.breakdown?.experience;
@@ -41,7 +43,11 @@ export const ResumeFeedbackUI = ({
     <div className='mb-6'>
       <div className='mb-6 text-xl font-medium'>Resume Review</div>
 
-      <ResumeScoreCard resume={resume} summary={summary} />
+      <ResumeScoreCard
+        resume={resume}
+        summary={summary}
+        resumeUrl={resumeUrl}
+      />
       <div className='flex flex-col gap-10'>
         {experience && (
           <ResumeExperienceCard
@@ -186,14 +192,14 @@ const ResumeEducationCard = ({
 const ResumeScoreCard = ({
   resume,
   summary,
+  resumeUrl,
 }: {
   resume: Database['public']['Tables']['resume']['Row'];
   summary: string;
+  resumeUrl: string;
 }) => {
   const resumeScore = resume?.resume_feedback?.overallScore ?? 0;
-  const file_url = resume?.file_url || '';
   const errorStatus = resume?.error_status;
-
   const ResumeScores = [
     {
       name: 'Score',
@@ -211,8 +217,8 @@ const ResumeScoreCard = ({
       >
         <RadialProgress chartData={ResumeScores} size={200} />
       </ProgressBarCard>
-      {!errorStatus && file_url && (
-        <Link href={file_url} rel='noopener noreferrer' target='_blank'>
+      {!errorStatus && resumeUrl && (
+        <Link href={resumeUrl} rel='noopener noreferrer' target='_blank'>
           <Card className='group border-border shadow-none duration-300 hover:bg-muted'>
             <CardContent className='p-4'>
               <div className='flex items-center justify-between'>

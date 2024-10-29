@@ -44,7 +44,7 @@ export function PreferencesView({ nurseData, onEdit }: PreferencesViewProps) {
                     key={index}
                     className='mb-1 mr-1 inline-block rounded-sm bg-secondary px-2 py-1 text-sm'
                   >
-                    {title.job_title}
+                    {title.job_titles}
                   </span>
                 ))
               ) : (

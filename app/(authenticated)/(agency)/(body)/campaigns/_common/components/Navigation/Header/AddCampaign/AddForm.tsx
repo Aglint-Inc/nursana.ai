@@ -50,6 +50,7 @@ export const AddForm = () => {
     clearErrors,
     formState: { errors },
   } = form;
+
   async function onSubmit(values: z.infer<typeof schema>) {
     await mutate({
       ...values,

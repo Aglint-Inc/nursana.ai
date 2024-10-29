@@ -20,7 +20,14 @@ const useAgencyEditMutate = () => {
 
 const useAgencyEditContext = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { mutate, isPending } = useAgencyEditMutate();
+  const { isPending, ...mutation } = useAgencyEditMutate();
+
+  const mutate = (input: Parameters<(typeof mutation)['mutate']>[0]) =>
+    mutation.mutate(input, {
+      onSuccess: () => {
+        setIsOpen(false);
+      },
+    });
 
   return {
     isOpen,
