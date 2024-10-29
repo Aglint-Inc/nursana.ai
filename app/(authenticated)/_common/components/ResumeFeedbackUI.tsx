@@ -8,6 +8,16 @@ import RadialProgress from '@/dashboard/components/RadialProgress';
 import { type FeedbackData } from '@/dashboard/components/ResumeFeedback';
 import { type Database } from '@/supabase-types/database.types';
 
+const ErrorFallback = () => {
+  return (
+    <NotAvailable
+      Icon={Notebook}
+      description={` Resume Feedback is currently unavailable`}
+      heading={`Data temporarily unavailable`}
+    />
+  );
+};
+
 export const ResumeFeedbackUI = ({
   resume,
   isCandidateView = false,
@@ -21,13 +31,7 @@ export const ResumeFeedbackUI = ({
     resumeFeedback?.breakdown?.education_and_certifications;
 
   if (!resumeFeedback && (resume?.error_status || resume?.processing_status))
-    return (
-      <NotAvailable
-        Icon={Notebook}
-        description={` Resume Feedback is currently unavailable`}
-        heading={`Data temporarily unavailable`}
-      />
-    );
+    return <ErrorFallback />;
 
   const summary = isCandidateView
     ? resumeFeedback?.overall_feedback || ''
@@ -49,6 +53,8 @@ export const ResumeFeedbackUI = ({
     </div>
   );
 };
+
+ResumeFeedbackUI.ErrorFallback = ErrorFallback;
 
 const ResumeExperienceCard = ({
   experience,

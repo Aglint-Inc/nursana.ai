@@ -18,6 +18,16 @@ import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
 import { InterviewAnalysisType } from '@/dashboard/types';
 
+const ErrorFallback = () => {
+  return (
+    <NotAvailable
+      heading='Data temporarily unavailable'
+      description='We’re currently analyzing the data. Please check back in a little while for updated information.'
+      Icon={Sparkles}
+    />
+  );
+};
+
 export const InterviewAnalysisUI = ({
   analysis,
   isCandidateView = false,
@@ -25,16 +35,7 @@ export const InterviewAnalysisUI = ({
   analysis: InterviewAnalysisType;
   isCandidateView?: boolean;
 }) => {
-  if (!analysis)
-    return (
-      <>
-        <NotAvailable
-          heading='Data temporarily unavailable'
-          description='We’re currently analyzing the data. Please check back in a little while for updated information.'
-          Icon={Sparkles}
-        />
-      </>
-    );
+  if (!analysis) return <ErrorFallback />;
 
   const articulation = analysis.articulation;
   const confidence_level = analysis.confidence_level;
@@ -126,6 +127,7 @@ export const InterviewAnalysisUI = ({
   );
 };
 
+InterviewAnalysisUI.ErrorFallback = ErrorFallback;
 const AnalysisInterview = ({
   overallScore,
   summary,

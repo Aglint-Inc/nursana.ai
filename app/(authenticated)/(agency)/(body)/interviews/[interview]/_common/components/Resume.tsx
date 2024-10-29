@@ -6,7 +6,7 @@ import { useInterviewResume } from '@/interview/hooks/useInterviewResume';
 
 export const Resume = () => {
   return (
-    <ErrorBoundary fallback={<>Resume analysis unavailable</>}>
+    <ErrorBoundary fallback={<ResumeFeedbackUI.ErrorFallback />}>
       <Content />
     </ErrorBoundary>
   );

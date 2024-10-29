@@ -36,7 +36,7 @@ function isMessageArray(arr: any): arr is Message[] {
 
 export const Transcript = () => {
   return (
-    <ErrorBoundary fallback={<>Transcript unavailable</>}>
+    <ErrorBoundary fallback={<InterviewTranscriptUI.ErrorFallback />}>
       <Content />
     </ErrorBoundary>
   );

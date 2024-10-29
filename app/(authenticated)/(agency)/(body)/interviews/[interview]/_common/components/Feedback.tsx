@@ -5,10 +5,12 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { InterviewAnalysisUI } from '@/authenticated/components/InterviewAnalysisUI';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useInterviewAnalysis } from '@/interview/hooks/useInterviewAnalysis';
+import NotAvailable from '@/dashboard/components/NotAvailable';
+import { Sparkles } from 'lucide-react';
 
 export const Feedback = () => {
   return (
-    <ErrorBoundary fallback={<>Interview analysis unavailable</>}>
+    <ErrorBoundary fallback={<InterviewAnalysisUI.ErrorFallback />}>
       <Content />
     </ErrorBoundary>
   );
