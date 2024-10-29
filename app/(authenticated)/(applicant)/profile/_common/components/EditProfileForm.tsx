@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { debouncedAsync } from 'lib/debouncedAsync';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { api } from 'trpc/client';
 import { type z } from 'zod';
 
 import {
@@ -15,8 +18,6 @@ import {
   useUpdateUserData,
   useUserData,
 } from '@/applicant/hooks/useUserData';
-import { useLocationsList } from '@/authenticated/hooks/useLocationsList';
-import { Loader } from '@/common/components/Loader';
 import { UIMultiSelect } from '@/common/components/UIMultiSelect';
 import UIPhoneInput from '@/common/components/UIPhoneInput';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -31,6 +32,7 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { useDebounce } from '@/hooks/use-debounce';
+import { toast } from '@/hooks/use-toast';
 import { type userProfileSchema } from '@/server/api/routers/user/update';
 import {
   type jobTitlesSchema,
@@ -49,10 +51,18 @@ import {
 type ProfileDataType = z.infer<typeof userProfileSchema>;
 export default function EditProfileForm() {
   const { applicant_user } = useUserData();
-  const { locationList } = useLocationsList();
   const { preferredJobTitle } = usePreferredJobTitles();
   const { preferredJobTypes } = usePreferredJobTypes();
   const { preferredLocations } = usePreferredJobLocations();
+  const { mutateAsync, data: addressSugg } =
+    api.services.placesAutocomplete.useMutation({
+      onError: (_err) => {
+        toast({
+          title: 'Some thing went wrong',
+          variant: 'destructive',
+        });
+      },
+    });
   const { createPreferredJobTitles, isPending: isCreateJobTitlePending } =
     useCreatePreferredJobTitle();
   const { createPreferredJobTypes, isPending: isCreateJobTypePending } =
@@ -78,6 +88,7 @@ export default function EditProfileForm() {
   const [openToWork, setOpenToWork] = useState<boolean>(
     applicant_user?.open_to_work ?? true // Default to true if open_to_work is undefined or null
   );
+
   const [phone, setPhone] = useState(applicant_user?.phone_number || null);
   const [salary, setSalary] = useState(
     (applicant_user?.salary_range as string) || '',
@@ -100,6 +111,11 @@ export default function EditProfileForm() {
       //
     }
   };
+  const debouncedOnChangePlaceInput = useCallback(
+    debouncedAsync(mutateAsync, 100),
+    [],
+  );
+
   const first_name = useDebounce(firstName, 1000);
   const last_name = useDebounce(lastName, 1000);
   const phone_number = useDebounce(phone, 1000);
@@ -131,6 +147,27 @@ export default function EditProfileForm() {
     preferred_travel_preference,
     open_to_work,
   ]);
+
+  const merged_locations = useMemo(() => {
+    const temp: NonNullable<typeof addressSugg> = [
+      ...(addressSugg ?? []),
+      ...preferredLocations.map((l) => ({
+        description: l.locations_list.level,
+        place_id: l.place_id,
+      })),
+    ];
+    const uniq_places: Record<string, NonNullable<typeof addressSugg>[0]> = {};
+    temp.forEach((t) => {
+      uniq_places[t.place_id] = t;
+    });
+    const merged: NonNullable<typeof addressSugg> = [];
+    Object.values(uniq_places).forEach((t) => {
+      merged.push(t);
+    });
+
+    return merged;
+  }, [preferredLocations, addressSugg]);
+
   return (
     <Card className='mb-[500px] w-full bg-gray-50'>
       <CardHeader className='p-4'>
@@ -320,7 +357,7 @@ export default function EditProfileForm() {
               />
             </div>
           </div>
-          <div className='col-span-2'>
+          {/* <div className='col-span-2'>
             <div>
               <Label>Preferred Locations</Label>
               <UIMultiSelect
@@ -341,6 +378,38 @@ export default function EditProfileForm() {
                 defaultValue={preferredLocations.map(
                   (item) => item.location_id,
                 )}
+                level='Preferred Locations'
+              />
+            </div>
+          </div> */}
+          <div className='col-span-2'>
+            <div>
+              <Label>Preferred Locations</Label>
+
+              <UIMultiSelect
+                onInputChnage={(str) => {
+                  debouncedOnChangePlaceInput({
+                    text_query: str,
+                  });
+                }}
+                onDelete={(value) => {
+                  deletePreferredLocations({
+                    place_id: value,
+                  });
+                }}
+                listItems={merged_locations.map((item) => ({
+                  label: capitalizeFirstLetter(item.description),
+                  value: item.place_id,
+                }))}
+                onChange={(_values, value) => {
+                  const place = addressSugg?.find((p) => p.place_id === value);
+                  if (!place) return;
+                  createPreferredLocations({
+                    maps_place_id: place.place_id,
+                    place_description: place.description,
+                  });
+                }}
+                defaultValue={preferredLocations.map((item) => item.place_id)}
                 level='Preferred Locations'
               />
             </div>

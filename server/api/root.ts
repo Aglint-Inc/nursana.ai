@@ -9,6 +9,7 @@ import { example } from './routers/example';
 import { interview } from './routers/interview';
 import { interviewAnalysis } from './routers/interview_analysis';
 import { getLocationList } from './routers/location-list';
+import { services } from './routers/services';
 import { tenant } from './routers/tenant';
 import { user } from './routers/user';
 import { interviewFeedback } from './routers/user_interiew_rating';
@@ -32,6 +33,7 @@ export const appRouter = createTRPCRouter({
   getLocationList,
   interviewFeedback,
   uploadResume,
+  services,
 });
 
 // export type definition of API
