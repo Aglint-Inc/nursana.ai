@@ -10,6 +10,12 @@ import { Card, CardContent } from '@/components/ui/card';
 
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from './ui/tooltip';
 
 function InterviewRecording({
   handleStopInterview,
@@ -25,6 +31,8 @@ function InterviewRecording({
   const [timer, setTimer] = useState(interviewDuration * 60);
   const [showStopInterviewModal, setShowStopInterviewModal] = useState(false);
   const warningTime = 3 * 60; // 3 minutes
+
+  const minTime = 0.11 * 60; // 1 minutes;
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60)
       .toString()
@@ -60,7 +68,6 @@ function InterviewRecording({
     }
     return () => clearInterval(interval);
   }, [isInterviewStarted, interviewDuration, handleStopInterview]);
-
   return (
     <>
       <UIDialog
@@ -110,17 +117,38 @@ function InterviewRecording({
               <>
                 <div className='absolute bottom-0 left-0 flex w-full justify-center gap-2 bg-gradient-to-t from-[#00000050] to-transparent py-4'>
                   <div className='flex gap-3 rounded-full bg-black p-2'>
-                    <div
-                      role='button'
-                      tabIndex={0}
-                      className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white/20 p-0 text-white duration-200 hover:bg-red-500 hover:text-white'
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowStopInterviewModal(true);
-                      }}
-                    >
-                      <StopCircle size={24} strokeWidth={1.5} />
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip delayDuration={0}>
+                        <TooltipTrigger>
+                          <Button
+                            disabled={timer > interviewDuration * 60 - minTime}
+                            role='button'
+                            tabIndex={0}
+                            className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white/20 text-white duration-200 hover:bg-red-500 hover:text-white'
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowStopInterviewModal(true);
+                            }}
+                          >
+                            <StopCircle
+                              className='min-h-6 min-w-6'
+                              size={28}
+                              strokeWidth={1.5}
+                            />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p className='p-2'>
+                            {timer < interviewDuration * 60 - minTime
+                              ? 'Stop Interview'
+                              : `You have to give the interview for at least ${
+                                  minTime / 60
+                                }
+                          minutes.`}
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                     <Separator
                       orientation='vertical'
                       className='rounded-full bg-gray-700'
