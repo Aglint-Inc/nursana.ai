@@ -318,27 +318,24 @@ export const interviewAnalysisIdRelationshipsSchema = z.tuple([]);
 export const locationsListRowSchema = z.object({
   city: z.string(),
   country: z.string(),
-  id: z.string(),
   level: z.string(),
-  place_id: z.string().nullable(),
+  place_id: z.string(),
   state: z.string(),
 });
 
 export const locationsListInsertSchema = z.object({
   city: z.string(),
   country: z.string(),
-  id: z.string().optional(),
   level: z.string(),
-  place_id: z.string().optional().nullable(),
+  place_id: z.string(),
   state: z.string(),
 });
 
 export const locationsListUpdateSchema = z.object({
   city: z.string().optional(),
   country: z.string().optional(),
-  id: z.string().optional(),
   level: z.string().optional(),
-  place_id: z.string().optional().nullable(),
+  place_id: z.string().optional(),
   state: z.string().optional(),
 });
 
@@ -406,19 +403,19 @@ export const preferredJobTypesRelationshipsSchema = z.tuple([
 export const preferredLocationsRowSchema = z.object({
   applicant_id: z.string(),
   id: z.string(),
-  location_id: z.string(),
+  place_id: z.string(),
 });
 
 export const preferredLocationsInsertSchema = z.object({
   applicant_id: z.string(),
   id: z.string().optional(),
-  location_id: z.string(),
+  place_id: z.string(),
 });
 
 export const preferredLocationsUpdateSchema = z.object({
   applicant_id: z.string().optional(),
   id: z.string().optional(),
-  location_id: z.string().optional(),
+  place_id: z.string().optional(),
 });
 
 export const preferredLocationsRelationshipsSchema = z.tuple([
@@ -430,11 +427,11 @@ export const preferredLocationsRelationshipsSchema = z.tuple([
     referencedColumns: z.tuple([z.literal("id")]),
   }),
   z.object({
-    foreignKeyName: z.literal("preferred_locations_location_id_fkey"),
-    columns: z.tuple([z.literal("location_id")]),
+    foreignKeyName: z.literal("preferred_locations_place_id_fkey"),
+    columns: z.tuple([z.literal("place_id")]),
     isOneToOne: z.literal(false),
     referencedRelation: z.literal("locations_list"),
-    referencedColumns: z.tuple([z.literal("id")]),
+    referencedColumns: z.tuple([z.literal("place_id")]),
   }),
 ]);
 
