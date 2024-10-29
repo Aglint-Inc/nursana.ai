@@ -6,6 +6,7 @@ import {
 } from 'react';
 
 import { useCampaignEdit } from '@/campaign/hooks/useCampaignEdit';
+import { toast } from '@/hooks/use-toast';
 
 const useDetailsContext = () => {
   const [mode, setMode] = useState<'edit' | 'view'>('view');
@@ -13,6 +14,9 @@ const useDetailsContext = () => {
 
   const mutate = (input: Parameters<(typeof mutation)['mutate']>[0]) =>
     mutation.mutate(input, {
+      onError: () => {
+        toast({ title: 'Update failed', variant: 'destructive' });
+      },
       onSuccess: () => {
         setMode('view');
       },
