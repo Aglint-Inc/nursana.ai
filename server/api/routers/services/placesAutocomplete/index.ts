@@ -43,6 +43,7 @@ const query = async ({
     API_URL,
     {
       input: text_query,
+      includedPrimaryTypes: ['(regions)'],
     },
     {
       headers: {
