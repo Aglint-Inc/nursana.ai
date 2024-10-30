@@ -217,7 +217,7 @@ export default function FormCampaign() {
                               />
                             </FormControl>
                             <div className='space-y-1 leading-none'>
-                              <FormLabel className='font-normal'>Accept <Link href='/terms' target='_blank' className='underline'>terms and conditions</Link> and <Link href='/privacy-policy' target='_blank'  className='underline'>  privacy policy</Link> </FormLabel>
+                              <FormLabel className='font-normal'>I accept <Link href='/terms' target='_blank' className='underline'>terms and conditions</Link></FormLabel>
                             </div>
                           </FormItem>
                         )}
@@ -246,7 +246,7 @@ export default function FormCampaign() {
                       href='/auth/sign-in'
                       className='text-card-foreground underline'
                     >
-                      Login here
+                      Login
                     </a>
                     .
                   </p>

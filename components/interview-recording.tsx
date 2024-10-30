@@ -78,9 +78,9 @@ function InterviewRecording({
           <div className='flex gap-2'>
             <Button
               onClick={() => {
+                stopCamera();
                 handleStopInterview();
 
-                stopCamera();
               }}
               variant='secondary'
             >

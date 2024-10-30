@@ -239,7 +239,7 @@ export default function InterviewInstructions({
               <h2 className='mb-1 flex items-center text-lg font-medium'>
                 Instructions
               </h2>
-              <div className='text-md html list-inside list-disc space-y-1 text-muted-foreground'>
+              <div className='text-md html richtext list-inside list-disc space-y-1 text-muted-foreground'>
                 {parse(interviewData.version.candidate_instructions ?? '')}
               </div>
             </CardContent>
