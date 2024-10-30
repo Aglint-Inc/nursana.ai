@@ -215,8 +215,8 @@ function PreferenceForm() {
                       });
                     }}
                     listItems={JOB_TITLES.map((item) => ({
-                      label: capitalizeFirstLetter(item.split('-').join(' ')),
-                      value: item,
+                      label: item.label,
+                      value: item.value,
                     }))}
                     onChange={(_values, value) => {
                       createPreferredJobTitles({
@@ -267,40 +267,40 @@ function PreferenceForm() {
                   />
                 </div>
               </div>
-              {isCompletePreferenceForm && (
-                <div className='col-span-2 flex items-center justify-between'>
-                  <div className=''>
-                    <span className='text-muted-foreground'>
-                      {isSaving ? (
-                        <div className='grid grid-cols-[max-content_1fr] items-center gap-2'>
-                          <Loader />
-                          <p>Saving preferences...</p>
-                        </div>
-                      ) : (
-                        ''
-                      )}
-                    </span>
-                    <p>
-                      {!isSaving && isCompletePreferenceForm ? (
-                        <div className='flex items-center gap-2 text-green-600'>
-                          <CheckCircle2 size={16} />
-                          <p>Preferences Saved</p>
-                        </div>
-                      ) : (
-                        ''
-                      )}
-                    </p>
-                  </div>
-                  <Button
-                    size={'sm'}
-                    onClick={() => {
-                      setLocalStoragePreference(true);
-                    }}
-                  >
-                    Close
-                  </Button>
+
+              <div className='col-span-2 flex items-center justify-between'>
+                <div className=''>
+                  <span className='text-muted-foreground'>
+                    {isSaving ? (
+                      <div className='grid grid-cols-[max-content_1fr] items-center gap-2'>
+                        <Loader />
+                        <p>Saving preferences...</p>
+                      </div>
+                    ) : (
+                      ''
+                    )}
+                  </span>
+                  <p>
+                    {!isSaving && isCompletePreferenceForm ? (
+                      <div className='flex items-center gap-2 text-green-600'>
+                        <CheckCircle2 size={16} />
+                        <p>Preferences Saved</p>
+                      </div>
+                    ) : (
+                      ''
+                    )}
+                  </p>
                 </div>
-              )}
+                <Button
+                  disabled={!isCompletePreferenceForm}
+                  size={'sm'}
+                  onClick={() => {
+                    setLocalStoragePreference(true);
+                  }}
+                >
+                  Close
+                </Button>
+              </div>
             </div>
           </div>
         </div>

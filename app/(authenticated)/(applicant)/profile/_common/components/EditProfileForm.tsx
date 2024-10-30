@@ -38,6 +38,7 @@ import { type userProfileSchema } from '@/server/api/routers/user/update';
 import {
   type jobTypesSchema,
   type nerseTitlesSchema,
+  type nurseLicenseSchema,
   type travelPreferrenceSchema,
 } from '@/supabase-types/zod-schema.types';
 import { capitalizeFirstLetter } from '@/utils/utils';
@@ -45,6 +46,7 @@ import { capitalizeFirstLetter } from '@/utils/utils';
 import {
   JOB_TITLES,
   JOB_TYPES,
+  NURSE_LICENSE,
   SALARY_RANGES,
   TRAVEL_PREFERENCES,
 } from '../constant';
@@ -92,11 +94,16 @@ export default function EditProfileForm() {
 
   const [phone, setPhone] = useState(applicant_user?.phone_number || null);
   const [salary, setSalary] = useState(
-    (applicant_user?.salary_range as string) || '',
+    (applicant_user?.salary_range === 'empty'
+      ? null
+      : (applicant_user?.salary_range as string)) || '',
   );
   const [jobTitle, setJobTitle] = useState<z.infer<typeof nerseTitlesSchema>>(
-    (applicant_user?.job_title as any) || 'nurse-practitioner',
+    applicant_user?.job_title || 'nurse-practitioner',
   );
+  const [nurseLicense, setNurseLicense] = useState<z.infer<
+    typeof nurseLicenseSchema
+  > | null>(applicant_user?.license || null);
   const [travelPreference, setTravelPreference] = useState<
     z.infer<typeof travelPreferrenceSchema>
   >(applicant_user?.preferred_travel_preference || 'no-travel');
@@ -124,7 +131,7 @@ export default function EditProfileForm() {
   const job_title = useDebounce(jobTitle, 1000);
   const preferred_travel_preference = useDebounce(travelPreference, 1000);
   const open_to_work = useDebounce(openToWork, 1000);
-
+  const license = useDebounce(nurseLicense, 1000);
   useEffect(() => {
     if (isInitialRender.current) {
       isInitialRender.current = false;
@@ -138,6 +145,7 @@ export default function EditProfileForm() {
       preferred_travel_preference,
       open_to_work,
       job_title,
+      license,
     });
   }, [
     first_name,
@@ -147,6 +155,7 @@ export default function EditProfileForm() {
     job_title,
     preferred_travel_preference,
     open_to_work,
+    license,
   ]);
 
   const merged_locations = useMemo(() => {
@@ -194,6 +203,24 @@ export default function EditProfileForm() {
       </CardHeader>
       <CardContent className='p-4 pt-0'>
         <div className='grid grid-cols-2 gap-4'>
+          <div className='col-span-2 flex flex-row items-center gap-2'>
+            <div className='flex flex-col'>
+              <div className='flex items-center gap-4'>
+                <Label>Open to Work</Label>
+
+                <Switch
+                  checked={openToWork}
+                  onCheckedChange={(value: boolean) => {
+                    setOpenToWork(value);
+                  }}
+                />
+              </div>
+              <span className='text-sm text-muted-foreground'>
+                This will show on your public profile that you are open to new
+                job opportunities
+              </span>
+            </div>
+          </div>
           <div>
             <Label htmlFor=''>First Name</Label>
             <Input
@@ -218,16 +245,6 @@ export default function EditProfileForm() {
             />
           </div>
 
-          <div className='col-span-2 flex flex-row items-center gap-2'>
-            <Label>Open to Work</Label>
-            <Switch
-              checked={openToWork}
-              onCheckedChange={(value: boolean) => {
-                setOpenToWork(value);
-              }}
-            />
-          </div>
-
           <div>
             <Label>Phone Number</Label>
             <UIPhoneInput
@@ -240,6 +257,56 @@ export default function EditProfileForm() {
               // @ts-expect-error
               ref={phoneRef}
             />
+          </div>
+          <div>
+            <Label>Email</Label>
+            <Input
+              id='email'
+              disabled
+              placeholder='Please enter your email'
+              value={applicant_user.user.email || ''}
+            />
+          </div>
+
+          <div className='col-span-2'>
+            <Label>License</Label>
+            <Select
+              onValueChange={(value: z.infer<typeof nurseLicenseSchema>) => {
+                setNurseLicense(value);
+              }}
+              value={license || ''}
+            >
+              <SelectTrigger id='license'>
+                <SelectValue placeholder='Select license' />
+              </SelectTrigger>
+              <SelectContent>
+                {NURSE_LICENSE.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label>Current Job Title</Label>
+            <Select
+              onValueChange={(value: z.infer<typeof nerseTitlesSchema>) => {
+                setJobTitle(value);
+              }}
+              value={jobTitle || ''}
+            >
+              <SelectTrigger id='job_title'>
+                <SelectValue placeholder='Select current job title' />
+              </SelectTrigger>
+              <SelectContent>
+                {JOB_TITLES.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {capitalizeFirstLetter(item.label)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div>
             <Label>Expected Salary</Label>
@@ -260,29 +327,6 @@ export default function EditProfileForm() {
                 ))}
               </SelectContent>
             </Select>
-          </div>
-
-          <div className='col-span-2'>
-            <div>
-              <Label>Current Job Title</Label>
-              <Select
-                onValueChange={(value: z.infer<typeof nerseTitlesSchema>) => {
-                  setJobTitle(value);
-                }}
-                value={jobTitle || ''}
-              >
-                <SelectTrigger id='job_title'>
-                  <SelectValue placeholder='Select current job title' />
-                </SelectTrigger>
-                <SelectContent>
-                  {JOB_TITLES.map((item) => (
-                    <SelectItem key={item} value={item}>
-                      {capitalizeFirstLetter(item.split('-').join(' '))}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
           </div>
           <div className='col-span-2'>
             <div>
@@ -343,8 +387,8 @@ export default function EditProfileForm() {
                   });
                 }}
                 listItems={JOB_TITLES.map((item) => ({
-                  label: capitalizeFirstLetter(item.split('-').join(' ')),
-                  value: item,
+                  label: item.label,
+                  value: item.value,
                 }))}
                 onChange={(_values, value) => {
                   createPreferredJobTitles({
