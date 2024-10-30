@@ -51,7 +51,6 @@ const query = async ({
       },
     },
   );
-  console.log('debug', data);
   const predictions = data.suggestions as ResponsePrediction[];
 
   let response: {
