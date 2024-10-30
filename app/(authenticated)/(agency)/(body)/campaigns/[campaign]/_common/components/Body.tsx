@@ -1,5 +1,5 @@
 'use client';
-import type { PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 
 import { SidebarTrigger } from '@/components/ui/sidebar';
 
