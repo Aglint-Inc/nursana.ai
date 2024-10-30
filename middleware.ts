@@ -2,8 +2,8 @@
 import { jwtDecode, type JwtPayload } from 'jwt-decode';
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { createPrivateClient } from './server/db';
-import type { DBEnums } from './server/db/types';
+import { createPrivateClient } from '@/db/client';
+import type { DBEnums } from '@/db/types';
 
 export const config = {
   matcher: [

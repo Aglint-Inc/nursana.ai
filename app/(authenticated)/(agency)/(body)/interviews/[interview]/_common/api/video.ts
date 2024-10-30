@@ -2,12 +2,12 @@ import 'server-only';
 
 import { TRPCError } from '@trpc/server';
 
+import { createPublicClient } from '@/db/client';
 import {
   type InterviewProcedure,
   interviewProcedure,
 } from '@/interview/utils/interviewProcedure';
 import { type ProcedureDefinition } from '@/server/api/trpc';
-import { createPublicClient } from '@/server/db';
 
 const query = async ({ ctx, input }: InterviewProcedure) => {
   const db = createPublicClient();

@@ -2,8 +2,8 @@ import 'server-only';
 
 import { z } from 'zod';
 
+import { createPrivateClient } from '@/db/client';
 import { type PrivateProcedure, privateProcedure } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
 
 export const schema = z.object({
   preferred_job_titles: z.array(z.string()),

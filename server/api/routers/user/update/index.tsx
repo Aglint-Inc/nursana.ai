@@ -2,13 +2,13 @@ import 'server-only';
 
 import { z } from 'zod';
 
+import { createPrivateClient } from '@/db/client';
 import {
   nerseTitlesSchema,
   nurseLicenseSchema,
   travelPreferrenceSchema,
 } from '@/db/zod';
 import { type PrivateProcedure, privateProcedure } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
 
 // Define the Zod schema for form validation
 export const userProfileSchema = z.object({

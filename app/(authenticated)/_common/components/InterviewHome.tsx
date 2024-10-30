@@ -2,7 +2,7 @@ import { Notebook } from 'lucide-react';
 import { type PropsWithChildren, type ReactNode } from 'react';
 
 import NotAvailable from '@/dashboard/components/NotAvailable';
-import { type DBTable } from '@/server/db/types';
+import { type DBTable } from '@/db/types';
 
 import { InterviewInfo } from './InterviewInfo';
 import { ScoreCard } from './ScoreCard';

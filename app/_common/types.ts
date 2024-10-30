@@ -45,11 +45,14 @@ type PartialOnly<T extends CustomizableTypes<'Object'>> = Omit<
   keyof RequiredOnly<T>
 >;
 
-type Nullable<
-  T extends CustomizableTypes<'Object'>,
-  U extends Options<T>,
-  //@ts-expect-error
-> = NullableOnly<T> extends infer R ? Omit<U, R> & Nullify<Pick<U, R>> : never;
+type Nullable<T extends CustomizableTypes<'Object'>, U extends Options<T>> =
+  NullableOnly<T> extends infer NullableKeys
+    ? //@ts-expect-error
+      keyof Omit<T, NullableKeys> extends infer NonNullableKeys
+      ? //@ts-expect-error
+        UnNullify<Pick<U, NonNullableKeys>> & Nullify<Pick<U, NullableKeys>>
+      : never
+    : never;
 
 type NullableOnly<T extends CustomizableTypes<'Object'>> = {
   [id in keyof T]: null extends T[id] ? id : never;
@@ -57,4 +60,8 @@ type NullableOnly<T extends CustomizableTypes<'Object'>> = {
 
 type Nullify<T extends CustomizableTypes<'Object'>> = {
   [id in keyof T]: T[id] | null;
+};
+
+type UnNullify<T extends CustomizableTypes<'Object'>> = {
+  [id in keyof T]: NonNullable<T[id]>;
 };

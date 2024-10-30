@@ -1,7 +1,7 @@
 import { FileCheck, FileX, TvMinimalPlay } from 'lucide-react';
 import { type PropsWithChildren } from 'react';
 
-import { type DBTable } from '@/server/db/types';
+import { type DBTable } from '@/db/types';
 
 type Variant = 'resume' | 'interview';
 

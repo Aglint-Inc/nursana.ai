@@ -2,10 +2,10 @@ import { type SupabaseClient } from '@supabase/supabase-js';
 import { Readable } from 'stream';
 import { type z } from 'zod';
 
+import { createPublicClient } from '@/db/client';
+import type { DB } from '@/db/types';
 import { type nerseTitlesSchema, type nurseLicenseSchema } from '@/db/zod';
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
-import { createPublicClient } from '@/server/db';
-import type { DB } from '@/server/db/types';
 import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
 
 import { campaignFormDataSchema } from '../schema/upload';

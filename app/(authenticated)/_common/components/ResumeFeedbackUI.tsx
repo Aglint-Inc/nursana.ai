@@ -6,7 +6,7 @@ import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
 import { type FeedbackData } from '@/dashboard/components/ResumeFeedback';
-import type { DBTable } from '@/server/db/types';
+import type { DBTable } from '@/db/types';
 
 const ErrorFallback = () => {
   return (

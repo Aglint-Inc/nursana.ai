@@ -1,8 +1,8 @@
 import { TRPCError } from '@trpc/server';
 import { jwtDecode, type JwtPayload } from 'jwt-decode';
 
-import { createPrivateClient } from '@/server/db';
-import type { DBEnums } from '@/server/db/types';
+import { createPrivateClient } from '@/db/client';
+import type { DBEnums } from '@/db/types';
 
 import { timing } from './timing';
 

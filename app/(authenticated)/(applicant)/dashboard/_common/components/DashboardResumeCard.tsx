@@ -10,7 +10,7 @@ import { Loader } from '@/app/components/Loader';
 import UIDialog from '@/app/components/UIDialog';
 import { useUserData, useUserDataQuery } from '@/applicant/hooks/useUserData';
 import { Button } from '@/components/ui/button';
-import { type DBTable } from '@/server/db/types';
+import { type DBTable } from '@/db/types';
 
 import RadialProgress from './RadialProgress';
 

@@ -4,8 +4,8 @@ import 'server-only';
 import axios from 'axios';
 import { z } from 'zod';
 
+import { createPublicClient } from '@/db/client';
 import { type ApplicantProcedure, applicantProcedure } from '@/server/api/trpc';
-import { createPublicClient } from '@/server/db';
 const API_URL = 'https://places.googleapis.com/v1/places/';
 
 export const schema = z.object({

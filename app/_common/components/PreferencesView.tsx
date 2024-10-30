@@ -7,7 +7,7 @@ import {
 } from '@/applicant/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { DBTable } from '@/server/db/types';
+import type { DBTable } from '@/db/types';
 
 type NurseRow = DBTable<'applicant_user'>;
 
