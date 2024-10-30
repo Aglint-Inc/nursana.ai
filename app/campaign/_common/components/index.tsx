@@ -40,7 +40,7 @@ export default function FormCampaign() {
   return (
     <Section>
       <div className='flex min-h-[calc(100vh-72px)] w-full flex-col items-center justify-center gap-8'>
-        <div className='grid grid-cols-2 overflow-hidden rounded-xl border border-border'>
+        <div className='grid grid-cols-2 overflow-hidden rounded-xl border border-border my-16  '>
           <Form {...form}>
             <form
               className='mb-4 w-full'
