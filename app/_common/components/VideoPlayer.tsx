@@ -22,6 +22,9 @@ export function VideoPlayer({ videoUrl, audioUrl }: VideoPlayerProps) {
           ref={videoRef}
           src={videoUrl}
           className='h-full w-full object-cover'
+          style={{
+            transform: 'scaleX(-1)',
+          }}
           muted
         />
       </AspectRatio>

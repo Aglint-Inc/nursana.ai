@@ -130,13 +130,11 @@ export default function FormCampaign() {
                                 disabled={saving}
                                 fullWidth
                                 menuOptions={JOB_TITLES.map((role) => ({
-                                  name: capitalizeFirstLetter(
-                                    role.split('-').join(' '),
-                                  ),
-                                  value: role,
+                                  name: role.label,
+                                  value: role.value,
                                 }))}
                                 onValueChange={(
-                                  val: (typeof JOB_TITLES)[0],
+                                  val: (typeof JOB_TITLES)[0]['value'],
                                 ) => {
                                   clearErrors('role');
                                   setValue('role', val);
@@ -160,12 +158,12 @@ export default function FormCampaign() {
                                 fullWidth
                                 menuOptions={NURSE_LICENSE.map((license) => ({
                                   name: capitalizeFirstLetter(
-                                    license.split('-').join(' '),
+                                    license.label,
                                   ),
-                                  value: license,
+                                  value: license.value,
                                 }))}
                                 onValueChange={(
-                                  val: (typeof NURSE_LICENSE)[0],
+                                  val: (typeof NURSE_LICENSE)[0]['value'],
                                 ) => {
                                   clearErrors('license');
                                   setValue('license', val);
