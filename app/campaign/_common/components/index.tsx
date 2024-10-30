@@ -5,6 +5,7 @@ import {
   NURSE_LICENSE,
 } from 'app/(authenticated)/(applicant)/profile/_common/constant';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { Loader } from '@/common/components/Loader';
 import UISelectDropDown from '@/common/components/UISelectDropDown';
@@ -218,7 +219,7 @@ export default function FormCampaign() {
                               />
                             </FormControl>
                             <div className='space-y-1 leading-none'>
-                              <FormLabel>Accept terms and conditions</FormLabel>
+                              <FormLabel className='font-normal'>Accept <Link href='/terms' target='_blank' className='underline'>terms and conditions</Link> and <Link href='/terms' target='_blank'  className='underline'>  privacy policy</Link> </FormLabel>
                             </div>
                           </FormItem>
                         )}

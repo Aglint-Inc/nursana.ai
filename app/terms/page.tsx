@@ -19,7 +19,7 @@ export default function TermsAndConditions() {
             </p>
 
             <p className="mb-6 text-gray-600">
-              <strong>Aglint Inc. Registered Address:</strong>
+              <strong className="font-medium">Aglint Inc. Registered Address:</strong>
               <br />
               3020 Bernal Ave, Suite 110-334, Pleasanton, CA 94566
             </p>

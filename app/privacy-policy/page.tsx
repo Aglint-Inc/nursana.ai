@@ -19,7 +19,7 @@ export default function PrivacyPolicy() {
             </p>
             
             <p className="mb-6 text-gray-600">
-              <strong>Aglint Inc. Registered Address:</strong>
+              <strong className="font-medium">Aglint Inc. Registered Address:</strong>
               <br />
               3020 Bernal Ave, Suite 110-334, Pleasanton, CA 94566
             </p>
@@ -27,8 +27,8 @@ export default function PrivacyPolicy() {
             <h2 className="text-xl font-medium text-gray-900 mt-8 mb-4">Information We Collect</h2>
             <p className="mb-4 text-gray-600">We collect information in the following ways:</p>
             <ul className="list-disc list-inside space-y-2 mb-6 text-gray-600">
-              <li><strong>Voluntarily provided</strong>: Any information you knowingly and actively provide us when using or participating in any of our services and promotions.</li>
-              <li><strong>Automatically collected</strong>: Information automatically sent by your devices in the course of accessing our products and services, such as log data (e.g., IP address, browser type, pages visited).</li>
+              <li><strong className="font-medium">Voluntarily provided</strong>: Any information you knowingly and actively provide us when using or participating in any of our services and promotions.</li>
+              <li><strong className="font-medium">Automatically collected</strong>: Information automatically sent by your devices in the course of accessing our products and services, such as log data (e.g., IP address, browser type, pages visited).</li>
             </ul>
             
             <h2 className="text-xl font-medium text-gray-900 mt-8 mb-4">Personal Information</h2>
