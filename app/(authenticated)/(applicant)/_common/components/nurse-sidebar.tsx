@@ -39,8 +39,9 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
-import { supabase } from '@/utils/supabase/client';
 
+import { useLogout } from '@/authenticated/hooks/useLogout';
+import { useQueryClient } from '@tanstack/react-query';
 import { useUserData } from '../hooks/useUserData';
 
 const items = [
@@ -100,6 +101,8 @@ const items = [
 export function NurseSidebar() {
   const params = usePathname();
   const { applicant_user } = useUserData();
+  const queryClient = useQueryClient();
+  const { logout } = useLogout();
   return (
     <Sidebar>
       <SidebarHeader className='p-4'>
@@ -196,11 +199,7 @@ export function NurseSidebar() {
                 <DropdownMenuItem>
                   <Button
                     className='flex h-[24px] w-full flex-row justify-start p-0 font-normal'
-                    onClick={() => {
-                      supabase.auth.signOut();
-                      localStorage.clear();
-                      window.location.reload();
-                    }}
+                    onClick={() => logout(queryClient)}
                     variant={'ghost'}
                   >
                     <LogOut className='ml-2 text-red-600' />
