@@ -32,7 +32,7 @@ function InterviewRecording({
   const [showStopInterviewModal, setShowStopInterviewModal] = useState(false);
   const warningTime = 3 * 60; // 3 minutes
 
-  const minTime = 0.11 * 60; // 1 minutes;
+  const minTime = 2 * 60; // 1 minutes;
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60)
       .toString()
@@ -88,7 +88,6 @@ function InterviewRecording({
             </Button>
             <Button
               variant={'default'}
-              type='button'
               onClick={() => {
                 setShowStopInterviewModal(false);
               }}
@@ -112,6 +111,9 @@ function InterviewRecording({
               playsInline
               muted
               className='h-full w-full object-cover'
+              style={{
+                transform: 'scaleX(-1)',
+              }}
             />
             {isInterviewStarted && (
               <>
@@ -138,7 +140,7 @@ function InterviewRecording({
                           </Button>
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p className='p-2'>
+                          <p>
                             {timer < interviewDuration * 60 - minTime
                               ? 'Stop Interview'
                               : `You have to give the interview for at least ${
