@@ -6,6 +6,7 @@ import {
   getDurationInMinutes,
   getInterviewAnalysis,
   getMimeType,
+  logError,
   retellGetCallDetails,
   setInterviewAnalysis,
   UploadAudio,
@@ -27,65 +28,64 @@ export async function POST(
     );
   }
   const supabase = createAdminClient();
-  const { interview_id, call_id } = await getInterviewAnalysis(
-    supabase,
-    interview_analysis_id,
-  );
-  const {
-    call_analysis: temp_call_analysis,
-    start_timestamp,
-    end_timestamp,
-    recording_url: audio_url,
-    transcript_object: tempTranscript,
-  } = await retellGetCallDetails(call_id);
-  const duration_minutes =
-    getDurationInMinutes(start_timestamp, end_timestamp) || 0;
-  const call_analysis = {
-    ...temp_call_analysis,
-    duration_minutes,
-  };
-  const transcript_object =
-    tempTranscript?.map((item) => ({
-      role: item.role,
-      content: item.content,
-    })) || [];
-  let structured_analysis:
-    | {
-        parsed: boolean;
-        failed_reason: 'NO_REPLY' | 'PREMATURELY_CALL_ENDED';
-      }
-    | undefined;
-  if (duration_minutes < 2) {
-    structured_analysis = {
-      parsed: false,
-      failed_reason: 'PREMATURELY_CALL_ENDED',
+  try {
+    const { interview_id, call_id } = await getInterviewAnalysis(
+      supabase,
+      interview_analysis_id,
+    );
+    const {
+      call_analysis: temp_call_analysis,
+      start_timestamp,
+      end_timestamp,
+      recording_url: audio_url,
+      transcript_object: tempTranscript,
+    } = await retellGetCallDetails(call_id);
+    const duration_minutes =
+      getDurationInMinutes(start_timestamp, end_timestamp) || 0;
+    const call_analysis = {
+      ...temp_call_analysis,
+      duration_minutes,
     };
-  } else if (transcript_object.length <= 1) {
-    structured_analysis = {
-      parsed: false,
-      failed_reason: 'NO_REPLY',
-    };
-  }
-  if (audio_url?.trim().length) {
+    const transcript_object =
+      tempTranscript?.map((item) => ({
+        role: item.role,
+        content: item.content,
+      })) || [];
+    let structured_analysis:
+      | {
+          parsed: boolean;
+          failed_reason: 'NO_REPLY' | 'PREMATURELY_CALL_ENDED';
+        }
+      | undefined;
+    if (duration_minutes < 2) {
+      structured_analysis = {
+        parsed: false,
+        failed_reason: 'PREMATURELY_CALL_ENDED',
+      };
+    } else if (transcript_object.length <= 1) {
+      structured_analysis = {
+        parsed: false,
+        failed_reason: 'NO_REPLY',
+      };
+    }
+    if (!audio_url?.trim().length) {
+      throw new Error('Invalid audio url!');
+    }
     const { extension, mimeType } = getMimeType(audio_url);
+
     // Fetch the audio file from the provided URL
     const response = await fetch(audio_url, { method: 'GET' });
-
     if (!response.ok) {
       throw new Error(`Failed to fetch audio: ${response.statusText}`);
     }
 
     // Retrieve the audio file as an array buffer
     const blob = await response.blob();
-    // const audioBuffer = await response.arrayBuffer();
 
     if (mimeType === 'application/octet-stream') {
       throw new Error('Unsupported file type.');
     }
 
-    // const blob = new Blob([audioBuffer], {
-    //   type: mimeType,
-    // });
     const audioFile = new File([blob], `${interview_id}.${extension}`, {
       type: mimeType,
     });
@@ -98,7 +98,8 @@ export async function POST(
       contentType: mimeType,
     });
     const audioFileUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/audio/${fileName}`;
-    setInterviewAnalysis(supabase, interview_analysis_id, {
+
+    await setInterviewAnalysis(supabase, interview_analysis_id, {
       audio_url: audioFileUrl,
       call_analysis,
       transcript_json: transcript_object?.map((item) => ({
@@ -112,7 +113,17 @@ export async function POST(
       audioUrl: audioFileUrl,
       transcript_object,
     });
-  } else {
-    return NextResponse.json({ error: 'Invalid audio URL' }, { status: 400 });
+  } catch (e) {
+    console.error(String(e));
+    await logError(supabase, interview_analysis_id, {
+      analysis_status: {
+        process_call_api: {
+          error: 'SYSTEM_ERROR',
+          error_message: String(e),
+        },
+        status: 'error',
+      },
+    });
+    return NextResponse.json({ error: String(e) }, { status: 400 });
   }
 }
