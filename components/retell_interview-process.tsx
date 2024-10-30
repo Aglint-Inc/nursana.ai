@@ -145,6 +145,9 @@ export default function Interview({
         }`,
       );
       setIsProcessing(false);
+    } finally {
+      // eslint-disable-next-line no-console
+      console.log({ error });
     }
   }, [
     supabase,
