@@ -1,4 +1,5 @@
 'use client';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   Briefcase,
   ChevronsUpDown,
@@ -13,6 +14,7 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { useLogout } from '@/authenticated/hooks/useLogout';
 // import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
 import { Badge } from '@/components/ui/badge';
@@ -40,8 +42,6 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 
-import { useLogout } from '@/authenticated/hooks/useLogout';
-import { useQueryClient } from '@tanstack/react-query';
 import { useUserData } from '../hooks/useUserData';
 
 const items = [
