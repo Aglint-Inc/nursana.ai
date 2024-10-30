@@ -4,9 +4,9 @@ import { Sparkles, TvMinimalPlay } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
+import { VideoPlayer } from '@/app/components/VideoPlayer';
 import { useUserData, useUserDataQuery } from '@/applicant/hooks/useUserData';
 import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscriptUI';
-import { VideoPlayer } from '@/common/components/VideoPlayer';
 import { Button } from '@/components/ui/button';
 import { useBucket } from '@/hooks/use-bucket';
 

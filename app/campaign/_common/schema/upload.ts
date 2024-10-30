@@ -1,10 +1,7 @@
 import { z } from 'zod';
 import { zfd } from 'zod-form-data';
 
-import {
-  nerseTitlesSchema,
-  nurseLicenseSchema,
-} from '@/supabase-types/zod-schema.types';
+import { nerseTitlesSchema, nurseLicenseSchema } from '@/db/zod';
 
 export const campaignFormDataSchema = zfd.formData({
   email: z.string().email(),

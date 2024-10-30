@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import { campaignInsertSchema } from '@/supabase-types/zod-schema.types';
+import { campaignInsertSchema } from '@/db/zod';
 import { useTemplates } from '@/templates/hooks/useTemplates';
 
 import { useAction } from './Context';

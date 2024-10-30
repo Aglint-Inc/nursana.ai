@@ -1,15 +1,12 @@
 import 'server-only';
 
+import { versionRowSchema, versionUpdateSchema } from '@/db/zod';
 import {
   type AgencyProcedure,
   agencyProcedure,
   type ProcedureDefinition,
 } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
-import {
-  versionRowSchema,
-  versionUpdateSchema,
-} from '@/supabase-types/zod-schema.types';
 
 const schema = versionRowSchema.pick({ id: true }).merge(
   versionUpdateSchema.pick({

@@ -1,6 +1,6 @@
-import { type z } from 'zod';
+import type { z } from 'zod';
 
-import { type nerseTitlesSchema } from '@/supabase-types/zod-schema.types';
+import type { nerseTitlesSchema } from '@/db/zod';
 
 const titles = [
   { value: 'registered-nurse', label: 'Registered Nurse (RN)' },

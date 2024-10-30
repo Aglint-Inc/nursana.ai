@@ -4,7 +4,7 @@ import { StopCircle } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { cn } from 'src/utils/cn';
 
-import UIDialog from '@/common/components/UIDialog';
+import UIDialog from '@/app/components/UIDialog';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Card, CardContent } from '@/components/ui/card';
 

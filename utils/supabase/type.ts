@@ -1,3 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Database } from 'src/supabase-types/database.types';
-export type SupdabasClientType = SupabaseClient<Database>;
+
+import type { DB } from '@/server/db/types';
+
+export type SupdabasClientType = SupabaseClient<DB>;

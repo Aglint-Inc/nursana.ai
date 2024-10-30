@@ -1,7 +1,7 @@
 import { type LucideProps } from 'lucide-react';
 import React from 'react';
 
-import { Loader } from '@/common/components/Loader';
+import { Loader } from '@/app/components/Loader';
 
 interface NotAvailableProps {
   heading: string;

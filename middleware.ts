@@ -2,9 +2,8 @@
 import { jwtDecode, type JwtPayload } from 'jwt-decode';
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { type Database } from '@/supabase-types/database.types';
-
 import { createPrivateClient } from './server/db';
+import type { DBEnums } from './server/db/types';
 
 export const config = {
   matcher: [
@@ -118,7 +117,7 @@ const getRole = async () => {
   if (!data.session?.access_token) return null;
 
   const jwt = jwtDecode(data.session.access_token) as JwtPayload & {
-    user_role: Database['public']['Enums']['user_role'];
+    user_role: DBEnums<'user_role'>;
   };
 
   return jwt?.user_role ?? null;

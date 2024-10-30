@@ -6,9 +6,9 @@ import { Sparkles } from 'lucide-react';
 import { forwardRef, type RefObject, Suspense, useRef } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
+import { AudioPlayer } from '@/app/components/AudioPlayer';
+import { Loader } from '@/app/components/Loader';
 import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscriptUI';
-import { AudioPlayer } from '@/common/components/AudioPlayer';
-import { Loader } from '@/common/components/Loader';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import NotAvailable from '@/dashboard/components/NotAvailable';
 import { useInterviewAnalysis } from '@/interview/hooks/useInterviewAnalysis';

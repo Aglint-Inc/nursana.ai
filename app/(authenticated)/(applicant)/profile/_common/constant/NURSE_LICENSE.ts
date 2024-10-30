@@ -1,6 +1,6 @@
-import { type z } from 'zod';
+import type { z } from 'zod';
 
-import { type nurseLicenseSchema } from '@/supabase-types/zod-schema.types';
+import type { nurseLicenseSchema } from '@/db/zod';
 const licenses = [
   { value: 'registered-nurse', label: 'Registered Nurse (RN)' },
   { value: 'nurse-practitioner', label: 'Nurse Practitioner (NP)' },

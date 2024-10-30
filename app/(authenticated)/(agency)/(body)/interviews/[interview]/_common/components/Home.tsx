@@ -44,7 +44,6 @@ const Banner = () => {
 };
 
 const InterviewScore = () => {
-  // throw new Error('a');
   const { structured_analysis } = useInterviewAnalysis();
   return (
     <InterviewHome.InterviewScore score={structured_analysis.overall_score} />
@@ -58,7 +57,6 @@ const InterviewScoreFallback = () => {
 };
 
 const ResumeScore = () => {
-  // throw new Error('a');
   const { resume_feedback } = useInterviewResume();
   return <InterviewHome.ResumeScore score={resume_feedback.overallScore} />;
 };
@@ -74,7 +72,6 @@ const ResumeInfo = () => {
 };
 
 const InterviewInfo = () => {
-  // throw new Error('a');
   const interview = useInterview();
   return <InterviewHome.InterviewInfo {...interview} />;
 };

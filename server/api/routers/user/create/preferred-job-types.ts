@@ -2,9 +2,9 @@ import 'server-only';
 
 import { z } from 'zod';
 
+import { jobTypesSchema } from '@/db/zod';
 import { type ApplicantProcedure, applicantProcedure } from '@/server/api/trpc';
 import { createPublicClient } from '@/server/db';
-import { jobTypesSchema } from '@/supabase-types/zod-schema.types';
 
 export const schema = z.object({
   job_type: jobTypesSchema,

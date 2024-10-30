@@ -1,12 +1,12 @@
 import 'server-only';
 
+import { campaignInsertSchema } from '@/db/zod';
 import {
   type AgencyProcedure,
   agencyProcedure,
   type ProcedureDefinition,
 } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
-import { campaignInsertSchema } from '@/supabase-types/zod-schema.types';
 
 const schema = campaignInsertSchema.pick({
   name: true,

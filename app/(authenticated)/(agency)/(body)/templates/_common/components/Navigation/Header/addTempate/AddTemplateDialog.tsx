@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { type z } from 'zod';
 
-import RichTextEditor from '@/common/components/RichTextEditor';
+import RichTextEditor from '@/app/components/RichTextEditor';
 import { Button } from '@/components/ui/button';
 import {
   Form,

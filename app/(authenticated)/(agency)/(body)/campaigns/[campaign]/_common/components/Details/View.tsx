@@ -10,8 +10,8 @@ import {
 import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 
+import { capitalize } from '@/app/utils/capitalize';
 import { useCampaign } from '@/campaign/hooks/useCampaign';
-import { capitalize } from '@/common/utils/capitalize';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import {

@@ -3,15 +3,15 @@ import { TriangleAlert, TvMinimalPlay } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
+import { Loader } from '@/app/components/Loader';
 import { useUserDataQuery } from '@/applicant/hooks/useUserData';
-import { Loader } from '@/common/components/Loader';
 import { Button } from '@/components/ui/button';
-import { type Database } from '@/supabase-types/database.types';
+import { type DBTable } from '@/server/db/types';
 
 import RadialProgress from './RadialProgress';
 type ResumeCardProps = {
-  interviewDetails: Database['public']['Tables']['interview']['Row'] | null;
-  analysis: Database['public']['Tables']['interview_analysis']['Row'] | null;
+  interviewDetails: DBTable<'interview'> | null;
+  analysis: DBTable<'interview_analysis'> | null;
 };
 
 function InterviewCard({ interviewDetails, analysis }: ResumeCardProps) {

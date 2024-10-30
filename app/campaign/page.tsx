@@ -2,7 +2,7 @@
 
 import FormCampaign from 'app/campaign/_common/components';
 
-import { Loader } from '@/common/components/Loader';
+import { Loader } from '@/app/components/Loader';
 
 import { useCampaign } from './_common/hooks/useCampaign';
 

@@ -1,13 +1,9 @@
 import { File, UploadCloud, X } from 'lucide-react';
-import React, {
-  useCallback,
-  useState
-} from 'react';
+import React, { useCallback, useState } from 'react';
 
-import LoadingWapper from '@/common/components/LoadingWapper';
+import LoadingWapper from '@/app/components/LoadingWapper';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-
 
 function ResumeUpload({
   saving,
@@ -52,7 +48,7 @@ function ResumeUpload({
       <div className='flex flex-col gap-1'>
         {!file ? (
           <div
-            className={`relative mt-2 flex justify-center bg-muted rounded-lg border border-dashed ${
+            className={`relative mt-2 flex justify-center rounded-lg border border-dashed bg-muted ${
               dragActive ? 'bg-background' : 'bg-background'
             } px-6 py-6`}
             onDragEnter={handleDrag}
@@ -93,9 +89,13 @@ function ResumeUpload({
           </div>
         ) : (
           <div className='mt-2'>
-            <div className='flex items-center justify-between rounded-lg bg-muted border border-border px-4 py-4 shadow-none'>
+            <div className='flex items-center justify-between rounded-lg border border-border bg-muted px-4 py-4 shadow-none'>
               <div className='flex items-center gap-3'>
-                <File size={24} strokeWidth={1.5} className='text-muted-foreground' />
+                <File
+                  size={24}
+                  strokeWidth={1.5}
+                  className='text-muted-foreground'
+                />
                 <span className='text-md truncate'>{value?.name}</span>
               </div>
 

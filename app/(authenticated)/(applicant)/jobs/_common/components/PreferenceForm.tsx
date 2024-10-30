@@ -11,6 +11,8 @@ import { Label } from 'recharts';
 import { api } from 'trpc/client';
 import { type z } from 'zod';
 
+import { Loader } from '@/app/components/Loader';
+import { UIMultiSelect } from '@/app/components/UIMultiSelect';
 import {
   useCreatePreferredJobTitle,
   useCreatePreferredJobType,
@@ -24,8 +26,6 @@ import {
   useUpdateUserData,
   useUserData,
 } from '@/applicant/hooks/useUserData';
-import { Loader } from '@/common/components/Loader';
-import { UIMultiSelect } from '@/common/components/UIMultiSelect';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -34,13 +34,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useLocalStorage } from '@/hooks/use-local-storage';
-import { toast } from '@/hooks/use-toast';
 import {
   type jobTypesSchema,
   type nerseTitlesSchema,
   type travelPreferrenceSchema,
-} from '@/supabase-types/zod-schema.types';
+} from '@/db/zod';
+import { useLocalStorage } from '@/hooks/use-local-storage';
+import { toast } from '@/hooks/use-toast';
 import { capitalizeFirstLetter } from '@/utils/utils';
 
 import WaitingForMatch from './WaitingForMatch';

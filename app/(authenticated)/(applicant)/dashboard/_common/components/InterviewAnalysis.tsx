@@ -4,9 +4,9 @@ import { Sparkles, TvMinimalPlay } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
+import { Loader } from '@/app/components/Loader';
 import { useUserData, useUserDataQuery } from '@/applicant/hooks/useUserData';
 import { InterviewAnalysisUI } from '@/authenticated/components/InterviewAnalysisUI';
-import { Loader } from '@/common/components/Loader';
 import { Button } from '@/components/ui/button';
 
 import NotAvailable from './NotAvailable';
