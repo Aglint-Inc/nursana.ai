@@ -1,4 +1,5 @@
 'use client';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   Briefcase,
   ChevronsUpDown,
@@ -13,6 +14,7 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { useLogout } from '@/authenticated/hooks/useLogout';
 // import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
 import { Badge } from '@/components/ui/badge';
@@ -39,7 +41,6 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
-import { supabase } from '@/utils/supabase/client';
 
 import { useUserData } from '../hooks/useUserData';
 
@@ -100,6 +101,8 @@ const items = [
 export function NurseSidebar() {
   const params = usePathname();
   const { applicant_user } = useUserData();
+  const queryClient = useQueryClient();
+  const { logout } = useLogout();
   return (
     <Sidebar>
       <SidebarHeader className='p-4'>
@@ -196,11 +199,7 @@ export function NurseSidebar() {
                 <DropdownMenuItem>
                   <Button
                     className='flex h-[24px] w-full flex-row justify-start p-0 font-normal'
-                    onClick={() => {
-                      supabase.auth.signOut();
-                      localStorage.clear();
-                      window.location.reload();
-                    }}
+                    onClick={() => logout(queryClient)}
                     variant={'ghost'}
                   >
                     <LogOut className='ml-2 text-red-600' />

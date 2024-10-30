@@ -36,8 +36,8 @@ export const ResumeFeedbackUI = ({
     return <ErrorFallback />;
 
   const summary = isCandidateView
-    ? resumeFeedback?.overall_feedback || ''
-    : resumeFeedback?.overall_summary || '';
+    ? resumeFeedback?.overall_feedback || 'No summary available'
+    : resumeFeedback?.overall_summary || 'No summary available';
 
   return (
     <div className='mb-6'>

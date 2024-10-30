@@ -107,6 +107,9 @@ const Video = forwardRef(function Video(_props, ref) {
         ref={ref as RefObject<HTMLVideoElement>}
         src={video_url}
         className='flex h-full w-full object-cover'
+        style={{
+          transform: 'scaleX(-1)',
+        }}
       />
     </AspectRatio>
   );
