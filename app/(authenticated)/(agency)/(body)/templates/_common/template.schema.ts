@@ -1,9 +1,6 @@
 import { z } from 'zod';
 
-import {
-  templateInsertSchema,
-  versionInsertSchema,
-} from '@/supabase-types/zod-schema.types';
+import { templateInsertSchema, versionInsertSchema } from '@/db/zod';
 
 const templateSchema = templateInsertSchema.pick({
   name: true,

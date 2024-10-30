@@ -4,11 +4,12 @@ import { createServerClient } from '@supabase/ssr';
 import { createClient } from '@supabase/supabase-js';
 import type { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { cookies } from 'next/headers';
-import { type Database } from 'src/supabase-types/database.types';
+
+import type { DB } from './types';
 
 export function createPrivateClient() {
   const cookieStore = cookies();
-  return createServerClient<Database>(
+  return createServerClient<DB>(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
@@ -33,7 +34,7 @@ export function createPrivateClient() {
 }
 
 export function createPublicClient() {
-  return createClient<Database>(
+  return createClient<DB>(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY,
   );

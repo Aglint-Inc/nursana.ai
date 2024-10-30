@@ -5,6 +5,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { api } from 'trpc/client';
 import { type z } from 'zod';
 
+import { Loader } from '@/app/components/Loader';
+import { UIMultiSelect } from '@/app/components/UIMultiSelect';
+import UIPhoneInput from '@/app/components/UIPhoneInput';
 import {
   useCreatePreferredJobTitle,
   useCreatePreferredJobType,
@@ -18,9 +21,6 @@ import {
   useUpdateUserData,
   useUserData,
 } from '@/applicant/hooks/useUserData';
-import { Loader } from '@/common/components/Loader';
-import { UIMultiSelect } from '@/common/components/UIMultiSelect';
-import UIPhoneInput from '@/common/components/UIPhoneInput';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -32,15 +32,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { useDebounce } from '@/hooks/use-debounce';
-import { toast } from '@/hooks/use-toast';
-import { type userProfileSchema } from '@/server/api/routers/user/update';
 import {
   type jobTypesSchema,
   type nerseTitlesSchema,
   type nurseLicenseSchema,
   type travelPreferrenceSchema,
-} from '@/supabase-types/zod-schema.types';
+} from '@/db/zod';
+import { useDebounce } from '@/hooks/use-debounce';
+import { toast } from '@/hooks/use-toast';
+import { type userProfileSchema } from '@/server/api/routers/user/update';
 import { capitalizeFirstLetter } from '@/utils/utils';
 
 import {

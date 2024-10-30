@@ -7,9 +7,9 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Loader } from '@/common/components/Loader';
-import UISelectDropDown from '@/common/components/UISelectDropDown';
-import UITextField from '@/common/components/UITextField';
+import { Loader } from '@/app/components/Loader';
+import UISelectDropDown from '@/app/components/UISelectDropDown';
+import UITextField from '@/app/components/UITextField';
 import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
 import { Button } from '@/components/ui/button';

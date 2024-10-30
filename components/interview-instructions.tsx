@@ -10,8 +10,8 @@ import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { type InterviewData } from 'src/types/types';
 
+import { Loader } from '@/app/components/Loader';
 import { useUserDataQuery } from '@/applicant/hooks/useUserData';
-import { Loader } from '@/common/components/Loader';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';

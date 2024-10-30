@@ -24,14 +24,14 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/common/*": ["./app/_common/*"],
-      "@/trpc/*": ["./app/trpc/*"],
+      "@/trpc/*": ["./trpc/*"],
       "@/components/*": ["./components/*"],
       "@/utils/*": ["./utils/*"],
-      "@/supabase-types/*": ["src/supabase-types/*"],
       "@/server/*": ["./server/*"],
+      "@/db/*": ["./server/db/*"],
       "@/hooks/*": ["./hooks/*"],
       "@/audio/*": ["./lib/audio/*"],
+      "@/app/*": ["./app/_common/*"],
       "@/applicant/*": ["./app/(authenticated)/(applicant)/_common/*"],
       "@/dashboard/*": [
         "./app/(authenticated)/(applicant)/dashboard/_common/*"

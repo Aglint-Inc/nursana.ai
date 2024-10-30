@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-import { Loader } from '@/common/components/Loader';
+import { Loader } from '@/app/components/Loader';
 import Footer from '@/components/footer';
 import NursanaLogo from '@/components/nursana-logo';
 import { Button } from '@/components/ui/button';
@@ -14,7 +14,7 @@ import { supabase } from '@/utils/supabase/client';
 function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [error, setError] = useState<string | null>(null); 
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     asyncFunction();
@@ -39,8 +39,8 @@ function Page() {
   return (
     <div className='flex min-h-screen w-full items-center justify-center'>
       {error ? (
-        <div className='flex w-full h-screen py-8 flex-col items-center justify-between gap-4 text-center'>
-          <NursanaLogo/>
+        <div className='flex h-screen w-full flex-col items-center justify-between gap-4 py-8 text-center'>
+          <NursanaLogo />
           <div className='flex w-full flex-col items-center justify-between gap-4 text-center'>
             <Link2Off size={50} strokeWidth={1.3} className='text-purple-600' />
 
@@ -56,7 +56,7 @@ function Page() {
               </Link>
             </div>
           </div>
-          <Footer/>
+          <Footer />
         </div>
       ) : (
         <Loader />

@@ -2,8 +2,8 @@ import 'server-only';
 
 import { z } from 'zod';
 
+import { createPublicClient } from '@/db/client';
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
-import { createPublicClient } from '@/server/db';
 
 export const schema = z.object({
   address: z.string(),

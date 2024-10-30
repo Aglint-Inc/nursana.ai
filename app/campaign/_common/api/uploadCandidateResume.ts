@@ -2,8 +2,8 @@ import { Readable } from 'stream';
 import { z } from 'zod';
 import { zfd } from 'zod-form-data';
 
+import { createPublicClient } from '@/db/client';
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
-import { createPublicClient } from '@/server/db';
 import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
 export const resumeUploadDataSchema = zfd.formData({
   image: z.instanceof(File),

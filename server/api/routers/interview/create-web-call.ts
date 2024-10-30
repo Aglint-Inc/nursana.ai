@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { createPrivateClient } from '@/server/db';
+import { createPrivateClient } from '@/db/client';
 import { getInstructions } from '@/utils/audio/instructions';
 
 import { type PrivateProcedure, privateProcedure } from '../../trpc';

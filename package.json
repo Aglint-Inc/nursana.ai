@@ -9,12 +9,12 @@
     "lint": "next lint --dir .",
     "lint:fix": "next lint --dir .--fix",
     "tslint": "npm run lint  && npx tsc --noEmit ",
-    "supabase-type": "npx supabase gen types typescript --linked > src/supabase-types/database.types.ts && npm run fix_types && npm run generate-zod-schemas",
-    "generate-zod-schemas": "supabase-to-zod --input src/supabase-types/database.types.ts --output src/supabase-types/zod-schema.types.ts",
-    "fix_types": "npx tsc src/script/removeJsonType.ts --skipLibCheck && node src/script/removeJsonType.js",
+    "json-to-any": "npx tsc src/script/removeJsonType.ts --skipLibCheck && node src/script/removeJsonType.js",
+    "zod": "supabase-to-zod --input server/db/schema/default.ts --output server/db/zod.ts",
+    "types:local": "npx supabase gen types --lang=typescript --local --schema public> server/db/schema/default.ts && npm run json-to-any && npm run zod",
+    "types:remote": "npx supabase gen types --lang=typescript --linked --schema public> server/db/schema/default.ts && npm run json-to-any && npm run zod",
     "seed:local": "supabase db dump -f supabase/seed.sql --local --data-only --exclude auth.audit_log_entries,auth.flow_state,auth.sessions,auth.mfa_amr_claims,auth.one_time_tokens,auth.refresh_tokens",
-    "seed:remote": "supabase db dump -f supabase/seed.sql --data-only --exclude auth.audit_log_entries,auth.flow_state,auth.sessions,auth.mfa_amr_claims,auth.one_time_tokens,auth.refresh_tokens",
-    "types:local": "npx supabase gen types --lang=typescript --local  --schema public> src/supabase-types/database.types.ts && npm run fix_types && npm run generate-zod-schemas"
+    "seed:remote": "supabase db dump -f supabase/seed.sql --data-only --exclude auth.audit_log_entries,auth.flow_state,auth.sessions,auth.mfa_amr_claims,auth.one_time_tokens,auth.refresh_tokens"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.67",

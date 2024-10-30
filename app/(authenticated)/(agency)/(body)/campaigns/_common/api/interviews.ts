@@ -3,12 +3,12 @@ import 'server-only';
 import { TRPCError } from '@trpc/server';
 
 import { schema } from '@/campaigns/schema/interviews.schema';
+import { createPrivateClient } from '@/db/client';
 import {
   type AgencyProcedure,
   agencyProcedure,
   type ProcedureDefinition,
 } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
 
 const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
   const db = createPrivateClient();

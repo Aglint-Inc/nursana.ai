@@ -1,4 +1,4 @@
-import { Loader } from '@/common/components/Loader';
+import { Loader } from '@/app/components/Loader';
 import Section from '@/components/section';
 
 const Loading = () => {

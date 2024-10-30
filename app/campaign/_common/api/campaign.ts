@@ -2,13 +2,10 @@ import { type SupabaseClient } from '@supabase/supabase-js';
 import { Readable } from 'stream';
 import { type z } from 'zod';
 
+import { createPublicClient } from '@/db/client';
+import type { DB } from '@/db/types';
+import { type nerseTitlesSchema, type nurseLicenseSchema } from '@/db/zod';
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
-import { createPublicClient } from '@/server/db';
-import { type Database } from '@/supabase-types/database.types';
-import {
-  type nerseTitlesSchema,
-  type nurseLicenseSchema,
-} from '@/supabase-types/zod-schema.types';
 import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
 
 import { campaignFormDataSchema } from '../schema/upload';
@@ -113,7 +110,7 @@ const createInterview = async ({
   applicant_id,
   resume_url,
 }: {
-  db: SupabaseClient<Database>;
+  db: SupabaseClient<DB>;
   campaign_id: string;
   applicant_id: string;
   resume_url: string;
@@ -173,7 +170,7 @@ const createUser = async ({
   terms_accepted,
   license,
 }: {
-  db: SupabaseClient<Database>;
+  db: SupabaseClient<DB>;
   email: string;
   first_name: string;
   last_name?: string | null;

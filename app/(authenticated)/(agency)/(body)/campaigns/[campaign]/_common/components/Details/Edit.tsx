@@ -30,7 +30,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import { campaignUpdateSchema } from '@/supabase-types/zod-schema.types';
+import { campaignUpdateSchema } from '@/db/zod';
 import { useTemplates } from '@/templates/hooks/useTemplates';
 
 import { useDetails } from './Context';

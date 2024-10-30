@@ -1,8 +1,8 @@
 import { TRPCError } from '@trpc/server';
 import { jwtDecode, type JwtPayload } from 'jwt-decode';
 
-import { createPrivateClient } from '@/server/db';
-import type { Database } from '@/supabase-types/database.types';
+import { createPrivateClient } from '@/db/client';
+import type { DBEnums } from '@/db/types';
 
 import { timing } from './timing';
 
@@ -14,7 +14,7 @@ export const auth = timing.unstable_pipe(async ({ next, ctx }) => {
 
   let user_id: string | null = null;
 
-  let role: Database['public']['Enums']['user_role'] | null = null;
+  let role: DBEnums<'user_role'> | null = null;
 
   const { session } = (await db.auth.getSession()).data;
 
@@ -25,7 +25,7 @@ export const auth = timing.unstable_pipe(async ({ next, ctx }) => {
     });
 
   const jwt = jwtDecode(session.access_token) as JwtPayload & {
-    user_role: Database['public']['Enums']['user_role'];
+    user_role: DBEnums<'user_role'>;
   };
   role = jwt?.user_role ?? null;
 

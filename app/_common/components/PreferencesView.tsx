@@ -1,7 +1,5 @@
 'use client';
 
-import type { Database } from 'src/supabase-types/database.types';
-
 import {
   usePreferredJobLocations,
   usePreferredJobTitles,
@@ -9,8 +7,9 @@ import {
 } from '@/applicant/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { DBTable } from '@/db/types';
 
-type NurseRow = Database['public']['Tables']['applicant_user']['Row'];
+type NurseRow = DBTable<'applicant_user'>;
 
 type PreferencesViewProps = {
   nurseData: NurseRow | null;

@@ -1,7 +1,7 @@
 import { FileCheck, FileX, TvMinimalPlay } from 'lucide-react';
 import { type PropsWithChildren } from 'react';
 
-import { type Database } from '@/supabase-types/database.types';
+import { type DBTable } from '@/db/types';
 
 type Variant = 'resume' | 'interview';
 
@@ -32,10 +32,7 @@ const Resume = (props: PropsWithChildren<ResumeProps>) => {
 
 type InterviewProps = {
   variant: Extract<Variant, 'interview'>;
-} & Pick<
-  Database['public']['Tables']['interview']['Row'],
-  'id' | 'interview_stage' | 'updated_at'
->;
+} & Pick<DBTable<'interview'>, 'id' | 'interview_stage' | 'updated_at'>;
 
 const Interview = (props: PropsWithChildren<InterviewProps>) => {
   return (
