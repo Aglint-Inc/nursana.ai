@@ -9,7 +9,7 @@ export async function score<T extends z.ZodSchema>(
   schema: T,
 ) {
   const { object, usage } = await generateObject<z.infer<T>>({
-    model: openai('gpt-4o-mini'),
+    model: openai('gpt-4o'),
     system: systemPrompt,
     prompt: data,
     schema,
