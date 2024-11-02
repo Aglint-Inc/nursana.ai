@@ -101,18 +101,21 @@ export const PromptArchive: {
 }[] = [
   {
     key: 'education_and_certifications',
-    prompt: `You will receive a nurse's resume in JSON format. Please evaluate the "Education" and "Certifications" fields based on the following criteria and output the result in JSON format:
-                1. **Nursing Degree** (Rate 1-10):
-                - Rate higher for advanced degrees (e.g., BSN = 7, MSN = 9, DNP = 10).
-                - If no degree is specified or below the required level, rate 1-5.
+    prompt: `You will receive a medical professional's resume in JSON format. Please evaluate the "Education" and "Certifications" fields based on the following criteria and output the result in JSON format:
+                1. **Professional Degree** (Rate 1-10):
+                - Rate higher for advanced degrees in relevant medical field
+                - Consider specialization relevance to the role
+                - If no degree is specified or below required level, rate 1-5
 
                 2. **Certifications** (Rate 1-10):
-                - High score for multiple relevant certifications (e.g., RN, LPN, BLS, ACLS).
-                - Lower score if missing essential certifications.
+                - High score for multiple relevant professional certifications
+                - Consider industry-standard certifications for the role
+                - Lower score if missing essential certifications
 
                 3. **Specializations** (Rate 1-5):
-                - 5 for relevant specialties (e.g., pediatrics, ICU, ER).
-                - 1 if no specialization is listed.`,
+                - 5 for relevant specialties in the medical field
+                - Consider alignment with job requirements
+                - 1 if no specialization is listed`,
     dataMapper(data) {
       if (
         data.schools?.length &&
@@ -140,15 +143,16 @@ export const PromptArchive: {
   },
   {
     key: 'licensure',
-    prompt: `You will receive a nurse's resume in JSON format. Please evaluate the "licensure" based on the following criteria and output the result in JSON format:
-                1. **Active Nursing Licensee** (Rate 1-10):
-                - 10 if the license is active and up-to-date.
-                - Deduct points if there’s no license mentioned or if expired.
+    prompt: `You will receive a medical professional's resume in JSON format. Please evaluate the "licensure" based on the following criteria and output the result in JSON format:
+                1. **Active Professional License** (Rate 1-10):
+                - 10 if required licenses are active and up-to-date
+                - Consider state/national level requirements
+                - Deduct points if required licenses are missing or expired
 
                 2. **Expiration Date** (Rate 1-5):
-                - 5 if the expiration is at least one year away.
-                - 3 if the expiration is within one year.
-                - 1 if expired or not listed.`,
+                - 5 if all licenses expire at least one year away
+                - 3 if any license expires within one year
+                - 1 if expired or not listed`,
     dataMapper(data) {
       if (data.licenses?.length) {
         return { error: 'No Relevant data', result: null };
@@ -172,22 +176,26 @@ export const PromptArchive: {
   },
   {
     key: 'experience',
-    prompt: `You will receive a nurse's resume in JSON format. Please evaluate the "Experience" based on the following criteria and output the result in JSON format:
-                1. **Years of Experience ** (Rate 1-10):
-                - 10 for 10+ years of relevant experience.
-                - Deduct points for less experience (e.g., 1-3 years = 3, 5-9 years = 7).
+    prompt: `You will receive a medical professional's resume in JSON format. Please evaluate the "Experience" based on the following criteria and output the result in JSON format:
+                1. **Years of Experience** (Rate 1-10):
+                - 10 for 10+ years of relevant experience
+                - Consider both quality and quantity of experience
+                - Deduct points for less experience proportionally
 
                 2. **Healthcare Settings** (Rate 1-5):
-                - 5 for experience in relevant settings (e.g., agency, ER, outpatient clinic).
-                - Lower score for irrelevant settings or limited variety.
+                - 5 for experience in relevant medical settings
+                - Consider diversity and relevance of settings
+                - Lower score for limited variety or irrelevant settings
                 
                 3. **Specialties** (Rate 1-5):
-                - 5 for relevant specialties (e.g., ICU, ER, oncology).
-                - 1 for general practice only or irrelevant specialties.
+                - 5 for relevant specialties in required field
+                - Consider alignment with position requirements
+                - 1 for general practice only
 
                 4. **Leadership Roles** (Rate 1-5):
-                - 5 for leadership positions (e.g., charge nurse, head nurse).
-                - 1 if no leadership experience is mentioned.`,
+                - 5 for relevant leadership positions in medical settings
+                - Consider scope and duration of leadership
+                - 1 if no leadership experience`,
     dataMapper(data) {
       if (
         data.positions?.length &&
@@ -215,18 +223,21 @@ export const PromptArchive: {
   },
   {
     key: 'technical_skills',
-    prompt: `You will receive a nurse's resume in JSON format. Please evaluate the "Technical Skills" based on the following criteria and output the result in JSON format:
-                1. **Healthcare Software ** (Rate 1-5):
-                - 5 for proficiency with EHR systems like Epic, Cerner.
-                - Deduct points for limited software experience.
+    prompt: `You will receive a medical professional's resume in JSON format. Please evaluate the "Technical Skills" based on the following criteria and output the result in JSON format:
+                1. **Healthcare Software** (Rate 1-5):
+                - 5 for proficiency with relevant medical software systems
+                - Consider industry-standard tools and systems
+                - Deduct points for limited software experience
 
                 2. **Medical Equipment** (Rate 1-5):
-                - 5 for experience handling advanced medical equipment.
-                - 1 for basic or no equipment experience.
+                - 5 for experience with relevant medical equipment
+                - Consider specialized equipment knowledge
+                - 1 for basic or no equipment experience
                 
                 3. **Telemedicine** (Rate 1-3):
-                - 3 for extensive telemedicine experience.
-                - 1 if no telemedicine experience.`,
+                - 3 for extensive telemedicine experience
+                - Consider virtual care capabilities
+                - 1 if no telemedicine experience`,
     dataMapper(data) {
       if (data.skills?.length && data.positions?.length) {
         return { error: 'No Relevant data', result: null };
