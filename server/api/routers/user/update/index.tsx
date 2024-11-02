@@ -6,6 +6,7 @@ import { type PrivateProcedure, privateProcedure } from '@/server/api/trpc';
 import { createPrivateClient } from '@/server/db';
 import {
   nerseTitlesSchema,
+  nurseLicenseSchema,
   travelPreferrenceSchema,
 } from '@/supabase-types/zod-schema.types';
 
@@ -26,6 +27,7 @@ export const userProfileSchema = z.object({
   salary_range: z.string().nullable().optional(),
   job_title: nerseTitlesSchema.optional(),
   open_to_work: z.boolean().optional(),
+  license: nurseLicenseSchema.optional().nullable(),
 });
 
 const mutation = async ({
@@ -48,6 +50,7 @@ const mutation = async ({
       .from('applicant_user')
       .update({
         ...applicant_user,
+        salary_range: applicant_user.salary_range || '[0,0)',
       })
       .eq('id', user_id),
   ]);

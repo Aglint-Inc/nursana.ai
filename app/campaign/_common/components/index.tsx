@@ -5,6 +5,7 @@ import {
   NURSE_LICENSE,
 } from 'app/(authenticated)/(applicant)/profile/_common/constant';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { Loader } from '@/common/components/Loader';
 import UISelectDropDown from '@/common/components/UISelectDropDown';
@@ -40,7 +41,7 @@ export default function FormCampaign() {
   return (
     <Section>
       <div className='flex min-h-[calc(100vh-72px)] w-full flex-col items-center justify-center gap-8'>
-        <div className='grid grid-cols-2 overflow-hidden rounded-xl border border-border'>
+        <div className='grid grid-cols-2 overflow-hidden rounded-xl border border-border my-16  '>
           <Form {...form}>
             <form
               className='mb-4 w-full'
@@ -129,13 +130,11 @@ export default function FormCampaign() {
                                 disabled={saving}
                                 fullWidth
                                 menuOptions={JOB_TITLES.map((role) => ({
-                                  name: capitalizeFirstLetter(
-                                    role.split('-').join(' '),
-                                  ),
-                                  value: role,
+                                  name: role.label,
+                                  value: role.value,
                                 }))}
                                 onValueChange={(
-                                  val: (typeof JOB_TITLES)[0],
+                                  val: (typeof JOB_TITLES)[0]['value'],
                                 ) => {
                                   clearErrors('role');
                                   setValue('role', val);
@@ -159,12 +158,12 @@ export default function FormCampaign() {
                                 fullWidth
                                 menuOptions={NURSE_LICENSE.map((license) => ({
                                   name: capitalizeFirstLetter(
-                                    license.split('-').join(' '),
+                                    license.label,
                                   ),
-                                  value: license,
+                                  value: license.value,
                                 }))}
                                 onValueChange={(
-                                  val: (typeof NURSE_LICENSE)[0],
+                                  val: (typeof NURSE_LICENSE)[0]['value'],
                                 ) => {
                                   clearErrors('license');
                                   setValue('license', val);
@@ -218,7 +217,7 @@ export default function FormCampaign() {
                               />
                             </FormControl>
                             <div className='space-y-1 leading-none'>
-                              <FormLabel>Accept terms and conditions</FormLabel>
+                              <FormLabel className='font-normal'>I accept <Link href='/terms' target='_blank' className='underline'>terms and conditions</Link></FormLabel>
                             </div>
                           </FormItem>
                         )}
@@ -247,7 +246,7 @@ export default function FormCampaign() {
                       href='/auth/sign-in'
                       className='text-card-foreground underline'
                     >
-                      Login here
+                      Login
                     </a>
                     .
                   </p>
