@@ -101,21 +101,7 @@ export const PromptArchive: {
 }[] = [
   {
     key: 'education_and_certifications',
-    prompt: `You will receive a medical professional's resume in JSON format. Please evaluate the "Education" and "Certifications" fields based on the following criteria and output the result in JSON format:
-                1. **Professional Degree** (Rate 1-10):
-                - Rate higher for advanced degrees in relevant medical field
-                - Consider specialization relevance to the role
-                - If no degree is specified or below required level, rate 1-5
-
-                2. **Certifications** (Rate 1-10):
-                - High score for multiple relevant professional certifications
-                - Consider industry-standard certifications for the role
-                - Lower score if missing essential certifications
-
-                3. **Specializations** (Rate 1-5):
-                - 5 for relevant specialties in the medical field
-                - Consider alignment with job requirements
-                - 1 if no specialization is listed`,
+    prompt: `You will receive a resume in JSON format. Analyze the "Education" and "Certifications" sections and provide constructive feedback. Evaluate if the education is clearly listed and recommend any ways to better highlight achievements or quantify results. Provide specific suggestions for improvement in each area, if applicable, to help strengthen this resume for job applications. Also, give it a score with reasoning for the score and specific guidance on how to improve. Provide the output in JSON format.`,
     dataMapper(data) {
       if (
         data.schools?.length &&
@@ -143,16 +129,7 @@ export const PromptArchive: {
   },
   {
     key: 'licensure',
-    prompt: `You will receive a medical professional's resume in JSON format. Please evaluate the "licensure" based on the following criteria and output the result in JSON format:
-                1. **Active Professional License** (Rate 1-10):
-                - 10 if required licenses are active and up-to-date
-                - Consider state/national level requirements
-                - Deduct points if required licenses are missing or expired
-
-                2. **Expiration Date** (Rate 1-5):
-                - 5 if all licenses expire at least one year away
-                - 3 if any license expires within one year
-                - 1 if expired or not listed`,
+    prompt: `You will receive a resume in JSON format. Please evaluate the "licensure" based on whether the candidate provides clear, quantifiable accomplishments (e.g., percentages, metrics). Suggest any areas where achievements could be better emphasized or quantified. Provide specific suggestions for improvement in each area, if applicable, to help strengthen this resume for job applications. Also, give it a score with reasoning for the score and specific guidance on how to improve. Provide the output in JSON format.`,
     dataMapper(data) {
       if (data.licenses?.length) {
         return { error: 'No Relevant data', result: null };
@@ -176,26 +153,7 @@ export const PromptArchive: {
   },
   {
     key: 'experience',
-    prompt: `You will receive a medical professional's resume in JSON format. Please evaluate the "Experience" based on the following criteria and output the result in JSON format:
-                1. **Years of Experience** (Rate 1-10):
-                - 10 for 10+ years of relevant experience
-                - Consider both quality and quantity of experience
-                - Deduct points for less experience proportionally
-
-                2. **Healthcare Settings** (Rate 1-5):
-                - 5 for experience in relevant medical settings
-                - Consider diversity and relevance of settings
-                - Lower score for limited variety or irrelevant settings
-                
-                3. **Specialties** (Rate 1-5):
-                - 5 for relevant specialties in required field
-                - Consider alignment with position requirements
-                - 1 for general practice only
-
-                4. **Leadership Roles** (Rate 1-5):
-                - 5 for relevant leadership positions in medical settings
-                - Consider scope and duration of leadership
-                - 1 if no leadership experience`,
+    prompt: `You will receive a resume in JSON format. Assess the relevance of listed "experiences" to the candidate's stated career goals. Are job titles, responsibilities, and accomplishments clear and impactful? Recommend any ways to better highlight achievements or quantify results. Provide specific suggestions for improvement in each area, if applicable, to help strengthen this resume for job applications. Also, give it a score with reasoning for the score and specific guidance on how to improve. Provide the output in JSON format.`,
     dataMapper(data) {
       if (
         data.positions?.length &&
@@ -223,21 +181,7 @@ export const PromptArchive: {
   },
   {
     key: 'technical_skills',
-    prompt: `You will receive a medical professional's resume in JSON format. Please evaluate the "Technical Skills" based on the following criteria and output the result in JSON format:
-                1. **Healthcare Software** (Rate 1-5):
-                - 5 for proficiency with relevant medical software systems
-                - Consider industry-standard tools and systems
-                - Deduct points for limited software experience
-
-                2. **Medical Equipment** (Rate 1-5):
-                - 5 for experience with relevant medical equipment
-                - Consider specialized equipment knowledge
-                - 1 for basic or no equipment experience
-                
-                3. **Telemedicine** (Rate 1-3):
-                - 3 for extensive telemedicine experience
-                - Consider virtual care capabilities
-                - 1 if no telemedicine experience`,
+    prompt: `You will receive a resume in JSON format. Identify any key "skills" or industry-specific keywords that may be missing, considering the candidate's target role and industry. Are the skills appropriately showcased, and do they reflect current industry demands? Provide specific suggestions for improvement in each area, if applicable, to help strengthen this resume for job applications. Also, give it a score with reasoning for the score and specific guidance on how to improve. Provide the output in JSON format.`,
     dataMapper(data) {
       if (data.skills?.length && data.positions?.length) {
         return { error: 'No Relevant data', result: null };
