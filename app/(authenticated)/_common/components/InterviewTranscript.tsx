@@ -33,7 +33,7 @@ const VideoPlayerFallback = () => {
   );
 };
 
-const videoPlayerComponent = ({
+const VideoPlayerComponent = ({
   videoPlayerComponent,
 }: {
   videoPlayerComponent: React.ReactNode;
@@ -44,7 +44,7 @@ const videoPlayerComponent = ({
     </Card>
   );
 };
-videoPlayerComponent.Fallback = VideoPlayerFallback;
+VideoPlayerComponent.Fallback = VideoPlayerFallback;
 
 const Title = ({ title }: { title: string }) => {
   return <>{title}</>;
@@ -114,7 +114,7 @@ export const InterviewTranscript = (props: Props) => {
 
 InterviewTranscript.Title = Title;
 InterviewTranscript.ErrorFallback = ErrorFallback;
-InterviewTranscript.videoPlayerComponent = videoPlayerComponent;
+InterviewTranscript.videoPlayerComponent = VideoPlayerComponent;
 InterviewTranscript.Transcript = Transcript;
 
 export type Props = {

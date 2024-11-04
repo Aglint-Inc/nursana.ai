@@ -116,14 +116,14 @@ const VideoAndAudio = () => {
   const videoBucketName = 'videos';
   // get file name
   const fileName =
-    userData.analysis?.video_url?.split(`${videoBucketName}/`).pop() ?? '';
+    userData.analysis.video_url?.split(`${videoBucketName}/`).pop() ?? '';
   // get file url
   const { data: videoUrl } = useBucket(videoBucketName, fileName);
 
   const audioBucketName = 'audio';
   // get file name
   const audioFileName =
-    userData.analysis?.audio_url?.split(`${audioBucketName}/`).pop() ?? '';
+    userData.analysis.audio_url?.split(`${audioBucketName}/`).pop() ?? '';
   // get file url
   const { data: audioUrl } = useBucket(audioBucketName, audioFileName);
   return <VideoPlayer audioUrl={audioUrl || ''} videoUrl={videoUrl || ''} />;
