@@ -25,7 +25,6 @@ export async function POST(
       { status: 400 },
     );
   }
-  console.log('resume_json', resume_id);
 
   const supabase = createAdminClient();
   try {
