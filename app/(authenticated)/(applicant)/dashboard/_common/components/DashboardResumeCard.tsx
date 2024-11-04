@@ -27,7 +27,7 @@ type ResumeCardProps = {
 function ResumeCard({ resumeDetails }: ResumeCardProps) {
   const resumeStructured = resumeDetails?.structured_resume;
   const resumeFeedback = resumeDetails?.resume_feedback;
-  const resumeScore = resumeFeedback?.overallScore || 0;
+  const resumeScore = resumeFeedback?.overall_score || 0;
   const { refetch, isFetching: isUserDetailsFetching } = useUserDataQuery();
 
   const { resume, applicant_user } = useUserData();
