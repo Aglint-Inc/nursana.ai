@@ -9,9 +9,16 @@ import {
   type ProcedureDefinition,
 } from '@/server/api/trpc';
 
-import { schema } from '../schema/interviews.read.schema';
+import { schema as interviewSchem } from '../schema/interviews.read.schema';
+import { z } from 'zod';
 
-const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
+const schema = interviewSchem.merge(
+  z.object({
+    campaign_id: z.string().optional(),
+  }),
+);
+
+export const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
   const db = createPrivateClient();
   const query = db
     .from('interview')
@@ -20,6 +27,8 @@ const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
       { count: 'exact' },
     )
     .eq('agency_id', ctx.agency.id);
+
+  if (input.campaign_id) query.eq('campaign_id', input.campaign_id);
 
   if (input.interview_stage && input.interview_stage.length)
     query.in('interview_stage', input.interview_stage);
