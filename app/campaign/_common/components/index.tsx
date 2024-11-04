@@ -160,6 +160,7 @@ export default function FormCampaign() {
                                 label: capitalizeFirstLetter(license.label),
                                 value: license.value,
                               }))}
+                              level='license'
                               onChange={(values, _value) => {
                                 setValue(
                                   'licenses',
