@@ -9,8 +9,9 @@ import {
   LogOut,
   SquarePen,
   Tags,
+  Users,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { type ReactNode } from 'react';
 
 import { EditAgencyDialog } from '@/agency/components/EditDialog';
@@ -63,6 +64,12 @@ const data = {
       isActive: true,
     },
     {
+      title: 'Interviews',
+      url: '/interviews',
+      icon: Users,
+      isActive: false,
+    },
+    {
       title: 'Templates',
       url: '/templates',
       icon: File,
@@ -76,13 +83,11 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 }
 
 export function AppSidebar({ secondarySidebar = null }: AppSidebarProps) {
-  const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
+  const pathname = usePathname();
+  const currentPath =
+    data.navMain.find(({ url }) => pathname.startsWith(url)) ?? data.navMain[0];
 
   const { push } = useRouter();
-
-  function setOpen(url: string) {
-    push(url);
-  }
 
   return (
     <>
@@ -118,12 +123,8 @@ export function AppSidebar({ secondarySidebar = null }: AppSidebarProps) {
                         children: item.title,
                         hidden: false,
                       }}
-                      onClick={() => {
-                        setActiveItem(item);
-
-                        setOpen(item.url);
-                      }}
-                      isActive={activeItem.title === item.title}
+                      onClick={() => push(item.url)}
+                      isActive={currentPath.title === item.title}
                       className='px-2.5 md:px-2'
                     >
                       <item.icon />
