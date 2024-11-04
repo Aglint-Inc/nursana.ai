@@ -38,20 +38,23 @@
       ],
       "@/authenticated/*": ["./app/(authenticated)/_common/*"],
       "@/agency/*": ["./app/(authenticated)/(agency)/_common/*"],
+      "@/table-views/*": [
+        "./app/(authenticated)/(agency)/(body)/(table-views)/_common/*"
+      ],
       "@/campaigns/*": [
-        "./app/(authenticated)/(agency)/(body)/campaigns/_common/*"
+        "./app/(authenticated)/(agency)/(body)/(table-views)/campaigns/_common/*"
       ],
       "@/campaign/*": [
-        "./app/(authenticated)/(agency)/(body)/campaigns/[campaign]/_common/*"
+        "./app/(authenticated)/(agency)/(body)/(table-views)/campaigns/[campaign]/_common/*"
+      ],
+      "@/interviews/*": [
+        "./app/(authenticated)/(agency)/(body)/(table-views)/interviews/_common/*"
+      ],
+      "@/interview/*": [
+        "./app/(authenticated)/(agency)/(body)/(table-views)/interviews/[interview]/_common/*"
       ],
       "@/templates/*": [
         "./app/(authenticated)/(agency)/(body)/templates/_common/*"
-      ],
-      "@/interviews/*": [
-        "app/(authenticated)/(agency)/(body)/interviews/_common/*"
-      ],
-      "@/interview/*": [
-        "app/(authenticated)/(agency)/(body)/interviews/[interview]/_common/*"
       ],
       "@/version/*": [
         "./app/(authenticated)/(agency)/(body)/templates/[version]/_common/*"
