@@ -82,7 +82,7 @@ const TranscriptComp = () => {
   const transcript: Message[] | null =
     transcript_json && isMessageArray(transcript_json) ? transcript_json : null;
 
-  if (!transcript) throw new Error('transcript not available');
+  if (!transcript?.length) throw new Error('transcript not available');
   return <InterviewTranscript.Transcript transcript={transcript} />;
 };
 
