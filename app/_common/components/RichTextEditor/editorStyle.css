@@ -1,14 +1,12 @@
 .ProseMirror {
   padding-block: 10px;
   box-shadow: none; /* Removes any shadow if there is one */
-  /* border: none;
-  border-bottom: 1px solid hsl(var(--input));
-  border-right: 1px solid hsl(var(--input));
-  border-left: 1px solid hsl(var(--input));
-  border-radius: calc(var(--radius) - 2px);
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px; */
+
   background-color: white;
+}
+
+.ProseMirror strong {
+  font-weight: 500;
 }
 
 .ProseMirror::-webkit-scrollbar {
