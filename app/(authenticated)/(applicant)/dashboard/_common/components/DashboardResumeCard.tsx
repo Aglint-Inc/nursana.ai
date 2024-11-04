@@ -101,7 +101,7 @@ function ResumeCard({ resumeDetails }: ResumeCardProps) {
   async function resumeAnalysisRefetch() {
     if (resume) {
       setResumeAnalyzing(true);
-      await axios.post('/api/score_resume', {
+      await axios.post('/api/dynamic_resume_score', {
         resume_id: resume?.id,
         resume_json: resume?.structured_resume,
       });
