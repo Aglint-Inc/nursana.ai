@@ -293,7 +293,7 @@ export default function EditProfileForm() {
                   ? (nurseLicenses.map((item) => item) as string[])
                   : []
               }
-              level='Job Types'
+              level='license'
             />
           </div>
           <div>
