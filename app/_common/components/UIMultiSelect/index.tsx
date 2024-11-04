@@ -126,11 +126,11 @@ export function UIMultiSelect({
           />
         </div>
       </div>
-      <div className='relative mt-2'>
+      <div className='relative z-50 mt-2'>
         <CommandList>
           {open && selectables.length > 0 ? (
             <div className='absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in'>
-              <CommandGroup className='h-full overflow-auto'>
+              <CommandGroup className='h-full max-h-[300px] overflow-auto'>
                 {selectables.map((item) => {
                   return (
                     <CommandItem

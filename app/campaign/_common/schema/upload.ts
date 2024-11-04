@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { zfd } from 'zod-form-data';
 
-import { nerseTitlesSchema, nurseLicenseSchema } from '@/db/zod';
+import { nerseTitlesSchema } from '@/db/zod';
 
 export const campaignFormDataSchema = zfd.formData({
   email: z.string().email(),
@@ -14,5 +14,5 @@ export const campaignFormDataSchema = zfd.formData({
   user_id: z.string().uuid().optional().nullable(),
   applicant_id: z.string().uuid().optional().nullable(),
   terms_accepted: z.string(),
-  license: nurseLicenseSchema.nullable(),
+  licenses: z.string().nullable(),
 });

@@ -103,26 +103,6 @@ export const nerseTitlesSchema = z.union([
   z.literal("hospice-palliative-care-nurse"),
 ]);
 
-export const nurseLicenseSchema = z.union([
-  z.literal("registered-nurse"),
-  z.literal("nurse-practitioner"),
-  z.literal("licensed-practical-nurse"),
-  z.literal("clinical-nurse-specialist"),
-  z.literal("certified-nurse-midwife"),
-  z.literal("advanced-practice-registered-nurse"),
-  z.literal("certified-registered-nurse-anesthetist"),
-  z.literal("public-health-nurse"),
-  z.literal("registered-nurse-board-certified"),
-  z.literal("certified-nursing-assistant"),
-  z.literal("home-health-aide"),
-  z.literal("acute-care-nurse-practitioner"),
-  z.literal("family-nurse-practitioner"),
-  z.literal("pediatric-nurse-practitioner"),
-  z.literal("adult-gerontology-nurse-practitioner"),
-  z.literal("psychiatric-mental-health-nurse-practitioner"),
-  z.literal("travel-nurse-license-compact-license"),
-]);
-
 export const travelPreferrenceSchema = z.union([
   z.literal("no-travel"),
   z.literal("occasional-travel"),
@@ -131,30 +111,6 @@ export const travelPreferrenceSchema = z.union([
   z.literal("up-to-75-travel"),
   z.literal("100-travel"),
 ]);
-
-export const applicantUserInsertSchema = z.object({
-  created_at: z.string().optional().nullable(),
-  id: z.string(),
-  job_title: nerseTitlesSchema.optional(),
-  license: nurseLicenseSchema.optional().nullable(),
-  open_to_work: z.boolean().optional(),
-  phone_number: z.string().optional().nullable(),
-  preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
-  salary_range: z.unknown().optional().nullable(),
-  terms_accepted: z.boolean().optional(),
-});
-
-export const applicantUserUpdateSchema = z.object({
-  created_at: z.string().optional().nullable(),
-  id: z.string().optional(),
-  job_title: nerseTitlesSchema.optional(),
-  license: nurseLicenseSchema.optional().nullable(),
-  open_to_work: z.boolean().optional(),
-  phone_number: z.string().optional().nullable(),
-  preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
-  salary_range: z.unknown().optional().nullable(),
-  terms_accepted: z.boolean().optional(),
-});
 
 export const applicantUserRelationshipsSchema = z.tuple([
   z.object({
@@ -604,7 +560,15 @@ export const userUpdateSchema = z.object({
   user_role: userRoleSchema.optional(),
 });
 
-export const userRelationshipsSchema = z.tuple([]);
+export const userRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("user_id_fkey"),
+    columns: z.tuple([z.literal("id")]),
+    isOneToOne: z.literal(true),
+    referencedRelation: z.literal("users"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
 
 export const userInterviewRatingRowSchema = z.object({
   applicant_id: z.string(),
@@ -704,16 +668,60 @@ export const versionRelationshipsSchema = z.tuple([
 
 export const customAccessTokenHookReturnsSchema = jsonSchema;
 
+export const nurseLicenseSchema = z.union([
+  z.literal("registered-nurse"),
+  z.literal("nurse-practitioner"),
+  z.literal("licensed-practical-nurse"),
+  z.literal("clinical-nurse-specialist"),
+  z.literal("certified-nurse-midwife"),
+  z.literal("advanced-practice-registered-nurse"),
+  z.literal("certified-registered-nurse-anesthetist"),
+  z.literal("public-health-nurse"),
+  z.literal("registered-nurse-board-certified"),
+  z.literal("certified-nursing-assistant"),
+  z.literal("home-health-aide"),
+  z.literal("acute-care-nurse-practitioner"),
+  z.literal("family-nurse-practitioner"),
+  z.literal("pediatric-nurse-practitioner"),
+  z.literal("adult-gerontology-nurse-practitioner"),
+  z.literal("psychiatric-mental-health-nurse-practitioner"),
+  z.literal("travel-nurse-license-compact-license"),
+]);
+
 export const applicantUserRowSchema = z.object({
   created_at: z.string().nullable(),
   id: z.string(),
   job_title: nerseTitlesSchema,
-  license: nurseLicenseSchema.nullable(),
+  licenses: z.array(nurseLicenseSchema).nullable(),
   open_to_work: z.boolean(),
   phone_number: z.string().nullable(),
   preferred_travel_preference: travelPreferrenceSchema.nullable(),
   salary_range: z.unknown().nullable(),
   terms_accepted: z.boolean(),
+});
+
+export const applicantUserInsertSchema = z.object({
+  created_at: z.string().optional().nullable(),
+  id: z.string(),
+  job_title: nerseTitlesSchema.optional(),
+  licenses: z.array(nurseLicenseSchema).optional().nullable(),
+  open_to_work: z.boolean().optional(),
+  phone_number: z.string().optional().nullable(),
+  preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
+  salary_range: z.unknown().optional().nullable(),
+  terms_accepted: z.boolean().optional(),
+});
+
+export const applicantUserUpdateSchema = z.object({
+  created_at: z.string().optional().nullable(),
+  id: z.string().optional(),
+  job_title: nerseTitlesSchema.optional(),
+  licenses: z.array(nurseLicenseSchema).optional().nullable(),
+  open_to_work: z.boolean().optional(),
+  phone_number: z.string().optional().nullable(),
+  preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
+  salary_range: z.unknown().optional().nullable(),
+  terms_accepted: z.boolean().optional(),
 });
 
 export const campaignRowSchema = z.object({

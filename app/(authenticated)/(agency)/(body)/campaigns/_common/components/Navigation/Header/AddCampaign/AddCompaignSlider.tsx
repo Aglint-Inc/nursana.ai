@@ -23,10 +23,10 @@ export const AddCampaignSlider = () => {
             <Suspense
               fallback={
                 <div className='flex flex-col gap-4'>
-                  <Skeleton className='h-[50px] w-full'> </Skeleton>
-                  <Skeleton className='h-[50px] w-full'> </Skeleton>
-                  <Skeleton className='h-[50px] w-full'> </Skeleton>
-                  <Skeleton className='h-[50px] w-full'> </Skeleton>
+                  <Skeleton className='h-[50px] w-full'></Skeleton>
+                  <Skeleton className='h-[50px] w-full'></Skeleton>
+                  <Skeleton className='h-[50px] w-full'></Skeleton>
+                  <Skeleton className='h-[50px] w-full'></Skeleton>
                 </div>
               }
             >
