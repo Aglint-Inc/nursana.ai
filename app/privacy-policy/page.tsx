@@ -3,8 +3,8 @@ import NursanaLogo from "@/components/nursana-logo";
 
 export default function PrivacyPolicy() {
   return (
-    <div className="flex flex-col items-center justify-center gap-8 pt-10">
-      <NursanaLogo />
+    <div className="flex flex-col  gap-8 pt-10 w-full overflow-auto">
+      <div className="mx-auto"><NursanaLogo /></div>
       <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto overflow-hidden">
           <div className="px-4 py-5 sm:p-6">
