@@ -106,7 +106,7 @@ export const InterviewTranscript = (props: Props) => {
       <div className='mb-6 text-xl font-medium'>{props.Title}</div>
       <div className='flex flex-col gap-12'>
         {props.videoPlayerComponent}
-        <div className='flex flex-col gap-6'>{props.Transcript}</div>
+        <div className='flex flex-col gap-6 mb-40'>{props.Transcript}</div>
       </div>
     </div>
   );

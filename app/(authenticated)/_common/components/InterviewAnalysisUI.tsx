@@ -50,7 +50,7 @@ export const InterviewAnalysisUI = ({
   return (
     <div className='mx-auto max-w-4xl p-0 py-10'>
       <div className='mb-6 text-xl font-medium'>Interview Feedback</div>
-      <div className='flex flex-col gap-10'>
+      <div className='flex flex-col mb-20'>
         <AnalysisInterview
           overallScore={analysis?.overall_score ?? 0}
           summary={summary || 'No summary available.'}
