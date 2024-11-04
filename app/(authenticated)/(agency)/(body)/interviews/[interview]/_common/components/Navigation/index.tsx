@@ -8,11 +8,11 @@ import { Header } from './Header';
 
 export const Navigation = (props: Parameters<typeof NaivgationProvider>[0]) => {
   return (
-    <NaivgationProvider {...props}>
-      <Sidebar collapsible='none' className='hidden w-full flex-1 md:flex'>
+    <Sidebar collapsible='none' className='h-screen'>
+      <NaivgationProvider {...props}>
         <Header />
         <Content />
-      </Sidebar>
-    </NaivgationProvider>
+      </NaivgationProvider>
+    </Sidebar>
   );
 };
