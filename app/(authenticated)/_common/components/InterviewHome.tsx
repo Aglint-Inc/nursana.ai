@@ -135,7 +135,7 @@ const ErrorFallback = () => {
 
 export const InterviewHome = (props: Props) => {
   return (
-    <div className='flex h-[85vh] flex-col items-center justify-center gap-10'>
+    <div className='flex min-h-[85vh] flex-col items-center justify-center gap-10 py-10 mx-auto max-w-3xl'>
       <div className='flex flex-col items-center gap-2'>
         {props.Title}
         <Description />

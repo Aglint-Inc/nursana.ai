@@ -18,7 +18,7 @@ const Content = () => {
   const analysis = useInterviewAnalysis();
   return (
     <div>
-      <ScrollArea className='mx-auto h-[800px] max-w-5xl'>
+      <ScrollArea className='mx-auto min-h-[800px]  overflow-auto'>
         <InterviewAnalysisUI analysis={analysis?.structured_analysis} />
       </ScrollArea>
     </div>
