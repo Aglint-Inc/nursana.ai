@@ -12,8 +12,8 @@ export default function PrivacyPolicy() {
             
             <p className="mb-4 text-gray-600">
               Your privacy is important to us. It is Aglint Inc.&apos;s policy to respect your privacy and comply with any applicable law and regulation regarding any personal information we may collect about you, including across our website,{' '}
-              <a href="https://nurasana.ai" className="text-blue-600 hover:underline">
-                https://nurasana.ai
+              <a href="https://nursana.ai" className="text-blue-600 hover:underline" target="_blank">
+                https://nursana.ai
               </a>
               , and other sites we own and operate.
             </p>

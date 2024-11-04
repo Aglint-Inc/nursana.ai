@@ -12,8 +12,8 @@ export default function TermsAndConditions() {
 
             <p className="mb-4 text-gray-600">
               These Terms of Service govern your use of the website located at{' '}
-              <a href="https://nurasana.ai" className="text-blue-600 hover:underline">
-                https://nurasana.ai
+              <a href="https://nursana.ai" className="text-blue-600 hover:underline" target="_blank">
+                https://nursana.ai
               </a>{' '}
               and any related services provided by Aglint Inc.
             </p>
@@ -26,8 +26,8 @@ export default function TermsAndConditions() {
 
             <p className="mb-6 text-gray-600">
               By accessing{' '}
-              <a href="https://nurasana.ai" className="text-blue-600 hover:underline">
-                https://nurasana.ai
+              <a href="https://nursana.ai" className="text-blue-600 hover:underline" target="_blank">
+                https://nursana.ai
               </a>
               , you agree to abide by these Terms of Service and to comply with all applicable laws and regulations. If
               you do not agree with these Terms of Service, you are prohibited from using or accessing this website or any
