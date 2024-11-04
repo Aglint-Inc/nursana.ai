@@ -8,9 +8,12 @@ import { useTableViewParams } from './useTableViewParams';
 export const useInterviews = (): Read['output'] => {
   const { search: _search } = useTableViewParams();
   const search = useDeferredValue(_search);
-  return api.authenticated.agency.interviews.read.useSuspenseQuery({
-    interview_stage: search.interview_stage ?? undefined,
-    updated_at: search.updated_at ?? undefined,
-    terms_accepted: search.terms_accepted ?? undefined,
-  })[0];
+  return api.authenticated.agency.interviews.read.useSuspenseQuery(
+    {
+      interview_stage: search.interview_stage ?? undefined,
+      updated_at: search.updated_at ?? undefined,
+      terms_accepted: search.terms_accepted ?? undefined,
+    },
+    { refetchOnMount: false },
+  )[0];
 };
