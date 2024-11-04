@@ -38,6 +38,9 @@
       ],
       "@/authenticated/*": ["./app/(authenticated)/_common/*"],
       "@/agency/*": ["./app/(authenticated)/(agency)/_common/*"],
+      "@/table-views/*": [
+        "./app/(authenticated)/(agency)/(body)/(table-views)/_common/*"
+      ],
       "@/campaigns/*": [
         "./app/(authenticated)/(agency)/(body)/campaigns/_common/*"
       ],
