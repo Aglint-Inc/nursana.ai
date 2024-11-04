@@ -20,6 +20,15 @@ export const COLUMNS: ColumnDef<ColumnSchema>[] = [
   //   },
   // },
   {
+    accessorKey: 'campaign_code',
+
+    header: 'Campaign code',
+    cell: ({ row }) => {
+      const value = row.getValue('campaign_code');
+      return <div className='max-w-[200px] truncate'>{`${value}`}</div>;
+    },
+  },
+  {
     accessorKey: 'name',
     header: 'Name',
     enableHiding: false,

@@ -4,7 +4,7 @@ import type { ColumnFiltersState } from '@tanstack/react-table';
 
 import { useCampaignInterviews } from '@/campaign/hooks/useCampaignInterviews';
 import { DataTable } from '@/table-views/components/DataTable';
-import { COLUMNS } from '@/table-views/constants/columns';
+import { COLUMNS } from '@/campaigns/constants/columns';
 import { useTableViewParams } from '@/table-views/hooks/useTableViewParams';
 import { getFilterFields } from '@/table-views/utils/getFilterFields';
 

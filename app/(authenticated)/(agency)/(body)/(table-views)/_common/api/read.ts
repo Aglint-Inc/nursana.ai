@@ -23,7 +23,7 @@ export const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
   const query = db
     .from('interview')
     .select(
-      'id, interview_stage, updated_at, applicant_user!interview_applicant_id_fkey!inner(terms_accepted, user!applicant_user_id_fkey!inner(first_name, last_name, email))',
+      'id, interview_stage, updated_at, campaign!interview_campaign_id_fkey!inner(campaign_code), applicant_user!interview_applicant_id_fkey!inner(terms_accepted, user!applicant_user_id_fkey!inner(first_name, last_name, email))',
       { count: 'exact' },
     )
     .eq('agency_id', ctx.agency.id);
@@ -46,6 +46,7 @@ export const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
     });
   return data.map(
     ({
+      campaign: { campaign_code },
       applicant_user: {
         user: { first_name, last_name, ...user },
         ...applicant_user
@@ -55,6 +56,7 @@ export const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
       ...user,
       ...applicant_user,
       ...rest,
+      campaign_code,
       name: `${first_name} ${last_name}`.trim(),
     }),
   );

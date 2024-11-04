@@ -3,7 +3,7 @@
 import type { ColumnFiltersState } from '@tanstack/react-table';
 
 import { DataTable } from '@/table-views/components/DataTable';
-import { COLUMNS } from '@/table-views/constants/columns';
+import { COLUMNS } from '@/campaigns/constants/columns';
 import { useInterviews } from '@/table-views/hooks/useInterviews';
 import { useTableViewParams } from '@/table-views/hooks/useTableViewParams';
 import { getFilterFields } from '@/table-views/utils/getFilterFields';
