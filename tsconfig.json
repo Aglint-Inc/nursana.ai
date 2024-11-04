@@ -53,6 +53,9 @@
       "@/interview/*": [
         "./app/(authenticated)/(agency)/(body)/(table-views)/interviews/[interview]/_common/*"
       ],
+      "@/reports/*": [
+        "app/(authenticated)/(agency)/templates/[version]/reports/_common/*"
+      ],
       "@/templates/*": [
         "./app/(authenticated)/(agency)/(body)/templates/_common/*"
       ],

@@ -51,7 +51,9 @@ export const transcriptAnalysisSchema = z.object({
   overall_summary: z.string(),
   overall_feedback: z.string(),
 });
-type transcriptAnalysisSchemaType = z.infer<typeof transcriptAnalysisSchema>;
+export type transcriptAnalysisSchemaType = z.infer<
+  typeof transcriptAnalysisSchema
+>;
 
 const transcriptSchema = z
   .object({
