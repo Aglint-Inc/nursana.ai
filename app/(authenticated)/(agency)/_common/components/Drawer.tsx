@@ -9,7 +9,7 @@ export const Drawer = (props: PropsWithChildren) => {
   const router = useRouter();
   return (
     <UIDrawer open onClose={() => router.back()}>
-      <DrawerContent className='h-[90%]'>{props.children}</DrawerContent>
+      <DrawerContent className='h-[90%] overflow-hidden'>{props.children}</DrawerContent>
     </UIDrawer>
   );
 };

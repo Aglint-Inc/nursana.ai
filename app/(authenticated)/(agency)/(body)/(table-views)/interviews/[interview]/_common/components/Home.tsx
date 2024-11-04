@@ -11,7 +11,7 @@ import { useInterviewResume } from '@/interview/hooks/useInterviewResume';
 export const Home = () => {
   return (
     <ErrorBoundary fallback={<InterviewHome.ErrorFallback />}>
-      <div className='mx-auto max-w-3xl'>
+      <div className='min-h-screen'>
         <InterviewHome
           Title={<Title />}
           Banner={<Banner />}

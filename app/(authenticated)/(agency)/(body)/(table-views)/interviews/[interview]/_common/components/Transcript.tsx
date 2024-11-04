@@ -38,7 +38,7 @@ export const Transcript = () => {
   return (
     <div>
       <ErrorBoundary fallback={<InterviewTranscript.ErrorFallback />}>
-        <ScrollArea className='mx-auto max-w-5xl'>
+        <ScrollArea className=''>
           <InterviewTranscript
             Transcript={
               <ErrorBoundary
