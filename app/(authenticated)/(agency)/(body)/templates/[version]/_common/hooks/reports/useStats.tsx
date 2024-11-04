@@ -5,7 +5,7 @@ import { useMatrixFilters } from '@/version/context/matrixFilterProvider';
 export function useStats() {
   const { filters } = useMatrixFilters();
   const { data, isPending, error } =
-    api.authenticated.agency.reports.stats.useQuery(
+    api.authenticated.agency.templates.version.reports.stats.useQuery(
       {
         campaign: filters.campaign,
         interview: filters.interview,

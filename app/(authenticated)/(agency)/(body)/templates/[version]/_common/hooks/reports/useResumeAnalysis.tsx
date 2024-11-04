@@ -8,7 +8,7 @@ const maxResults = 5;
 export function useResumeAnalysis() {
   const { filters } = useMatrixFilters();
   const { data, isPending, error } =
-    api.authenticated.agency.reports.resumeAnalysis.useQuery(
+    api.authenticated.agency.templates.version.reports.resumeAnalysis.useQuery(
       {
         campaign: filters.campaign!,
         // campaign: 'b253058d-5cbc-46da-8b67-8c9b26c13b76',
