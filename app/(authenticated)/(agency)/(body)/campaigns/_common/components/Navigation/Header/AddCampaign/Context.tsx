@@ -6,6 +6,8 @@ import {
 } from 'react';
 
 import { useAddCampaign } from '@/campaigns/hooks/useAddCampaign';
+import { toast } from '@/hooks/use-toast';
+import { capitalize } from '@/utils/utils';
 
 const useAddCampaignHook = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +17,13 @@ const useAddCampaignHook = () => {
     mutation.mutate(input, {
       onSuccess: () => {
         setIsOpen(false);
+      },
+      onError: ({ message }) => {
+        toast({
+          title: 'Add Campaingn failed',
+          variant: 'destructive',
+          description: capitalize(message),
+        });
       },
     });
 

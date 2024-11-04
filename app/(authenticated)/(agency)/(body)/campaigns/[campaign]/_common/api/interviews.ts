@@ -36,12 +36,20 @@ const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
     query.lte('updated_at', input.updated_at[1]);
   }
 
-  const { data, count } = await query;
-  if (!data || !count)
+  const { data } = await query;
+
+  if (!data)
     throw new TRPCError({
       code: 'NOT_FOUND',
       message: 'Interviews not found',
     });
+
+  // const { data, count } = await query;
+  // if (!data || !count)
+  //   throw new TRPCError({
+  //     code: 'NOT_FOUND',
+  //     message: 'Interviews not found',
+  //   });
   return data.map(
     ({
       applicant_user: {
