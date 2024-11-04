@@ -1,4 +1,4 @@
-import { DBEnums } from '@/server/db/types';
+import type { DBEnums } from '@/server/db/types';
 
 export const INTERVIEW_STAGES: DBEnums<'interview_stage'>[] = [
   'not_started',
