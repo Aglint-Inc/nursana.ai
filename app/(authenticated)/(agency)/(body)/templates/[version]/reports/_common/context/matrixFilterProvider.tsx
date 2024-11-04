@@ -4,7 +4,7 @@ import { createContext, type ReactNode, useContext, useState } from 'react';
 
 // import { useAgency } from '@/agency/hooks/useAgency';
 import { useCampaigns } from '@/campaigns/hooks/useCampaigns';
-import { useInterviews } from '@/campaigns/hooks/useInterviews';
+import { useInterviews } from '@/table-views/hooks/useInterviews';
 
 import { type MatrixFilter, type MatrixFilterContextInterface } from './types';
 const InitialMatrixFilterContext: MatrixFilterContextInterface = {

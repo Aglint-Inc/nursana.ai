@@ -1,26 +1,31 @@
 import { Loader2 } from 'lucide-react';
-import React from 'react';
+import React, { type ReactNode } from 'react';
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 interface ChartWrapperProps {
+  header: ReactNode;
   isLoading?: boolean;
   error?: string;
   isEmpty?: boolean;
   children: React.ReactNode;
+  height?: string;
 }
 
 export default function ChartWrapper({
+  header,
   isLoading = false,
   error,
   isEmpty = false,
   children,
+  height = '60px',
 }: ChartWrapperProps) {
   const isError = !!error;
   const renderContent = () => {
     if (isLoading) {
       return (
-        <div className='flex flex-col items-center justify-center'>
+        <div className='flex h-full flex-col items-center justify-center'>
           <Loader2 className='h-8 w-8 animate-spin text-primary' />
         </div>
       );
@@ -51,6 +56,12 @@ export default function ChartWrapper({
 
     return children;
   };
-
-  return renderContent();
+  return (
+    <Card>
+      <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+        <>{header}</>
+      </CardHeader>
+      <CardContent className={`h-[${height}]`}>{renderContent()}</CardContent>
+    </Card>
+  );
 }
