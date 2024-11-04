@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 
-import { createPrivateClient } from '@/server/db';
+import { createPrivateClient } from '@/db/client';
 
 import { auth } from './auth';
 

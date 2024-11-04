@@ -17,6 +17,7 @@ import { useUserData } from '@/applicant/hooks/useUserData';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { useBucket } from '@/hooks/use-bucket';
 
 import { type ResumeDetailsType } from '../types';
 
@@ -24,17 +25,20 @@ export default function ViewResume() {
   const { resume: data } = useUserData();
   const resume = data?.structured_resume as ResumeDetailsType;
   const userData = useUserData();
+
+  const file_url = userData?.resume?.file_url || '';
+
+  const resumeBucketName = 'resumes';
+  const fileName = file_url?.split(`${resumeBucketName}/`).pop() ?? '';
+  const { data: resumeUrl } = useBucket(resumeBucketName, fileName);
+
   return (
     <div className='flex w-full flex-col gap-8'>
       <div className='flex flex-col gap-4'>
         <div className='text-xl font-medium'>Resume</div>
 
-        {!userData?.resume?.error_status && userData?.resume?.file_url ? (
-          <Link
-            href={userData?.resume?.file_url}
-            rel='noopener noreferrer'
-            target='_blank'
-          >
+        {!userData?.resume?.error_status && resumeUrl ? (
+          <Link href={resumeUrl} rel='noopener noreferrer' target='_blank'>
             <Card className='group border-border shadow-none duration-300 hover:bg-muted'>
               <CardContent className='p-4'>
                 <div className='flex items-center justify-between'>
@@ -65,7 +69,7 @@ export default function ViewResume() {
             </h2>
           </div>
 
-          <div className='grid grid-cols-2 gap-2'>
+          <div className='grid grid-cols-1 gap-2'>
             <div className='flex items-center gap-2'>
               <Briefcase className='h-4 w-4' />
               <span>

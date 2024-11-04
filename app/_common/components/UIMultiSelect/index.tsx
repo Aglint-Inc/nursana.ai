@@ -20,12 +20,14 @@ export function UIMultiSelect({
   onChange,
   level = 'item',
   onDelete,
+  onInputChnage,
 }: {
   defaultValue?: string[];
   listItems: ItemType[];
   onChange: (_x: string[], _value: string) => void;
   level?: string;
   onDelete: (_value: string) => void;
+  onInputChnage?: (_value: string) => void;
 }) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
@@ -47,11 +49,14 @@ export function UIMultiSelect({
           if (input.value === '') {
             setSelected((prev) => {
               const newSelected = [...prev];
-              newSelected.pop();
+              const deleted = newSelected.pop();
               onChange(
                 newSelected.map((ele) => ele),
                 newSelected[0],
               );
+              if (deleted) {
+                handleUnselect(deleted);
+              }
               return newSelected;
             });
           }
@@ -108,7 +113,12 @@ export function UIMultiSelect({
           <CommandPrimitive.Input
             ref={inputRef}
             value={inputValue}
-            onValueChange={setInputValue}
+            onValueChange={(value) => {
+              if (onInputChnage) {
+                onInputChnage(value);
+              }
+              setInputValue(value);
+            }}
             onBlur={() => setOpen(false)}
             onFocus={() => setOpen(true)}
             placeholder={`Select ${level}...`}

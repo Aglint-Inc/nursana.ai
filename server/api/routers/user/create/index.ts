@@ -3,15 +3,15 @@ import 'server-only';
 /* eslint-disable no-console */
 import { z } from 'zod';
 
+import { createPublicClient } from '@/db/client';
+import { nerseTitlesSchema } from '@/db/zod';
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
-import { createPublicClient } from '@/server/db';
-import { jobTitlesSchema } from '@/supabase-types/zod-schema.types';
 
 export const schema = z.object({
   email: z.string().email(),
   first_name: z.string(),
   last_name: z.string().optional(),
-  job_title: jobTitlesSchema,
+  job_title: nerseTitlesSchema,
 });
 
 const mutation = async ({

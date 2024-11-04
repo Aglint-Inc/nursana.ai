@@ -2,7 +2,7 @@
 import { readFile, writeFile } from 'fs';
 import * as path from 'path';
 
-const filePath = path.join('src/supabase-types/database.types.ts');
+const filePath = path.join('server/db/schema/default.ts');
 
 readFile(filePath, 'utf8', (err, data) => {
   if (err) {

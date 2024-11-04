@@ -4,9 +4,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { api } from 'trpc/client';
 
-import { UIPhoneInput } from '@/common/components/UIPhoneInput/PhoneInput';
-import { UITextArea } from '@/common/components/UITextArea';
-import UITextField from '@/common/components/UITextField';
+import { UIPhoneInput } from '@/app/components/UIPhoneInput/PhoneInput';
+import { UITextArea } from '@/app/components/UITextArea';
+import UITextField from '@/app/components/UITextField';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/utils/supabase/client';

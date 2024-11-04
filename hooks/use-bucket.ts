@@ -4,7 +4,10 @@ import { supabase } from '@/utils/supabase/client';
 
 const staleTime = process.env.NEXT_PUBLIC_PUBLIC_URL_EXP;
 
-export function useBucket(bucket: 'videos' | 'audio', fileName: string) {
+export function useBucket(
+  bucket: 'videos' | 'audio' | 'resumes',
+  fileName: string,
+) {
   return useQuery({
     queryKey: ['bucket', bucket, fileName],
     queryFn: () => getFileUrl(bucket, fileName),
@@ -13,11 +16,14 @@ export function useBucket(bucket: 'videos' | 'audio', fileName: string) {
     refetchOnWindowFocus: false,
   });
 }
-
-export async function getFileUrl(bucket: 'videos' | 'audio', fileName: string) {
+// write this code in trpc
+export async function getFileUrl(
+  bucket: 'videos' | 'audio' | 'resumes',
+  fileName: string,
+) {
   const { data, error } = await supabase.storage
     .from(bucket)
-    .createSignedUrl(fileName, staleTime);
+    .createSignedUrl(fileName, 60 * 5);
   if (error) {
     throw new Error(`Supabase signedURL error: ${error.message}`);
   }

@@ -64,7 +64,8 @@ export type Database = {
         Row: {
           created_at: string | null
           id: string
-          job_title: string | null
+          job_title: Database["public"]["Enums"]["nerse_titles"]
+          license: Database["public"]["Enums"]["nurse_license"] | null
           open_to_work: boolean
           phone_number: string | null
           preferred_travel_preference:
@@ -76,7 +77,8 @@ export type Database = {
         Insert: {
           created_at?: string | null
           id: string
-          job_title?: string | null
+          job_title?: Database["public"]["Enums"]["nerse_titles"]
+          license?: Database["public"]["Enums"]["nurse_license"] | null
           open_to_work?: boolean
           phone_number?: string | null
           preferred_travel_preference?:
@@ -88,7 +90,8 @@ export type Database = {
         Update: {
           created_at?: string | null
           id?: string
-          job_title?: string | null
+          job_title?: Database["public"]["Enums"]["nerse_titles"]
+          license?: Database["public"]["Enums"]["nurse_license"] | null
           open_to_work?: boolean
           phone_number?: string | null
           preferred_travel_preference?:
@@ -335,22 +338,22 @@ export type Database = {
         Row: {
           city: string
           country: string
-          id: string
           level: string
+          place_id: string
           state: string
         }
         Insert: {
           city: string
           country: string
-          id?: string
           level: string
+          place_id: string
           state: string
         }
         Update: {
           city?: string
           country?: string
-          id?: string
           level?: string
+          place_id?: string
           state?: string
         }
         Relationships: []
@@ -359,17 +362,17 @@ export type Database = {
         Row: {
           applicant_id: string
           id: string
-          job_title: Database["public"]["Enums"]["job_titles"]
+          job_titles: Database["public"]["Enums"]["nerse_titles"]
         }
         Insert: {
           applicant_id?: string
           id?: string
-          job_title: Database["public"]["Enums"]["job_titles"]
+          job_titles?: Database["public"]["Enums"]["nerse_titles"]
         }
         Update: {
           applicant_id?: string
           id?: string
-          job_title?: Database["public"]["Enums"]["job_titles"]
+          job_titles?: Database["public"]["Enums"]["nerse_titles"]
         }
         Relationships: [
           {
@@ -411,17 +414,17 @@ export type Database = {
         Row: {
           applicant_id: string
           id: string
-          location_id: string
+          place_id: string
         }
         Insert: {
           applicant_id: string
           id?: string
-          location_id: string
+          place_id: string
         }
         Update: {
           applicant_id?: string
           id?: string
-          location_id?: string
+          place_id?: string
         }
         Relationships: [
           {
@@ -432,11 +435,11 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "preferred_locations_location_id_fkey"
-            columns: ["location_id"]
+            foreignKeyName: "preferred_locations_place_id_fkey"
+            columns: ["place_id"]
             isOneToOne: false
             referencedRelation: "locations_list"
-            referencedColumns: ["id"]
+            referencedColumns: ["place_id"]
           },
         ]
       }
@@ -481,7 +484,7 @@ export type Database = {
           {
             foreignKeyName: "resume_applicant_id_fkey"
             columns: ["applicant_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "applicant_user"
             referencedColumns: ["id"]
           },
@@ -709,13 +712,62 @@ export type Database = {
         | "resume_submitted"
         | "interview_inprogress"
         | "interview_completed"
-      job_titles:
+      job_types: "full-time" | "part-time" | "contract" | "internship"
+      nerse_titles:
+        | "registered-nurse"
+        | "licensed-practical-nurse"
+        | "nurse-practitioner"
+        | "certified-registered-nurse-anesthetist"
+        | "certified-nurse-midwife"
+        | "clinical-nurse-specialist"
+        | "cardiac-nurse"
+        | "oncology-nurse"
+        | "pediatric-nurse"
+        | "geriatric-nurse"
+        | "orthopedic-nurse"
+        | "neonatal-nurse"
+        | "perioperative-operating-room-nurse"
+        | "emergency-trauma-nurse"
+        | "critical-care-icu-nurse"
+        | "psychiatric-mental-health-nurse"
+        | "rehabilitation-nurse"
+        | "infection-control-nurse"
+        | "public-health-nurse"
+        | "community-health-nurse"
+        | "home-health-nurse"
+        | "school-nurse"
+        | "nurse-educator"
+        | "nurse-researcher"
+        | "nurse-informaticist"
+        | "nurse-administrator-nurse-executive"
+        | "nurse-case-manager"
+        | "nurse-consultant"
+        | "quality-improvement-nurse"
+        | "forensic-nurse"
+        | "holistic-nurse"
+        | "telehealth-nurse"
+        | "flight-transport-nurse"
+        | "military-nurse"
+        | "occupational-health-nurse"
+        | "hospice-palliative-care-nurse"
+      nurse_license:
         | "registered-nurse"
         | "nurse-practitioner"
         | "licensed-practical-nurse"
         | "clinical-nurse-specialist"
         | "certified-nurse-midwife"
-      job_types: "full-time" | "part-time" | "contract" | "internship"
+        | "advanced-practice-registered-nurse"
+        | "certified-registered-nurse-anesthetist"
+        | "public-health-nurse"
+        | "registered-nurse-board-certified"
+        | "certified-nursing-assistant"
+        | "home-health-aide"
+        | "acute-care-nurse-practitioner"
+        | "family-nurse-practitioner"
+        | "pediatric-nurse-practitioner"
+        | "adult-gerontology-nurse-practitioner"
+        | "psychiatric-mental-health-nurse-practitioner"
+        | "travel-nurse-license-compact-license"
       travel_preferrence:
         | "no-travel"
         | "occasional-travel"

@@ -1,5 +1,5 @@
-import { Database } from '@/supabase-types/database.types';
+import { DBTable } from '@/db/types';
 
-export type InterviewData = Database['public']['Tables']['interview']['Row'] & {
-  version: Database['public']['Tables']['version']['Row'];
+export type InterviewData = DBTable<'interview'> & {
+  version: DBTable<'version'>;
 };

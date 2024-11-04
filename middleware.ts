@@ -2,9 +2,8 @@
 import { jwtDecode, type JwtPayload } from 'jwt-decode';
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { type Database } from '@/supabase-types/database.types';
-
-import { createPrivateClient } from './server/db';
+import { createPrivateClient } from '@/db/client';
+import type { DBEnums } from '@/db/types';
 
 export const config = {
   matcher: [
@@ -29,9 +28,9 @@ const PUBLIC_ROUTES = new RegExp(
     '^/tenant/sign-up$',
     '^/campaign(/.*)?$',
     '^/auth(?!/sign-in$)',
-    '^/applications(/.*)?$',
     '^/ui(/.*)?$',
     '^/terms$',
+    '^/privacy-policy$',
     ...PUBLIC_API,
   ].join('|'),
 );
@@ -39,7 +38,7 @@ const PUBLIC_ROUTES = new RegExp(
 const AGENCY_ROUTES = new RegExp(
   [
     '^/campaigns(/.*)?$',
-    '^/applications(/.*)?$',
+    '^/interviews/.+',
     '^/templates(/.*)?$',
     '^/reports(/.*)?$',
   ].join('|'),
@@ -124,7 +123,7 @@ const getRole = async () => {
   if (!data.session?.access_token) return null;
 
   const jwt = jwtDecode(data.session.access_token) as JwtPayload & {
-    user_role: Database['public']['Enums']['user_role'];
+    user_role: DBEnums<'user_role'>;
   };
 
   return jwt?.user_role ?? null;

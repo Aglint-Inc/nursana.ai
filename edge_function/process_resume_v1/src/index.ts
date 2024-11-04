@@ -4,6 +4,7 @@ import {
   type Response,
 } from '@google-cloud/functions-framework';
 
+import { supabaseClient } from './client/supabaseClient';
 import { handlerResumeToText } from './preCall';
 import { processResumeToJson } from './textToJson';
 import {
@@ -13,7 +14,6 @@ import {
   saveToDB,
   setToProcessing,
 } from './utils';
-import { supabaseClient } from './client/supabaseClient';
 
 export const hello: HttpFunction = async (req: Request, res: Response) => {
   res.set('Access-Control-Allow-Origin', '*');

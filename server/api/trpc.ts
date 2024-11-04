@@ -49,7 +49,7 @@ export type ProcedureDefinition<T extends Definition> = Pick<
 export type ProcedureQuery<T extends ProcedureDefinition<Definition>> =
   UseTRPCQueryResult<T['output'], any>;
 
-type Procedure<U extends ProcedureBuilderInput, T = unknown> =
+export type Procedure<U extends ProcedureBuilderInput, T = unknown> =
   U extends ProcedureBuilder<
     infer TContext,
     any,

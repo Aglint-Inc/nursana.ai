@@ -64,6 +64,65 @@ export const agencyUserRelationshipsSchema = z.tuple([
   }),
 ]);
 
+export const nerseTitlesSchema = z.union([
+  z.literal("registered-nurse"),
+  z.literal("licensed-practical-nurse"),
+  z.literal("nurse-practitioner"),
+  z.literal("certified-registered-nurse-anesthetist"),
+  z.literal("certified-nurse-midwife"),
+  z.literal("clinical-nurse-specialist"),
+  z.literal("cardiac-nurse"),
+  z.literal("oncology-nurse"),
+  z.literal("pediatric-nurse"),
+  z.literal("geriatric-nurse"),
+  z.literal("orthopedic-nurse"),
+  z.literal("neonatal-nurse"),
+  z.literal("perioperative-operating-room-nurse"),
+  z.literal("emergency-trauma-nurse"),
+  z.literal("critical-care-icu-nurse"),
+  z.literal("psychiatric-mental-health-nurse"),
+  z.literal("rehabilitation-nurse"),
+  z.literal("infection-control-nurse"),
+  z.literal("public-health-nurse"),
+  z.literal("community-health-nurse"),
+  z.literal("home-health-nurse"),
+  z.literal("school-nurse"),
+  z.literal("nurse-educator"),
+  z.literal("nurse-researcher"),
+  z.literal("nurse-informaticist"),
+  z.literal("nurse-administrator-nurse-executive"),
+  z.literal("nurse-case-manager"),
+  z.literal("nurse-consultant"),
+  z.literal("quality-improvement-nurse"),
+  z.literal("forensic-nurse"),
+  z.literal("holistic-nurse"),
+  z.literal("telehealth-nurse"),
+  z.literal("flight-transport-nurse"),
+  z.literal("military-nurse"),
+  z.literal("occupational-health-nurse"),
+  z.literal("hospice-palliative-care-nurse"),
+]);
+
+export const nurseLicenseSchema = z.union([
+  z.literal("registered-nurse"),
+  z.literal("nurse-practitioner"),
+  z.literal("licensed-practical-nurse"),
+  z.literal("clinical-nurse-specialist"),
+  z.literal("certified-nurse-midwife"),
+  z.literal("advanced-practice-registered-nurse"),
+  z.literal("certified-registered-nurse-anesthetist"),
+  z.literal("public-health-nurse"),
+  z.literal("registered-nurse-board-certified"),
+  z.literal("certified-nursing-assistant"),
+  z.literal("home-health-aide"),
+  z.literal("acute-care-nurse-practitioner"),
+  z.literal("family-nurse-practitioner"),
+  z.literal("pediatric-nurse-practitioner"),
+  z.literal("adult-gerontology-nurse-practitioner"),
+  z.literal("psychiatric-mental-health-nurse-practitioner"),
+  z.literal("travel-nurse-license-compact-license"),
+]);
+
 export const travelPreferrenceSchema = z.union([
   z.literal("no-travel"),
   z.literal("occasional-travel"),
@@ -76,7 +135,8 @@ export const travelPreferrenceSchema = z.union([
 export const applicantUserInsertSchema = z.object({
   created_at: z.string().optional().nullable(),
   id: z.string(),
-  job_title: z.string().optional().nullable(),
+  job_title: nerseTitlesSchema.optional(),
+  license: nurseLicenseSchema.optional().nullable(),
   open_to_work: z.boolean().optional(),
   phone_number: z.string().optional().nullable(),
   preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
@@ -87,7 +147,8 @@ export const applicantUserInsertSchema = z.object({
 export const applicantUserUpdateSchema = z.object({
   created_at: z.string().optional().nullable(),
   id: z.string().optional(),
-  job_title: z.string().optional().nullable(),
+  job_title: nerseTitlesSchema.optional(),
+  license: nurseLicenseSchema.optional().nullable(),
   open_to_work: z.boolean().optional(),
   phone_number: z.string().optional().nullable(),
   preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
@@ -318,47 +379,45 @@ export const interviewAnalysisIdRelationshipsSchema = z.tuple([]);
 export const locationsListRowSchema = z.object({
   city: z.string(),
   country: z.string(),
-  id: z.string(),
   level: z.string(),
+  place_id: z.string(),
   state: z.string(),
 });
 
 export const locationsListInsertSchema = z.object({
   city: z.string(),
   country: z.string(),
-  id: z.string().optional(),
   level: z.string(),
+  place_id: z.string(),
   state: z.string(),
 });
 
 export const locationsListUpdateSchema = z.object({
   city: z.string().optional(),
   country: z.string().optional(),
-  id: z.string().optional(),
   level: z.string().optional(),
+  place_id: z.string().optional(),
   state: z.string().optional(),
 });
 
 export const locationsListRelationshipsSchema = z.tuple([]);
 
-export const jobTitlesSchema = z.union([
-  z.literal("registered-nurse"),
-  z.literal("nurse-practitioner"),
-  z.literal("licensed-practical-nurse"),
-  z.literal("clinical-nurse-specialist"),
-  z.literal("certified-nurse-midwife"),
-]);
+export const preferredJobTitlesRowSchema = z.object({
+  applicant_id: z.string(),
+  id: z.string(),
+  job_titles: nerseTitlesSchema,
+});
 
 export const preferredJobTitlesInsertSchema = z.object({
   applicant_id: z.string().optional(),
   id: z.string().optional(),
-  job_title: jobTitlesSchema,
+  job_titles: nerseTitlesSchema.optional(),
 });
 
 export const preferredJobTitlesUpdateSchema = z.object({
   applicant_id: z.string().optional(),
   id: z.string().optional(),
-  job_title: jobTitlesSchema.optional(),
+  job_titles: nerseTitlesSchema.optional(),
 });
 
 export const preferredJobTitlesRelationshipsSchema = z.tuple([
@@ -403,19 +462,19 @@ export const preferredJobTypesRelationshipsSchema = z.tuple([
 export const preferredLocationsRowSchema = z.object({
   applicant_id: z.string(),
   id: z.string(),
-  location_id: z.string(),
+  place_id: z.string(),
 });
 
 export const preferredLocationsInsertSchema = z.object({
   applicant_id: z.string(),
   id: z.string().optional(),
-  location_id: z.string(),
+  place_id: z.string(),
 });
 
 export const preferredLocationsUpdateSchema = z.object({
   applicant_id: z.string().optional(),
   id: z.string().optional(),
-  location_id: z.string().optional(),
+  place_id: z.string().optional(),
 });
 
 export const preferredLocationsRelationshipsSchema = z.tuple([
@@ -427,11 +486,11 @@ export const preferredLocationsRelationshipsSchema = z.tuple([
     referencedColumns: z.tuple([z.literal("id")]),
   }),
   z.object({
-    foreignKeyName: z.literal("preferred_locations_location_id_fkey"),
-    columns: z.tuple([z.literal("location_id")]),
+    foreignKeyName: z.literal("preferred_locations_place_id_fkey"),
+    columns: z.tuple([z.literal("place_id")]),
     isOneToOne: z.literal(false),
     referencedRelation: z.literal("locations_list"),
-    referencedColumns: z.tuple([z.literal("id")]),
+    referencedColumns: z.tuple([z.literal("place_id")]),
   }),
 ]);
 
@@ -478,7 +537,7 @@ export const resumeRelationshipsSchema = z.tuple([
   z.object({
     foreignKeyName: z.literal("resume_applicant_id_fkey"),
     columns: z.tuple([z.literal("applicant_id")]),
-    isOneToOne: z.literal(false),
+    isOneToOne: z.literal(true),
     referencedRelation: z.literal("applicant_user"),
     referencedColumns: z.tuple([z.literal("id")]),
   }),
@@ -656,7 +715,8 @@ export const customAccessTokenHookReturnsSchema = jsonSchema;
 export const applicantUserRowSchema = z.object({
   created_at: z.string().nullable(),
   id: z.string(),
-  job_title: z.string().nullable(),
+  job_title: nerseTitlesSchema,
+  license: nurseLicenseSchema.nullable(),
   open_to_work: z.boolean(),
   phone_number: z.string().nullable(),
   preferred_travel_preference: travelPreferrenceSchema.nullable(),
@@ -696,12 +756,6 @@ export const interviewRowSchema = z.object({
   name: z.string(),
   updated_at: z.string().nullable(),
   version_id: z.string(),
-});
-
-export const preferredJobTitlesRowSchema = z.object({
-  applicant_id: z.string(),
-  id: z.string(),
-  job_title: jobTitlesSchema,
 });
 
 export const preferredJobTypesRowSchema = z.object({

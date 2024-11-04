@@ -14,7 +14,6 @@ export async function retellGetCallDetails(callId: string) {
   });
   if (!res.ok) {
     const errorText = await res.text();
-    console.error('Retell API error:', res.status, errorText);
     throw new Error(`Retell API error: ${res.status} ${errorText}`);
   }
   const retellData = (await res.json()) as unknown as retellAiGetCallType;
@@ -77,7 +76,6 @@ export async function UploadAudio(
       upsert: true,
     });
   if (error) {
-    console.error('Supabase upload error:', error);
     throw new Error(`Supabase upload error: ${error.message}`);
   }
   return;
@@ -121,4 +119,12 @@ export function getDurationInMinutes(
     console.error('Error calculating call duration:', error);
     return null;
   }
+}
+
+export async function logError(supabase: any, id: string, data: any) {
+  return supabase
+    .from('interview_analysis')
+    .update(data)
+    .eq('id', id)
+    .throwOnError();
 }

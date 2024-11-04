@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 
+import UIDialog from '@/app/components/UIDialog';
 import {
   useCreateInterviewRating,
   useInterviewRating,
 } from '@/applicant/hooks/useInterviewRating';
 import { useUserData } from '@/applicant/hooks/useUserData';
-import UIDialog from '@/common/components/UIDialog';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -21,8 +21,21 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 
+type RatingLabel = {
+  text: string;
+  color: string;
+};
+
+const ratingLabels: Record<number, RatingLabel> = {
+  1: { text: 'Poor 😞', color: 'text-red-500' },
+  2: { text: 'Average 😐', color: 'text-yellow-500' },
+  3: { text: 'Good 😊', color: 'text-green-500' },
+  4: { text: 'Very Good 😃', color: 'text-blue-500' },
+  5: { text: 'Excellent 🌟', color: 'text-purple-500' },
+};
+
 export default function NPSForm() {
-  const { interview } = useUserData();
+  const { interview, analysis } = useUserData();
   const { interviewRating } = useInterviewRating();
   const { createInterviewRating } = useCreateInterviewRating();
 
@@ -49,6 +62,7 @@ export default function NPSForm() {
     if (
       !openInterviewRating &&
       interview?.interview_stage === 'interview_completed' &&
+      analysis.structured_analysis &&
       !interviewRating &&
       loginStage
     ) {
@@ -61,6 +75,10 @@ export default function NPSForm() {
       setOpenOpenInterviewRating(false);
     }
   }, [interviewRating, interview]);
+  // useEffect(() => {
+  //   setOpenOpenInterviewRating(true);
+  //   setLoginStage(null);
+  // }, []);
 
   return (
     <UIDialog
@@ -71,31 +89,31 @@ export default function NPSForm() {
       slotButtons={<></>}
     >
       {submitted ? (
-        <Card className='mx-auto w-full max-w-md'>
-          <CardContent className='pt-6 text-center'>
-            <h2 className='mb-2 text-2xl font-bold text-green-600'>
-              Thank You!
-            </h2>
-            <p>Your feedback has been submitted successfully.</p>
-          </CardContent>
+        <Card className='w-full max-w-md border-none shadow-none'>
+          <div className='flex min-h-[300px] flex-col items-center justify-center p-0 text-center'>
+            <h2 className='text-md mb-1 font-medium'>Thank You 💜</h2>
+            <p className='text-sm text-muted-foreground'>
+              Your feedback has been submitted successfully.
+            </p>
+          </div>
         </Card>
       ) : (
-        <Card className='mx-auto w-full max-w-md'>
-          <CardHeader>
-            <CardDescription>
+        <Card className='w-full border-none shadow-none'>
+          <CardHeader className='p-0'>
+            <CardDescription className='my-2 p-0'>
               How likely are you to recommend Nursana to a friend or colleague?
             </CardDescription>
           </CardHeader>
           <form onSubmit={handleSubmit}>
-            <CardContent className='space-y-6'>
+            <CardContent className='space-y-6 p-0'>
               <RadioGroup
                 value={String(rating)}
                 onValueChange={(value) => {
                   setRating(Number(value));
                 }}
-                className='flex justify-between'
+                className='flex items-center gap-4'
               >
-                {[0, 1, 2, 3, 4, 5].map((value) => (
+                {[1, 2, 3, 4, 5].map((value) => (
                   <div key={value} className='flex flex-col items-center'>
                     <RadioGroupItem
                       value={value.toString()}
@@ -115,17 +133,29 @@ export default function NPSForm() {
                   </div>
                 ))}
               </RadioGroup>
+
+              {rating && (
+                <span className={`mt-2 text-sm font-normal`}>
+                  {ratingLabels[rating]?.text}
+                </span>
+              )}
               <div className='space-y-2'>
-                <Label htmlFor='feedback'>Additional Feedback (Optional)</Label>
+                <Label
+                  htmlFor='feedback'
+                  className='text-sm font-normal text-muted-foreground'
+                >
+                  Additional Feedback (Optional)
+                </Label>
                 <Textarea
                   id='feedback'
                   placeholder='Tell us more about your experience...'
                   value={feedback}
                   onChange={(e) => setFeedback(e.target.value)}
+                  className='h-[150px]'
                 />
               </div>
             </CardContent>
-            <CardFooter>
+            <CardFooter className='mt-4 p-0'>
               <Button type='submit' className='w-full' disabled={!rating}>
                 Submit Feedback
               </Button>

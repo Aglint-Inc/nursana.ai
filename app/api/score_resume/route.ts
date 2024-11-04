@@ -134,7 +134,9 @@ export async function POST(
       {} as unknown as professionalSummaryType,
     );
     const resumeFeedbackJson = {
-      ...professionalSummaryJson,
+      overall_summary: professionalSummaryJson.summary_feedback.summary,
+      overall_feedback:
+        professionalSummaryJson.summary_feedback.overall_feedback,
       overallScore,
       breakdown: scoreJson,
     };

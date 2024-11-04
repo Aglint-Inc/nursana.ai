@@ -1,7 +1,7 @@
 import 'server-only'; /* eslint-disable no-console */
 
+import { createPrivateClient } from '@/db/client';
 import { type PrivateProcedure, privateProcedure } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
 
 const query = async ({ ctx: { user_id } }: PrivateProcedure) => {
   const db = createPrivateClient();
@@ -29,10 +29,10 @@ const query = async ({ ctx: { user_id } }: PrivateProcedure) => {
         .single(),
     ]);
   return {
-    applicant_user: userResult.data,
-    resume: resumeResult.data,
-    interview: interviewResult.data,
-    analysis: analysisResult.data,
+    applicant_user: userResult.data!,
+    resume: resumeResult.data!,
+    interview: interviewResult.data!,
+    analysis: analysisResult.data!,
   };
 };
 

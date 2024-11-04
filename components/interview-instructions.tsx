@@ -1,14 +1,17 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 'use client';
 
+import './interview-instructions.css';
+
+import parse from 'html-react-parser';
 import { Pause, Play, Repeat } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { type InterviewData } from 'src/types/types';
 
+import { Loader } from '@/app/components/Loader';
 import { useUserDataQuery } from '@/applicant/hooks/useUserData';
-import { Loader } from '@/common/components/Loader';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -166,7 +169,7 @@ export default function InterviewInstructions({
                 <>
                   <video
                     ref={videoRef}
-                    src={interviewData.candidate_intro_video_url ?? '/'}
+                    src={interviewData.version.candidate_intro_video_url ?? '/'}
                     className='h-full w-full object-cover'
                     onTimeUpdate={handleTimeUpdate}
                     onEnded={() => setIsPlaying(false)}
@@ -209,7 +212,8 @@ export default function InterviewInstructions({
           <Card>
             <CardContent className='p-4'>
               <h2 className='mb-1 text-lg font-medium'>
-                Estimated Time: {interviewData.candidate_estimated_time}
+                Estimated Time: {interviewData.version.ai_interview_duration}{' '}
+                minutes
               </h2>
               <p className='text-md text-muted-foreground'>
                 Please ensure you have sufficient time to complete it in one
@@ -221,16 +225,12 @@ export default function InterviewInstructions({
           <Card>
             <CardContent className='p-4'>
               <h2 className='mb-1 text-lg font-medium'>Overview</h2>
-              <ul className='space-y-1'>
-                {(interviewData.candidate_overview ?? []).map((item, index) => (
-                  <li
-                    key={index}
-                    className='text-md list-inside list-disc space-y-1 text-muted-foreground'
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <div
+                className='space-y-1'
+                dangerouslySetInnerHTML={{
+                  __html: interviewData.version.candidate_overview ?? '',
+                }}
+              ></div>
             </CardContent>
           </Card>
 
@@ -239,13 +239,9 @@ export default function InterviewInstructions({
               <h2 className='mb-1 flex items-center text-lg font-medium'>
                 Instructions
               </h2>
-              <ul className='text-md list-inside list-disc space-y-1 text-muted-foreground'>
-                {(interviewData.candidate_instructions ?? []).map(
-                  (instruction, index) => (
-                    <li key={index}>{instruction}</li>
-                  ),
-                )}
-              </ul>
+              <div className='text-md html richtext list-inside list-disc space-y-1 text-muted-foreground'>
+                {parse(interviewData.version.candidate_instructions ?? '')}
+              </div>
             </CardContent>
           </Card>
 

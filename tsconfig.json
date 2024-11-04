@@ -24,33 +24,49 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/common/*": ["./app/_common/*"],
-      "@/trpc/*": ["./app/trpc/*"],
+      "@/trpc/*": ["./trpc/*"],
       "@/components/*": ["./components/*"],
       "@/utils/*": ["./utils/*"],
-      "@/supabase-types/*": ["src/supabase-types/*"],
       "@/server/*": ["./server/*"],
+      "@/db/*": ["./server/db/*"],
       "@/hooks/*": ["./hooks/*"],
       "@/audio/*": ["./lib/audio/*"],
+      "@/app/*": ["./app/_common/*"],
       "@/applicant/*": ["./app/(authenticated)/(applicant)/_common/*"],
       "@/dashboard/*": [
         "./app/(authenticated)/(applicant)/dashboard/_common/*"
       ],
       "@/authenticated/*": ["./app/(authenticated)/_common/*"],
       "@/agency/*": ["./app/(authenticated)/(agency)/_common/*"],
-      "@/campaigns/*": ["./app/(authenticated)/(agency)/campaigns/_common/*"],
-      "@/templates/*": ["./app/(authenticated)/(agency)/templates/_common/*"],
-      "@/version/*": [
-        "./app/(authenticated)/(agency)/templates/[version]/_common/*"
+      "@/campaigns/*": [
+        "./app/(authenticated)/(agency)/(body)/campaigns/_common/*"
       ],
       "@/campaign/*": [
-        "./app/(authenticated)/(agency)/campaigns/[campaign]/_common/*"
+        "./app/(authenticated)/(agency)/(body)/campaigns/[campaign]/_common/*"
       ],
       "@/reports/*": [
         "app/(authenticated)/(agency)/templates/[version]/reports/_common/*"
+      ],
+      "@/templates/*": [
+        "./app/(authenticated)/(agency)/(body)/templates/_common/*"
+      ],
+      "@/interviews/*": [
+        "app/(authenticated)/(agency)/(body)/interviews/_common/*"
+      ],
+      "@/interview/*": [
+        "app/(authenticated)/(agency)/(body)/interviews/[interview]/_common/*"
+      ],
+      "@/version/*": [
+        "./app/(authenticated)/(agency)/(body)/templates/[version]/_common/*"
       ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "lib/debouncedAsync.js"
+  ],
   "exclude": ["node_modules", ".next", "edge_function"]
 }

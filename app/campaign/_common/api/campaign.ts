@@ -2,10 +2,10 @@ import { type SupabaseClient } from '@supabase/supabase-js';
 import { Readable } from 'stream';
 import { type z } from 'zod';
 
+import { createPublicClient } from '@/db/client';
+import type { DB } from '@/db/types';
+import { type nerseTitlesSchema, type nurseLicenseSchema } from '@/db/zod';
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
-import { createPublicClient } from '@/server/db';
-import { type Database } from '@/supabase-types/database.types';
-import { type jobTitlesSchema } from '@/supabase-types/zod-schema.types';
 import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
 
 import { campaignFormDataSchema } from '../schema/upload';
@@ -22,6 +22,7 @@ const mutation = async ({
     applicant_id,
     role,
     terms_accepted,
+    license,
   },
 }: PublicProcedure<typeof campaignFormDataSchema>) => {
   const db = createPublicClient();
@@ -37,6 +38,7 @@ const mutation = async ({
       last_name,
       role,
       terms_accepted,
+      license,
     });
 
     userId = resUser.userId;
@@ -108,7 +110,7 @@ const createInterview = async ({
   applicant_id,
   resume_url,
 }: {
-  db: SupabaseClient<Database>;
+  db: SupabaseClient<DB>;
   campaign_id: string;
   applicant_id: string;
   resume_url: string;
@@ -166,13 +168,15 @@ const createUser = async ({
   last_name,
   role,
   terms_accepted,
+  license,
 }: {
-  db: SupabaseClient<Database>;
+  db: SupabaseClient<DB>;
   email: string;
   first_name: string;
   last_name?: string | null;
-  role: z.infer<typeof jobTitlesSchema>;
+  role: z.infer<typeof nerseTitlesSchema>;
   terms_accepted: string;
+  license: z.infer<typeof nurseLicenseSchema> | null;
 }) => {
   const res = await db.auth.admin.createUser({
     email: email,
@@ -200,6 +204,7 @@ const createUser = async ({
         id: userId,
         job_title: role,
         terms_accepted: Boolean(terms_accepted),
+        license,
       })
       .select()
       .single()

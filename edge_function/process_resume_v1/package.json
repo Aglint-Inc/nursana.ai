@@ -26,6 +26,10 @@
     "dlx": "^0.2.1",
     "dotenv": "^16.3.1",
     "langchain": "^0.3.2",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-unused-imports": "^4.1.3",
     "openai": "^4.11.1",
     "tesseract.js": "^5.1.1",
     "zod-to-json-schema": "^3.23.3"
