@@ -3,7 +3,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  Legend,
+  Cell,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -11,38 +11,31 @@ import {
 } from 'recharts';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CHART_COLORS, skillsData } from '@/version/constant';
 
-import { CHART_COLORS, skillGapData } from '../../contant';
-// import { useResumeAnalysis } from '../../hook/useResumeAnalysis';
-
-function SkillGapAnalysis() {
-  // const { data } = useResumeAnalysis();
-  // const skillGapData = data.skills || [];
+function PerformanceMetrics() {
   return (
-    <Card>
+    <Card className='col-span-2'>
       <CardHeader>
         <CardTitle className='text-md font-semi-bold'>
-          Skill Gap Analysis
+          Performance Metrics
         </CardTitle>
       </CardHeader>
       <CardContent className='h-[400px]'>
         <ResponsiveContainer width='100%' height='100%'>
-          <BarChart data={skillGapData}>
+          <BarChart data={skillsData}>
             <CartesianGrid strokeDasharray='3 3' />
             <XAxis dataKey='name' />
             <YAxis />
             <Tooltip />
-            <Legend />
-            <Bar
-              dataKey='required'
-              fill={CHART_COLORS[0]}
-              name='Required Skill Level'
-            />
-            <Bar
-              dataKey='actual'
-              fill={CHART_COLORS[1]}
-              name='Actual Skill Level'
-            />
+            <Bar dataKey='value'>
+              {skillsData.map((_, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={CHART_COLORS[index % CHART_COLORS.length]}
+                />
+              ))}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
@@ -50,4 +43,4 @@ function SkillGapAnalysis() {
   );
 }
 
-export default SkillGapAnalysis;
+export default PerformanceMetrics;

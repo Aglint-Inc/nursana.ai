@@ -1,4 +1,4 @@
-import { type SupabaseClientType } from '../supabase/type';
+import type { SupabaseClientType } from '../supabase/supabaseAdmin';
 
 /**
  * Retrieves the URL of the call audio file for a given interview.

@@ -5,7 +5,7 @@ import { api, HydrateClient } from 'trpc/server';
 import { SidebarInset } from '@/components/ui/sidebar';
 
 import { Body } from './_common/components/Body';
-import MatrixFilterProvider from './reports/_common/context/matrixFilterProvider';
+import MatrixFilterProvider from './_common/context/matrixFilterProvider';
 
 const Layout = async (props: PropsWithChildren) => {
   unstable_noStore();

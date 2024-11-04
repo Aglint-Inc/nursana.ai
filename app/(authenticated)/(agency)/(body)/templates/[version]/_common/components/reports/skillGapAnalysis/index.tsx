@@ -11,9 +11,7 @@ import {
 } from 'recharts';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-import { CHART_COLORS, skillGapData } from '../../contant';
-// import { useResumeAnalysis } from '../../hook/useResumeAnalysis';
+import { CHART_COLORS, skillGapData } from '@/version/constant';
 
 function SkillGapAnalysis() {
   // const { data } = useResumeAnalysis();

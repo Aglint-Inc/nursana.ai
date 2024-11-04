@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
 import { createAdminClient } from '@/utils/supabase/server';
-import { type SupabaseClientType } from '@/utils/supabase/type';
+import type { SupabaseClientType } from '@/utils/supabase/supabaseAdmin';
 
 import { calculateOverallScore, transcriptParser } from './util';
 import {
