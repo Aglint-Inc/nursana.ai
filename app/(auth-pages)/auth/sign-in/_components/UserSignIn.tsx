@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form';
 import { api } from 'trpc/client';
 import { z } from 'zod';
 
-import { Loader } from '@/common/components/Loader';
-import UITextField from '@/common/components/UITextField';
+import { Loader } from '@/app/components/Loader';
+import UITextField from '@/app/components/UITextField';
 import { Button } from '@/components/ui/button';
 import {
   Form,

@@ -1,5 +1,5 @@
+import { interviewRowSchema } from '@/db/zod';
 import { agencyProcedure, type Procedure } from '@/server/api/trpc';
-import { interviewRowSchema } from '@/supabase-types/zod-schema.types';
 
 const schema = interviewRowSchema.pick({ id: true });
 

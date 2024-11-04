@@ -2,7 +2,7 @@ import { Calendar as CalendarIcon } from 'lucide-react';
 import * as React from 'react';
 import { cn } from 'src/utils/cn';
 
-import { dayjsLocal } from '@/common/utils/dayjsLocal';
+import { dayjsLocal } from '@/app/utils/dayjsLocal';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {

@@ -3,8 +3,8 @@ import 'server-only';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
+import { createPrivateClient } from '@/db/client';
 import { type AgencyProcedure, agencyProcedure } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
 
 const schema = z.object({
   id: z.string(),

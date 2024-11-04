@@ -4,12 +4,12 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 import { schema as interviewsSchema } from '@/campaigns/schema/interviews.schema';
+import { createPrivateClient } from '@/db/client';
 import {
   type AgencyProcedure,
   agencyProcedure,
   type ProcedureDefinition,
 } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
 
 export const schema = interviewsSchema.merge(
   z.object({
@@ -36,12 +36,20 @@ const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
     query.lte('updated_at', input.updated_at[1]);
   }
 
-  const { data, count } = await query;
-  if (!data || !count)
+  const { data } = await query;
+
+  if (!data)
     throw new TRPCError({
       code: 'NOT_FOUND',
       message: 'Interviews not found',
     });
+
+  // const { data, count } = await query;
+  // if (!data || !count)
+  //   throw new TRPCError({
+  //     code: 'NOT_FOUND',
+  //     message: 'Interviews not found',
+  //   });
   return data.map(
     ({
       applicant_user: {

@@ -1,11 +1,11 @@
 import 'server-only';
 
+import { createPrivateClient } from '@/db/client';
 import {
   type AgencyProcedure,
   agencyProcedure,
   type ProcedureDefinition,
 } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
 
 import { templateAddSchema } from '../template.schema';
 

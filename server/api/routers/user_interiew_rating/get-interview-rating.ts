@@ -1,7 +1,7 @@
 import 'server-only';
 
+import { createPrivateClient } from '@/db/client';
 import { type ApplicantProcedure, applicantProcedure } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
 
 const query = async ({ ctx: { user_id } }: ApplicantProcedure) => {
   const supabase = createPrivateClient();

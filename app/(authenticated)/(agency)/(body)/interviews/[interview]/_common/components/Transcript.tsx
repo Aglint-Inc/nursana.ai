@@ -6,9 +6,9 @@ import { Sparkles } from 'lucide-react';
 import { forwardRef, type RefObject, Suspense, useRef } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscriptUI';
-import { AudioPlayer } from '@/common/components/AudioPlayer';
-import { Loader } from '@/common/components/Loader';
+import { AudioPlayer } from '@/app/components/AudioPlayer';
+import { Loader } from '@/app/components/Loader';
+import { InterviewTranscript } from '@/authenticated/components/InterviewTranscript';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import NotAvailable from '@/dashboard/components/NotAvailable';
 import { useInterviewAnalysis } from '@/interview/hooks/useInterviewAnalysis';
@@ -36,49 +36,54 @@ function isMessageArray(arr: any): arr is Message[] {
 
 export const Transcript = () => {
   return (
-    <ErrorBoundary fallback={<InterviewTranscriptUI.ErrorFallback />}>
-      <Content />
-    </ErrorBoundary>
+    <div>
+      <ErrorBoundary fallback={<InterviewTranscript.ErrorFallback />}>
+        <ScrollArea className='mx-auto max-w-5xl'>
+          <InterviewTranscript
+            Transcript={
+              <ErrorBoundary
+                fallback={<InterviewTranscript.Transcript.Fallback />}
+              >
+                <TranscriptComp />
+              </ErrorBoundary>
+            }
+            videoPlayerComponent={
+              <ErrorBoundary
+                fallback={
+                  <>
+                    <NotAvailable
+                      heading='Video is not available'
+                      description='Please check back in a little while for updated information.'
+                      Icon={Sparkles}
+                    />
+                  </>
+                }
+              >
+                <Suspense
+                  fallback={
+                    <div className='h-[516px]'>
+                      <Loader />
+                    </div>
+                  }
+                >
+                  <VideoAndAudio />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          />
+        </ScrollArea>
+      </ErrorBoundary>
+    </div>
   );
 };
 
-const Content = () => {
+const TranscriptComp = () => {
   const { transcript_json } = useInterviewAnalysis();
   const transcript: Message[] | null =
     transcript_json && isMessageArray(transcript_json) ? transcript_json : null;
 
-  return (
-    <div>
-      <ScrollArea className='mx-auto h-[800px] max-w-5xl'>
-        <InterviewTranscriptUI
-          transcript={transcript}
-          videoPlayerComponent={
-            <ErrorBoundary
-              fallback={
-                <>
-                  <NotAvailable
-                    heading='Video is not available'
-                    description='Please check back in a little while for updated information.'
-                    Icon={Sparkles}
-                  />
-                </>
-              }
-            >
-              <Suspense
-                fallback={
-                  <div className='h-[516px]'>
-                    <Loader />
-                  </div>
-                }
-              >
-                <VideoAndAudio />
-              </Suspense>
-            </ErrorBoundary>
-          }
-        />
-      </ScrollArea>
-    </div>
-  );
+  if (!transcript?.length) throw new Error('transcript not available');
+  return <InterviewTranscript.Transcript transcript={transcript} />;
 };
 
 const VideoAndAudio = () => {
@@ -86,12 +91,14 @@ const VideoAndAudio = () => {
   return (
     <div className='flex flex-col'>
       <div className='basis-11/12'>
-        <ErrorBoundary fallback={<>Video Failed</>}>
+        <ErrorBoundary
+          fallback={<InterviewTranscript.videoPlayerComponent.Fallback />}
+        >
           <Video ref={videoRef} />
         </ErrorBoundary>
       </div>
       <div className='basis-1/12'>
-        <ErrorBoundary fallback={<>Audio Failed</>}>
+        <ErrorBoundary fallback={<></>}>
           <Audio ref={videoRef} />
         </ErrorBoundary>
       </div>

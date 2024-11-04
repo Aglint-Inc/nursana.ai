@@ -1,5 +1,6 @@
 import { SidebarHeader } from '@/components/ui/sidebar';
 import { useInterview } from '@/interview/hooks/useInterview';
+import { capitalize } from '@/utils/utils';
 
 export const Header = () => {
   return (
@@ -12,10 +13,10 @@ export const Header = () => {
 };
 
 const Title = () => {
-  const { id } = useInterview();
+  const { user } = useInterview();
   return (
     <div className='line-clamp-1 text-base font-medium text-foreground'>
-      Interview {id}
+      {capitalize(user.first_name)}
     </div>
   );
 };

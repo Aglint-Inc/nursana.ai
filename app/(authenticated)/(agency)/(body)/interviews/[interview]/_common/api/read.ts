@@ -2,12 +2,12 @@ import 'server-only';
 
 import { TRPCError } from '@trpc/server';
 
+import { createPrivateClient } from '@/db/client';
 import {
   type InterviewProcedure,
   interviewProcedure,
 } from '@/interview/utils/interviewProcedure';
 import { type ProcedureDefinition } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
 
 const query = async ({ ctx, input }: InterviewProcedure) => {
   const db = createPrivateClient();
@@ -20,9 +20,11 @@ const query = async ({ ctx, input }: InterviewProcedure) => {
       .single()
       .throwOnError()
   ).data;
+
   if (!data)
     throw new TRPCError({ code: 'NOT_FOUND', message: 'Interview not found' });
-  return data;
+
+  return { ...data, user: ctx.user };
 };
 
 export const read = interviewProcedure.query(query);

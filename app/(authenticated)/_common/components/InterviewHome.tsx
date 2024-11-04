@@ -2,7 +2,7 @@ import { Notebook } from 'lucide-react';
 import { type PropsWithChildren, type ReactNode } from 'react';
 
 import NotAvailable from '@/dashboard/components/NotAvailable';
-import { type Database } from '@/supabase-types/database.types';
+import { type DBTable } from '@/db/types';
 
 import { InterviewInfo } from './InterviewInfo';
 import { ScoreCard } from './ScoreCard';
@@ -85,7 +85,7 @@ const Resume = ({ children }: PropsWithChildren) => {
 };
 
 type InterviewProps = Pick<
-  Database['public']['Tables']['interview']['Row'],
+  DBTable<'interview'>,
   'id' | 'interview_stage' | 'updated_at'
 >;
 

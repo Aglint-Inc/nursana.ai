@@ -1,12 +1,12 @@
 import 'server-only';
 
+import { createPrivateClient } from '@/db/client';
+import { campaignUpdateSchema } from '@/db/zod';
 import {
   type AgencyProcedure,
   agencyProcedure,
   type ProcedureDefinition,
 } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
-import { campaignUpdateSchema } from '@/supabase-types/zod-schema.types';
 
 const schema = campaignUpdateSchema.pick({
   id: true,

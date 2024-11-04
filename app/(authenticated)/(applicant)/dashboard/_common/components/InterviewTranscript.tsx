@@ -2,11 +2,13 @@
 
 import { Sparkles, TvMinimalPlay } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
+import { Loader } from '@/app/components/Loader';
+import { VideoPlayer } from '@/app/components/VideoPlayer';
 import { useUserData, useUserDataQuery } from '@/applicant/hooks/useUserData';
-import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscriptUI';
-import { VideoPlayer } from '@/common/components/VideoPlayer';
+import { InterviewTranscript } from '@/authenticated/components/InterviewTranscript';
 import { Button } from '@/components/ui/button';
 import { useBucket } from '@/hooks/use-bucket';
 
@@ -31,28 +33,12 @@ function isMessageArray(arr: any): arr is Message[] {
   );
 }
 
-export function InterviewTranscript() {
+export function Transcript() {
   const userData = useUserData();
   const { refetch } = useUserDataQuery();
   const [ignoreRefetching, setIgnoreRefetching] = useState<boolean>(false);
   const interview = userData?.interview;
   const transcriptData = userData?.analysis?.transcript_json;
-  const transcript: Message[] | null =
-    transcriptData && isMessageArray(transcriptData) ? transcriptData : null;
-
-  const videoBucketName = 'videos';
-  // get file name
-  const fileName =
-    userData.analysis?.video_url?.split(`${videoBucketName}/`).pop() ?? '';
-  // get file url
-  const { data: videoUrl } = useBucket(videoBucketName, fileName);
-
-  const audioBucketName = 'audio';
-  // get file name
-  const audioFileName =
-    userData.analysis?.audio_url?.split(`${audioBucketName}/`).pop() ?? '';
-  // get file url
-  const { data: audioUrl } = useBucket(audioBucketName, audioFileName);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -99,14 +85,56 @@ export function InterviewTranscript() {
   }
 
   return (
-    <InterviewTranscriptUI
-      transcript={transcript}
-      // audioUrl={audioUrl || ''}
-
-      // videoUrl={videoUrl || ''}
+    <InterviewTranscript
+      Transcript={
+        <ErrorBoundary fallback={<InterviewTranscript.Transcript.Fallback />}>
+          <TranscriptComp />
+        </ErrorBoundary>
+      }
       videoPlayerComponent={
-        <VideoPlayer audioUrl={audioUrl || ''} videoUrl={videoUrl || ''} />
+        <ErrorBoundary
+          fallback={<InterviewTranscript.videoPlayerComponent.Fallback />}
+        >
+          <Suspense
+            fallback={
+              <div className='h-[516px]'>
+                <Loader />
+              </div>
+            }
+          >
+            <VideoAndAudio />
+          </Suspense>
+        </ErrorBoundary>
       }
     />
   );
 }
+
+const VideoAndAudio = () => {
+  const userData = useUserData();
+
+  const videoBucketName = 'videos';
+  // get file name
+  const fileName =
+    userData.analysis.video_url?.split(`${videoBucketName}/`).pop() ?? '';
+  // get file url
+  const { data: videoUrl } = useBucket(videoBucketName, fileName);
+
+  const audioBucketName = 'audio';
+  // get file name
+  const audioFileName =
+    userData.analysis.audio_url?.split(`${audioBucketName}/`).pop() ?? '';
+  // get file url
+  const { data: audioUrl } = useBucket(audioBucketName, audioFileName);
+  return <VideoPlayer audioUrl={audioUrl || ''} videoUrl={videoUrl || ''} />;
+};
+
+const TranscriptComp = () => {
+  const userData = useUserData();
+  const transcriptData = userData?.analysis?.transcript_json;
+  const transcript: Message[] | null =
+    transcriptData && isMessageArray(transcriptData) ? transcriptData : null;
+
+  if (!transcript) throw new Error('transcript not available');
+  return <InterviewTranscript.Transcript transcript={transcript} />;
+};

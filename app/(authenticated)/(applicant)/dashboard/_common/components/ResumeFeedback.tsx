@@ -4,9 +4,9 @@ import axios from 'axios';
 import { Sparkles } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+import { Loader } from '@/app/components/Loader';
 import { useUserData, useUserDataQuery } from '@/applicant/hooks/useUserData';
 import { ResumeFeedbackUI } from '@/authenticated/components/ResumeFeedbackUI';
-import { Loader } from '@/common/components/Loader';
 import { Button } from '@/components/ui/button';
 import { useBucket } from '@/hooks/use-bucket';
 

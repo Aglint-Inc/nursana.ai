@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { agencyUpdateSchema } from '@/supabase-types/zod-schema.types';
+import { agencyUpdateSchema } from '@/db/zod';
 
 import { useAgency } from '../hooks/useAgency';
 import { useAgencyEdit } from '../hooks/useAgencyEdit';

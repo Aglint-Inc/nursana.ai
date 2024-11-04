@@ -2,13 +2,13 @@ import 'server-only';
 
 import { z } from 'zod';
 
-import { type PrivateProcedure, privateProcedure } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
+import { createPrivateClient } from '@/db/client';
 import {
   nerseTitlesSchema,
   nurseLicenseSchema,
   travelPreferrenceSchema,
-} from '@/supabase-types/zod-schema.types';
+} from '@/db/zod';
+import { type PrivateProcedure, privateProcedure } from '@/server/api/trpc';
 
 // Define the Zod schema for form validation
 export const userProfileSchema = z.object({
@@ -27,7 +27,7 @@ export const userProfileSchema = z.object({
   salary_range: z.string().nullable().optional(),
   job_title: nerseTitlesSchema.optional(),
   open_to_work: z.boolean().optional(),
-  license: nurseLicenseSchema.optional().nullable(),
+  licenses: z.array(nurseLicenseSchema).nullable().optional(),
 });
 
 const mutation = async ({

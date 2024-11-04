@@ -5,6 +5,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { api } from 'trpc/client';
 import { type z } from 'zod';
 
+import { Loader } from '@/app/components/Loader';
+import { UIMultiSelect } from '@/app/components/UIMultiSelect';
+import UIPhoneInput from '@/app/components/UIPhoneInput';
 import {
   useCreatePreferredJobTitle,
   useCreatePreferredJobType,
@@ -18,9 +21,6 @@ import {
   useUpdateUserData,
   useUserData,
 } from '@/applicant/hooks/useUserData';
-import { Loader } from '@/common/components/Loader';
-import { UIMultiSelect } from '@/common/components/UIMultiSelect';
-import UIPhoneInput from '@/common/components/UIPhoneInput';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -32,15 +32,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { useDebounce } from '@/hooks/use-debounce';
-import { toast } from '@/hooks/use-toast';
-import { type userProfileSchema } from '@/server/api/routers/user/update';
 import {
   type jobTypesSchema,
   type nerseTitlesSchema,
   type nurseLicenseSchema,
   type travelPreferrenceSchema,
-} from '@/supabase-types/zod-schema.types';
+} from '@/db/zod';
+import { useDebounce } from '@/hooks/use-debounce';
+import { toast } from '@/hooks/use-toast';
+import { type userProfileSchema } from '@/server/api/routers/user/update';
 import { capitalizeFirstLetter } from '@/utils/utils';
 
 import {
@@ -101,9 +101,10 @@ export default function EditProfileForm() {
   const [jobTitle, setJobTitle] = useState<z.infer<typeof nerseTitlesSchema>>(
     applicant_user?.job_title || 'nurse-practitioner',
   );
-  const [nurseLicense, setNurseLicense] = useState<z.infer<
-    typeof nurseLicenseSchema
-  > | null>(applicant_user?.license || null);
+
+  const [nurseLicenses, setNurseLicenses] = useState<
+    z.infer<typeof nurseLicenseSchema>[] | null
+  >(applicant_user?.licenses || null);
   const [travelPreference, setTravelPreference] = useState<
     z.infer<typeof travelPreferrenceSchema>
   >(applicant_user?.preferred_travel_preference || 'no-travel');
@@ -131,7 +132,7 @@ export default function EditProfileForm() {
   const job_title = useDebounce(jobTitle, 1000);
   const preferred_travel_preference = useDebounce(travelPreference, 1000);
   const open_to_work = useDebounce(openToWork, 1000);
-  const license = useDebounce(nurseLicense, 1000);
+  const licenses = useDebounce(nurseLicenses, 1000);
   useEffect(() => {
     if (isInitialRender.current) {
       isInitialRender.current = false;
@@ -145,7 +146,7 @@ export default function EditProfileForm() {
       preferred_travel_preference,
       open_to_work,
       job_title,
-      license,
+      licenses,
     });
   }, [
     first_name,
@@ -155,7 +156,7 @@ export default function EditProfileForm() {
     job_title,
     preferred_travel_preference,
     open_to_work,
-    license,
+    licenses,
   ]);
 
   const merged_locations = useMemo(() => {
@@ -269,24 +270,31 @@ export default function EditProfileForm() {
           </div>
 
           <div className='col-span-2'>
-            <Label>License</Label>
-            <Select
-              onValueChange={(value: z.infer<typeof nurseLicenseSchema>) => {
-                setNurseLicense(value);
+            <Label>Licenses</Label>
+            <UIMultiSelect
+              onDelete={(value) => {
+                if (nurseLicenses) {
+                  setNurseLicenses(
+                    nurseLicenses.filter((item) => item !== value),
+                  );
+                }
               }}
-              value={license || ''}
-            >
-              <SelectTrigger id='license'>
-                <SelectValue placeholder='Select license' />
-              </SelectTrigger>
-              <SelectContent>
-                {NURSE_LICENSE.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              listItems={NURSE_LICENSE.map((item) => ({
+                label: item.label,
+                value: item.value,
+              }))}
+              onChange={(values, _value) => {
+                setNurseLicenses(
+                  values as z.infer<typeof nurseLicenseSchema>[],
+                );
+              }}
+              defaultValue={
+                nurseLicenses
+                  ? (nurseLicenses.map((item) => item) as string[])
+                  : []
+              }
+              level='Job Types'
+            />
           </div>
           <div>
             <Label>Current Job Title</Label>

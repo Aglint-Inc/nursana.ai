@@ -1,8 +1,8 @@
 import 'server-only';
 
+import { createPublicClient } from '@/db/client';
+import { userRowSchema } from '@/db/zod';
 import { type PublicProcedure, publicProcedure } from '@/server/api/trpc';
-import { createPublicClient } from '@/server/db';
-import { userRowSchema } from '@/supabase-types/zod-schema.types';
 
 export const schema = userRowSchema.pick({ email: true, user_role: true });
 

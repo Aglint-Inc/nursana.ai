@@ -6,7 +6,7 @@ import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
 import { type FeedbackData } from '@/dashboard/components/ResumeFeedback';
-import { type Database } from '@/supabase-types/database.types';
+import type { DBTable } from '@/db/types';
 
 const ErrorFallback = () => {
   return (
@@ -23,7 +23,7 @@ export const ResumeFeedbackUI = ({
   isCandidateView = false,
   resumeUrl,
 }: {
-  resume: Database['public']['Tables']['resume']['Row'];
+  resume: DBTable<'resume'>;
   isCandidateView?: boolean;
   resumeUrl: string;
 }) => {
@@ -194,7 +194,7 @@ const ResumeScoreCard = ({
   summary,
   resumeUrl,
 }: {
-  resume: Database['public']['Tables']['resume']['Row'];
+  resume: DBTable<'resume'>;
   summary: string;
   resumeUrl: string;
 }) => {

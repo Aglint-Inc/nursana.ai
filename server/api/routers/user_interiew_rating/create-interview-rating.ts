@@ -2,8 +2,8 @@ import 'server-only';
 
 import { z } from 'zod';
 
+import { createPublicClient } from '@/db/client';
 import { type ApplicantProcedure, applicantProcedure } from '@/server/api/trpc';
-import { createPublicClient } from '@/server/db';
 
 export const schema = z.object({
   rating: z.number(),

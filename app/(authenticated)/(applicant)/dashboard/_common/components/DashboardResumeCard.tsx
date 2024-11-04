@@ -6,11 +6,11 @@ import React, { useState } from 'react';
 import { api } from 'trpc/client';
 import { type z } from 'zod';
 
+import { Loader } from '@/app/components/Loader';
+import UIDialog from '@/app/components/UIDialog';
 import { useUserData, useUserDataQuery } from '@/applicant/hooks/useUserData';
-import { Loader } from '@/common/components/Loader';
-import UIDialog from '@/common/components/UIDialog';
 import { Button } from '@/components/ui/button';
-import { type Database } from '@/supabase-types/database.types';
+import { type DBTable } from '@/db/types';
 
 import RadialProgress from './RadialProgress';
 
@@ -21,7 +21,7 @@ type status =
   | 're-analysis'
   | 're-fetch';
 type ResumeCardProps = {
-  resumeDetails: Database['public']['Tables']['resume']['Row'] | null;
+  resumeDetails: DBTable<'resume'> | null;
 };
 
 function ResumeCard({ resumeDetails }: ResumeCardProps) {

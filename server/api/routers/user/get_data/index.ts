@@ -1,7 +1,7 @@
 import 'server-only'; /* eslint-disable no-console */
 
+import { createPrivateClient } from '@/db/client';
 import { type PrivateProcedure, privateProcedure } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
 
 const query = async ({ ctx: { user_id } }: PrivateProcedure) => {
   const db = createPrivateClient();

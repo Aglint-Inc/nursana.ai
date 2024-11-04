@@ -2,12 +2,12 @@ import 'server-only';
 
 import { TRPCError } from '@trpc/server';
 
+import { createPrivateClient } from '@/db/client';
 import {
   type AgencyProcedure,
   agencyProcedure,
   type ProcedureDefinition,
 } from '@/server/api/trpc';
-import { createPrivateClient } from '@/server/db';
 
 const query = async ({ ctx }: AgencyProcedure) => {
   const db = createPrivateClient();
