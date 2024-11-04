@@ -27,7 +27,7 @@ export const userProfileSchema = z.object({
   salary_range: z.string().nullable().optional(),
   job_title: nerseTitlesSchema.optional(),
   open_to_work: z.boolean().optional(),
-  license: nurseLicenseSchema.optional().nullable(),
+  licenses: z.array(nurseLicenseSchema).nullable().optional(),
 });
 
 const mutation = async ({

@@ -137,6 +137,7 @@ export const applicantUserInsertSchema = z.object({
   id: z.string(),
   job_title: nerseTitlesSchema.optional(),
   license: nurseLicenseSchema.optional().nullable(),
+  licenses: z.array(nurseLicenseSchema).optional().nullable(),
   open_to_work: z.boolean().optional(),
   phone_number: z.string().optional().nullable(),
   preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
@@ -149,6 +150,7 @@ export const applicantUserUpdateSchema = z.object({
   id: z.string().optional(),
   job_title: nerseTitlesSchema.optional(),
   license: nurseLicenseSchema.optional().nullable(),
+  licenses: z.array(nurseLicenseSchema).optional().nullable(),
   open_to_work: z.boolean().optional(),
   phone_number: z.string().optional().nullable(),
   preferred_travel_preference: travelPreferrenceSchema.optional().nullable(),
@@ -604,7 +606,15 @@ export const userUpdateSchema = z.object({
   user_role: userRoleSchema.optional(),
 });
 
-export const userRelationshipsSchema = z.tuple([]);
+export const userRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("user_id_fkey"),
+    columns: z.tuple([z.literal("id")]),
+    isOneToOne: z.literal(true),
+    referencedRelation: z.literal("users"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
 
 export const userInterviewRatingRowSchema = z.object({
   applicant_id: z.string(),
@@ -709,6 +719,7 @@ export const applicantUserRowSchema = z.object({
   id: z.string(),
   job_title: nerseTitlesSchema,
   license: nurseLicenseSchema.nullable(),
+  licenses: z.array(nurseLicenseSchema).nullable(),
   open_to_work: z.boolean(),
   phone_number: z.string().nullable(),
   preferred_travel_preference: travelPreferrenceSchema.nullable(),

@@ -66,6 +66,7 @@ export type Database = {
           id: string
           job_title: Database["public"]["Enums"]["nerse_titles"]
           license: Database["public"]["Enums"]["nurse_license"] | null
+          licenses: Database["public"]["Enums"]["nurse_license"][] | null
           open_to_work: boolean
           phone_number: string | null
           preferred_travel_preference:
@@ -79,6 +80,7 @@ export type Database = {
           id: string
           job_title?: Database["public"]["Enums"]["nerse_titles"]
           license?: Database["public"]["Enums"]["nurse_license"] | null
+          licenses?: Database["public"]["Enums"]["nurse_license"][] | null
           open_to_work?: boolean
           phone_number?: string | null
           preferred_travel_preference?:
@@ -92,6 +94,7 @@ export type Database = {
           id?: string
           job_title?: Database["public"]["Enums"]["nerse_titles"]
           license?: Database["public"]["Enums"]["nurse_license"] | null
+          licenses?: Database["public"]["Enums"]["nurse_license"][] | null
           open_to_work?: boolean
           phone_number?: string | null
           preferred_travel_preference?:
@@ -551,7 +554,15 @@ export type Database = {
           last_name?: string
           user_role?: Database["public"]["Enums"]["user_role"]
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_interview_rating: {
         Row: {
@@ -678,6 +689,23 @@ export type Database = {
           event: Json
         }
         Returns: Json
+      }
+      get_resume_analytics: {
+        Args: {
+          version_uuid: string
+          start_date?: string
+          end_date?: string
+        }
+        Returns: {
+          total_experience: string
+          schools: Json
+          x_job_title: string
+          skills: Json
+          licenses: Json
+          location: Json
+          call_analysis: Json
+          resume_analysis: Json
+        }[]
       }
     }
     Enums: {
@@ -841,17 +869,3 @@ export type Enums<
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
 
-export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema["CompositeTypes"]
-    | { schema: keyof Database },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
-> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
