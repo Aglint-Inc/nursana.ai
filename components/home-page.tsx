@@ -12,7 +12,7 @@ import WhyUS from './landing-sections/why-us';
 
 function HomePage() {
   return (
-    <div className='w-full'>
+    <div className='w-full overflow-auto'>
       <Hero/>
       <div className='relative z-20 flex flex-col gap-20 rounded-[50px] bg-white pb-20 pt-20 md:container md:gap-40 md:pb-40'>
         <HowItWorks/>

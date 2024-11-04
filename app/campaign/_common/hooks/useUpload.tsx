@@ -27,7 +27,7 @@ export const useUploadCampaign = () => {
       campaign_id: campaignData?.id,
       user_id: null,
       terms_accepted: 'true',
-      license: 'registered-nurse',
+      licenses: null,
     },
   });
 
@@ -85,7 +85,6 @@ export const useUploadCampaign = () => {
         fileExt,
         user_id: resCheckUser?.user_id ?? null,
         applicant_id: resCheckUser?.applicant_id ?? null,
-        license: form.getValues('license'),
       };
       Object.entries(data)
         .filter((d) => d[1] !== null)

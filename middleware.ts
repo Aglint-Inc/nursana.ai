@@ -16,6 +16,7 @@ const PUBLIC_API = [
   'score_resume',
   'score_call',
   'backup-interview-data',
+  'dynamic_resume_score',
 ].map((api) => `^/api/${api}(/.*)?$`);
 
 const PUBLIC_ROUTES = new RegExp(
@@ -36,7 +37,7 @@ const PUBLIC_ROUTES = new RegExp(
 );
 
 const AGENCY_ROUTES = new RegExp(
-  ['^/campaigns(/.*)?$', '^/interviews/.+', '^/templates(/.*)?$'].join('|'),
+  ['^/campaigns(/.*)?$', '^/interviews(/.*)?$', '^/templates(/.*)?$'].join('|'),
 );
 
 const AGENCY_DEFAULT = '/campaigns';

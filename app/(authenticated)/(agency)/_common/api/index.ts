@@ -1,8 +1,8 @@
 import 'server-only';
 
 import { campaigns } from '@/campaigns/api';
-import { interviews } from '@/interviews/api';
 import { createTRPCRouter } from '@/server/api/trpc';
+import { interviews } from '@/table-views/api';
 import { templates } from '@/templates/api';
 
 import { edit } from './edit';

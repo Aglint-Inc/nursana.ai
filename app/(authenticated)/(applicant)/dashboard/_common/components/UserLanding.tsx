@@ -9,7 +9,7 @@ function UserLanding() {
   const { applicant_user, resume, analysis, interview } = useUserData();
 
   return (
-    <div className='flex h-[85vh] flex-col items-center justify-center gap-10'>
+    <div className='flex min-h-[85vh] flex-col items-center justify-center gap-10'>
       <div className='flex flex-col items-center gap-2'>
         <div className='flex items-center gap-2 text-center text-3xl font-medium'>
           <div className='text-purple-700'>
