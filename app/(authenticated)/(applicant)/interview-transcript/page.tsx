@@ -1,9 +1,9 @@
 import dynamic from 'next/dynamic';
 
-const InterviewTranscript = dynamic(
+const Transcript = dynamic(
   () =>
     import('@/dashboard/components/InterviewTranscript').then(
-      (module) => module.InterviewTranscript,
+      (module) => module.Transcript,
     ),
   {
     ssr: false,
@@ -12,5 +12,5 @@ const InterviewTranscript = dynamic(
 );
 
 export default function InterviewFeedbackPage() {
-  return <InterviewTranscript />;
+  return <Transcript />;
 }
