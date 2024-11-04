@@ -167,7 +167,10 @@ function getLocationFreq(data?: get_resume_analytics_type) {
   const temp = Object.entries(
     data?.reduce(
       (acc, resume) => {
-        const location = `${resume.location?.city}, ${resume.location?.state}`;
+        const city = resume.location?.city;
+        const state = resume.location?.state;
+
+        const location = city || state ? `${city}, ${state}` : 'Not Provided';
         if (acc[location]) {
           acc[location] += 1;
         } else {
