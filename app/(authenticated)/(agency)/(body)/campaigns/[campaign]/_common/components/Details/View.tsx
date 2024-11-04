@@ -102,7 +102,7 @@ const Content = () => {
   ];
 
   return (
-    <ScrollArea className='h-[calc(100vh-80px)] w-full pr-4'>
+    <ScrollArea className='h-[calc(100vh-80px)] w-full pr-4 overflow-auto'>
       <div className='flex flex-col gap-1'>
         {Details.map((detail) => (
           <Detail key={detail.label} {...detail} />

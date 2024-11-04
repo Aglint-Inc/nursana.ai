@@ -49,7 +49,7 @@ const Content = () => {
 
   return (
     <div>
-      <ScrollArea className='mx-auto h-[800px] max-w-5xl'>
+      <ScrollArea className=''>
         <InterviewTranscriptUI
           transcript={transcript}
           videoPlayerComponent={

@@ -8,13 +8,13 @@ import { Navigation } from '@/interview/components/Navigation';
 const Layout = (props: PropsWithChildren) => {
   return (
     <Drawer>
-      <div className='flex h-full w-full flex-row px-2 pb-4'>
+      <div className='flex h-full w-full flex-row rounded-full'>
         <div className='flex basis-1/6'>
           <Suspense fallback={<NavigationLoading />}>
             <Navigation intercepted />
           </Suspense>
         </div>
-        <SidebarInset className='flex min-h-0 basis-1'>
+        <SidebarInset className='flex min-h-0 basis-1 overflow-auto'>
           {props.children}
         </SidebarInset>
       </div>
