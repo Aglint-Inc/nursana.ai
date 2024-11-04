@@ -8,7 +8,11 @@ import {
 import { schema as interviewsSchema } from './interviews.read.schema';
 
 export const schema = z.object({
-  campaign_code: z.string().optional(),
+  campaign_code: z
+    .string()
+    .transform((val) => val.split(ARRAY_DELIMITER))
+    .pipe(interviewsSchema.shape.campaign_code)
+    .optional(),
   interview_stage: z
     .string()
     .transform((val) => val.split(ARRAY_DELIMITER))

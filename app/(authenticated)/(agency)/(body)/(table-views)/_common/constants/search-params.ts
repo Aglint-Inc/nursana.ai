@@ -27,6 +27,7 @@ export const parseAsSort = createParser({
 export const searchParamsParser = {
   // FILTERS
   email: parseAsString,
+  campaign_code: parseAsArrayOf(parseAsString, ARRAY_DELIMITER),
   interview_stage: parseAsArrayOf(
     parseAsStringLiteral(INTERVIEW_STAGES),
     ARRAY_DELIMITER,

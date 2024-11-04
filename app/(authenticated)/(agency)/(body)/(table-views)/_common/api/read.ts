@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
 
 import { createPrivateClient } from '@/db/client';
 import {
@@ -10,7 +11,6 @@ import {
 } from '@/server/api/trpc';
 
 import { schema as interviewSchem } from '../schema/interviews.read.schema';
-import { z } from 'zod';
 
 const schema = interviewSchem.merge(
   z.object({
@@ -30,13 +30,18 @@ export const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
 
   if (input.campaign_id) query.eq('campaign_id', input.campaign_id);
 
-  if (input.interview_stage && input.interview_stage.length)
-    query.in('interview_stage', input.interview_stage);
+  // if (input.campaign_code && input.campaign_code.length)
+  //   query.or(`campaign_code.in.(${input.campaign_code.join(', ')})`, {
+  //     referencedTable: 'campaign',
+  //   });
 
-  if (input.updated_at && input.updated_at.length === 2) {
-    query.gte('updated_at', input.updated_at[0]);
-    query.lte('updated_at', input.updated_at[1]);
-  }
+  // if (input.interview_stage && input.interview_stage.length)
+  //   query.in('interview_stage', input.interview_stage);
+
+  // if (input.updated_at && input.updated_at.length === 2) {
+  //   query.gte('updated_at', input.updated_at[0]);
+  //   query.lte('updated_at', input.updated_at[1]);
+  // }
 
   const { data } = await query;
 
