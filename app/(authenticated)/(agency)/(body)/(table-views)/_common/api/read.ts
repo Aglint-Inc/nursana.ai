@@ -39,11 +39,19 @@ export const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
   }
 
   const { data } = await query;
+
   if (!data)
     throw new TRPCError({
       code: 'NOT_FOUND',
       message: 'Interviews not found',
     });
+
+  // const { data, count } = await query;
+  // if (!data || !count)
+  //   throw new TRPCError({
+  //     code: 'NOT_FOUND',
+  //     message: 'Interviews not found',
+  //   });
   return data.map(
     ({
       campaign: { campaign_code },

@@ -22,7 +22,7 @@ const mutation = async ({
     applicant_id,
     role,
     terms_accepted,
-    license,
+    licenses,
   },
 }: PublicProcedure<typeof campaignFormDataSchema>) => {
   const db = createPublicClient();
@@ -38,7 +38,7 @@ const mutation = async ({
       last_name,
       role,
       terms_accepted,
-      license,
+      licenses,
     });
 
     userId = resUser.userId;
@@ -168,7 +168,7 @@ const createUser = async ({
   last_name,
   role,
   terms_accepted,
-  license,
+  licenses,
 }: {
   db: SupabaseClient<DB>;
   email: string;
@@ -176,7 +176,7 @@ const createUser = async ({
   last_name?: string | null;
   role: z.infer<typeof nerseTitlesSchema>;
   terms_accepted: string;
-  license: z.infer<typeof nurseLicenseSchema> | null;
+  licenses: string | null;
 }) => {
   const res = await db.auth.admin.createUser({
     email: email,
@@ -204,7 +204,9 @@ const createUser = async ({
         id: userId,
         job_title: role,
         terms_accepted: Boolean(terms_accepted),
-        license,
+        licenses: licenses
+          ? (JSON.parse(licenses) as z.infer<typeof nurseLicenseSchema>[])
+          : null,
       })
       .select()
       .single()

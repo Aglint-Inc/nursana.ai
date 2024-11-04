@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Loader } from '@/app/components/Loader';
+import { UIMultiSelect } from '@/app/components/UIMultiSelect';
 import UISelectDropDown from '@/app/components/UISelectDropDown';
 import UITextField from '@/app/components/UITextField';
 import Footer from '@/components/footer';
@@ -35,13 +36,14 @@ export default function FormCampaign() {
   const {
     control,
     setValue,
+    getValues,
     clearErrors,
     formState: { isDirty },
   } = form;
   return (
     <Section>
       <div className='flex min-h-[calc(100vh-72px)] w-full flex-col items-center justify-center gap-8'>
-        <div className='grid grid-cols-2 overflow-hidden rounded-xl border border-border my-16  '>
+        <div className='my-16 grid grid-cols-2 overflow-hidden rounded-xl border border-border'>
           <Form {...form}>
             <form
               className='mb-4 w-full'
@@ -118,64 +120,75 @@ export default function FormCampaign() {
                         )}
                       />
                     </div>
-                    <div className='grid w-full grid-cols-2 gap-4'>
-                      <FormField
-                        control={control}
-                        name='role'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Title</FormLabel>
-                            <FormControl>
-                              <UISelectDropDown
-                                disabled={saving}
-                                fullWidth
-                                menuOptions={JOB_TITLES.map((role) => ({
-                                  name: role.label,
-                                  value: role.value,
-                                }))}
-                                onValueChange={(
-                                  val: (typeof JOB_TITLES)[0]['value'],
-                                ) => {
-                                  clearErrors('role');
-                                  setValue('role', val);
-                                }}
-                                value={field.value}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={control}
-                        name='license'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>License</FormLabel>
-                            <FormControl>
-                              <UISelectDropDown
-                                disabled={saving}
-                                fullWidth
-                                menuOptions={NURSE_LICENSE.map((license) => ({
-                                  name: capitalizeFirstLetter(
-                                    license.label,
-                                  ),
-                                  value: license.value,
-                                }))}
-                                onValueChange={(
-                                  val: (typeof NURSE_LICENSE)[0]['value'],
-                                ) => {
-                                  clearErrors('license');
-                                  setValue('license', val);
-                                }}
-                                value={field.value ?? ''}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                    <FormField
+                      control={control}
+                      name='role'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Title</FormLabel>
+                          <FormControl>
+                            <UISelectDropDown
+                              disabled={saving}
+                              fullWidth
+                              menuOptions={JOB_TITLES.map((role) => ({
+                                name: role.label,
+                                value: role.value,
+                              }))}
+                              onValueChange={(
+                                val: (typeof JOB_TITLES)[0]['value'],
+                              ) => {
+                                clearErrors('role');
+                                setValue('role', val);
+                              }}
+                              value={field.value}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={control}
+                      name='licenses'
+                      render={() => (
+                        <FormItem>
+                          <FormLabel>Licenses</FormLabel>
+                          <FormControl>
+                            <UIMultiSelect
+                              listItems={NURSE_LICENSE.map((license) => ({
+                                label: capitalizeFirstLetter(license.label),
+                                value: license.value,
+                              }))}
+                              level='license'
+                              onChange={(values, _value) => {
+                                setValue(
+                                  'licenses',
+                                  JSON.stringify(values) as string,
+                                );
+                              }}
+                              onDelete={(value) => {
+                                if (getValues('licenses')) {
+                                  setValue(
+                                    'licenses',
+                                    JSON.stringify(
+                                      JSON.parse(
+                                        getValues('licenses')!,
+                                      )?.filter((v: any) => v !== value),
+                                    ),
+                                  );
+                                }
+                              }}
+                              defaultValue={
+                                JSON.parse(getValues('licenses')!) ?? ''
+                              }
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
                     <FormField
                       control={control}
                       name='image'
@@ -217,7 +230,16 @@ export default function FormCampaign() {
                               />
                             </FormControl>
                             <div className='space-y-1 leading-none'>
-                              <FormLabel className='font-normal'>I accept <Link href='/terms' target='_blank' className='underline'>terms and conditions</Link></FormLabel>
+                              <FormLabel className='font-normal'>
+                                I accept{' '}
+                                <Link
+                                  href='/terms'
+                                  target='_blank'
+                                  className='underline'
+                                >
+                                  terms and conditions
+                                </Link>
+                              </FormLabel>
                             </div>
                           </FormItem>
                         )}
