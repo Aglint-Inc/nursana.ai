@@ -4,8 +4,7 @@ import { Badge } from '@/components/ui/badge';
 export const CampaignBadge = (props: Pick<Campaigns[number], 'status'>) => {
   return (
     <Badge
-
-       className={`capitalize rounded-md font-normal  ${props.status === 'active' ? 'bg-green-500 hover:bg-green-500 text-white':'bg-gray-200 hover:bg-gray-200 text-muted-foreground'}`}
+      className={`rounded-md font-normal capitalize ${props.status === 'active' ? 'bg-green-500 text-white hover:bg-green-500' : 'bg-gray-200 text-muted-foreground hover:bg-gray-200'}`}
     >
       {props.status}
     </Badge>

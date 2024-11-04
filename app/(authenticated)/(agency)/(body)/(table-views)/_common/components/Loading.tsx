@@ -1,5 +1,5 @@
-import { Skeleton } from '@/campaigns/components/DataTable/skeleton';
 import { Skeleton as DefaultSkeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/table-views/components/DataTable/skeleton';
 
 export const Loading = () => {
   return (

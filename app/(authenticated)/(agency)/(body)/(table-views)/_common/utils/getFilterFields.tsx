@@ -1,10 +1,10 @@
-import { INTERVIEW_STAGES } from '@/campaigns/constants/interview_stages';
-import { TAGS_COLOR } from '@/campaigns/constants/tagsColor';
-import type { ColumnSchema } from '@/campaigns/types';
 import type {
   DataTableFilterField,
   Option,
 } from '@/components/fancy-data-table/types';
+import { INTERVIEW_STAGES } from '@/table-views/constants/interview_stages';
+import { TAGS_COLOR } from '@/table-views/constants/tagsColor';
+import type { ColumnSchema } from '@/table-views/types';
 import { cn } from '@/utils/cn';
 
 import { removeUnderscore } from './removeUnderscore';

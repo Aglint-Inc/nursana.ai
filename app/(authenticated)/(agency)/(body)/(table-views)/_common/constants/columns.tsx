@@ -3,10 +3,10 @@
 import type { ColumnDef } from '@tanstack/react-table';
 import { format, isSameDay } from 'date-fns';
 
-import { TAGS_COLOR } from '@/campaigns/constants/tagsColor';
-import type { ColumnSchema } from '@/campaigns/types';
 import { DataTableColumnHeader } from '@/components/fancy-data-table/data-table-column-header';
 import { Badge } from '@/components/ui/badge';
+import { TAGS_COLOR } from '@/table-views/constants/tagsColor';
+import type { ColumnSchema } from '@/table-views/types';
 
 import { removeUnderscore } from '../utils/removeUnderscore';
 

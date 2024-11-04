@@ -3,9 +3,9 @@ import { z } from 'zod';
 import {
   ARRAY_DELIMITER,
   RANGE_DELIMITER,
-} from '@/campaigns/constants/delimiters';
+} from '@/table-views/constants/delimiters';
 
-import { schema as interviewsSchema } from './interviews.schema';
+import { schema as interviewsSchema } from './interviews.read.schema';
 
 export const schema = z.object({
   email: z.string().optional(),

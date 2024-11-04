@@ -1,12 +1,8 @@
-import { TvMinimalPlay } from 'lucide-react';
 import { unstable_noStore } from 'next/cache';
-import { Suspense } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
 import { api, HydrateClient } from 'trpc/server';
 
 import type { PageProps } from '@/campaign/types';
-import { Loading } from '@/campaigns/components/Loading';
-import { searchParamsCache } from '@/campaigns/constants/search-params';
+import { searchParamsCache } from '@/table-views/constants/search-params';
 
 import { SuspenseTable } from './suspenseTable';
 
@@ -24,28 +20,7 @@ export const Table = async (props: PageProps) => {
 
   return (
     <HydrateClient>
-      <ErrorBoundary fallback={<Error />}>
-        <Suspense
-          fallback={
-            <>
-              <Loading />
-            </>
-          }
-        >
-          <SuspenseTable />
-        </Suspense>
-      </ErrorBoundary>
+      <SuspenseTable />
     </HydrateClient>
-  );
-};
-
-const Error = () => {
-  return (
-    <div className='mx-auto flex h-[40vh] w-full max-w-3xl flex-col items-center justify-center gap-3'>
-      <TvMinimalPlay className='h-10 w-10 text-purple-600' strokeWidth={1} />
-      <div className='flex flex-col items-center justify-center gap-1'>
-        <div className='text-lg font-medium'> No Interviews found </div>
-      </div>
-    </div>
   );
 };

@@ -3,15 +3,15 @@
 import type { ColumnFiltersState } from '@tanstack/react-table';
 
 import { useCampaignInterviews } from '@/campaign/hooks/useCampaignInterviews';
-import { DataTable } from '@/campaigns/components/DataTable';
-import { COLUMNS } from '@/campaigns/constants/columns';
-import { useCampaignsParams } from '@/campaigns/hooks/useCampaignsParams';
-import { getFilterFields } from '@/campaigns/utils/getFilterFields';
+import { DataTable } from '@/table-views/components/DataTable';
+import { COLUMNS } from '@/table-views/constants/columns';
+import { useTableViewParams } from '@/table-views/hooks/useTableViewParams';
+import { getFilterFields } from '@/table-views/utils/getFilterFields';
 
 export const SuspenseTable = () => {
   const data = useCampaignInterviews();
 
-  const { search: _search, setSearch } = useCampaignsParams();
+  const { search: _search, setSearch } = useTableViewParams();
 
   const { page, rows, ...search } = _search;
 

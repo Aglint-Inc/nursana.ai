@@ -53,4 +53,4 @@ const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
 
 export const read = agencyProcedure.input(schema).query(query);
 
-export type Interviews = ProcedureDefinition<typeof read>;
+export type Read = ProcedureDefinition<typeof read>;

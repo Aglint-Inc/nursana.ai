@@ -3,13 +3,13 @@ import 'server-only';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
-import { schema as interviewsSchema } from '@/campaigns/schema/interviews.schema';
 import { createPrivateClient } from '@/db/client';
 import {
   type AgencyProcedure,
   agencyProcedure,
   type ProcedureDefinition,
 } from '@/server/api/trpc';
+import { schema as interviewsSchema } from '@/table-views/schema/interviews.read.schema';
 
 export const schema = interviewsSchema.merge(
   z.object({

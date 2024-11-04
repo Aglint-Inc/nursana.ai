@@ -2,13 +2,13 @@ import { useDeferredValue } from 'react';
 import { api } from 'trpc/client';
 
 import { type Interviews } from '@/campaign/api/interviews';
-import { useCampaignsParams } from '@/campaigns/hooks/useCampaignsParams';
+import { useTableViewParams } from '@/table-views/hooks/useTableViewParams';
 
 import { useCurrentCampaign } from './useCurrentCampaign';
 
 export const useCampaignInterviews = (): Interviews['output'] => {
   const { campaign } = useCurrentCampaign();
-  const { search: _search } = useCampaignsParams();
+  const { search: _search } = useTableViewParams();
   const search = useDeferredValue(_search);
   return api.authenticated.agency.campaigns.campaign.interviews.useSuspenseQuery(
     {
