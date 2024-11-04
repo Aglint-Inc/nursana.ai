@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const schema = z.object({
+  campaign_code: z.string().optional(),
   interview_stage: z
     .enum([
       'not_started',

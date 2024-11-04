@@ -8,7 +8,7 @@ import {
 import { schema as interviewsSchema } from './interviews.read.schema';
 
 export const schema = z.object({
-  email: z.string().optional(),
+  campaign_code: z.string().optional(),
   interview_stage: z
     .string()
     .transform((val) => val.split(ARRAY_DELIMITER))
