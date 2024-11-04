@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <NPSForm />
       <SidebarProvider>
         <NurseSidebar />
-        <main className='w-full'>
+        <main className='w-full overflow-auto'>
           <div className='mx-auto max-w-3xl py-12'>{children}</div>
         </main>
       </SidebarProvider>
