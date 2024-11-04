@@ -4,7 +4,7 @@ import type { ColumnFiltersState } from '@tanstack/react-table';
 
 import { useCampaignInterviews } from '@/campaign/hooks/useCampaignInterviews';
 import { DataTable } from '@/table-views/components/DataTable';
-import { COLUMNS } from '@/campaigns/constants/columns';
+import { COLUMNS } from '@/campaign/constants/columns';
 import { useTableViewParams } from '@/table-views/hooks/useTableViewParams';
 import { getFilterFields } from '@/table-views/utils/getFilterFields';
 
@@ -22,7 +22,9 @@ export const SuspenseTable = () => {
     }))
     .filter(({ value }) => value ?? undefined);
 
-  const filterFields = getFilterFields();
+  const filterFields = getFilterFields(data).filter(
+    ({ value }) => value !== 'campaign_code',
+  );
 
   return (
     <>

@@ -3,7 +3,7 @@
 import type { ColumnFiltersState } from '@tanstack/react-table';
 
 import { DataTable } from '@/table-views/components/DataTable';
-import { COLUMNS } from '@/campaigns/constants/columns';
+import { COLUMNS } from '@/table-views/constants/columns';
 import { useInterviews } from '@/table-views/hooks/useInterviews';
 import { useTableViewParams } from '@/table-views/hooks/useTableViewParams';
 import { getFilterFields } from '@/table-views/utils/getFilterFields';
@@ -23,7 +23,7 @@ export const SuspenseTable = () => {
     .filter(({ value }) => value ?? undefined);
 
   // const filterFields = getFilterFields(data);
-  const filterFields = getFilterFields();
+  const filterFields = getFilterFields(data);
 
   return (
     <DataTable

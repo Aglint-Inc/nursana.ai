@@ -10,7 +10,7 @@ import { cn } from '@/utils/cn';
 import { removeUnderscore } from './removeUnderscore';
 
 // export const getFilterFields = (data: ColumnSchema[]) =>
-export const getFilterFields = () =>
+export const getFilterFields = (data: ColumnSchema[]) =>
   [
     // {
     //   label: 'Updated At',
@@ -19,12 +19,20 @@ export const getFilterFields = () =>
     //   defaultOpen: true,
     //   commandDisabled: true,
     // },
-    // {
-    //   label: 'Email',
-    //   value: 'email',
-    //   type: 'input',
-    //   options: data.map(({ email }) => ({ label: email, value: email })),
-    // },
+    {
+      label: 'Campaign Code',
+      value: 'campaign_code',
+      type: 'checkbox',
+      options: Array.from(
+        data.reduce((acc, { campaign_code }) => {
+          acc.add(campaign_code);
+          return acc;
+        }, new Set<string>()),
+      ).map((campaign_code) => ({
+        label: campaign_code,
+        value: campaign_code,
+      })),
+    },
     {
       label: 'Interview Stage',
       value: 'interview_stage',
