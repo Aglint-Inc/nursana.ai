@@ -16,7 +16,7 @@ import { Card } from './Card';
 export const Content = () => {
   return (
     <SidebarContent>
-      <SidebarGroup className='px-0'>
+      <SidebarGroup className='px-4'>
         <SidebarGroupContent>
           <List />
         </SidebarGroupContent>
@@ -45,7 +45,7 @@ const List = () => {
     <div className='flex flex-col gap-2'>
       <Link
         href={`/campaigns`}
-        className={`flex w-[284px] flex-col items-start gap-2 rounded-md border p-3 text-sm leading-tight ${
+        className={`flex flex-col items-start gap-2 rounded-md border p-3 text-sm leading-tight ${
           !campagin_id ? 'border-border bg-white' : 'border-muted bg-muted'
         }`}
       >

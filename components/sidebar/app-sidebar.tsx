@@ -75,10 +75,7 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   secondarySidebar?: ReactNode;
 }
 
-export function AppSidebar({
-  secondarySidebar = <></>,
-  ...props
-}: AppSidebarProps) {
+export function AppSidebar({ secondarySidebar = null }: AppSidebarProps) {
   const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
 
   const { push } = useRouter();
@@ -88,15 +85,10 @@ export function AppSidebar({
   }
 
   return (
-    <Sidebar
-      variant='inset'
-      collapsible='icon'
-      className='overflow-hidden [&>[data-sidebar=sidebar]]:flex-row'
-      {...props}
-    >
+    <>
       <Sidebar
         collapsible='none'
-        className='!w-[calc(var(--sidebar-width-icon)_+_1px)]'
+        className='h-screen !w-[calc(var(--sidebar-width-icon)_+_1px)]'
       >
         <SidebarHeader>
           <SidebarMenu>
@@ -148,7 +140,7 @@ export function AppSidebar({
         </SidebarFooter>
       </Sidebar>
       {secondarySidebar}
-    </Sidebar>
+    </>
   );
 }
 

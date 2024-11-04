@@ -32,7 +32,7 @@ const Link = (
   return (
     <NextLink
       href={`/campaigns/${props.id}`}
-      className={`flex w-[284px] flex-col items-start gap-2 rounded-md border p-3 text-sm leading-tight ${linkClasses}`}
+      className={`flex flex-col items-start gap-2 rounded-md border p-3 text-sm leading-tight ${linkClasses}`}
     >
       {props.children}
     </NextLink>
@@ -45,7 +45,7 @@ const Title = (props: Pick<Campaign, 'name'>) => {
 
 const Description = (props: Pick<Campaign, 'description'>) => {
   return (
-    <span className='line-clamp-2 w-[260px] text-xs text-muted-foreground'>
+    <span className='line-clamp-2 text-xs text-muted-foreground'>
       {props.description}
     </span>
   );

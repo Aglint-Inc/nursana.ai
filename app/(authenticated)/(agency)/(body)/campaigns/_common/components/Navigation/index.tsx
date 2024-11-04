@@ -8,11 +8,11 @@ import { Header } from './Header';
 
 export const Navigation = () => {
   return (
-    <NavigationProvider>
-      <Sidebar collapsible='none' className='hidden w-full flex-1 md:flex'>
+    <Sidebar collapsible='none' className='h-screen'>
+      <NavigationProvider>
         <Header />
         <Content />
-      </Sidebar>
-    </NavigationProvider>
+      </NavigationProvider>
+    </Sidebar>
   );
 };
