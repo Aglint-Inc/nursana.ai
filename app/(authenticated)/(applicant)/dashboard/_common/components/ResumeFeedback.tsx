@@ -12,29 +12,23 @@ import { useBucket } from '@/hooks/use-bucket';
 
 import NotAvailable from './NotAvailable';
 
-export interface FeedbackData {
-  summary: string;
-  breakdown: {
-    experience: {
-      feedback: string;
-      specialties: { rating: number; comments: string };
-      suggestions: string;
-      leadership_roles: { rating: number; comments: string };
-      healthcare_settings: { rating: number; comments: string };
-      years_of_experience: { rating: number; comments: string };
-    };
-    education_and_certifications: {
-      degree: { rating: number; comments: string };
-      feedback: string;
-      suggestions: string;
-      certifications: { rating: number; comments: string };
-      specializations: { rating: number; comments: string };
-    };
-  };
-  overallScore: number;
+export type FeedbackData = {
+  professional_summary: AchievementsAndMetrics;
+  experience_relevance_and_clarity: AchievementsAndMetrics;
+  skills_and_keywords: AchievementsAndMetrics;
+  achievements_and_metrics: AchievementsAndMetrics;
+  education: AchievementsAndMetrics;
+  grammar_and_language: AchievementsAndMetrics;
   overall_feedback: string;
-  overall_summary: string;
-}
+  overall_comment: string;
+  overall_score: number;
+};
+
+export type AchievementsAndMetrics = {
+  score: number;
+  comment: string;
+  feedback: string;
+};
 
 export function ResumeFeedback() {
   const { resume } = useUserData();
@@ -52,7 +46,7 @@ export function ResumeFeedback() {
   async function resumeAnalysisRefetch() {
     if (resume) {
       setResumeAnalyzing(true);
-      await axios.post('/api/score_resume', {
+      await axios.post('/api/dynamic_resume_score', {
         resume_id: resume?.id,
         resume_json: resume?.structured_resume,
       });
