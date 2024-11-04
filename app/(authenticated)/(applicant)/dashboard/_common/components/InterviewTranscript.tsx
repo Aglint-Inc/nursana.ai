@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 import { VideoPlayer } from '@/app/components/VideoPlayer';
 import { useUserData, useUserDataQuery } from '@/applicant/hooks/useUserData';
-import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscriptUI';
+import { InterviewTranscriptUI } from '@/authenticated/components/InterviewTranscript';
 import { Button } from '@/components/ui/button';
 import { useBucket } from '@/hooks/use-bucket';
 
