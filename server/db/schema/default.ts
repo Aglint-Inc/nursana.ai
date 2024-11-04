@@ -65,7 +65,6 @@ export type Database = {
           created_at: string | null
           id: string
           job_title: Database["public"]["Enums"]["nerse_titles"]
-          license: Database["public"]["Enums"]["nurse_license"] | null
           licenses: Database["public"]["Enums"]["nurse_license"][] | null
           open_to_work: boolean
           phone_number: string | null
@@ -79,7 +78,6 @@ export type Database = {
           created_at?: string | null
           id: string
           job_title?: Database["public"]["Enums"]["nerse_titles"]
-          license?: Database["public"]["Enums"]["nurse_license"] | null
           licenses?: Database["public"]["Enums"]["nurse_license"][] | null
           open_to_work?: boolean
           phone_number?: string | null
@@ -93,7 +91,6 @@ export type Database = {
           created_at?: string | null
           id?: string
           job_title?: Database["public"]["Enums"]["nerse_titles"]
-          license?: Database["public"]["Enums"]["nurse_license"] | null
           licenses?: Database["public"]["Enums"]["nurse_license"][] | null
           open_to_work?: boolean
           phone_number?: string | null
