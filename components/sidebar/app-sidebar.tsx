@@ -9,8 +9,9 @@ import {
   LogOut,
   SquarePen,
   Tags,
+  Users,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { type ReactNode } from 'react';
 
 import { EditAgencyDialog } from '@/agency/components/EditDialog';
@@ -63,6 +64,12 @@ const data = {
       isActive: true,
     },
     {
+      title: 'Interviews',
+      url: '/interviews',
+      icon: Users,
+      isActive: false,
+    },
+    {
       title: 'Templates',
       url: '/templates',
       icon: File,
@@ -75,28 +82,18 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   secondarySidebar?: ReactNode;
 }
 
-export function AppSidebar({
-  secondarySidebar = <></>,
-  ...props
-}: AppSidebarProps) {
-  const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
+export function AppSidebar({ secondarySidebar = null }: AppSidebarProps) {
+  const pathname = usePathname();
+  const currentPath =
+    data.navMain.find(({ url }) => pathname.startsWith(url)) ?? data.navMain[0];
 
   const { push } = useRouter();
 
-  function setOpen(url: string) {
-    push(url);
-  }
-
   return (
-    <Sidebar
-      variant='inset'
-      collapsible='icon'
-      className='overflow-hidden [&>[data-sidebar=sidebar]]:flex-row'
-      {...props}
-    >
+    <>
       <Sidebar
         collapsible='none'
-        className='!w-[calc(var(--sidebar-width-icon)_+_1px)]'
+        className='h-screen !w-[calc(var(--sidebar-width-icon)_+_1px)]'
       >
         <SidebarHeader>
           <SidebarMenu>
@@ -126,12 +123,8 @@ export function AppSidebar({
                         children: item.title,
                         hidden: false,
                       }}
-                      onClick={() => {
-                        setActiveItem(item);
-
-                        setOpen(item.url);
-                      }}
-                      isActive={activeItem.title === item.title}
+                      onClick={() => push(item.url)}
+                      isActive={currentPath.title === item.title}
                       className='px-2.5 md:px-2'
                     >
                       <item.icon />
@@ -148,7 +141,7 @@ export function AppSidebar({
         </SidebarFooter>
       </Sidebar>
       {secondarySidebar}
-    </Sidebar>
+    </>
   );
 }
 
