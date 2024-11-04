@@ -12,10 +12,10 @@ export const Header = () => {
 };
 
 const Title = () => {
-  const { id } = useInterview();
+  const { user } = useInterview();
   return (
     <div className='line-clamp-1 text-base font-medium text-foreground'>
-      Interview {id}
+      {user.first_name}
     </div>
   );
 };

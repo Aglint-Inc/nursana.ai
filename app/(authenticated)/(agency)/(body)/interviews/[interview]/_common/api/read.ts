@@ -20,9 +20,20 @@ const query = async ({ ctx, input }: InterviewProcedure) => {
       .single()
       .throwOnError()
   ).data;
+
   if (!data)
     throw new TRPCError({ code: 'NOT_FOUND', message: 'Interview not found' });
-  return data;
+  const { applicant_id } = data;
+  const user = (
+    await db
+      .from('user')
+      .select()
+      .eq('id', applicant_id)
+      .single()
+      .throwOnError()
+  ).data!;
+
+  return { ...data, user };
 };
 
 export const read = interviewProcedure.query(query);
