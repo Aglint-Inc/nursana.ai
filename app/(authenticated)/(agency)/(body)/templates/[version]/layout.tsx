@@ -10,11 +10,7 @@ import MatrixFilterProvider from './_common/context/matrixFilterProvider';
 const Layout = async (props: PropsWithChildren) => {
   unstable_noStore();
   api.authenticated.agency.campaigns.read.prefetch();
-  api.authenticated.agency.campaigns.interviews.prefetch({
-    interview_stage: undefined,
-    updated_at: undefined,
-    terms_accepted: undefined,
-  });
+  api.authenticated.agency.interviews.read.prefetch({});
   return (
     <SidebarInset>
       <Body>

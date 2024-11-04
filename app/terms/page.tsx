@@ -3,8 +3,8 @@ import NursanaLogo from "@/components/nursana-logo";
 
 export default function TermsAndConditions() {
   return (
-    <div className="flex flex-col items-center justify-center gap-8 pt-10">
-      <NursanaLogo />
+    <div className="flex flex-col gap-8 pt-10 w-full overflow-auto">
+      <div className="mx-auto"><NursanaLogo /></div>
       <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto overflow-hidden">
           <div className="px-4 py-5 sm:p-6">
@@ -12,8 +12,8 @@ export default function TermsAndConditions() {
 
             <p className="mb-4 text-gray-600">
               These Terms of Service govern your use of the website located at{' '}
-              <a href="https://nurasana.ai" className="text-blue-600 hover:underline">
-                https://nurasana.ai
+              <a href="https://nursana.ai" className="text-blue-600 hover:underline" target="_blank">
+                https://nursana.ai
               </a>{' '}
               and any related services provided by Aglint Inc.
             </p>
@@ -26,8 +26,8 @@ export default function TermsAndConditions() {
 
             <p className="mb-6 text-gray-600">
               By accessing{' '}
-              <a href="https://nurasana.ai" className="text-blue-600 hover:underline">
-                https://nurasana.ai
+              <a href="https://nursana.ai" className="text-blue-600 hover:underline" target="_blank">
+                https://nursana.ai
               </a>
               , you agree to abide by these Terms of Service and to comply with all applicable laws and regulations. If
               you do not agree with these Terms of Service, you are prohibited from using or accessing this website or any
