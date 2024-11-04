@@ -14,7 +14,9 @@ const query = async ({ ctx, input }: InterviewProcedure) => {
   const data = (
     await db
       .from('interview')
-      .select()
+      .select(
+        '*, applicant_user!interview_applicant_id_fkey!inner(user!applicant_user_id_fkey!inner(*))',
+      )
       .eq('id', input.id)
       .eq('agency_id', ctx.agency.id)
       .single()
@@ -24,7 +26,12 @@ const query = async ({ ctx, input }: InterviewProcedure) => {
   if (!data)
     throw new TRPCError({ code: 'NOT_FOUND', message: 'Interview not found' });
 
-  return { ...data, user: ctx.user };
+  const {
+    applicant_user: { user },
+    ...interview
+  } = data;
+
+  return { ...interview, user };
 };
 
 export const read = interviewProcedure.query(query);
