@@ -90,18 +90,16 @@ const VideoAndAudio = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   return (
     <div className='flex flex-col'>
-      <div className='basis-11/12'>
-        <ErrorBoundary
-          fallback={<InterviewTranscript.videoPlayerComponent.Fallback />}
-        >
+      <ErrorBoundary
+        fallback={<InterviewTranscript.videoPlayerComponent.Fallback />}
+      >
+        <div className='basis-11/12'>
           <Video ref={videoRef} />
-        </ErrorBoundary>
-      </div>
-      <div className='basis-1/12'>
-        <ErrorBoundary fallback={<></>}>
+        </div>
+        <div className='basis-1/12'>
           <Audio ref={videoRef} />
-        </ErrorBoundary>
-      </div>
+        </div>
+      </ErrorBoundary>
     </div>
   );
 };
