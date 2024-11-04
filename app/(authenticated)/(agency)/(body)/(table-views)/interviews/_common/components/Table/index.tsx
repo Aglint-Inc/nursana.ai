@@ -5,6 +5,8 @@ import type { PageProps } from '@/table-views/types';
 import { searchParamsCache } from '@/table-views/constants/search-params';
 
 import { SuspenseTable } from './suspenseTable';
+import { Suspense } from 'react';
+import { Loading } from '@/table-views/components/Loading';
 
 export const Table = async (props: PageProps) => {
   unstable_noStore();
@@ -19,7 +21,9 @@ export const Table = async (props: PageProps) => {
 
   return (
     <HydrateClient>
-      <SuspenseTable />
+      <Suspense fallback={<Loading />}>
+        <SuspenseTable />
+      </Suspense>
     </HydrateClient>
   );
 };
