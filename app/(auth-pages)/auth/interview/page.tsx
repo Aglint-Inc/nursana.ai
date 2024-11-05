@@ -40,11 +40,11 @@ function Page() {
     <div className='flex min-h-screen w-full items-center justify-center'>
       {error ? (
         <div className='flex h-screen w-full flex-col items-center justify-between gap-4 py-8 text-center'>
-          <NursanaLogo />
-          <div className='flex w-full flex-col items-center justify-between gap-4 text-center'>
+          <div className='max-md:w-full max-md:px-5'><NursanaLogo /></div>
+          <div className='flex w-full max-md:h-full flex-col md:items-center md:justify-between gap-4 md:text-center max-md:pt-10 max-md:px-5'>
             <Link2Off size={50} strokeWidth={1.3} className='text-purple-600' />
 
-            <div className='flex flex-col items-center justify-center gap-1'>
+            <div className='flex flex-col md:items-center md:justify-center max-md:items-start gap-1'>
               <div className='text-lg font-medium'>
                 The invite link has expired
               </div>
