@@ -107,7 +107,7 @@ export function DataTableFilterCheckobox<TData>({
                 <span className='ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs'>
                   {facetedValue?.get(option.value)}
                 </span>
-                <button
+                {/* <button
                   type='button'
                   onClick={() => {
                     column?.setFilterValue(option.value);
@@ -118,7 +118,7 @@ export function DataTableFilterCheckobox<TData>({
                   className='absolute inset-y-0 right-0 hidden font-normal text-muted-foreground backdrop-blur-sm hover:text-foreground group-hover:block'
                 >
                   <span className='px-2'>only</span>
-                </button>
+                </button> */}
               </Label>
             </div>
           );
