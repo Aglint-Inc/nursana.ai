@@ -11,7 +11,9 @@ const Campaign = () => {
 
   if (isLoading) {
     return (
+      <div className='fixed w-screen h-screen bg-white'>
         <Loader className='text-purple-600'/>
+        </div>
     );
   }
 

@@ -43,8 +43,8 @@ export default function FormCampaign() {
 
   return (
     <Section>
-      <div className='flex w-full flex-col items-center justify-center gap-8 md:p-8'>
-        <div className='my-8 md:my-16 grid w-full lg:grid-cols-2 overflow-hidden rounded-xl md:border border-border max-w-5xl'>
+      <div className='flex w-full flex-col items-center justify-center gap-8 lg:p-8 md:p-4'>
+        <div className='my-8 md:my-16 grid w-full lg:grid-cols-2 overflow-hidden rounded-xl md:border border-border lg:max-w-5xl md:max-w-xl'>
           <Form {...form}>
             <form
               className='mb-4 w-full md:px-4'
