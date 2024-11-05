@@ -14,7 +14,7 @@ function HomePage() {
   return (
     <div className='w-full overflow-auto'>
       <Hero/>
-      <div className='relative z-20 flex flex-col gap-20 rounded-[50px] bg-white pb-20 pt-20 md:container md:gap-40 md:pb-40'>
+      <div className='relative z-20 flex flex-col gap-20 rounded-[50px] bg-white pb-20 pt-20 md:container lg:gap-40 lg:pb-40'>
         <HowItWorks/>
         <PoweredBy />
         <WhyUS />
