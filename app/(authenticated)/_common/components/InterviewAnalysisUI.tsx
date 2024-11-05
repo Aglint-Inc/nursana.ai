@@ -48,7 +48,7 @@ export const InterviewAnalysisUI = ({
     : analysis.overall_summary;
 
   return (
-    <div className='mx-auto max-w-4xl p-0 lg:py-10 max-lg:py-5'>
+    <div className='mx-auto max-w-4xl p-0 lg:py-10 max-lg:py-5 lg:container'>
       <div className='mb-3 lg:mb-6 lg:text-xl text-md font-medium'>Interview Feedback</div>
       <div className='flex flex-col mb-20'>
         <AnalysisInterview

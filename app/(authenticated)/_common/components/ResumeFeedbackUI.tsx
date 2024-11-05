@@ -56,7 +56,7 @@ export const ResumeFeedbackUI = ({
     : resumeFeedback?.overall_comment || 'No summary available';
 
   return (
-    <div className='lg:mb-6 mb-3 max-lg:py-5'>
+    <div className='lg:mb-6 mb-3 max-lg:py-5 lg:container'>
       <div className='mb-6 lg:text-xl text-md font-medium'>Resume Review</div>
 
       <ResumeScoreCard
