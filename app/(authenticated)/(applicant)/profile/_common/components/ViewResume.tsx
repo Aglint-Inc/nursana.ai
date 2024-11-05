@@ -35,7 +35,7 @@ export default function ViewResume() {
   return (
     <div className='flex w-full flex-col gap-8'>
       <div className='flex flex-col gap-4'>
-        <div className='text-xl font-medium'>Resume</div>
+        <div className='lg:text-xl text-md font-medium'>Resume</div>
 
         {!userData?.resume?.error_status && resumeUrl ? (
           <Link href={resumeUrl} rel='noopener noreferrer' target='_blank'>
@@ -165,7 +165,7 @@ export default function ViewResume() {
           {resume.positions && resume.positions.length > 0 ? (
             resume.positions.map((position, index) => (
               <div key={index}>
-                <div className='grid grid-cols-[max-content_1fr] items-center gap-4'>
+                <div className='grid md:grid-cols-[max-content_1fr] grid-cols-1 items-center gap-4'>
                   <div className='flex h-14 w-14 items-center justify-center rounded-md bg-muted'>
                     <Building2
                       className='h-6 w-6 text-muted-foreground'
@@ -174,7 +174,7 @@ export default function ViewResume() {
                   </div>
                   <div className='flex flex-col gap-1'>
                     <div className='text-md'>{position.title}</div>
-                    <div className='flex items-center gap-4 text-sm text-muted-foreground'>
+                    <div className='flex md:items-center md:gap-4 gap-1 text-sm text-muted-foreground max-md:flex-col'>
                       <div className='flex items-center gap-2'>
                         <Calendar size={16} strokeWidth={1.5} />
                         <p>
@@ -216,7 +216,7 @@ export default function ViewResume() {
           {resume.schools && resume.schools.length > 0 ? (
             resume.schools.map((school, index) => (
               <div key={index}>
-                <div className='grid grid-cols-[max-content_1fr] items-center gap-4'>
+                <div className='grid md:grid-cols-[max-content_1fr] grid-cols-1 items-center gap-4'>
                   <div className='flex h-14 w-14 items-center justify-center rounded-md bg-muted'>
                     <School
                       className='h-6 w-6 text-muted-foreground'
@@ -225,7 +225,7 @@ export default function ViewResume() {
                   </div>
                   <div className='flex flex-col gap-1'>
                     <div className='text-md'>{school.degree}</div>
-                    <div className='flex items-center gap-4 text-sm text-muted-foreground'>
+                    <div className='flex md:items-center gap-1 md:gap-4 max-md:flex-col text-sm text-muted-foreground'>
                       <div className='flex items-center gap-2'>
                         <Calendar size={16} strokeWidth={1.5} />
                         <p>
@@ -259,7 +259,7 @@ export default function ViewResume() {
           {resume.certificates && resume.certificates.length > 0 ? (
             resume.certificates.map((cert, index) => (
               <div key={index}>
-                <div className='grid grid-cols-[max-content_1fr] items-center gap-4'>
+                <div className='grid md:grid-cols-[max-content_1fr] grid-cols-1 items-center gap-4'>
                   <div className='flex h-14 w-14 items-center justify-center rounded-md bg-muted'>
                     <Award
                       className='h-6 w-6 text-muted-foreground'
@@ -268,7 +268,7 @@ export default function ViewResume() {
                   </div>
                   <div className='flex flex-col gap-1'>
                     <div className='text-md'>{cert.title || '---'}</div>
-                    <div className='flex items-center gap-4 text-sm text-muted-foreground'>
+                    <div className='flex md:items-center md:gap-4 gap-1 max-md:flex-col text-sm text-muted-foreground'>
                       <div className='flex items-center gap-2'>
                         <Calendar size={16} strokeWidth={1.5} />
                         <p>

@@ -56,7 +56,7 @@ export const ResumeFeedbackUI = ({
     : resumeFeedback?.overall_comment || 'No summary available';
 
   return (
-    <div className='lg:mb-6 mb-3 max-lg:py-5'>
+    <div className='lg:mb-6 mb-3 max-lg:py-5 lg:container'>
       <div className='mb-6 lg:text-xl text-md font-medium'>Resume Review</div>
 
       <ResumeScoreCard
@@ -64,7 +64,7 @@ export const ResumeFeedbackUI = ({
         summary={summary}
         resumeUrl={resumeUrl}
       />
-      <div className='flex flex-col gap-10'>
+      <div className='flex flex-col gap-10 mb-20'>
         {details.map((detail) => (
           <RatingBar
             key={detail.label}

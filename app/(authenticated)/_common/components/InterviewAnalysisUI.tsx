@@ -48,7 +48,7 @@ export const InterviewAnalysisUI = ({
     : analysis.overall_summary;
 
   return (
-    <div className='mx-auto max-w-4xl p-0 lg:py-10 max-lg:py-5'>
+    <div className='mx-auto max-w-4xl p-0 lg:py-10 max-lg:py-5 lg:container'>
       <div className='mb-3 lg:mb-6 lg:text-xl text-md font-medium'>Interview Feedback</div>
       <div className='flex flex-col mb-20'>
         <AnalysisInterview
@@ -144,7 +144,7 @@ const AnalysisInterview = ({
   ];
 
   return (
-    <div className='mb-16 flex flex-col gap-2'>
+    <div className='lg:mb-16 mb-10 flex flex-col gap-2'>
       <ProgressBarCard summary={summary} color='purple'>
         <RadialProgress chartData={chartData} size={200} />
       </ProgressBarCard>
@@ -178,10 +178,10 @@ const RatingBar: React.FC<{
 }> = ({ label, score, explanation, icon }) => (
   <>
     <div className='flex flex-col gap-1'>
-      <div className='flex justify-between'>
+      <div className='flex md:justify-between max-md:flex-col max-md:gap-2'>
         <div className='flex items-start space-x-2'>
           {icon}
-          <span className='text-lg font-medium'>{label}</span>
+          <span className='lg:text-lg text-md font-medium'>{label}</span>
         </div>
 
         <div className='flex w-40 items-center space-x-2'>
