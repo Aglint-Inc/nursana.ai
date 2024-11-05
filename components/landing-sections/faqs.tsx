@@ -41,7 +41,7 @@ const faqData = [
 
 export function Faqs() {
   return (
-    <div className='max-w-3xl flex flex-col md:items-center md:gap-8 gap-4 mx-auto w-full px-5'>
+    <div className='max-w-3xl flex flex-col md:items-center md:gap-8 gap-4 mx-auto w-full'>
     <h1 className='text-2xl font-medium md:text-4xl'>
             Frequently Asked Questions
           </h1>

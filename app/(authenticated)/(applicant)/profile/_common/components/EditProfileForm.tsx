@@ -222,7 +222,7 @@ export default function EditProfileForm() {
               </span>
             </div>
           </div>
-          <div>
+          <div className='max-lg:col-span-2'>
             <Label htmlFor=''>First Name</Label>
             <Input
               value={firstName || ''}
@@ -234,7 +234,7 @@ export default function EditProfileForm() {
             />
           </div>
 
-          <div>
+          <div className='max-lg:col-span-2'>
             <Label>Last Name</Label>
             <Input
               id='last_name'
@@ -246,7 +246,7 @@ export default function EditProfileForm() {
             />
           </div>
 
-          <div>
+          <div className='max-lg:col-span-2'>
             <Label>Phone Number</Label>
             <UIPhoneInput
               onChange={(value) => {
@@ -259,7 +259,7 @@ export default function EditProfileForm() {
               ref={phoneRef}
             />
           </div>
-          <div>
+          <div className='max-lg:col-span-2'>
             <Label>Email</Label>
             <Input
               id='email'
@@ -296,7 +296,7 @@ export default function EditProfileForm() {
               level='license'
             />
           </div>
-          <div>
+          <div className='max-lg:col-span-2'>
             <Label>Current Job Title</Label>
             <Select
               onValueChange={(value: z.infer<typeof nerseTitlesSchema>) => {
@@ -316,7 +316,7 @@ export default function EditProfileForm() {
               </SelectContent>
             </Select>
           </div>
-          <div>
+          <div className='max-lg:col-span-2'>
             <Label>Expected Salary</Label>
             <Select
               onValueChange={(value) => {
