@@ -64,7 +64,7 @@ export const ResumeFeedbackUI = ({
         summary={summary}
         resumeUrl={resumeUrl}
       />
-      <div className='flex flex-col gap-10'>
+      <div className='flex flex-col gap-10 mb-20'>
         {details.map((detail) => (
           <RatingBar
             key={detail.label}

@@ -13,10 +13,10 @@ import UserSignIn from './_components/UserSignIn';
 export default function SignIn() {
   const [role, setRole] = useState<'nurse' | 'company'>('nurse');
   return (
-      <div className='flex min-h-screen flex-col items-center md:justify-between pt-6 w-full' >
+      <div className='flex min-h-screen flex-col items-center md:justify-between pt-6 w-full max-md:h-screen' >
         <div className='max-md:w-full px-5'><NursanaLogo /></div>
         
-        <div className='max-md:h-full grid w-full max-w-[750px] grid-cols-1 md:grid-cols-2 md:h-[500px] overflow-hidden rounded-lg md:border md:border-gray-200 bg-white max-md:px-5 max-md:pt-12'>
+        <div className='h-full grid w-full max-w-[750px] grid-cols-1 md:grid-cols-2 md:h-[500px] overflow-hidden rounded-lg md:border md:border-gray-200 bg-white max-md:px-5 max-md:pt-12'>
           <div className='flex flex-col md:items-center md:justify-center'>
             <div className='mb-6 text-xl font-medium'>Sign In to Nursana</div>
             <Tabs
