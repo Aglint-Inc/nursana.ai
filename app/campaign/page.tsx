@@ -11,9 +11,7 @@ const Campaign = () => {
 
   if (isLoading) {
     return (
-      <div>
-        <Loader />
-      </div>
+        <Loader className='text-purple-600'/>
     );
   }
 
