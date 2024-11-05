@@ -1,4 +1,4 @@
-import { type SupdabasClientType } from '../supabase/type';
+import type { SupabaseClientType } from '../supabase/supabaseAdmin';
 
 /**
  * Retrieves the URL of the call audio file for a given interview.
@@ -14,7 +14,7 @@ import { type SupdabasClientType } from '../supabase/type';
  * @throws Error if the audio file is not found or if there is an error generating the signed URL.
  */
 export async function getCallAudioUrl(
-  supabase: SupdabasClientType,
+  supabase: SupabaseClientType,
   interviewId: string,
   options?: {
     expiresIn: number;
@@ -45,7 +45,7 @@ export async function getCallAudioUrl(
  */
 
 async function getPathAudioUrl(
-  supabase: SupdabasClientType,
+  supabase: SupabaseClientType,
   interviewId: string,
 ): Promise<string | null> {
   const audio_url = (

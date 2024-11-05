@@ -37,7 +37,12 @@ const PUBLIC_ROUTES = new RegExp(
 );
 
 const AGENCY_ROUTES = new RegExp(
-  ['^/campaigns(/.*)?$', '^/interviews/.+', '^/templates(/.*)?$'].join('|'),
+  [
+    '^/campaigns(/.*)?$',
+    '^/interviews(/.*)?$',
+    '^/templates(/.*)?$',
+    '^/reports(/.*)?$',
+  ].join('|'),
 );
 
 const AGENCY_DEFAULT = '/campaigns';

@@ -687,6 +687,23 @@ export type Database = {
         }
         Returns: Json
       }
+      get_resume_analytics: {
+        Args: {
+          version_uuid: string
+          start_date?: string
+          end_date?: string
+        }
+        Returns: {
+          total_experience: string
+          schools: Json
+          x_job_title: string
+          skills: Json
+          licenses: Json
+          location: Json
+          call_analysis: Json
+          resume_analysis: Json
+        }[]
+      }
     }
     Enums: {
       campaign_status: "archived" | "active"

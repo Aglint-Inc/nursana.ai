@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
   return (
     <footer className='mx-auto flex w-full flex-col items-center justify-center gap-2 py-4 text-center text-xs text-muted-foreground'>
       <div className='flex items-center gap-4'>
-      <Link href={'/terms'} target='_blank' className='text-black hover:underline'>Terms and Conditions</Link>
+      <Link href={'/terms'} target='_blank' className='text-black hover:underline'>Terms of Service</Link>
       <Link href={'/privacy-policy'} target='_blank' className='text-black hover:underline'>Privacy Policy</Link>
       </div>
       <div className='flex items-center gap-4'>

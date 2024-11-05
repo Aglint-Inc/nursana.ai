@@ -1,4 +1,4 @@
-import { type SupabaseClientType } from '@/utils/supabase/supabaseAdmin';
+import type { SupabaseClientType } from '@/utils/supabase/supabaseAdmin';
 
 import { type retellAiGetCallType } from './schema.type';
 

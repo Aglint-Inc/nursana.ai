@@ -237,7 +237,7 @@ export default function FormCampaign() {
                                   target='_blank'
                                   className='underline'
                                 >
-                                  terms and conditions
+                                  terms of service
                                 </Link>
                               </FormLabel>
                             </div>
