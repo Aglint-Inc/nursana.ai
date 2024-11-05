@@ -8,7 +8,7 @@ Setup: 1. Clone the function. 2. Create a virtual environment and activate it.
         `
 
 To run the function:
-`     functions-framework-python --target hello_http --port 8081
+`     functions-framework-python --target hello_http --port 8082
     `
 
 To add a runtime variable:
