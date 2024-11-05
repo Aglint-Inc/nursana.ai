@@ -30,7 +30,7 @@ function TopSkillsIdentified() {
       }
       isLoading={isPending}
       error={error?.message}
-      height='300px'
+      height='400px'
     >
       <ResponsiveContainer width='100%' height='100%'>
         <BarChart

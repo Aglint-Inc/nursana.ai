@@ -9,7 +9,7 @@ import ChartWrapper from '../ChartWrapper';
 function StatsCards() {
   const { data, isPending, error } = useStats();
   return (
-    <div className='grid h-[126] gap-4 md:grid-cols-2 lg:grid-cols-5'>
+    <div className='grid h-[126] gap-4 md:grid-cols-2 lg:grid-cols-3'>
       <ChartWrapper
         header={
           <>

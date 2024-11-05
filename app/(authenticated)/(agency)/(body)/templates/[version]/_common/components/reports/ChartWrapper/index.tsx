@@ -20,7 +20,7 @@ export default function ChartWrapper({
   error,
   isEmpty = false,
   children,
-  height = '60px',
+  height = 'auto',
   paddingOverRider,
 }: ChartWrapperProps) {
   const isError = !!error;

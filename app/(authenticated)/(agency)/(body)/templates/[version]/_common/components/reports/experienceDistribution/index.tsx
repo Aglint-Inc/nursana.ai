@@ -43,7 +43,7 @@ function ExperienceDistribution() {
       }
       isLoading={isPending}
       error={error?.message}
-      height='300px'
+      height='400px'
       paddingOverRider='pl-1 pb-1'
     >
       <ResponsiveContainer width='100%' height='100%'>
