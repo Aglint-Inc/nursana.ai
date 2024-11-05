@@ -18,7 +18,6 @@ import { Card, CardContent } from '@/components/ui/card';
 
 import Footer from './footer';
 import NursanaLogo from './nursana-logo';
-import Section from './section';
 
 const mode = 'retell' as 'openAI' | 'retell';
 const InterviewProcess = dynamic(
@@ -132,8 +131,8 @@ export default function InterviewInstructions({
   }
 
   return (
-    <Section>
-      <div className='mb-20 flex flex-col items-center pt-6 w-screen h-screen overflow-auto pb-20'>
+  <div className='w-screen'>
+      <div className='mb-20 flex flex-col items-center pt-6 w-full h-screen overflow-auto pb-20'>
         <NursanaLogo />
         <h1 className='mb-10 mt-6 text-center text-3xl font-medium'>
           <span className=''>Welcome to the AI Based interview for</span>
@@ -251,6 +250,6 @@ export default function InterviewInstructions({
         </div>
       </div>
       <Footer />
-    </Section>
+      </div>
   );
 }
