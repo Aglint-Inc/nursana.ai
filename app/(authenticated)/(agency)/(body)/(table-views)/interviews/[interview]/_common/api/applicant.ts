@@ -10,6 +10,7 @@ import {
 import { type ProcedureDefinition } from '@/server/api/trpc';
 
 const query = async ({ ctx, input }: InterviewProcedure) => {
+  console.log(input, '🔥 APPLICANT');
   const db = createPrivateClient();
   const data = (
     await db
