@@ -3,12 +3,11 @@
 import { Sparkles, UploadCloud, UserCheck } from 'lucide-react';
 import React from 'react';
 
-import Section from '../section';
 import StepperCard from '../stepperCard';
 
 function HowItWorks() {
   return (
-    <Section>
+    <div className='w-full'>
       <div className='flex flex-col gap-10 md:gap-20'>
         <div className='flex max-w-screen-xl flex-col gap-2 text-left md:items-center md:px-0 md:text-center'>
           <h1 className='text-3xl font-medium lg:text-5xl'>
@@ -41,7 +40,7 @@ function HowItWorks() {
           </div>
         </div>
       </div>
-    </Section>
+      </div>
   );
 }
 

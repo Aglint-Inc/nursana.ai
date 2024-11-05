@@ -47,7 +47,7 @@ export default function FormCampaign() {
         <div className='my-8 md:my-16 grid w-full lg:grid-cols-2 overflow-hidden rounded-xl md:border border-border lg:max-w-5xl md:max-w-xl'>
           <Form {...form}>
             <form
-              className='mb-4 w-full md:px-4'
+              className='mb-4 w-full px-4'
               onSubmit={form.handleSubmit(handleSubmit)}
             >
               <Card className='max-w-full border-none bg-white shadow-none'>
