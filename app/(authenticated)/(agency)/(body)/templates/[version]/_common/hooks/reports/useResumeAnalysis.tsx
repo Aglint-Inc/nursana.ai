@@ -3,7 +3,7 @@ import { api } from 'trpc/client';
 import type { get_resume_analytics_type } from '@/version/api/reports/resumeAnalysis';
 import { useMatrixFilters } from '@/version/context/matrixFilterProvider';
 
-const maxResults = 5;
+const maxResults = 4;
 
 export function useResumeAnalysis() {
   const { filters } = useMatrixFilters();

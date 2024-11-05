@@ -1,8 +1,14 @@
 import React from 'react';
-import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+} from 'recharts';
 
 import { CardTitle } from '@/components/ui/card';
-import { Tooltip } from '@/components/ui/tooltip';
 import { CHART_COLORS } from '@/version/constant';
 import { useResumeAnalysis } from '@/version/hooks/reports/useResumeAnalysis';
 
@@ -32,9 +38,9 @@ function UniversityDistribution() {
             outerRadius={80}
             fill='#8884d8'
             dataKey='value'
-            label={({ name, percent }) =>
-              `${name} ${(percent * 100).toFixed(0)}%`
-            }
+            // label={({ name, percent }) =>
+            //   `${name} ${(percent * 100).toFixed(0)}%`
+            // }
             paddingAngle={5}
           >
             {universityData.map((_, index) => (
@@ -45,6 +51,16 @@ function UniversityDistribution() {
             ))}
           </Pie>
           <Tooltip />
+          <Legend
+            layout='horizontal'
+            align='center'
+            verticalAlign='bottom'
+            wrapperStyle={{
+              paddingTop: '20px',
+              // maxHeight: '100px',
+              // overflow: 'auto',
+            }}
+          />
         </PieChart>
       </ResponsiveContainer>
     </ChartWrapper>

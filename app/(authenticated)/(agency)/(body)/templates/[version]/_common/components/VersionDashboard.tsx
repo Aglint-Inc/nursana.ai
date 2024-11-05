@@ -33,9 +33,9 @@ export function VersionDashboard() {
         <TopSkillsIdentified />
         {/* <ApplicantLeaderboard /> */}
         <LicensesDistribution />
+        <LocationBasedBreakdown />
       </div>
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
-        <LocationBasedBreakdown />
         {/* <PreferredJobTypes /> */}
       </div>
       {/* <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>

@@ -38,9 +38,9 @@ function LocationBasedBreakdown() {
             outerRadius={80}
             fill='#8884d8'
             dataKey='value'
-            label={({ name, percent }) =>
-              `${name} ${(percent * 100).toFixed(0)}%`
-            }
+            // label={({ name, percent }) =>
+            //   `${name} ${(percent * 100).toFixed(0)}%`
+            // }
             paddingAngle={5}
           >
             {locationData.map((_, index) => (
@@ -51,7 +51,16 @@ function LocationBasedBreakdown() {
             ))}
           </Pie>
           <Tooltip />
-          <Legend />
+          <Legend
+            layout='horizontal'
+            align='center'
+            verticalAlign='bottom'
+            wrapperStyle={{
+              paddingTop: '20px',
+              maxHeight: '100px',
+              overflow: 'hidden',
+            }}
+          />
         </PieChart>
       </ResponsiveContainer>
     </ChartWrapper>

@@ -11,6 +11,7 @@ interface ChartWrapperProps {
   isEmpty?: boolean;
   children: React.ReactNode;
   height?: string;
+  paddingOverRider?: string;
 }
 
 export default function ChartWrapper({
@@ -20,6 +21,7 @@ export default function ChartWrapper({
   isEmpty = false,
   children,
   height = '60px',
+  paddingOverRider,
 }: ChartWrapperProps) {
   const isError = !!error;
   const renderContent = () => {
@@ -61,7 +63,9 @@ export default function ChartWrapper({
       <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
         <>{header}</>
       </CardHeader>
-      <CardContent className={`h-[${height}]`}>{renderContent()}</CardContent>
+      <CardContent className={`h-[${height}] ${paddingOverRider || ''}`}>
+        {renderContent()}
+      </CardContent>
     </Card>
   );
 }

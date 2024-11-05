@@ -15,7 +15,7 @@ const Layout = async (props: PropsWithChildren) => {
     <SidebarInset>
       <Body>
         <MatrixFilterProvider>
-          <HydrateClient>{props.children}</HydrateClient>;
+          <HydrateClient>{props.children}</HydrateClient>
         </MatrixFilterProvider>
       </Body>
     </SidebarInset>
