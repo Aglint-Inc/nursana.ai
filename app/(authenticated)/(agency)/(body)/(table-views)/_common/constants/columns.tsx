@@ -20,15 +20,6 @@ export const COLUMNS: ColumnDef<ColumnSchema>[] = [
   //   },
   // },
   {
-    accessorKey: 'campaign_code',
-
-    header: 'Campaign code',
-    cell: ({ row }) => {
-      const value = row.getValue('campaign_code');
-      return <div className='max-w-[200px] truncate'>{`${value}`}</div>;
-    },
-  },
-  {
     accessorKey: 'name',
     header: 'Name',
     enableHiding: false,
@@ -39,6 +30,22 @@ export const COLUMNS: ColumnDef<ColumnSchema>[] = [
     cell: ({ row }) => {
       const value = row.getValue('email');
       return <div className='max-w-[200px] truncate'>{`${value}`}</div>;
+    },
+  },
+  {
+    accessorKey: 'campaign_code',
+
+    header: 'Campaign code',
+    cell: ({ row }) => {
+      const value = row.getValue('campaign_code') as string;
+      return <div className='max-w-[200px] truncate'>{`${value}`}</div>;
+    },
+    filterFn: (row, id, value) => {
+      const array = row.getValue(id) as string[];
+      if (typeof value === 'string') return array.includes(value);
+      // up to the user to define either `.some` or `.every`
+      if (Array.isArray(value)) return value.some((i) => array.includes(i));
+      return false;
     },
   },
   {
