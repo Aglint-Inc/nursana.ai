@@ -1,7 +1,8 @@
-import { ExternalLink, FileText, Lightbulb, Notebook } from 'lucide-react';
+import { Brain, ExternalLink, FileText, Notebook } from 'lucide-react';
 import Link from 'next/link';
 
 import { Card, CardContent } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
@@ -28,16 +29,31 @@ export const ResumeFeedbackUI = ({
   resumeUrl: string;
 }) => {
   const resumeFeedback = resume?.resume_feedback as FeedbackData;
-  const experience = resumeFeedback?.breakdown?.experience;
-  const educationAndCertifications =
-    resumeFeedback?.breakdown?.education_and_certifications;
-
   if (!resumeFeedback && (resume?.error_status || resume?.processing_status))
     return <ErrorFallback />;
 
+  const achievements_and_metrics = resumeFeedback.achievements_and_metrics;
+  const education = resumeFeedback.education;
+  const experience_relevance_and_clarity =
+    resumeFeedback.experience_relevance_and_clarity;
+  const grammar_and_language = resumeFeedback.grammar_and_language;
+  const professional_summary = resumeFeedback.professional_summary;
+  const skills_and_keywords = resumeFeedback.skills_and_keywords;
+
+  const details = [
+    { label: 'Achievements And Metrics', ...achievements_and_metrics },
+    { label: 'Education', ...education },
+    {
+      label: 'Experience Relevance And Clarity',
+      ...experience_relevance_and_clarity,
+    },
+    { label: 'Grammar And Language', ...grammar_and_language },
+    { label: 'Professional Summary', ...professional_summary },
+    { label: 'Skills And Keywords', ...skills_and_keywords },
+  ];
   const summary = isCandidateView
     ? resumeFeedback?.overall_feedback || 'No summary available'
-    : resumeFeedback?.overall_summary || 'No summary available';
+    : resumeFeedback?.overall_comment || 'No summary available';
 
   return (
     <div className='mb-6'>
@@ -49,18 +65,15 @@ export const ResumeFeedbackUI = ({
         resumeUrl={resumeUrl}
       />
       <div className='flex flex-col gap-10'>
-        {experience && (
-          <ResumeExperienceCard
-            experience={experience}
-            isCandidateView={isCandidateView}
+        {details.map((detail) => (
+          <RatingBar
+            key={detail.label}
+            label={detail.label}
+            score={detail.score}
+            explanation={isCandidateView ? detail.feedback : detail.comment}
+            icon={<Brain className='h-5 w-5 text-purple-600' />}
           />
-        )}
-        {educationAndCertifications && (
-          <ResumeEducationCard
-            educationAndCertifications={educationAndCertifications}
-            isCandidateView={isCandidateView}
-          />
-        )}
+        ))}
       </div>
     </div>
   );
@@ -68,126 +81,30 @@ export const ResumeFeedbackUI = ({
 
 ResumeFeedbackUI.ErrorFallback = ErrorFallback;
 
-const ResumeExperienceCard = ({
-  experience,
-  isCandidateView,
-}: {
-  experience: FeedbackData['breakdown']['experience'];
-  isCandidateView: boolean;
-}) => {
-  const feedback = experience?.feedback;
-  const suggestions = experience?.suggestions;
-  const specialties = experience?.specialties?.comments;
-  const healthcare_settings = experience?.healthcare_settings?.comments;
-  const leadership_roles = experience?.leadership_roles?.comments;
-  const years_of_experience = experience?.years_of_experience?.comments;
+const RatingBar: React.FC<{
+  label: string;
+  score: number;
+  explanation: string;
+  icon: React.ReactNode;
+}> = ({ label, score, explanation, icon }) => (
+  <>
+    <div className='flex flex-col gap-1'>
+      <div className='flex justify-between'>
+        <div className='flex items-start space-x-2'>
+          {icon}
+          <span className='text-lg font-medium'>{label}</span>
+        </div>
 
-  const Experience = [
-    {
-      label: 'Specialties',
-      value: specialties,
-    },
-    {
-      label: 'Leadership Roles',
-      value: leadership_roles,
-    },
-    {
-      label: 'Healthcare Settings',
-      value: healthcare_settings,
-    },
-    {
-      label: 'Years of Experience',
-      value: years_of_experience,
-    },
-  ].filter(({ value }) => !!value);
+        <div className='flex w-40 items-center space-x-2'>
+          <Progress value={score * 20} className='h-1.5 w-full' />
+          <span className='text-xs text-muted-foreground'>{score}/5</span>
+        </div>
+      </div>
 
-  return (
-    <div>
-      <h3 className='mb-2 text-lg font-medium'>Experience</h3>
-      {isCandidateView ? (
-        suggestions && (
-          <div className='mt-4 flex flex-col gap-1 rounded-lg bg-purple-50 p-4'>
-            <div className='text-md flex items-center gap-2 font-medium text-purple-700'>
-              <Lightbulb className='h-5 w-5' />
-              <span>Suggestion</span>
-            </div>
-            <p className='text-md mt-2 font-normal'>{suggestions}</p>
-          </div>
-        )
-      ) : (
-        <>
-          <p className='mb-2 text-muted-foreground'>{feedback}</p>
-          <ul className='list-inside list-disc space-y-2'>
-            {Experience.map(({ label, value }, i) => (
-              <li key={i}>
-                <span className='font-semibold'>{label} : </span>
-                <span>{value}</span>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+      <p className='text-muted-foreground'>{explanation}</p>
     </div>
-  );
-};
-
-const ResumeEducationCard = ({
-  educationAndCertifications,
-  isCandidateView,
-}: {
-  educationAndCertifications: FeedbackData['breakdown']['education_and_certifications'];
-  isCandidateView: boolean;
-}) => {
-  const feedback = educationAndCertifications?.feedback;
-  const suggestions = educationAndCertifications?.suggestions;
-  const degree = educationAndCertifications?.degree?.comments;
-  const certifications = educationAndCertifications?.certifications?.comments;
-  const specializations = educationAndCertifications?.specializations?.comments;
-
-  const Education = [
-    {
-      label: 'Degree',
-      value: degree,
-    },
-    {
-      label: 'Certifications',
-      value: certifications,
-    },
-    {
-      label: 'Specializations',
-      value: specializations,
-    },
-  ].filter(({ value }) => !!value);
-
-  return (
-    <div>
-      <h3 className='mb-2 text-lg font-medium'>Education and Certifications</h3>
-      {isCandidateView ? (
-        suggestions && (
-          <div className='mt-4 flex flex-col gap-1 rounded-lg bg-purple-50 p-4'>
-            <div className='text-md flex items-center gap-2 font-medium text-purple-700'>
-              <Lightbulb className='h-5 w-5' />
-              <span>Suggestion</span>
-            </div>
-            <p className='text-md mt-2 font-normal'>{suggestions}</p>
-          </div>
-        )
-      ) : (
-        <>
-          <p className='mb-2 text-muted-foreground'>{feedback}</p>
-          <ul className='list-inside list-disc space-y-2'>
-            {Education.map(({ label, value }, i) => (
-              <li key={i}>
-                <span className='font-semibold'>{label} : </span>
-                <span>{value}</span>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-    </div>
-  );
-};
+  </>
+);
 
 const ResumeScoreCard = ({
   resume,
@@ -198,7 +115,7 @@ const ResumeScoreCard = ({
   summary: string;
   resumeUrl: string;
 }) => {
-  const resumeScore = resume?.resume_feedback?.overallScore ?? 0;
+  const resumeScore = resume?.resume_feedback?.overall_score ?? 0;
   const errorStatus = resume?.error_status;
   const ResumeScores = [
     {
