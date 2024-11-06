@@ -16,7 +16,7 @@ function InterviewConversations({
   return (
     <>
       {showCaptions && isInterviewStarted && !isProcessing && (
-        <div className='text-md relative mt-4 flex h-[26vh] w-[700px] flex-col justify-end gap-4 overflow-hidden rounded-lg bg-gray-50 p-6'>
+        <div className='text-md relative flex md:h-[30vh] h-[35vh] md:w-[700px] w-90vw flex-col justify-end gap-4 overflow-hidden rounded-lg bg-gray-50 p-6'>
           {conversationHistory.map((turn, index) => (
             <div
               key={index}
