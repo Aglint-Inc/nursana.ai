@@ -168,6 +168,26 @@ export const campaignRelationshipsSchema = z.tuple([
   }),
 ]);
 
+export const envRowSchema = z.object({
+  created_at: z.string(),
+  key: z.string(),
+  value: z.string(),
+});
+
+export const envInsertSchema = z.object({
+  created_at: z.string().optional(),
+  key: z.string(),
+  value: z.string(),
+});
+
+export const envUpdateSchema = z.object({
+  created_at: z.string().optional(),
+  key: z.string().optional(),
+  value: z.string().optional(),
+});
+
+export const envRelationshipsSchema = z.tuple([]);
+
 export const interviewStageSchema = z.union([
   z.literal("not_started"),
   z.literal("resume_submitted"),
@@ -560,15 +580,7 @@ export const userUpdateSchema = z.object({
   user_role: userRoleSchema.optional(),
 });
 
-export const userRelationshipsSchema = z.tuple([
-  z.object({
-    foreignKeyName: z.literal("user_id_fkey"),
-    columns: z.tuple([z.literal("id")]),
-    isOneToOne: z.literal(true),
-    referencedRelation: z.literal("users"),
-    referencedColumns: z.tuple([z.literal("id")]),
-  }),
-]);
+export const userRelationshipsSchema = z.tuple([]);
 
 export const userInterviewRatingRowSchema = z.object({
   applicant_id: z.string(),

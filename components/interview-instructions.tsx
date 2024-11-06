@@ -132,9 +132,10 @@ export default function InterviewInstructions({
 
   return (
   <div className='w-screen'>
-      <div className='mb-20 flex flex-col items-center pt-6 w-full h-screen overflow-auto pb-20'>
-        <NursanaLogo />
-        <h1 className='mb-10 mt-6 text-center text-3xl font-medium'>
+      <div className='mb-20 flex flex-col items-center pt-6 w-full pb-10'>
+        <div className='max-md:w-full max-md:px-5'><NursanaLogo /></div>
+        <div className='px-5'>
+        <h1 className='md:mb-10 mb-6 mt-6 md:text-center md:text-3xl text-2xl font-medium'>
           <span className=''>Welcome to the AI Based interview for</span>
           <br />
           <span>{interviewData.name}</span>
@@ -206,8 +207,8 @@ export default function InterviewInstructions({
             </AspectRatio>
           </div>
         )}
-
-        <div className='flex w-full max-w-3xl flex-col gap-4'>
+</div>
+        <div className='flex w-full max-w-3xl flex-col gap-4 px-5'>
           <Card>
             <CardContent className='p-4'>
               <h2 className='mb-1 text-lg font-medium'>
