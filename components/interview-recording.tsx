@@ -102,9 +102,11 @@ function InterviewRecording({
           <div className='mt-4 flex justify-end'></div>
         </div>
       </UIDialog>
-      <Card className='mx-auto mb-4 w-[700px] overflow-hidden'>
-        <CardContent className='relative min-w-full p-0'>
-          <AspectRatio ratio={16 / 9}>
+     
+      <Card className='mx-auto mb-4 md:w-[700px] w-[90vw] relative max-md:h-[45vh] overflow-hidden'>
+        <CardContent className='min-w-full p-0'>
+          <AspectRatio ratio={16 / 9} className="aspect-[4/5] md:aspect-[16/9]">
+         
             <video
               ref={videoRef}
               autoPlay
@@ -117,7 +119,7 @@ function InterviewRecording({
             />
             {isInterviewStarted && (
               <>
-                <div className='absolute bottom-0 left-0 flex w-full justify-center gap-2 bg-gradient-to-t from-[#00000050] to-transparent py-4'>
+                <div className='max-md:hidden absolute bottom-0 left-0 flex w-full justify-center gap-2 bg-gradient-to-t from-[#00000050] to-transparent py-4 '>
                   <div className='flex gap-3 rounded-full bg-black p-2'>
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>
@@ -126,14 +128,14 @@ function InterviewRecording({
                             disabled={timer > interviewDuration * 60 - minTime}
                             role='button'
                             tabIndex={0}
-                            className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white/20 text-white duration-200 hover:bg-red-500 hover:text-white'
+                            className='flex md:h-10 md:w-10 h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/20 text-white duration-200 hover:bg-red-500 hover:text-white'
                             onClick={(e) => {
                               e.stopPropagation();
                               setShowStopInterviewModal(true);
                             }}
                           >
                             <StopCircle
-                              className='min-h-6 min-w-6'
+                              className='md:min-h-6 md:min-w-6 min-h-4 min-w-4'
                               size={28}
                               strokeWidth={1.5}
                             />
@@ -174,6 +176,62 @@ function InterviewRecording({
           </AspectRatio>
         </CardContent>
       </Card>
+      {isInterviewStarted && (
+              <>
+                <div className='max-md:flex hidden w-full justify-center gap-2 bg-black rounded-lg mb-4 '>
+                  <div className='flex gap-3 rounded-full bg-black p-2'>
+                    <TooltipProvider>
+                      <Tooltip delayDuration={0}>
+                        <TooltipTrigger>
+                          <Button
+                            disabled={timer > interviewDuration * 60 - minTime}
+                            role='button'
+                            tabIndex={0}
+                            className='flex md:h-10 md:w-10 h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/20 text-white duration-200 hover:bg-red-500 hover:text-white'
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowStopInterviewModal(true);
+                            }}
+                          >
+                            <StopCircle
+                              className='md:min-h-6 md:min-w-6 min-h-4 min-w-4'
+                              size={28}
+                              strokeWidth={1.5}
+                            />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>
+                            {timer < interviewDuration * 60 - minTime
+                              ? 'Stop Interview'
+                              : `You have to give the interview for at least ${
+                                  minTime / 60
+                                }
+                          minutes.`}
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <Separator
+                      orientation='vertical'
+                      className='rounded-full bg-gray-700'
+                    />
+                    <div className='flex h-full items-center'>
+                      <span
+                        className={cn(
+                          'mr-2 select-none text-white',
+                          timer < warningTime
+                            ? 'animate-pulse text-red-500'
+                            : 'text-white',
+                        )}
+                      >
+                        {formatTime(timer)}/{formatTime(interviewDuration * 60)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
     </>
   );
 }
