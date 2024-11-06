@@ -1,7 +1,6 @@
 'use client';
 
 import { RealtimeClient } from '@openai/realtime-api-beta';
-import { type ResumeDetailsType } from 'app/(authenticated)/(applicant)/profile/_common/types';
 import {
   useUpdateInterviews,
   useUpdateInterviewsAnalysis,
@@ -16,6 +15,7 @@ import { WavRecorder } from '@/audio/wav_recorder';
 import { WavStreamPlayer } from '@/audio/wav_stream_player';
 import { Button } from '@/components/ui/button';
 import { useVideoRecording } from '@/hooks/useVideoRecording';
+import type { DBTable } from '@/server/db/types';
 import { getInstructions } from '@/utils/audio/instructions';
 import { supabase } from '@/utils/supabase/client';
 
@@ -25,11 +25,10 @@ import InterviewRecording from './interview-recording';
 import NursanaLogo from './nursana-logo';
 import Retry from './Retry';
 
-
 interface InterviewProps {
   interviewId: string;
   interviewData: InterviewData;
-  resumeData: ResumeDetailsType;
+  resumeData: DBTable<'resume'>['structured_resume'] | undefined;
 }
 
 interface ConversationTurn {

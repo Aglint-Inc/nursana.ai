@@ -3,21 +3,20 @@
 import { Sparkles, UploadCloud, UserCheck } from 'lucide-react';
 import React from 'react';
 
-import Section from '../section';
 import StepperCard from '../stepperCard';
 
 function HowItWorks() {
   return (
-    <Section>
+    <div className='w-full'>
       <div className='flex flex-col gap-10 md:gap-20'>
         <div className='flex max-w-screen-xl flex-col gap-2 text-left md:items-center md:px-0 md:text-center'>
-          <h1 className='text-3xl font-medium md:text-5xl'>
+          <h1 className='text-3xl font-medium lg:text-5xl'>
             Nursana connects you with top-tier opportunities, opening doors you
             didn’t even know existed.
           </h1>
         </div>
         <div>
-          <div className='grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-28'>
+          <div className='grid grid-cols-1 gap-10 md:grid-cols-3 lg:gap-28'>
             <StepperCard
               heading='Upload Your Resume'
               description=' Add your resume to get feedback and help us match you with the right opportunity.'
@@ -41,7 +40,7 @@ function HowItWorks() {
           </div>
         </div>
       </div>
-    </Section>
+      </div>
   );
 }
 

@@ -1,13 +1,13 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
 import { createAdminClient } from '@/utils/supabase/server';
-import { type SupdabasClientType } from '@/utils/supabase/type';
+import type { SupabaseClientType } from '@/utils/supabase/supabaseAdmin';
 
+import { transcriptAnalysisSchema } from './type';
 import { calculateOverallScore, transcriptParser } from './util';
 import {
   professionalSummaryPromptArchive,
   score,
-  transcriptAnalysisSchema,
   type transcriptSchemaType,
 } from './util';
 
@@ -78,7 +78,7 @@ export async function POST(
 }
 
 const saveToDB = async (
-  supabase: SupdabasClientType,
+  supabase: SupabaseClientType,
   analysis_id: string,
   data: any,
 ) => {

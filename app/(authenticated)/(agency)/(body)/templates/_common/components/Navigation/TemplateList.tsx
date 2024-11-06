@@ -27,7 +27,7 @@ export const TemplateList = () => {
 
   return (
     <SidebarContent>
-      <SidebarGroup className='px-0'>
+      <SidebarGroup className='px-4'>
         <SidebarGroupContent>
           {filteredTemplates.map((template) => (
             <TemplateCard key={template.id} {...template} />

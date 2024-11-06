@@ -1,6 +1,10 @@
 import { openai } from '@ai-sdk/openai';
 import { generateObject } from 'ai';
 import { z } from 'zod';
+
+import type { transcriptAnalysisSchema } from './type';
+
+type transcriptAnalysisSchemaType = z.infer<typeof transcriptAnalysisSchema>;
 // import { zodToJsonSchema } from "zod-to-json-schema";
 
 export async function score<T extends z.ZodSchema>(
@@ -16,42 +20,6 @@ export async function score<T extends z.ZodSchema>(
   });
   return { object, usage };
 }
-
-export const transcriptAnalysisSchema = z.object({
-  communication_gaps: z.object({
-    score: z.number().min(0).max(5),
-    explanation: z.string(),
-    feedback: z.string(),
-  }),
-  engagement_responsiveness: z.object({
-    score: z.number().min(0).max(5),
-    explanation: z.string(),
-    feedback: z.string(),
-  }),
-  articulation: z.object({
-    score: z.number().min(0).max(5),
-    explanation: z.string(),
-    feedback: z.string(),
-  }),
-  adaptability_stress_management: z.object({
-    score: z.number().min(0).max(5),
-    explanation: z.string(),
-    feedback: z.string(),
-  }),
-  interaction: z.object({
-    score: z.number().min(0).max(5),
-    explanation: z.string(),
-    feedback: z.string(),
-  }),
-  confidence_level: z.object({
-    score: z.number().min(0).max(5),
-    explanation: z.string(),
-    feedback: z.string(),
-  }),
-  overall_summary: z.string(),
-  overall_feedback: z.string(),
-});
-type transcriptAnalysisSchemaType = z.infer<typeof transcriptAnalysisSchema>;
 
 const transcriptSchema = z
   .object({

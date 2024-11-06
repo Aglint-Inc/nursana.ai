@@ -1,4 +1,4 @@
-export type Json = any;
+export type Json = Record<string | number , unknown>;
 
 export type Database = {
   public: {
@@ -160,6 +160,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      env: {
+        Row: {
+          created_at: string
+          key: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          key: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          key?: string
+          value?: string
+        }
+        Relationships: []
       }
       interview: {
         Row: {
@@ -551,15 +569,7 @@ export type Database = {
           last_name?: string
           user_role?: Database["public"]["Enums"]["user_role"]
         }
-        Relationships: [
-          {
-            foreignKeyName: "user_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       user_interview_rating: {
         Row: {
@@ -686,6 +696,12 @@ export type Database = {
           event: Json
         }
         Returns: Json
+      }
+      get_env_value: {
+        Args: {
+          p_key: string
+        }
+        Returns: string
       }
       get_resume_analytics: {
         Args: {
@@ -866,3 +882,17 @@ export type Enums<
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
 
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never

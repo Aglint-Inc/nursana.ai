@@ -40,17 +40,18 @@ export default function FormCampaign() {
     clearErrors,
     formState: { isDirty },
   } = form;
+
   return (
     <Section>
-      <div className='flex min-h-[calc(100vh-72px)] w-full flex-col items-center justify-center gap-8'>
-        <div className='my-16 grid grid-cols-2 overflow-hidden rounded-xl border border-border'>
+      <div className='flex w-full flex-col items-center justify-center gap-8 lg:p-8 md:p-4'>
+        <div className='my-8 md:my-16 grid w-full lg:grid-cols-2 overflow-hidden rounded-xl md:border border-border lg:max-w-5xl md:max-w-xl'>
           <Form {...form}>
             <form
-              className='mb-4 w-full'
+              className='mb-4 w-full px-4'
               onSubmit={form.handleSubmit(handleSubmit)}
             >
-              <Card className='max-w-lg border-none bg-white shadow-none'>
-                <CardContent className='mt-6'>
+              <Card className='max-w-full border-none bg-white shadow-none'>
+                <CardContent className='mt-6 p-0'>
                   <div className='mt-6 flex max-w-screen-xl flex-col gap-1'>
                     <NursanaLogo />
                     <h1 className='mb-4 mt-4 text-2xl font-medium'>
@@ -59,7 +60,7 @@ export default function FormCampaign() {
                     </h1>
                   </div>
                   <div className='flex flex-col gap-4'>
-                    <div className='grid w-full grid-cols-2 gap-4'>
+                    <div className='grid w-full grid-cols-1 sm:grid-cols-2 gap-4'>
                       <FormField
                         control={control}
                         name='first_name'
@@ -237,7 +238,7 @@ export default function FormCampaign() {
                                   target='_blank'
                                   className='underline'
                                 >
-                                  terms and conditions
+                                  terms of service
                                 </Link>
                               </FormLabel>
                             </div>
@@ -261,7 +262,7 @@ export default function FormCampaign() {
                     </Button>
                   </div>
                 </CardContent>
-                <CardFooter className='flex'>
+                <CardFooter className='flex p-0 mt-4'>
                   <p className='text-sm text-muted-foreground'>
                     Already have an account?{' '}
                     <a
@@ -276,7 +277,7 @@ export default function FormCampaign() {
               </Card>
             </form>
           </Form>
-          <div className='relative h-full w-full'>
+          <div className='relative hidden md:block h-full w-full'>
             <Image
               src={'/images/nurse-1.jpg'}
               layout='fill'

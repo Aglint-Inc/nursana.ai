@@ -56,7 +56,7 @@ export default function RootLayout({
           defaultTheme='light'
           disableTransitionOnChange
         >
-          <main className='flex min-h-screen flex-col items-center'>
+          <main className='flex flex-col items-center overflow-hidden'>
             <Providers>{children}</Providers>
           </main>
         </ThemeProvider>

@@ -12,9 +12,9 @@ import WhyUS from './landing-sections/why-us';
 
 function HomePage() {
   return (
-    <div className='w-full'>
+    <div className='w-full overflow-auto'>
       <Hero/>
-      <div className='relative z-20 flex flex-col gap-20 rounded-[50px] bg-white pb-20 pt-20 md:container md:gap-40 md:pb-40'>
+      <div className='relative z-20 flex flex-col gap-12 rounded-[50px] bg-white pb-20 lg:pt-20 max-lg:12 max-lg:px-5 lg:container md:gap-20 lg:gap-40 lg:pb-40'>
         <HowItWorks/>
         <PoweredBy />
         <WhyUS />

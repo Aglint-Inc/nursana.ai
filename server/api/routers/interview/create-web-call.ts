@@ -69,7 +69,7 @@ export const query = async ({
   }
   const data = await response.json();
   // Get the call_id from the Retell API response
-  const call_id = data.call_id;
+  const call_id = data.call_id as string;
 
   // Update the interview_analysis table with the call_id
   const { error: insertError, data: interviewAnalysis } = await db

@@ -10,7 +10,7 @@ import { TemplateList } from './TemplateList';
 
 export const Navigation = () => {
   return (
-    <Sidebar collapsible='none' className='hidden w-full flex-1 md:flex'>
+    <Sidebar collapsible='none' className='h-screen'>
       <NavigationProvider>
         <ActionProvider>
           <Header />

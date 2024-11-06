@@ -3,17 +3,18 @@ import NursanaLogo from "@/components/nursana-logo";
 
 export default function PrivacyPolicy() {
   return (
-    <div className="flex flex-col items-center justify-center gap-8 pt-10">
-      <NursanaLogo />
-      <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+
+<div className="flex flex-col gap-8 pt-10 w-full overflow-auto">
+<div className="md:mx-auto max-md:px-5"><NursanaLogo /></div>
+<div className="min-h-screen pt-8 px-4 sm:px-6 lg:px-8 flex flex-col">
         <div className="max-w-3xl mx-auto overflow-hidden">
-          <div className="px-4 py-5 sm:p-6">
+          <div className="px-4 py-5 max-md:px-0">
             <h1 className="text-3xl font-medium text-gray-900 mb-6">Privacy Policy</h1>
             
             <p className="mb-4 text-gray-600">
               Your privacy is important to us. It is Aglint Inc.&apos;s policy to respect your privacy and comply with any applicable law and regulation regarding any personal information we may collect about you, including across our website,{' '}
-              <a href="https://nurasana.ai" className="text-blue-600 hover:underline">
-                https://nurasana.ai
+              <a href="https://nursana.ai" className="text-blue-600 hover:underline" target="_blank">
+                https://nursana.ai
               </a>
               , and other sites we own and operate.
             </p>
@@ -95,8 +96,8 @@ export default function PrivacyPolicy() {
             </p>
           </div>
         </div>
-        <Footer />
       </div>
-    </div>
+<Footer />
+</div>
   )
 }
