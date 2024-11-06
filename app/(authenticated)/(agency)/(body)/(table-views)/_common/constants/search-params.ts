@@ -7,8 +7,10 @@ import {
   parseAsString,
   parseAsStringLiteral,
   parseAsTimestamp,
+  type ParserBuilder,
 } from 'nuqs/server';
 
+import { type ColumnSchema } from '../types';
 // Note: import from 'nuqs/server' to avoid the "use client" directive
 import { ARRAY_DELIMITER, RANGE_DELIMITER } from './delimiters';
 import { INTERVIEW_STAGES } from './interview_stages';
@@ -24,9 +26,16 @@ export const parseAsSort = createParser({
   },
 });
 
-export const searchParamsParser = {
+type SearchParmsParser = {
+  [_id in keyof ColumnSchema | 'rows' | 'page']: ParserBuilder<any>;
+};
+
+export const searchParamsParser: SearchParmsParser = {
   // FILTERS
+  id: parseAsString,
+  name: parseAsString,
   email: parseAsString,
+  template: parseAsArrayOf(parseAsString, ARRAY_DELIMITER),
   campaign_code: parseAsArrayOf(parseAsString, ARRAY_DELIMITER),
   interview_stage: parseAsArrayOf(
     parseAsStringLiteral(INTERVIEW_STAGES),
