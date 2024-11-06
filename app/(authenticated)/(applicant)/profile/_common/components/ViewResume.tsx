@@ -4,6 +4,7 @@ import {
   Building2,
   Calendar,
   ExternalLink,
+  File,
   FileText,
   Mail,
   MapPin,
@@ -13,6 +14,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
+import EmptyState from '@/agency/components/EmptyState';
 import { useUserData } from '@/applicant/hooks/useUserData';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -29,7 +31,7 @@ export default function ViewResume() {
   const resumeBucketName = 'resumes';
   const fileName = file_url?.split(`${resumeBucketName}/`).pop() ?? '';
   const { data: resumeUrl } = useBucket(resumeBucketName, fileName);
-  if (!resume) return null; //fix UI for ERROR case
+  if (!resume) return <EmptyState heading='Resume Unavailable' description='' Icon={File}/>; 
   return (
     <div className='flex w-full flex-col gap-8'>
       <div className='flex flex-col gap-4'>
