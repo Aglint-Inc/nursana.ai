@@ -26,7 +26,7 @@ function UserLanding() {
         </p>
       </div>
 
-      <div className='grid w-full  gap-4'>
+      <div className='grid md:grid-cols-2 w-full  gap-4'>
         <ResumeCard resumeDetails={resume} />
         <InterviewCard analysis={analysis} interviewDetails={interview} />
       </div>
