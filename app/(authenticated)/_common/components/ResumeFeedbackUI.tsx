@@ -1,4 +1,4 @@
-import { Brain, ExternalLink, FileText, Notebook } from 'lucide-react';
+import { Brain, Briefcase, ExternalLink,FileText, GraduationCap, Languages, Notebook, Star } from 'lucide-react';
 import Link from 'next/link';
 
 import { Card, CardContent } from '@/components/ui/card';
@@ -41,15 +41,16 @@ export const ResumeFeedbackUI = ({
   const skills_and_keywords = resumeFeedback.skills_and_keywords;
 
   const details = [
-    { label: 'Achievements And Metrics', ...achievements_and_metrics },
-    { label: 'Education', ...education },
+    { label: 'Achievements And Metrics', icon: <Star className='h-5 w-5 text-purple-600' />, ...achievements_and_metrics },
+    { label: 'Education', icon: <GraduationCap className='h-5 w-5 text-purple-600' />, ...education },
     {
       label: 'Experience Relevance And Clarity',
+      icon: <Briefcase className='h-5 w-5 text-purple-600' />,
       ...experience_relevance_and_clarity,
     },
-    { label: 'Grammar And Language', ...grammar_and_language },
-    { label: 'Professional Summary', ...professional_summary },
-    { label: 'Skills And Keywords', ...skills_and_keywords },
+    { label: 'Grammar And Language', icon: <Languages className='h-5 w-5 text-purple-600' />, ...grammar_and_language },
+    { label: 'Professional Summary', icon: <FileText className='h-5 w-5 text-purple-600' />, ...professional_summary },
+    { label: 'Skills And Keywords', icon: <Brain className='h-5 w-5 text-purple-600' />, ...skills_and_keywords },
   ];
   const summary = isCandidateView
     ? resumeFeedback?.overall_feedback || 'No summary available'
@@ -71,7 +72,7 @@ export const ResumeFeedbackUI = ({
             label={detail.label}
             score={detail.score}
             explanation={isCandidateView ? detail.feedback : detail.comment}
-            icon={<Brain className='h-5 w-5 text-purple-600' />}
+            icon={detail.icon}
           />
         ))}
       </div>
