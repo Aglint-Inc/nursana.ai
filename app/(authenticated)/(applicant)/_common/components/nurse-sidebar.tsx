@@ -105,7 +105,7 @@ export function NurseSidebar() {
   const { logout } = useLogout();
   return (
     <Sidebar>
-      <SidebarHeader className='p-4'>
+      <SidebarHeader className='p-4 lg:block hidden'>
         <NursanaLogo />
       </SidebarHeader>
       <SidebarContent>

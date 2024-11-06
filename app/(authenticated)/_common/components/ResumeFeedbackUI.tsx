@@ -56,15 +56,15 @@ export const ResumeFeedbackUI = ({
     : resumeFeedback?.overall_comment || 'No summary available';
 
   return (
-    <div className='mb-6'>
-      <div className='mb-6 text-xl font-medium'>Resume Review</div>
+    <div className='lg:mb-6 mb-3 max-lg:py-5 lg:container'>
+      <div className='mb-6 lg:text-xl text-md font-medium'>Resume Review</div>
 
       <ResumeScoreCard
         resume={resume}
         summary={summary}
         resumeUrl={resumeUrl}
       />
-      <div className='flex flex-col gap-10'>
+      <div className='flex flex-col gap-10 mb-20'>
         {details.map((detail) => (
           <RatingBar
             key={detail.label}
@@ -89,10 +89,10 @@ const RatingBar: React.FC<{
 }> = ({ label, score, explanation, icon }) => (
   <>
     <div className='flex flex-col gap-1'>
-      <div className='flex justify-between'>
+      <div className='flex justify-between max-lg:flex-col max-lg:gap-2'>
         <div className='flex items-start space-x-2'>
           {icon}
-          <span className='text-lg font-medium'>{label}</span>
+          <span className='lg:text-lg text-md font-medium'>{label}</span>
         </div>
 
         <div className='flex w-40 items-center space-x-2'>

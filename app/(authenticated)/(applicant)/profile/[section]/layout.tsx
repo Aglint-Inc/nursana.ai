@@ -10,8 +10,8 @@ function Layout({ children }: { children: React.ReactNode }) {
   void api.getLocationList.prefetch();
   return (
     <HydrateClient>
-      <div className='container flex py-8'>
-        <div className='flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0'>
+      <div className='lg:container flex lg:py-8 py-5 max-lg:w-full'>
+        <div className='lg:flex lg:flex-1 flex-col gap-4 overflow-y-auto lg:p-4 pt-0'>
           {children}
         </div>
       </div>
