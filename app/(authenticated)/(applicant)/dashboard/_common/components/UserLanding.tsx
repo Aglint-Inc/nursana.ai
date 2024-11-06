@@ -11,7 +11,7 @@ function UserLanding() {
   return (
     <div className='flex lg:min-h-[85vh] flex-col lg:items-center justify-center gap-10  max-lg:py-5 lg:container'>
       <div className='flex flex-col lg:items-center gap-2 '>
-        <div className='flex max-lg:flex-col lg:items-center gap-2 lg:text-center lg:text-3xl text-xl font-medium'>
+        <div className='flex max-lg:flex-col lg:items-center lg:gap-2 gap-0 lg:text-center lg:text-3xl text-xl font-medium'>
           <div className='text-purple-700'>
             {' '}
             Hello {applicant_user?.user.first_name || 'Nurse'} 👋,

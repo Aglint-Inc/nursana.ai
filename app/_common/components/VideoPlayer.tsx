@@ -16,8 +16,8 @@ export function VideoPlayer({ videoUrl, audioUrl }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
-    <>
-      <AspectRatio ratio={16 / 9}>
+    <div className='flex flex-col rounded-lg border border-border overflow-hidden'>
+      <AspectRatio ratio={4 / 5} className='aspect-ratio'>
         <video
           ref={videoRef}
           src={videoUrl}
@@ -28,7 +28,10 @@ export function VideoPlayer({ videoUrl, audioUrl }: VideoPlayerProps) {
           muted
         />
       </AspectRatio>
+     
+      <div className='md:px-4 md:pt-4 pt-2'>
       <AudioPlayer videoRef={videoRef} audioUrl={audioUrl} />
-    </>
+      </div>
+    </div>
   );
 }

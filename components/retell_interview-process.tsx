@@ -283,7 +283,7 @@ export default function Interview({
         )}
 
         {isProcessing ? (
-          <div className='mt-4 flex h-[50vh] w-[700px] flex-col items-center justify-center rounded-lg p-4 text-center text-gray-500'>
+          <div className='mt-4 flex h-[50vh] md:w-[700px] w-full flex-col items-center justify-center rounded-lg p-4 text-center text-gray-500'>
             <MultiStepLoader />
           </div>
         ) : isInterviewStarted ? (
