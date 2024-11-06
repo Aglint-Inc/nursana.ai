@@ -102,9 +102,12 @@ Transcript.Fallback = InterviewTranscriptFallback;
 
 export const InterviewTranscript = (props: Props) => {
   return (
-    <div className='min-h-[calc(100vh-164px)] max-w-4xl mx-auto py-10'>
-      <div className='mb-6 text-xl font-medium'>{props.Title}</div>
-      <div className='flex flex-col gap-12'>
+    <div className='min-h-[calc(100vh-164px)] max-w-4xl mx-auto lg:py-10 py-5 md:px-5'>
+      <div className='mb-3 lg:mb-6 lg:text-xl text-md font-medium'>
+        {/* {props.Title} */}
+        Interview Transcript
+        </div>
+      <div className='flex flex-col md:gap-12 gap-8'>
         {props.videoPlayerComponent}
         <div className='flex flex-col gap-6 mb-40'>{props.Transcript}</div>
       </div>
