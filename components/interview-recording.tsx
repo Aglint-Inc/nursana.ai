@@ -102,9 +102,9 @@ function InterviewRecording({
           <div className='mt-4 flex justify-end'></div>
         </div>
       </UIDialog>
-      <Card className='mx-auto mb-4 w-[700px] overflow-hidden'>
+      <Card className='mx-auto mb-4 md:w-[700px] w-full max-md:h-[50vh] overflow-hidden'>
         <CardContent className='relative min-w-full p-0'>
-          <AspectRatio ratio={16 / 9}>
+          <AspectRatio ratio={16 / 9} className="aspect-[4/5] md:aspect-[16/9]">
             <video
               ref={videoRef}
               autoPlay
