@@ -3,7 +3,6 @@ import {
   ExternalLink,
   Lightbulb,
   Puzzle,
-  Sparkles,
   TvMinimalPlay,
   UserCheck,
   Zap,
@@ -20,9 +19,10 @@ import type { DBTable } from '@/server/db/types';
 const ErrorFallback = () => {
   return (
     <NotAvailable
-      heading='Data temporarily unavailable'
-      description='We’re currently analyzing the data. Please check back in a little while for updated information.'
-      Icon={Sparkles}
+      heading='Interview hasn’t been completed yet.'
+      description=''
+      Icon={TvMinimalPlay}
+      actionBtn={<></>}
     />
   );
 };

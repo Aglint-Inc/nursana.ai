@@ -1,7 +1,6 @@
-import { CircleAlert, Sparkle, TvMinimalPlay, User } from 'lucide-react';
+import { Sparkle, TvMinimalPlay, User } from 'lucide-react';
 import React, { type ReactNode } from 'react';
 
-import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Card, CardContent } from '@/components/ui/card';
 import NotAvailable from '@/dashboard/components/NotAvailable';
 
@@ -22,14 +21,20 @@ const ErrorFallback = () => {
 
 const VideoPlayerFallback = () => {
   return (
-    <AspectRatio ratio={16 / 9}>
-      <div className='flex h-full w-full items-center justify-center rounded-lg bg-black text-white'>
-        <div className='flex flex-col items-center gap-4'>
-          <CircleAlert />
-          <p>Video Failed</p>
-        </div>
-      </div>
-    </AspectRatio>
+    // <AspectRatio ratio={16 / 9}>
+    //   <div className='flex h-full w-full items-center justify-center rounded-lg bg-black text-white'>
+    //     <div className='flex flex-col items-center gap-4'>
+    //       <CircleAlert />
+    //       <p>Video Failed</p>
+    //     </div>
+    //   </div>
+    // </AspectRatio>
+    <NotAvailable
+      heading='Interview hasn’t been completed yet.'
+      description=''
+      Icon={TvMinimalPlay}
+      actionBtn={<></>}
+    />
   );
 };
 
@@ -52,9 +57,10 @@ const Title = ({ title }: { title: string }) => {
 
 const InterviewTranscriptFallback = () => {
   return (
-    <div className='h-full w-full rounded-lg bg-gray-100 p-4 py-8 text-center text-gray-600'>
-      <h3>Transcript not available</h3>
-    </div>
+    <></>
+    // <div className='h-full w-full rounded-lg bg-gray-100 p-4 py-8 text-center text-gray-600'>
+    //   <h3>Transcript not available</h3>
+    // </div>
   );
 };
 
@@ -102,14 +108,14 @@ Transcript.Fallback = InterviewTranscriptFallback;
 
 export const InterviewTranscript = (props: Props) => {
   return (
-    <div className='min-h-[calc(100vh-164px)] max-w-4xl mx-auto lg:py-10 py-5 md:px-5'>
-      <div className='mb-3 lg:mb-6 lg:text-xl text-md font-medium'>
+    <div className='mx-auto min-h-[calc(100vh-164px)] max-w-4xl py-5 md:px-5 lg:py-10'>
+      <div className='text-md mb-3 font-medium lg:mb-6 lg:text-xl'>
         {/* {props.Title} */}
         Interview Transcript
-        </div>
-      <div className='flex flex-col md:gap-12 gap-8'>
+      </div>
+      <div className='flex flex-col gap-8 md:gap-12'>
         {props.videoPlayerComponent}
-        <div className='flex flex-col gap-6 mb-40'>{props.Transcript}</div>
+        <div className='mb-40 flex flex-col gap-6'>{props.Transcript}</div>
       </div>
     </div>
   );
