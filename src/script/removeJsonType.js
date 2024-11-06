@@ -13,7 +13,7 @@ var filePath = path.join('server/db/schema/default.ts');
         .toString()
         .replace(/export type/g, 'export') // Replaces 'export type' with 'export'
         .replace(/export\s+/g, 'export type ') // Ensures 'export' becomes 'export type'
-        .replace(/export\s+type\s+Json\s*=\s*([\s\S]*?\n\n)/g, 'export type Json = any;\n\n')
+        .replace(/export\s+type\s+Json\s*=\s*([\s\S]*?\n\n)/g, 'export type Json = Record<string | number , unknown>;\n\n')
         .replace(/Args:\s*Record<PropertyKey,\s*never>/g, 'Args: {}'); // Replaces 'Args: Record<PropertyKey, never>' with 'Args: {}'
     (0, fs_1.writeFile)(filePath, result, 'utf8', function (err) {
         if (err)

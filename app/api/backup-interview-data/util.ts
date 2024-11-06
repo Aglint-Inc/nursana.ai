@@ -53,12 +53,15 @@ export async function setInterviewAnalysis(
   },
 ) {
   return (
-    await supabase
-      .from('interview_analysis')
-      .update(data)
-      .eq('id', interview_analysis_id)
-      .throwOnError()
-  ).data!;
+    (
+      await supabase
+        .from('interview_analysis')
+        // @ts-ignore
+        .update(data)
+        .eq('id', interview_analysis_id)
+        .throwOnError()
+    ).data!
+  );
 }
 
 export async function UploadAudio(

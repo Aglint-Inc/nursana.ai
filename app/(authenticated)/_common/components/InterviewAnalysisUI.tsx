@@ -15,7 +15,7 @@ import { Progress } from '@/components/ui/progress';
 import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
-import type { InterviewAnalysisType } from '@/dashboard/types';
+import type { DBTable } from '@/server/db/types';
 
 const ErrorFallback = () => {
   return (
@@ -31,7 +31,7 @@ export const InterviewAnalysisUI = ({
   analysis,
   isCandidateView = false,
 }: {
-  analysis: InterviewAnalysisType;
+  analysis: DBTable<'interview_analysis'>['structured_analysis'];
   isCandidateView?: boolean;
 }) => {
   if (!analysis) return <ErrorFallback />;
@@ -48,9 +48,11 @@ export const InterviewAnalysisUI = ({
     : analysis.overall_summary;
 
   return (
-    <div className='mx-auto max-w-4xl p-0 lg:py-10 max-lg:py-5 lg:container'>
-      <div className='mb-3 lg:mb-6 lg:text-xl text-md font-medium'>Interview Feedback</div>
-      <div className='flex flex-col mb-20'>
+    <div className='mx-auto max-w-4xl p-0 lg:container max-lg:py-5 lg:py-10'>
+      <div className='text-md mb-3 font-medium lg:mb-6 lg:text-xl'>
+        Interview Feedback
+      </div>
+      <div className='mb-20 flex flex-col'>
         <AnalysisInterview
           overallScore={analysis?.overall_score ?? 0}
           summary={summary || 'No summary available.'}
@@ -144,7 +146,7 @@ const AnalysisInterview = ({
   ];
 
   return (
-    <div className='lg:mb-16 mb-10 flex flex-col gap-2'>
+    <div className='mb-10 flex flex-col gap-2 lg:mb-16'>
       <ProgressBarCard summary={summary} color='purple'>
         <RadialProgress chartData={chartData} size={200} />
       </ProgressBarCard>
@@ -178,10 +180,10 @@ const RatingBar: React.FC<{
 }> = ({ label, score, explanation, icon }) => (
   <>
     <div className='flex flex-col gap-1'>
-      <div className='flex md:justify-between max-md:flex-col max-md:gap-2'>
+      <div className='flex max-md:flex-col max-md:gap-2 md:justify-between'>
         <div className='flex items-start space-x-2'>
           {icon}
-          <span className='lg:text-lg text-md font-medium'>{label}</span>
+          <span className='text-md font-medium lg:text-lg'>{label}</span>
         </div>
 
         <div className='flex w-40 items-center space-x-2'>
