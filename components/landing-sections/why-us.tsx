@@ -1,16 +1,14 @@
 import Image from 'next/image';
 import React from 'react';
 
-import Section from '../section';
 import { Button } from '../ui/button';
 
 function WhyUS() {
   return (
-    <Section>
       <div className='flex flex-col gap-8 md:gap-10'>
-        <div className='grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-10'>
+        <div className='grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-10'>
           <div className='flex flex-col items-start gap-4'>
-            <h1 className='text-3xl font-medium md:text-5xl'>Why Nursana?</h1>
+            <h1 className='text-3xl font-medium lg:text-5xl'>Why Nursana?</h1>
             <p className='text-base text-muted-foreground md:text-lg'>
               Our AI-driven resume analysis delivers an objective assessment of
               your resume, providing tailored recommendations to enhance its
@@ -21,18 +19,18 @@ function WhyUS() {
             <Button size='lg'>Get Started</Button>
           </div>
 
-          <div className='flex w-full items-center justify-center md:justify-end'>
+          <div className='flex w-full items-center justify-center lg:justify-end'>
             <Image
               alt='Nurse Interview'
               src={'/images/interview.png'}
               width={440}
               height={600}
-              className='h-auto max-w-full'
+              className='h-auto max-w-full max-lg:w-full'
             />
           </div>
         </div>
 
-        <div className='grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-3'>
+        <div className='grid grid-cols-1 gap-4 lg:gap-10 lg:grid-cols-3'>
           <div className='flex flex-col gap-4 rounded-lg bg-muted p-6 md:p-8'>
             <div className='text-lg font-medium md:text-xl'>
               AI-Driven Interviews for Perfect Job Matches
@@ -70,7 +68,6 @@ function WhyUS() {
           </div>
         </div>
       </div>
-    </Section>
   );
 }
 

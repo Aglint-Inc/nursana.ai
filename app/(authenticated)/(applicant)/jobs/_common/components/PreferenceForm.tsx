@@ -132,9 +132,9 @@ function PreferenceForm() {
   }, [preferredLocations, addressSugg]);
 
   return (
-    <div className='flex flex-col gap-10'>
+    <div className='flex flex-col gap-10 py-5'>
       {(!localStoragePreference || !isCompletePreferenceForm) && (
-        <div className='relative w-full rounded-lg bg-muted p-6'>
+        <div className='relative w-full rounded-lg bg-muted lg:p-6 p-4'>
           {/* {isCompletePreferenceForm && (
             <div className='absolute right-[-4px] top-[-4px]'>
               <XCircle
@@ -146,7 +146,7 @@ function PreferenceForm() {
             </div>
           )} */}
           <div className='flex flex-col gap-2'>
-            <div className='text-xl font-medium text-yellow-600'>
+            <div className='lg:text-xl text-lg font-medium text-yellow-600'>
               🔒 Complete Your Profile to Unlock More Job Matches!
             </div>
             <div className='text-md text-muted-foreground'>
