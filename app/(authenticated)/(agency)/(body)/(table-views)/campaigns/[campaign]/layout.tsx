@@ -9,6 +9,9 @@ const Layout = async (props: PropsWithChildren<PageProps>) => {
   void api.authenticated.agency.campaigns.campaign.read.prefetch({
     id: props.params.campaign,
   });
+  void api.authenticated.agency.interviews.read.prefetch({
+    campaign_id: props.params.campaign,
+  });
   return <HydrateClient>{props.children}</HydrateClient>;
 };
 
