@@ -1,4 +1,4 @@
-export type Json = any;
+export type Json = Record<string | number , unknown>;
 
 export type Database = {
   public: {

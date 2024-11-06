@@ -16,7 +16,7 @@ readFile(filePath, 'utf8', (err, data) => {
     .replace(/export\s+/g, 'export type ') // Ensures 'export' becomes 'export type'
     .replace(
       /export\s+type\s+Json\s*=\s*([\s\S]*?\n\n)/g,
-      'export type Json = any;\n\n', // Changes Json type definition
+      'export type Json = Record<string | number , unknown>;\n\n', // Changes Json type definition
     )
     .replace(/Args:\s*Record<PropertyKey,\s*never>/g, 'Args: {}'); // Replaces 'Args: Record<PropertyKey, never>' with 'Args: {}'
 

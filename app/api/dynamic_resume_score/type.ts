@@ -39,7 +39,7 @@ export type overallScoringSchemaType = z.infer<typeof resumeReviewSchema> & {
   overall_score?: number;
 };
 
-export const resumeSchema = z.object({
+export const resumeJSONSchema = z.object({
   basics: z.object({
     currentJobTitle: z
       .string()
@@ -209,4 +209,5 @@ export const resumeSchema = z.object({
     }),
   ),
 });
-export type schemaType = z.infer<typeof resumeSchema>;
+
+export type schemaType = z.infer<typeof resumeJSONSchema>;

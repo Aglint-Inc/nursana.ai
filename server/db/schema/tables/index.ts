@@ -2,6 +2,8 @@ import type { Custom, CustomizableTypes } from '@/app/types';
 
 import type { Database } from '../default';
 import type { AgencyTable } from './agency';
+import type { custom_interview_analysis } from './interview_analysis';
+import type { custom_resume } from './resume';
 
 type DatabaseTables = Database['public']['Tables'];
 type DatabaseTableInsert<T extends keyof DatabaseTables> =
@@ -38,5 +40,7 @@ export type Tables = Custom<
   DatabaseTables,
   {
     agency: AgencyTable;
+    interview_analysis: custom_interview_analysis;
+    resume: custom_resume;
   }
 >;

@@ -1,10 +1,10 @@
 import 'server-only';
 
-import type { transcriptAnalysisSchemaType } from 'app/api/score_call/util';
 import { z } from 'zod';
 
 import { type AgencyProcedure, agencyProcedure } from '@/server/api/trpc';
 import { createPublicClient } from '@/server/db/client';
+import { type DBTable } from '@/server/db/types';
 import type { SupabaseClientType } from '@/utils/supabase/supabaseAdmin';
 
 const inputSchema = z.object({
@@ -87,5 +87,5 @@ export type get_resume_analytics_type = {
     summary: string;
     overallScore: string;
   };
-  structured_analysis: transcriptAnalysisSchemaType;
+  structured_analysis: DBTable<'resume'>['structured_resume'];
 }[];

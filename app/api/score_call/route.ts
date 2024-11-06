@@ -3,11 +3,11 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/server';
 import type { SupabaseClientType } from '@/utils/supabase/supabaseAdmin';
 
+import { transcriptAnalysisSchema } from './type';
 import { calculateOverallScore, transcriptParser } from './util';
 import {
   professionalSummaryPromptArchive,
   score,
-  transcriptAnalysisSchema,
   type transcriptSchemaType,
 } from './util';
 
