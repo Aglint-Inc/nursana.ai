@@ -20,6 +20,20 @@ export const getFilterFields = (data: ColumnSchema[]) =>
     //   commandDisabled: true,
     // },
     {
+      label: 'Template',
+      value: 'template',
+      type: 'checkbox',
+      options: Array.from(
+        data.reduce((acc, { template }) => {
+          acc.set(template.id, template.name);
+          return acc;
+        }, new Map<ColumnSchema['template']['id'], ColumnSchema['template']['name']>()),
+      ).map(([id, name]) => ({
+        label: name,
+        value: id,
+      })),
+    },
+    {
       label: 'Campaign Code',
       value: 'campaign_code',
       type: 'checkbox',
