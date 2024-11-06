@@ -45,6 +45,7 @@ const Banner = () => {
 
 const InterviewScore = () => {
   const { structured_analysis } = useInterviewAnalysis();
+  if (!structured_analysis) throw new Error('Interview score unavailable');
   return (
     <InterviewHome.InterviewScore score={structured_analysis.overall_score} />
   );
@@ -58,7 +59,8 @@ const InterviewScoreFallback = () => {
 
 const ResumeScore = () => {
   const { resume_feedback } = useInterviewResume();
-  return <InterviewHome.ResumeScore score={resume_feedback.overallScore} />;
+  if (!resume_feedback) throw new Error('Resume feedback unavailable');
+  return <InterviewHome.ResumeScore score={resume_feedback.overall_score} />;
 };
 
 const ResumeScoreFallback = () => {

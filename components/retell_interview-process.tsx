@@ -1,6 +1,5 @@
 'use client';
 
-import { type ResumeDetailsType } from 'app/(authenticated)/(applicant)/profile/_common/types';
 import {
   useUpdateInterviews,
   useUpdateInterviewsAnalysis,
@@ -13,6 +12,7 @@ import { type InterviewData } from 'src/types/types';
 
 import { Button } from '@/components/ui/button';
 import { useVideoRecording } from '@/hooks/useVideoRecording';
+import type { DBTable } from '@/server/db/types';
 import { supabase } from '@/utils/supabase/client';
 
 import Footer from './footer';
@@ -25,7 +25,7 @@ import Retry from './Retry';
 interface InterviewProps {
   interviewId: string;
   interviewData: InterviewData;
-  resumeData: ResumeDetailsType;
+  resumeData: DBTable<'resume'>['structured_resume'] | undefined;
 }
 
 interface ConversationTurn {
@@ -251,15 +251,17 @@ export default function Interview({
 
   return (
     <div>
-      <div className='flex h-[calc(100vh-72px)] flex-col md:items-center  max-md:px-5'>
+      <div className='flex h-[calc(100vh-72px)] flex-col max-md:px-5 md:items-center'>
         {!isInterviewStarted && !isProcessing ? (
           <>
             <div className='mt-6 flex flex-col md:items-center'>
-              <div className='max-md:w-full'><NursanaLogo /></div>
-              <h1 className='mb-2 mt-6 md:text-center md:text-3xl text-xl font-medium'>
+              <div className='max-md:w-full'>
+                <NursanaLogo />
+              </div>
+              <h1 className='mb-2 mt-6 text-xl font-medium md:text-center md:text-3xl'>
                 Let&apos;s Start Your AI Interview
               </h1>
-              <p className='mb-6 max-w-xl md:text-center text-muted-foreground'>
+              <p className='mb-6 max-w-xl text-muted-foreground md:text-center'>
                 Your camera has been initialized. Once you&apos;re ready, click
                 &apos;Start Interview&apos; to begin. Our AI system will guide
                 you through the process.

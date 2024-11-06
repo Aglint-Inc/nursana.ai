@@ -1,4 +1,13 @@
-import { Brain, Briefcase, ExternalLink,FileText, GraduationCap, Languages, Notebook, Star } from 'lucide-react';
+import {
+  Brain,
+  Briefcase,
+  ExternalLink,
+  FileText,
+  GraduationCap,
+  Languages,
+  Notebook,
+  Star,
+} from 'lucide-react';
 import Link from 'next/link';
 
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,14 +15,13 @@ import { Progress } from '@/components/ui/progress';
 import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
-import { type FeedbackData } from '@/dashboard/components/ResumeFeedback';
 import type { DBTable } from '@/db/types';
 
 const ErrorFallback = () => {
   return (
     <NotAvailable
       Icon={Notebook}
-      description={` Resume Feedback is currently unavailable`}
+      description={`Resume Feedback is currently unavailable`}
       heading={`Data temporarily unavailable`}
     />
   );
@@ -28,10 +36,13 @@ export const ResumeFeedbackUI = ({
   isCandidateView?: boolean;
   resumeUrl: string;
 }) => {
-  const resumeFeedback = resume?.resume_feedback as FeedbackData;
-  if (!resumeFeedback && (resume?.error_status || resume?.processing_status))
+  if (
+    !resume?.resume_feedback &&
+    (resume?.error_status || resume?.processing_status)
+  ) {
     return <ErrorFallback />;
-
+  }
+  const resumeFeedback = resume?.resume_feedback!;
   const achievements_and_metrics = resumeFeedback.achievements_and_metrics;
   const education = resumeFeedback.education;
   const experience_relevance_and_clarity =
@@ -41,31 +52,51 @@ export const ResumeFeedbackUI = ({
   const skills_and_keywords = resumeFeedback.skills_and_keywords;
 
   const details = [
-    { label: 'Achievements And Metrics', icon: <Star className='h-5 w-5 text-purple-600' />, ...achievements_and_metrics },
-    { label: 'Education', icon: <GraduationCap className='h-5 w-5 text-purple-600' />, ...education },
+    {
+      label: 'Achievements And Metrics',
+      icon: <Star className='h-5 w-5 text-purple-600' />,
+      ...achievements_and_metrics,
+    },
+    {
+      label: 'Education',
+      icon: <GraduationCap className='h-5 w-5 text-purple-600' />,
+      ...education,
+    },
     {
       label: 'Experience Relevance And Clarity',
       icon: <Briefcase className='h-5 w-5 text-purple-600' />,
       ...experience_relevance_and_clarity,
     },
-    { label: 'Grammar And Language', icon: <Languages className='h-5 w-5 text-purple-600' />, ...grammar_and_language },
-    { label: 'Professional Summary', icon: <FileText className='h-5 w-5 text-purple-600' />, ...professional_summary },
-    { label: 'Skills And Keywords', icon: <Brain className='h-5 w-5 text-purple-600' />, ...skills_and_keywords },
+    {
+      label: 'Grammar And Language',
+      icon: <Languages className='h-5 w-5 text-purple-600' />,
+      ...grammar_and_language,
+    },
+    {
+      label: 'Professional Summary',
+      icon: <FileText className='h-5 w-5 text-purple-600' />,
+      ...professional_summary,
+    },
+    {
+      label: 'Skills And Keywords',
+      icon: <Brain className='h-5 w-5 text-purple-600' />,
+      ...skills_and_keywords,
+    },
   ];
   const summary = isCandidateView
     ? resumeFeedback?.overall_feedback || 'No summary available'
     : resumeFeedback?.overall_comment || 'No summary available';
 
   return (
-    <div className='lg:mb-6 mb-3 max-lg:py-5 lg:container'>
-      <div className='mb-6 lg:text-xl text-md font-medium'>Resume Review</div>
+    <div className='mb-3 lg:container max-lg:py-5 lg:mb-6'>
+      <div className='text-md mb-6 font-medium lg:text-xl'>Resume Review</div>
 
       <ResumeScoreCard
         resume={resume}
         summary={summary}
         resumeUrl={resumeUrl}
       />
-      <div className='flex flex-col gap-10 mb-20'>
+      <div className='mb-20 flex flex-col gap-10'>
         {details.map((detail) => (
           <RatingBar
             key={detail.label}
@@ -93,7 +124,7 @@ const RatingBar: React.FC<{
       <div className='flex justify-between max-lg:flex-col max-lg:gap-2'>
         <div className='flex items-start space-x-2'>
           {icon}
-          <span className='lg:text-lg text-md font-medium'>{label}</span>
+          <span className='text-md font-medium lg:text-lg'>{label}</span>
         </div>
 
         <div className='flex w-40 items-center space-x-2'>
