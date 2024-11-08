@@ -22,6 +22,22 @@ export function useVideoRecording() {
       setError(`Failed to initialize camera: ${(err as Error).message}`);
     }
   }, []);
+  const getRecorderOptions = useCallback(() => {
+    const options: MediaRecorderOptions = {
+      audioBitsPerSecond: 96000,
+      videoBitsPerSecond: 750000,
+    };
+    if (MediaRecorder.isTypeSupported('video/webm; codecs=vp9')) {
+      options.mimeType = 'video/webm; codecs=vp9';
+    } else if (MediaRecorder.isTypeSupported('video/webm')) {
+      options.mimeType = 'video/webm';
+    } else if (MediaRecorder.isTypeSupported('video/mp4')) {
+      options.mimeType = 'video/mp4';
+    } else {
+      console.error('No suitable mimetype found for this device');
+    }
+    return options;
+  }, []);
 
   const startRecording = useCallback(async () => {
     if (!videoRef.current?.srcObject) {
@@ -31,10 +47,10 @@ export function useVideoRecording() {
 
     try {
       const stream = videoRef.current.srcObject as MediaStream;
-      mediaRecorderRef.current = new MediaRecorder(stream, {
-        mimeType: 'video/webm; codecs=vp9',
-        videoBitsPerSecond: 1000000,
-      });
+      mediaRecorderRef.current = new MediaRecorder(
+        stream,
+        getRecorderOptions(),
+      );
       mediaRecorderRef.current.start();
       setIsRecording(true);
       mediaRecorderRef.current.ondataavailable = (event) => {
