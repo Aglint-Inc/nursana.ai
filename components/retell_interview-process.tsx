@@ -47,6 +47,7 @@ export default function Interview({
     videoRef,
     error: videoError,
     videoBlobRef,
+    fileMeta,
   } = useVideoRecording();
   const { updateInterview } = useUpdateInterviews();
   const { updateInterviewAnalysis } = useUpdateInterviewsAnalysis();
@@ -77,8 +78,8 @@ export default function Interview({
   const generateFilePath = useCallback(() => {
     const timestamp = Date.now();
     const randomString = Math.random().toString(36).substring(2, 15);
-    return `interviews/${timestamp}_${randomString}.webm`;
-  }, []);
+    return `interviews/${timestamp}_${randomString}.${fileMeta.formate}`;
+  }, [fileMeta.formate]);
 
   const processAndUploadInterview = useCallback(async () => {
     if (!callData?.analysisId) {
@@ -110,7 +111,7 @@ export default function Interview({
       const { error: uploadError } = await supabase.storage
         .from('videos')
         .upload(filePath, videoBlobRef.current, {
-          contentType: 'video/webm',
+          contentType: fileMeta.mime,
           cacheControl: '3600',
           upsert: false,
         });
@@ -156,6 +157,7 @@ export default function Interview({
     callData?.analysisId,
     generateFilePath,
     videoBlobRef,
+    fileMeta.formate,
   ]);
 
   const param = useParams();
@@ -283,7 +285,7 @@ export default function Interview({
         )}
 
         {isProcessing ? (
-          <div className='mt-4 flex h-[50vh] md:w-[700px] w-full flex-col items-center justify-center rounded-lg p-4 text-center text-gray-500'>
+          <div className='mt-4 flex h-[50vh] w-full flex-col items-center justify-center rounded-lg p-4 text-center text-gray-500 md:w-[700px]'>
             <MultiStepLoader />
           </div>
         ) : isInterviewStarted ? (
