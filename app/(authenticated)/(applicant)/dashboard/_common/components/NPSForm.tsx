@@ -62,7 +62,7 @@ export default function NPSForm() {
     if (
       !openInterviewRating &&
       interview?.interview_stage === 'interview_completed' &&
-      analysis.structured_analysis &&
+      analysis?.structured_analysis &&
       !interviewRating &&
       loginStage
     ) {
