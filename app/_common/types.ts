@@ -1,3 +1,7 @@
+export type Prettify<T extends Record<string, unknown>> = {
+  [K in keyof T]: T[K];
+} & {};
+
 export type CustomizableTypes<T extends 'Array' | 'Object'> = T extends 'Array'
   ? Record<string, unknown>[]
   : Record<string, unknown>;
@@ -28,9 +32,9 @@ export type Custom<
 > =
   T extends CustomizableTypes<'Object'>
     ? //@ts-expect-error
-      CustomObject<T, U>
+      Prettify<CustomObject<T, U>>
     : T extends CustomizableTypes<'Array'>
-      ? CustomObject<T[number], U>
+      ? Prettify<CustomObject<T[number], U>>
       : never;
 
 type RequiredOnly<T extends CustomizableTypes<'Object'>> = Pick<
