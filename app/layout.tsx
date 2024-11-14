@@ -3,6 +3,7 @@ import './globals.css';
 import { GeistSans } from 'geist/font/sans';
 import { ThemeProvider } from 'next-themes';
 
+import PostHogPageView from './_common/components/PostHogPageView';
 import Providers from './providers';
 
 const defaultUrl = process.env.VERCEL_URL
@@ -57,7 +58,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main className='flex flex-col items-center overflow-hidden'>
-            <Providers>{children}</Providers>
+            <Providers>
+              <PostHogPageView />
+              {children}
+            </Providers>
           </main>
         </ThemeProvider>
       </body>
