@@ -1,9 +1,9 @@
 import './globals.css';
 
 import { GeistSans } from 'geist/font/sans';
+import dynamic from 'next/dynamic';
 import { ThemeProvider } from 'next-themes';
 
-import PostHogPageView from './_common/components/PostHogPageView';
 import Providers from './providers';
 
 const defaultUrl = process.env.VERCEL_URL
@@ -43,6 +43,13 @@ export const metadata = {
     images: [`${defaultUrl}/og-image.png`],
   },
 };
+
+const PostHogPageView = dynamic(
+  () => import('./_common/components/PostHogPageView'),
+  {
+    ssr: false,
+  },
+);
 
 export default function RootLayout({
   children,
