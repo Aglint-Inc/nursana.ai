@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
 import { useEffect, useState } from 'react';
 import { api } from 'trpc/client';
 import { type z } from 'zod';
@@ -12,6 +13,7 @@ import { useCampaign } from './useCampaign';
 
 export const useUploadCampaign = () => {
   const { toast } = useToast();
+  const posthog = usePostHog();
   const { data: campaignData } = useCampaign();
   const [saving, setSaving] = useState(false);
   const router = useRouter();
@@ -54,6 +56,15 @@ export const useUploadCampaign = () => {
   });
 
   const handleSubmit = async () => {
+    posthog.capture('Campaign submitted', {
+      email: getValues().email,
+      first_name: getValues().first_name,
+      role: getValues().role,
+      licenses: getValues().licenses,
+      campaign_id: campaignData?.id,
+      applicant_id: getValues().applicant_id,
+    });
+
     try {
       setSaving(true);
 

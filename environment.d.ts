@@ -19,6 +19,8 @@ declare global {
       RETELL_API_KEY: string;
       DB_PASS: string;
       GOOGLE_PLACES_API_KEY: string;
+      NEXT_PUBLIC_POSTHOG_KEY: string;
+      NEXT_PUBLIC_POSTHOG_HOST: string;
     }
   }
 }

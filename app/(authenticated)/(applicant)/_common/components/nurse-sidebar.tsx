@@ -13,6 +13,8 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
+import { useEffect } from 'react';
 
 import { useLogout } from '@/authenticated/hooks/useLogout';
 // import Footer from '@/components/footer';
@@ -103,9 +105,20 @@ export function NurseSidebar() {
   const { applicant_user } = useUserData();
   const queryClient = useQueryClient();
   const { logout } = useLogout();
+  const posthog = usePostHog();
+
+  useEffect(() => {
+    if (applicant_user) {
+      posthog.capture(`navigated ${params}`, {
+        email: applicant_user.user.email,
+        user_id: applicant_user.user.id,
+      });
+    }
+  }, [params]);
+
   return (
     <Sidebar>
-      <SidebarHeader className='p-4 lg:block hidden'>
+      <SidebarHeader className='hidden p-4 lg:block'>
         <NursanaLogo />
       </SidebarHeader>
       <SidebarContent>

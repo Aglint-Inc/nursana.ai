@@ -2,6 +2,8 @@
 
 import { Calendar, Clock, FileText } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
+import { useEffect } from 'react';
 import { type InterviewData } from 'src/types/types';
 
 import { Button } from '@/components/ui/button';
@@ -18,6 +20,15 @@ interface InterviewSummaryProps {
 export default function InterviewSummary({
   interviewData,
 }: InterviewSummaryProps) {
+  const posthog = usePostHog();
+  useEffect(() => {
+    const hasCaptured = localStorage.getItem('stage_interview_summary');
+    if (!hasCaptured) {
+      posthog.capture('stage_interview_summary');
+      localStorage.setItem('stage_interview_summary', 'true');
+    }
+  }, []);
+
   const router = useRouter();
   return (
     <div className='flex flex-col items-center'>
