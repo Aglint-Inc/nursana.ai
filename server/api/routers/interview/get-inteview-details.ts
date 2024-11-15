@@ -17,7 +17,6 @@ const query = async ({ input }: ApplicantProcedure<typeof schema>) => {
     .select('*,version!inner(*)')
     .eq('id', interview_id)
     .single();
-
   return interview!;
 };
 
