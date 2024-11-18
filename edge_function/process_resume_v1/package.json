@@ -14,7 +14,7 @@
     "tsconfig": "tsc --init",
     "gcp-build": "tsc",
     "start": "tsc && functions-framework --target hello --port 8081",
-    "dev": "nodemon src/index.ts",
+    "dev": "tsc && functions-framework --target hello --port 8081",
     "deploy": "gcloud functions deploy nursera_ai_process_resume_v1 --gen2 --runtime=nodejs18 --region=northamerica-northeast2 --source=. --entry-point=hello --trigger-http --allow-unauthenticated"
   },
   "dependencies": {

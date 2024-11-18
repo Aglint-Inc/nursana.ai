@@ -1,13 +1,13 @@
-import { PromptTemplate } from "@langchain/core/prompts";
-import { ChatOpenAI } from "@langchain/openai";
-import { JsonOutputFunctionsParser } from "langchain/output_parsers";
-import { type z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
+import { PromptTemplate } from '@langchain/core/prompts';
+import { ChatOpenAI } from '@langchain/openai';
+import { JsonOutputFunctionsParser } from 'langchain/output_parsers';
+import { type z } from 'zod';
+import { zodToJsonSchema } from 'zod-to-json-schema';
 
-import { schema } from "./schema";
+import { schema } from './schema';
 
 const TEMPLATE = `Extract the requested fields from the input text only.
-Do not add or generate extra information use only given text.
+Fix spelling mistakes. Do not add or generate extra information use only given text.
 The field "entity" refers to the first mentioned entity in the input.
 Input:
 
@@ -19,6 +19,7 @@ export const parseJson = async (currentMessageContent: string) => {
   let totalExecutionTokens = 0;
   const prompt = PromptTemplate.fromTemplate(TEMPLATE);
   const model = new ChatOpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
     callbacks: [
       {
         handleLLMEnd: (output) => {
@@ -31,7 +32,7 @@ export const parseJson = async (currentMessageContent: string) => {
       },
     ],
     temperature: 0.5,
-    modelName: "gpt-4o-mini",
+    modelName: 'gpt-4o-mini',
     // tokens.length < 1000 ? "gpt-3.5-turbo-0613" : "gpt-3.5-turbo-16k-0613",
     // verbose: true,
     timeout: 100 * 1000, //30sec
@@ -39,12 +40,12 @@ export const parseJson = async (currentMessageContent: string) => {
   const functionCallingModel = model.bind({
     functions: [
       {
-        name: "output_formatter",
-        description: "Should always be used to properly format output",
+        name: 'output_formatter',
+        description: 'Should always be used to properly format output',
         parameters: zodToJsonSchema(schema),
       },
     ],
-    function_call: { name: "output_formatter" },
+    function_call: { name: 'output_formatter' },
   });
   /**
    * Returns a chain with the function calling model.
