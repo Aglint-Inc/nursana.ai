@@ -1,20 +1,19 @@
 import {
   Brain,
-  ExternalLink,
   Lightbulb,
   Puzzle,
   TvMinimalPlay,
   UserCheck,
   Zap,
 } from 'lucide-react';
-import Link from 'next/link';
 
-import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
 import type { DBTable } from '@/server/db/types';
+
+import { RadarChartInterview } from './RadarChartInterview';
 
 const ErrorFallback = () => {
   return (
@@ -52,11 +51,12 @@ export const InterviewAnalysisUI = ({
       <div className='text-md mb-3 font-medium lg:mb-6 lg:text-xl'>
         Interview Feedback
       </div>
-      <div className='mb-20 flex flex-col'>
+      <div className='mb-20 flex flex-col gap-8'>
         <AnalysisInterview
           overallScore={analysis?.overall_score ?? 0}
           summary={summary || 'No summary available.'}
         />
+        <RadarChartInterview analysis={analysis} />
         <div className='flex flex-col gap-8'>
           {articulation && (
             <RatingBar
@@ -146,28 +146,10 @@ const AnalysisInterview = ({
   ];
 
   return (
-    <div className='mb-10 flex flex-col gap-2 lg:mb-16'>
+    <div className='flex flex-col gap-2'>
       <ProgressBarCard summary={summary} color='purple'>
         <RadialProgress chartData={chartData} size={200} />
       </ProgressBarCard>
-      <Link href={'/interview-transcript'}>
-        <Card className='group border-border shadow-none duration-300 hover:bg-muted'>
-          <CardContent className='p-4'>
-            <div className='flex items-center justify-between'>
-              <div className='flex items-center'>
-                <TvMinimalPlay
-                  className='mr-2 h-6 w-6 text-muted-foreground'
-                  strokeWidth={1}
-                />
-                <div className='flex items-center'>Replay interview</div>
-              </div>
-              <div className='group relative'>
-                <ExternalLink className='mr-4 h-4 w-4' />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </Link>
     </div>
   );
 };

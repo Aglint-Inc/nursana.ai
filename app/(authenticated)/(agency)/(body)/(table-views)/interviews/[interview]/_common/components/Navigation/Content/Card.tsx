@@ -21,6 +21,7 @@ export const Card = (props: Props) => {
 const Link = (props: PropsWithChildren<Props>) => {
   const { interview } = useCurrentInterview();
   const { intercepted } = useNavigation();
+
   return (
     <NextLink
       replace={intercepted}
