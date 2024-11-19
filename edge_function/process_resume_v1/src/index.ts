@@ -14,7 +14,6 @@ import {
   saveToDB,
   setToProcessing,
 } from './utils';
-
 export const hello: HttpFunction = async (req: Request, res: Response) => {
   res.set('Access-Control-Allow-Origin', '*');
   if (req.method === 'POST') {
