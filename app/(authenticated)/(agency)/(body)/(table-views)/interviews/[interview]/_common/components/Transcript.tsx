@@ -36,44 +36,42 @@ function isMessageArray(arr: any): arr is Message[] {
 
 export const Transcript = () => {
   return (
-    <div>
-      <ErrorBoundary fallback={<InterviewTranscript.ErrorFallback />}>
-        <ScrollArea className=''>
-          <InterviewTranscript
-            Transcript={
-              <ErrorBoundary
-                fallback={<InterviewTranscript.Transcript.Fallback />}
-              >
-                <TranscriptComp />
-              </ErrorBoundary>
-            }
-            videoPlayerComponent={
-              <ErrorBoundary
+    <ErrorBoundary fallback={<InterviewTranscript.ErrorFallback />}>
+      <ScrollArea className='max-h-[100vh]'>
+        <InterviewTranscript
+          Transcript={
+            <ErrorBoundary
+              fallback={<InterviewTranscript.Transcript.Fallback />}
+            >
+              <TranscriptComp />
+            </ErrorBoundary>
+          }
+          videoPlayerComponent={
+            <ErrorBoundary
+              fallback={
+                <>
+                  <NotAvailable
+                    heading='Video is not available'
+                    description='Please check back in a little while for updated information.'
+                    Icon={Sparkles}
+                  />
+                </>
+              }
+            >
+              <Suspense
                 fallback={
-                  <>
-                    <NotAvailable
-                      heading='Video is not available'
-                      description='Please check back in a little while for updated information.'
-                      Icon={Sparkles}
-                    />
-                  </>
+                  <div className='h-[516px]'>
+                    <Loader />
+                  </div>
                 }
               >
-                <Suspense
-                  fallback={
-                    <div className='h-[516px]'>
-                      <Loader />
-                    </div>
-                  }
-                >
-                  <VideoAndAudio />
-                </Suspense>
-              </ErrorBoundary>
-            }
-          />
-        </ScrollArea>
-      </ErrorBoundary>
-    </div>
+                <VideoAndAudio />
+              </Suspense>
+            </ErrorBoundary>
+          }
+        />
+      </ScrollArea>
+    </ErrorBoundary>
   );
 };
 

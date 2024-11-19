@@ -17,6 +17,8 @@ import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
 import type { DBTable } from '@/db/types';
 
+import { RadarChartResume } from './RadarChartResume';
+
 const ErrorFallback = () => {
   return (
     <NotAvailable
@@ -88,7 +90,7 @@ export const ResumeFeedbackUI = ({
     : resumeFeedback?.overall_comment || 'No summary available';
 
   return (
-    <div className='mb-3 lg:container max-lg:py-5 lg:mb-6'>
+    <div className='my-3 flex flex-col gap-8 lg:container max-lg:py-5 lg:my-6'>
       <div className='text-md mb-6 font-medium lg:text-xl'>Resume Review</div>
 
       <ResumeScoreCard
@@ -96,6 +98,7 @@ export const ResumeFeedbackUI = ({
         summary={summary}
         resumeUrl={resumeUrl}
       />
+      <RadarChartResume feedback={resume.resume_feedback} />
       <div className='mb-20 flex flex-col gap-10'>
         {details.map((detail) => (
           <RatingBar
@@ -159,7 +162,7 @@ const ResumeScoreCard = ({
   ];
 
   return (
-    <div className='mb-10 flex flex-col gap-2'>
+    <div className='flex flex-col gap-2'>
       <ProgressBarCard
         summary={summary ?? 'Summary not available'}
         color='pink'
