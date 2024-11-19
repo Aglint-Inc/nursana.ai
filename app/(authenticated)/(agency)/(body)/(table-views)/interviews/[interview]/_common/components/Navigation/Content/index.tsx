@@ -1,3 +1,5 @@
+import { useSearchParams } from 'next/navigation';
+
 import {
   SidebarContent,
   SidebarGroup,

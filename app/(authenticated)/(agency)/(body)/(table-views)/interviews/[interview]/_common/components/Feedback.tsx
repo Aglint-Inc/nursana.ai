@@ -17,10 +17,8 @@ export const Feedback = () => {
 const Content = () => {
   const analysis = useInterviewAnalysis();
   return (
-    <div>
-      <ScrollArea className='mx-auto min-h-[800px]  overflow-auto'>
-        <InterviewAnalysisUI analysis={analysis?.structured_analysis} />
-      </ScrollArea>
-    </div>
+    <ScrollArea className='max-h-[100vh] min-h-[800px]'>
+      <InterviewAnalysisUI analysis={analysis?.structured_analysis} />
+    </ScrollArea>
   );
 };

@@ -3,13 +3,15 @@
 import { useRouter } from 'next/navigation';
 import { type PropsWithChildren } from 'react';
 
-import { Drawer as UIDrawer, DrawerContent } from '@/components/ui/drawer';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
 
 export const Drawer = (props: PropsWithChildren) => {
   const router = useRouter();
   return (
-    <UIDrawer open onClose={() => router.back()}>
-      <DrawerContent className='h-[90%] overflow-hidden'>{props.children}</DrawerContent>
-    </UIDrawer>
+    <Sheet open={true} onOpenChange={() => router.back()}>
+      <SheetContent side='right' className={`min-w-[1200px] p-0`}>
+        {props.children}
+      </SheetContent>
+    </Sheet>
   );
 };
