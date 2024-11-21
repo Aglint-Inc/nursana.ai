@@ -1,18 +1,11 @@
-import { Storage } from '@google-cloud/storage';
-import { SchemaType, VertexAI } from '@google-cloud/vertexai';
+import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
 import { type NextRequest, NextResponse } from 'next/server';
-import fetch from 'node-fetch';
-import { Readable } from 'stream';
-import { response_schema } from './response-schema';
-import {
-  getSupabaseAdminServer,
-  SupabaseClientType,
-} from '@/utils/supabase/supabaseAdmin';
 import {
   fetchAnalysis,
   sendMultiModalPromptWithVideo,
   uploadToGCS,
 } from './utils';
+import { decrypt, encrypt } from '@/utils/encrypt-decrypt';
 
 const bucketName = 'video-analysis-interview';
 
@@ -22,6 +15,7 @@ type Request = {
 
 export async function POST(request: NextRequest) {
   const db = getSupabaseAdminServer();
+
   try {
     const { analysis_id } = (await request.json()) as Request;
     if (!analysis_id) throw new Error(`analysis_id doesnt exist`);
@@ -54,7 +48,7 @@ export async function POST(request: NextRequest) {
     );
 
     return NextResponse.json(
-      { signedUrl: data?.signedUrl, analysis },
+      { signedUrl: data?.signedUrl, googleStorageUri: gcsUri, analysis },
       { status: 200 },
     );
   } catch (error) {
