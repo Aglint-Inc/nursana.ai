@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { ThemeProvider } from 'next-themes';
 
 import Providers from './providers';
+import ScriptAppolo from './_common/components/ScriptAppolo';
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -59,6 +60,7 @@ export default function RootLayout({
   return (
     <html lang='en' className={GeistSans.className} suppressHydrationWarning>
       <body className='bg-background text-foreground'>
+        <ScriptAppolo />
         <ThemeProvider
           attribute='class'
           defaultTheme='light'
