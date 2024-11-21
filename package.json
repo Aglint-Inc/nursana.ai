@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.67",
+    "@google-cloud/storage": "^7.14.0",
+    "@google-cloud/vertexai": "^1.9.0",
     "@hookform/resolvers": "^3.9.0",
     "@openai/realtime-api-beta": "github:openai/openai-realtime-api-beta",
     "@radix-ui/react-accordion": "^1.2.1",
@@ -65,6 +67,7 @@
     "dayjs": "^1.11.11",
     "framer-motion": "^11.11.9",
     "geist": "^1.2.1",
+    "google-auth-library": "^9.15.0",
     "html-react-parser": "^5.1.18",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.440.0",
