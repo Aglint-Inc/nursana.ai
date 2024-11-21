@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
     const resAnalysis = await fetchAnalysis(db, analysis_id);
 
     const fileName = resAnalysis?.video_url?.split('/').pop();
+    const fileExtension = resAnalysis?.video_url?.split('.').pop() || 'webm';
     if (!fileName) throw new Error(`Video url doesnt exist`);
 
     const { data } = await db.storage
@@ -45,10 +46,11 @@ export async function POST(request: NextRequest) {
       'gemini-1.5-flash-001',
       gcsUri,
       'Registered nurse',
+      fileExtension,
     );
 
     return NextResponse.json(
-      { signedUrl: data?.signedUrl, googleStorageUri: gcsUri, analysis },
+      { signedUrl: data?.signedUrl, googleStorageUri: gcsUri, ...analysis },
       { status: 200 },
     );
   } catch (error) {

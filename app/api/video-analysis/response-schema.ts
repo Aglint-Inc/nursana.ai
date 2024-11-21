@@ -54,3 +54,29 @@ export const response_schema = {
     'confidence',
   ],
 };
+
+export interface ResponseSchema {
+  empathy_score: number;
+  sentiment: {
+    value: string;
+    confidence: number;
+  };
+  clarity_score: number;
+  professionalism: number;
+  behavioral_traits: string[];
+  stress_level: {
+    value: string;
+    confidence: number;
+  };
+  body_language: {
+    eye_contact: string;
+    smiling: string;
+    gesture_use: string;
+  };
+  audio_analysis: {
+    tone: string;
+    speech_speed: string;
+    pauses: string;
+  };
+  confidence: number;
+}

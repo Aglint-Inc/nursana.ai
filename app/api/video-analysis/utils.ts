@@ -2,7 +2,7 @@ import { SupabaseClientType } from '@/utils/supabase/supabaseAdmin';
 import { Storage } from '@google-cloud/storage';
 import { VertexAI } from '@google-cloud/vertexai';
 import { Readable } from 'stream';
-import { response_schema } from './response-schema';
+import { response_schema, ResponseSchema } from './response-schema';
 import { decrypt } from '@/utils/encrypt-decrypt';
 
 export async function fetchAnalysis(
@@ -67,7 +67,8 @@ export async function sendMultiModalPromptWithVideo(
   model: string,
   gcsUri: string,
   jobTitle: string,
-): Promise<string> {
+  fileExtension: string,
+) {
   try {
     const vertexAI = new VertexAI({
       project: projectId,
@@ -97,7 +98,7 @@ export async function sendMultiModalPromptWithVideo(
             {
               fileData: {
                 fileUri: gcsUri, // Use GCS URI
-                mimeType: 'video/webm',
+                mimeType: `video/${fileExtension}`,
               },
             },
             {
@@ -129,13 +130,18 @@ export async function sendMultiModalPromptWithVideo(
     };
 
     // Call Vertex AI API
-    const response = await generativeVisionModel.generateContent(request);
-    const aggregatedResponse = await response.response;
+    const response = (await generativeVisionModel.generateContent(request))
+      .response;
 
     // Extract and return empathy score
-    return aggregatedResponse?.candidates?.[0].content.parts[0].text
-      ? JSON.parse(aggregatedResponse?.candidates?.[0].content.parts[0].text)
-      : '';
+    return {
+      tokenUsage: response.usageMetadata,
+      analysis: response?.candidates?.[0].content.parts[0].text
+        ? (JSON.parse(
+            response?.candidates?.[0].content.parts[0].text,
+          ) as ResponseSchema)
+        : null,
+    };
   } catch (error) {
     throw new Error(`Error in Vertex AI request: ${error.message}`);
   }
