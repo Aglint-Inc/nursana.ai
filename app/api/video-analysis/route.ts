@@ -11,9 +11,9 @@ const bucketName = 'video-analysis-interview';
 const model = 'gemini-1.5-flash-001';
 const location = 'us-central1';
 
-type Request = {
+interface Request {
   analysis_id: string;
-};
+}
 
 export async function POST(request: NextRequest) {
   const db = getSupabaseAdminServer();
