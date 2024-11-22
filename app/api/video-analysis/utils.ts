@@ -4,27 +4,72 @@ import { VertexAI } from '@google-cloud/vertexai';
 import { Readable } from 'stream';
 import { response_schema, ResponseSchema } from './response-schema';
 import { decrypt } from '@/utils/encrypt-decrypt';
+import { promptVideoAnalysis } from './promt';
+import { DBTable } from '@/server/db/types';
 
 export async function fetchAnalysis(
   db: SupabaseClientType,
   analysis_id: string,
 ) {
-  return (
+  const data = (
     await db
       .from('interview_analysis')
-      .select()
+      .select('*')
       .eq('id', analysis_id)
       .single()
       .throwOnError()
   ).data;
+  if (!data) throw new Error('Unable to fetch analysis_id');
+  return data;
 }
 
-export async function uploadToGCS(
-  projectId: string,
-  fileUrl: string,
-  bucketName: string,
-  destination: string,
-): Promise<string> {
+export const getSignedUrl = async (
+  video_url: string,
+  db: SupabaseClientType,
+) => {
+  const fileName = video_url?.split('/').pop();
+  if (!fileName) throw new Error(`Video url doesnt exist`);
+
+  const { data } = await db.storage
+    .from('videos')
+    .createSignedUrl('interviews/' + fileName, 60 * 10);
+
+  if (!data?.signedUrl) throw new Error('Unable to fetch signed url');
+
+  return data?.signedUrl;
+};
+
+export const saveAnalysisToDB = ({
+  db,
+  analysis_id,
+  analysis_json,
+  storage_uri,
+}: {
+  db: SupabaseClientType;
+  analysis_id: string;
+  analysis_json: any;
+  storage_uri: string;
+}) => {
+  db.from('interview_analysis')
+    .update({
+      video_analysis: analysis_json,
+      google_storage_uri: storage_uri,
+    })
+    .eq('id', analysis_id);
+};
+
+// upload to google cloud storage
+export async function uploadToGCS({
+  bucketName,
+  destination,
+  fileUrl, // supabase storage url
+  projectId,
+}: {
+  projectId: string;
+  fileUrl: string;
+  bucketName: string;
+  destination: string;
+}): Promise<string> {
   const storage = new Storage({
     projectId,
     credentials: JSON.parse(
@@ -61,14 +106,21 @@ export async function uploadToGCS(
   }
 }
 
-export async function sendMultiModalPromptWithVideo(
-  projectId: string,
-  location: string,
-  model: string,
-  gcsUri: string,
-  jobTitle: string,
-  fileExtension: string,
-) {
+export async function sendMultiModalPromptWithVideo({
+  fileExtension,
+  gcsUri,
+  jobTitle,
+  location,
+  model,
+  projectId,
+}: {
+  projectId: string;
+  location: string;
+  model: string;
+  gcsUri: string;
+  jobTitle: string;
+  fileExtension: string;
+}) {
   try {
     const vertexAI = new VertexAI({
       project: projectId,
@@ -102,27 +154,7 @@ export async function sendMultiModalPromptWithVideo(
               },
             },
             {
-              text: `This is a interview for job ${jobTitle}. Analyze the video and audio content provided, focusing on empathy, communication, and professionalism. Return the results in structured JSON format with the following parameters:
-  
-                       1. "empathy_score" (number): A numerical rating from 0 to 10 reflecting the interviewee's empathy.
-                       2. "sentiment" (object):
-                         - "value" (string): The overall sentiment (e.g., "positive", "neutral", "negative").
-                         - "confidence" (number): The confidence score for the sentiment analysis.
-                       3. "clarity_score" (number): A numerical rating from 0 to 10 assessing the clarity of the interviewee's communication.
-                       4. "professionalism" (number): A numerical rating from 0 to 10 evaluating the professionalism exhibited.
-                       5. "stress_level" (string): An evaluation of the stress level (e.g., "low", "medium", "high").
-                        - "confidence" (number): The confidence score for stress level analysis.
-                       6. "body_language" (object):
-                        - "eye_contact" (string): Assessment of eye contact (e.g., "consistent", "inconsistent").
-                        - "smiling" (string): Frequency of smiling (e.g., "frequent", "rare").
-                        - "gesture_use" (string): Use of gestures (e.g., "adequate", "excessive", "minimal").
-                       7. "audio_analysis" (object):
-                        - "tone" (string): Analysis of the tone of voice (e.g., "calm", "neutral", "anxious").
-                        - "speech_speed" (string): Speed of speech (e.g., "slow", "medium", "fast").
-                        - "pauses" (string): Frequency of pauses (e.g., "frequent", "minimal").
-                       8. "confidence" (number): The overall confidence of this analysis.
-  
-                       Ensure the JSON is properly formatted and includes all the requested fields, even if some values are null.`,
+              text: promptVideoAnalysis(jobTitle),
             },
           ],
         },

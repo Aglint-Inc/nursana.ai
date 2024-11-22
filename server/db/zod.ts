@@ -280,6 +280,7 @@ export const interviewAnalysisRowSchema = z.object({
   call_analysis: jsonSchema.nullable(),
   call_id: z.string().nullable(),
   created_at: z.string().nullable(),
+  google_storage_uri: z.string().nullable(),
   id: z.string(),
   interview_id: z.string(),
   structured_analysis: jsonSchema.nullable(),
@@ -287,6 +288,7 @@ export const interviewAnalysisRowSchema = z.object({
   transcript_json: z.array(jsonSchema).nullable(),
   transcript_url: z.string().nullable(),
   updated_at: z.string().nullable(),
+  video_analysis: jsonSchema.nullable(),
   video_url: z.string().nullable(),
 });
 
@@ -297,6 +299,7 @@ export const interviewAnalysisInsertSchema = z.object({
   call_analysis: jsonSchema.optional().nullable(),
   call_id: z.string().optional().nullable(),
   created_at: z.string().optional().nullable(),
+  google_storage_uri: z.string().optional().nullable(),
   id: z.string().optional(),
   interview_id: z.string(),
   structured_analysis: jsonSchema.optional().nullable(),
@@ -304,6 +307,7 @@ export const interviewAnalysisInsertSchema = z.object({
   transcript_json: z.array(jsonSchema).optional().nullable(),
   transcript_url: z.string().optional().nullable(),
   updated_at: z.string().optional().nullable(),
+  video_analysis: jsonSchema.optional().nullable(),
   video_url: z.string().optional().nullable(),
 });
 
@@ -314,6 +318,7 @@ export const interviewAnalysisUpdateSchema = z.object({
   call_analysis: jsonSchema.optional().nullable(),
   call_id: z.string().optional().nullable(),
   created_at: z.string().optional().nullable(),
+  google_storage_uri: z.string().optional().nullable(),
   id: z.string().optional(),
   interview_id: z.string().optional(),
   structured_analysis: jsonSchema.optional().nullable(),
@@ -321,6 +326,7 @@ export const interviewAnalysisUpdateSchema = z.object({
   transcript_json: z.array(jsonSchema).optional().nullable(),
   transcript_url: z.string().optional().nullable(),
   updated_at: z.string().optional().nullable(),
+  video_analysis: jsonSchema.optional().nullable(),
   video_url: z.string().optional().nullable(),
 });
 
@@ -340,20 +346,6 @@ export const interviewAnalysisRelationshipsSchema = z.tuple([
     referencedColumns: z.tuple([z.literal("id")]),
   }),
 ]);
-
-export const interviewAnalysisIdRowSchema = z.object({
-  id: z.string().nullable(),
-});
-
-export const interviewAnalysisIdInsertSchema = z.object({
-  id: z.string().optional().nullable(),
-});
-
-export const interviewAnalysisIdUpdateSchema = z.object({
-  id: z.string().optional().nullable(),
-});
-
-export const interviewAnalysisIdRelationshipsSchema = z.tuple([]);
 
 export const locationsListRowSchema = z.object({
   city: z.string(),
@@ -583,7 +575,15 @@ export const userUpdateSchema = z.object({
   user_role: userRoleSchema.optional(),
 });
 
-export const userRelationshipsSchema = z.tuple([]);
+export const userRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("user_id_fkey"),
+    columns: z.tuple([z.literal("id")]),
+    isOneToOne: z.literal(true),
+    referencedRelation: z.literal("users"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
 
 export const userInterviewRatingRowSchema = z.object({
   applicant_id: z.string(),

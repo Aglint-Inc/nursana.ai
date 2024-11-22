@@ -282,6 +282,7 @@ export type Database = {
           call_analysis: Json | null
           call_id: string | null
           created_at: string | null
+          google_storage_uri: string | null
           id: string
           interview_id: string
           structured_analysis: Json | null
@@ -289,6 +290,7 @@ export type Database = {
           transcript_json: Json[] | null
           transcript_url: string | null
           updated_at: string | null
+          video_analysis: Json | null
           video_url: string | null
         }
         Insert: {
@@ -298,6 +300,7 @@ export type Database = {
           call_analysis?: Json | null
           call_id?: string | null
           created_at?: string | null
+          google_storage_uri?: string | null
           id?: string
           interview_id: string
           structured_analysis?: Json | null
@@ -305,6 +308,7 @@ export type Database = {
           transcript_json?: Json[] | null
           transcript_url?: string | null
           updated_at?: string | null
+          video_analysis?: Json | null
           video_url?: string | null
         }
         Update: {
@@ -314,6 +318,7 @@ export type Database = {
           call_analysis?: Json | null
           call_id?: string | null
           created_at?: string | null
+          google_storage_uri?: string | null
           id?: string
           interview_id?: string
           structured_analysis?: Json | null
@@ -321,6 +326,7 @@ export type Database = {
           transcript_json?: Json[] | null
           transcript_url?: string | null
           updated_at?: string | null
+          video_analysis?: Json | null
           video_url?: string | null
         }
         Relationships: [
@@ -339,18 +345,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      interview_analysis_id: {
-        Row: {
-          id: string | null
-        }
-        Insert: {
-          id?: string | null
-        }
-        Update: {
-          id?: string | null
-        }
-        Relationships: []
       }
       locations_list: {
         Row: {
@@ -569,7 +563,15 @@ export type Database = {
           last_name?: string
           user_role?: Database["public"]["Enums"]["user_role"]
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_interview_rating: {
         Row: {
@@ -882,17 +884,3 @@ export type Enums<
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
 
-export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema["CompositeTypes"]
-    | { schema: keyof Database },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
-> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never

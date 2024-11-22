@@ -2,12 +2,14 @@ import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
 import { type NextRequest, NextResponse } from 'next/server';
 import {
   fetchAnalysis,
+  getSignedUrl,
   sendMultiModalPromptWithVideo,
   uploadToGCS,
 } from './utils';
-import { decrypt, encrypt } from '@/utils/encrypt-decrypt';
 
 const bucketName = 'video-analysis-interview';
+const model = 'gemini-1.5-flash-001';
+const location = 'us-central1';
 
 type Request = {
   analysis_id: string;
@@ -20,37 +22,37 @@ export async function POST(request: NextRequest) {
     const { analysis_id } = (await request.json()) as Request;
     if (!analysis_id) throw new Error(`analysis_id doesnt exist`);
     const resAnalysis = await fetchAnalysis(db, analysis_id);
+    if (!resAnalysis.video_url) throw new Error(`video url doesnt exist`);
 
-    const fileName = resAnalysis?.video_url?.split('/').pop();
-    const fileExtension = resAnalysis?.video_url?.split('.').pop() || 'webm';
-    if (!fileName) throw new Error(`Video url doesnt exist`);
+    let gcsUri: string;
+    let fileExtension = resAnalysis.video_url.split('.').pop() || 'webm';
 
-    const { data } = await db.storage
-      .from('videos')
-      .createSignedUrl('interviews/' + fileName, 60 * 10);
-
-    if (!data?.signedUrl) throw new Error('Unable to fetch signed ur;');
+    const signedUrl = await getSignedUrl(resAnalysis.video_url, db);
 
     // Step 1: Upload file to Google Cloud Storage
-    const gcsUri = await uploadToGCS(
-      'aglint-cloud-381414',
-      data?.signedUrl,
-      bucketName,
-      analysis_id,
-    );
+    if (!resAnalysis.google_storage_uri) {
+      gcsUri = await uploadToGCS({
+        projectId: 'aglint-cloud-381414',
+        fileUrl: signedUrl,
+        bucketName: bucketName,
+        destination: analysis_id,
+      });
+    } else {
+      gcsUri = resAnalysis.google_storage_uri;
+    }
 
     // Step 2: Call Vertex AI with the GCS URI
-    const analysis = await sendMultiModalPromptWithVideo(
-      'aglint-cloud-381414', // Replace with your project ID
-      'us-central1',
-      'gemini-1.5-flash-001',
-      gcsUri,
-      'Registered nurse',
+    const analysis = await sendMultiModalPromptWithVideo({
       fileExtension,
-    );
+      gcsUri,
+      jobTitle: 'Registered nurse',
+      model,
+      location,
+      projectId: 'aglint-cloud-381414',
+    });
 
     return NextResponse.json(
-      { signedUrl: data?.signedUrl, googleStorageUri: gcsUri, ...analysis },
+      { ...analysis, signedUrl, gcsUri },
       { status: 200 },
     );
   } catch (error) {
