@@ -1,5 +1,7 @@
-import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
 import { type NextRequest, NextResponse } from 'next/server';
+
+import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
+
 import {
   fetchAnalysis,
   getSignedUrl,
@@ -25,7 +27,7 @@ export async function POST(request: NextRequest) {
     if (!resAnalysis.video_url) throw new Error(`video url doesnt exist`);
 
     let gcsUri: string;
-    let fileExtension = resAnalysis.video_url.split('.').pop() || 'webm';
+    const fileExtension = resAnalysis.video_url.split('.').pop() || 'webm';
 
     const signedUrl = await getSignedUrl(resAnalysis.video_url, db);
 
