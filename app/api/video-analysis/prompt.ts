@@ -7,7 +7,7 @@ export const promptVideoAnalysis = (jobTitle: string) => {
 
 2. "sentiment" (object):
    - "value" (string): The overall sentiment (e.g., "positive", "neutral", "negative").
-   - "confidence" (number): The confidence score for the sentiment analysis.
+   - "confidence" (number): A numerical rating from 0 to 10 reflecting confidence score for the sentiment analysis.
    - "reason" (string): A detailed explanation of the detected sentiment.
 
 3. "clarity_score" (object):
@@ -40,7 +40,7 @@ export const promptVideoAnalysis = (jobTitle: string) => {
    - "reason" (string): A detailed explanation of the audio analysis.
 
 9. "confidence" (object):
-   - "value" (number): The overall confidence score of this analysis.
+   - "value" (number): A numerical rating from 0 to 10 reflecting overall confidence score of this analysis.
    - "reason" (string): A detailed explanation of the confidence score.
 
 Ensure the JSON is properly formatted and includes all the requested fields, even if some values are null. Provide detailed explanations in the "reason" fields to justify the assigned values.

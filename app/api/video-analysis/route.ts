@@ -5,6 +5,7 @@ import { getSupabaseAdminServer } from '@/utils/supabase/supabaseAdmin';
 import {
   fetchAnalysis,
   getSignedUrl,
+  saveAnalysisToDB,
   sendMultiModalPromptWithVideo,
   uploadToGCS,
 } from './utils';
@@ -17,11 +18,13 @@ interface Request {
   analysis_id: string;
 }
 
+export const maxDuration = 150;
+
 export async function POST(request: NextRequest) {
   const db = getSupabaseAdminServer();
+  const { analysis_id } = (await request.json()) as Request;
 
   try {
-    const { analysis_id } = (await request.json()) as Request;
     if (!analysis_id) throw new Error(`analysis_id doesnt exist`);
     const resAnalysis = await fetchAnalysis(db, analysis_id);
     if (!resAnalysis.video_url) throw new Error(`video url doesnt exist`);
@@ -51,6 +54,13 @@ export async function POST(request: NextRequest) {
       model,
       location,
       projectId: 'aglint-cloud-381414',
+    });
+
+    await saveAnalysisToDB({
+      analysis_id,
+      analysis_json: analysis.analysis,
+      db,
+      storage_uri: gcsUri,
     });
 
     return NextResponse.json(
