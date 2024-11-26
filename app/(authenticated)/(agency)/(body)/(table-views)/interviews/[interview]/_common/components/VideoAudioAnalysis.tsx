@@ -144,7 +144,7 @@ const Content = () => {
                       Tone -
                       <span className='text-xs text-muted-foreground'>
                         <Pill
-                          text={audio_analysis.pauses}
+                          text={audio_analysis.tone}
                           level={
                             audio_analysis.tone === 'calm' ? 'high' : 'low'
                           }
