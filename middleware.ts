@@ -17,6 +17,7 @@ const PUBLIC_API = [
   'score_call',
   'backup-interview-data',
   'dynamic_resume_score',
+  'video-analysis',
 ].map((api) => `^/api/${api}(/.*)?$`);
 
 const PUBLIC_ROUTES = new RegExp(
