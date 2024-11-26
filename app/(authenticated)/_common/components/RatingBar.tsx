@@ -2,10 +2,10 @@ import { Progress } from '@/components/ui/progress';
 
 export const RatingBar: React.FC<{
   label: string;
-  score: number;
+  score: number; //out of 10
   explanation: string;
   icon?: React.ReactNode;
-  maxValue?: number;
+  maxValue: number;
 }> = ({ label, score, explanation, icon, maxValue = 5 }) => (
   <>
     <div className='flex flex-col gap-1'>
@@ -16,7 +16,7 @@ export const RatingBar: React.FC<{
         </div>
 
         <div className='flex w-40 items-center space-x-2'>
-          <Progress value={score * 20} className='h-1.5 w-full' />
+          <Progress value={score * 10} className='h-1.5 w-full' />
           <span className='text-xs text-muted-foreground'>
             {score}/{maxValue}
           </span>

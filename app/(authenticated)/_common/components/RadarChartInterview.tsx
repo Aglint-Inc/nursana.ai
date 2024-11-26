@@ -28,17 +28,22 @@ export function RadarChartInterview({
 }: {
   analysis: DBTable<'interview_analysis'>['structured_analysis'];
 }) {
+  if (!analysis) return null;
+  // converting scores out of 10
   const chartData = [
-    { type: 'Articulation', score: analysis?.articulation.score },
+    { type: 'Articulation', score: analysis.articulation.score * 2 },
     {
       type: 'Adaptability stress management',
-      score: analysis?.adaptability_stress_management.score,
+      score: analysis.adaptability_stress_management.score * 2,
     },
-    { type: 'Communication gaps', score: analysis?.communication_gaps.score },
-    { type: 'Confidence level', score: analysis?.confidence_level.score },
+    {
+      type: 'Communication gaps',
+      score: analysis.communication_gaps.score * 2,
+    },
+    { type: 'Confidence level', score: analysis.confidence_level.score * 2 },
     {
       type: 'Engagement Responsiveness',
-      score: analysis?.engagement_responsiveness.score,
+      score: analysis.engagement_responsiveness.score * 2,
     },
   ];
 
@@ -55,10 +60,9 @@ export function RadarChartInterview({
               fill='hsl(var(--chart-1))'
               fillOpacity={0.7}
             />
-            {/* Ensure the scale of scores is fixed from 0 to 5 */}
             <PolarGrid />
             <PolarAngleAxis dataKey='type' />
-            <PolarRadiusAxis domain={[0, 5]} tickCount={6} />
+            <PolarRadiusAxis domain={[0, 10]} tickCount={6} />
           </RadarChart>
         </ChartContainer>
       </CardContent>

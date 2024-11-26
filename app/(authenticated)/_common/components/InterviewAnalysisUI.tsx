@@ -61,65 +61,70 @@ export const InterviewAnalysisUI = ({
           {articulation && (
             <RatingBar
               label='Articulation'
-              score={articulation.score}
+              score={articulation.score * 2}
               explanation={
                 isCandidateView
                   ? articulation.feedback
                   : articulation.explanation
               }
               icon={<Brain className='h-5 w-5 text-purple-600' />}
+              maxValue={10}
             />
           )}
 
           {confidence_level && (
             <RatingBar
               label='Confidence Level'
-              score={confidence_level.score}
+              score={confidence_level.score * 2}
               explanation={
                 isCandidateView
                   ? confidence_level.feedback
                   : confidence_level.explanation
               }
               icon={<Zap className='h-5 w-5 text-purple-600' />}
+              maxValue={10}
             />
           )}
 
           {communication_gaps && (
             <RatingBar
               label='Communication Gaps'
-              score={communication_gaps.score}
+              score={communication_gaps.score * 2}
               explanation={
                 isCandidateView
                   ? communication_gaps.feedback
                   : communication_gaps.explanation
               }
               icon={<Puzzle className='h-5 w-5 text-purple-600' />}
+              maxValue={10}
             />
           )}
 
           {engagement_responsiveness && (
             <RatingBar
               label='Engagement & Responsiveness'
-              score={engagement_responsiveness.score}
+              score={engagement_responsiveness.score * 2}
               explanation={
                 isCandidateView
                   ? engagement_responsiveness.feedback
                   : engagement_responsiveness.explanation
               }
               icon={<UserCheck className='h-5 w-5 text-purple-600' />}
+              maxValue={10}
             />
           )}
 
           {adaptability_stress_management && (
             <RatingBar
               label='Adaptability & Stress Management'
-              score={adaptability_stress_management.score}
+              score={adaptability_stress_management.score * 2}
               explanation={
                 isCandidateView
                   ? adaptability_stress_management.feedback
                   : adaptability_stress_management.explanation
               }
               icon={<Lightbulb className='h-5 w-5 text-purple-600' />}
+              maxValue={10}
             />
           )}
         </div>
