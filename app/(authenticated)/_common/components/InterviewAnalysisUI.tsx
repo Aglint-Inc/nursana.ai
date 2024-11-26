@@ -7,13 +7,13 @@ import {
   Zap,
 } from 'lucide-react';
 
-import { Progress } from '@/components/ui/progress';
 import NotAvailable from '@/dashboard/components/NotAvailable';
 import ProgressBarCard from '@/dashboard/components/ProgressBarCard';
 import RadialProgress from '@/dashboard/components/RadialProgress';
 import type { DBTable } from '@/server/db/types';
 
 import { RadarChartInterview } from './RadarChartInterview';
+import { RatingBar } from './RatingBar';
 
 const ErrorFallback = () => {
   return (
@@ -49,7 +49,7 @@ export const InterviewAnalysisUI = ({
   return (
     <div className='mx-auto max-w-4xl p-0 lg:container max-lg:py-5 lg:py-10'>
       <div className='text-md mb-3 font-medium lg:mb-6 lg:text-xl'>
-        Interview Feedback
+        Analysis ( Transcript )
       </div>
       <div className='mb-20 flex flex-col gap-8'>
         <AnalysisInterview
@@ -153,28 +153,3 @@ const AnalysisInterview = ({
     </div>
   );
 };
-
-const RatingBar: React.FC<{
-  label: string;
-  score: number;
-  explanation: string;
-  icon: React.ReactNode;
-}> = ({ label, score, explanation, icon }) => (
-  <>
-    <div className='flex flex-col gap-1'>
-      <div className='flex max-md:flex-col max-md:gap-2 md:justify-between'>
-        <div className='flex items-start space-x-2'>
-          {icon}
-          <span className='text-md font-medium lg:text-lg'>{label}</span>
-        </div>
-
-        <div className='flex w-40 items-center space-x-2'>
-          <Progress value={score * 20} className='h-1.5 w-full' />
-          <span className='text-xs text-muted-foreground'>{score}/5</span>
-        </div>
-      </div>
-
-      <p className='text-muted-foreground'>{explanation}</p>
-    </div>
-  </>
-);

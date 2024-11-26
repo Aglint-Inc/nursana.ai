@@ -771,19 +771,6 @@ INSERT INTO "public"."interview_analysis" ("id", "audio_url", "video_url", "tran
 	('1ef1fc07-48a3-4d2f-83ee-9f55e45077c8', NULL, NULL, NULL, NULL, '2024-11-06 06:45:26.295297+00', '2024-11-06 08:16:29.625532+00', 'call_5ca501303e6eecf5431f0f2ff53', '26269e5d-eb24-4c1a-b134-716cc77d1305', NULL, NULL, NULL, NULL, '428c7404-6df2-4966-829c-e6e6e77443a6');
 
 
---
--- Data for Name: interview_analysis_id; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO "public"."interview_analysis_id" ("id") VALUES
-	('ed28dba1-b7fb-44b3-b002-288ee2d090b3'),
-	('57a75e3e-8b0b-42b8-a119-ab67ee230f47'),
-	('9ec87f4f-5e84-4b4d-8463-166e7636c338'),
-	('36ead613-87ed-4a8d-8f11-6ca992e67d92'),
-	('8125acb0-9448-4b52-a965-30e7189bc78d'),
-	('41b16e34-e824-4d1a-812d-ee405addd128'),
-	('bbb8f61b-15fb-4998-ac3c-2962f9d30c44');
-
 
 --
 -- Data for Name: locations_list; Type: TABLE DATA; Schema: public; Owner: postgres

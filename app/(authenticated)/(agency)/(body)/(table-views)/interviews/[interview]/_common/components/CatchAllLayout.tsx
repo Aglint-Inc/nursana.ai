@@ -24,7 +24,17 @@ export const CatchAllLayout = (props: PropsWithChildren<PageProps>) => {
         });
       }
       break;
-    case 'feedback':
+    case 'analysis-transcript':
+      {
+        void api.authenticated.agency.interviews.interview.read.prefetch({
+          id: props.params.interview,
+        });
+        void api.authenticated.agency.interviews.interview.analysis.prefetch({
+          id: props.params.interview,
+        });
+      }
+      break;
+    case 'analysis-video-audio':
       {
         void api.authenticated.agency.interviews.interview.read.prefetch({
           id: props.params.interview,
