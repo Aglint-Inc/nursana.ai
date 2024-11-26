@@ -1,11 +1,15 @@
-import { SupabaseClientType } from '@/utils/supabase/supabaseAdmin';
 import { Storage } from '@google-cloud/storage';
 import { VertexAI } from '@google-cloud/vertexai';
 import { Readable } from 'stream';
-import { response_schema, ResponseSchema } from './response-schema';
+
 import { decrypt } from '@/utils/encrypt-decrypt';
-import { promptVideoAnalysis } from './promt';
-import { DBTable } from '@/server/db/types';
+import { type SupabaseClientType } from '@/utils/supabase/supabaseAdmin';
+
+import { promptVideoAnalysis } from './prompt';
+import {
+  response_schema,
+  type ResponseSchemaVideoAnalysis,
+} from './response-schema';
 
 export async function fetchAnalysis(
   db: SupabaseClientType,
@@ -39,7 +43,7 @@ export const getSignedUrl = async (
   return data?.signedUrl;
 };
 
-export const saveAnalysisToDB = ({
+export const saveAnalysisToDB = async ({
   db,
   analysis_id,
   analysis_json,
@@ -50,12 +54,16 @@ export const saveAnalysisToDB = ({
   analysis_json: any;
   storage_uri: string;
 }) => {
-  db.from('interview_analysis')
+  await db
+    .from('interview_analysis')
     .update({
       video_analysis: analysis_json,
       google_storage_uri: storage_uri,
     })
-    .eq('id', analysis_id);
+    .eq('id', analysis_id)
+    .throwOnError();
+
+  return true;
 };
 
 // upload to google cloud storage
@@ -171,7 +179,7 @@ export async function sendMultiModalPromptWithVideo({
       analysis: response?.candidates?.[0].content.parts[0].text
         ? (JSON.parse(
             response?.candidates?.[0].content.parts[0].text,
-          ) as ResponseSchema)
+          ) as ResponseSchemaVideoAnalysis)
         : null,
     };
   } catch (error) {

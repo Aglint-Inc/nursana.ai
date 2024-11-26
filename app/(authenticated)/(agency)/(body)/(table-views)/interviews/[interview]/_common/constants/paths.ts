@@ -1,1 +1,7 @@
-export const PATHS = ['overview', 'resume', 'feedback', 'transcript'] as const;
+export const PATHS = [
+  'overview',
+  'resume',
+  'analysis-transcript',
+  'analysis-video-audio',
+  'transcript',
+] as const;

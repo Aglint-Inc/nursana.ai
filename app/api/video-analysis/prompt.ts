@@ -6,7 +6,7 @@ export const promptVideoAnalysis = (jobTitle: string) => {
    - "reason" (string): A detailed explanation of why this score was assigned.
 
 2. "sentiment" (object):
-   - "value" (string): The overall sentiment (e.g., "positive", "neutral", "negative").
+   - "value" (string): The overall sentiment ("positive", "neutral", "negative").
    - "confidence" (number): A numerical rating from 0 to 10 reflecting confidence score for the sentiment analysis.
    - "reason" (string): A detailed explanation of the detected sentiment.
 
@@ -23,20 +23,20 @@ export const promptVideoAnalysis = (jobTitle: string) => {
    - "reason" (string): A detailed explanation of why these traits were detected.
 
 6. "stress_level" (object):
-   - "value" (string): An evaluation of the stress level (e.g., "low", "medium", "high").
+   - "value" (string): An evaluation of the stress level ("low", "medium", "high").
    - "confidence" (number): The confidence score for stress level analysis.
    - "reason" (string): A detailed explanation of the detected stress level.
 
 7. "body_language" (object):
-   - "eye_contact" (string): Assessment of eye contact (e.g., "consistent", "inconsistent").
-   - "smiling" (string): Frequency of smiling (e.g., "frequent", "rare").
-   - "gesture_use" (string): Use of gestures (e.g., "adequate", "excessive", "minimal").
+   - "eye_contact" (string): Assessment of eye contact ("consistent", "inconsistent").
+   - "smiling" (string): Frequency of smiling ("frequent", "rare").
+   - "gesture_use" (string): Use of gestures ("adequate", "excessive", "minimal").
    - "reason" (string): A detailed explanation of the observed body language.
 
 8. "audio_analysis" (object):
-   - "tone" (string): Analysis of the tone of voice (e.g., "calm", "neutral", "anxious").
-   - "speech_speed" (string): Speed of speech (e.g., "slow", "medium", "fast").
-   - "pauses" (string): Frequency of pauses (e.g., "frequent", "minimal").
+   - "tone" (string): Analysis of the tone of voice ("calm", "neutral", "anxious").
+   - "speech_speed" (string): Speed of speech ("slow", "medium", "fast").
+   - "pauses" (string): Frequency of pauses ("frequent", "minimal").
    - "reason" (string): A detailed explanation of the audio analysis.
 
 9. "confidence" (object):

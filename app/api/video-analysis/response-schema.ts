@@ -89,7 +89,7 @@ export const response_schema = {
   ],
 };
 
-export interface ResponseSchema {
+export interface ResponseSchemaVideoAnalysis {
   empathy_score: {
     value: number;
     reason: string;
