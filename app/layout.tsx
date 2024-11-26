@@ -4,8 +4,8 @@ import { GeistSans } from 'geist/font/sans';
 import dynamic from 'next/dynamic';
 import { ThemeProvider } from 'next-themes';
 
-import Providers from './providers';
 import ScriptAppolo from './_common/components/ScriptAppolo';
+import Providers from './providers';
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
