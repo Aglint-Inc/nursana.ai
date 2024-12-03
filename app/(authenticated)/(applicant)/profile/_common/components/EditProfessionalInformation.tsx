@@ -269,10 +269,11 @@ function FormSections({
                   <SelectValue placeholder='Select state' />
                 </SelectTrigger>
                 <SelectContent>
-                  {/* Add US states here */}
-                  <SelectItem value='AL'>Alabama</SelectItem>
-                  <SelectItem value='AK'>Alaska</SelectItem>
-                  {/* ... add other states ... */}
+                  {PROFFESSIONAL_SECTION.US_STATES.map((state) => (
+                    <SelectItem key={state} value={state}>
+                      {state[0].toUpperCase() + state.slice(1).toLowerCase()}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -305,52 +306,7 @@ function FormSections({
           <div className='col-span-2'>
             <Label>Memberships</Label>
             <div className='mt-2 grid grid-cols-4 gap-4'>
-              {[
-                'AACN',
-                'AANA',
-                'AANN',
-                'AAOHN',
-                'AAPA',
-                'AHNA',
-                'AMSN',
-                'ANA',
-                'ANA District',
-                'ANNA',
-                'ANPD',
-                'AONE',
-                'AONL',
-                'AORN',
-                'APNA',
-                'APRN',
-                'ARIN',
-                'ARN',
-                'ASPAN',
-                'ASPMN',
-                'AVA',
-                'CNLA',
-                'CNS',
-                'DDNA',
-                'DNA',
-                'ENA',
-                'HPNA',
-                'IAFN',
-                'INS',
-                'ITNS',
-                'NACNS',
-                'NAHN',
-                'NANN',
-                'NASN',
-                'NBNA',
-                'NLN',
-                'NSNA',
-                'ONS',
-                'PCNA',
-                'SGNA',
-                'SNA',
-                'STTI',
-                'SUNA',
-                'WOCN',
-              ].map((membership) => (
+              {PROFFESSIONAL_SECTION.MEMBERSHIPS.map((membership) => (
                 <div key={membership} className='flex items-center gap-2'>
                   <Checkbox
                     id={`membership-${membership}`}
@@ -420,10 +376,11 @@ function FormSections({
                   <SelectValue placeholder='Select income level' />
                 </SelectTrigger>
                 <SelectContent>
-                  {/* Add income levels here */}
-                  <SelectItem value='50000'>$50,000</SelectItem>
-                  <SelectItem value='100000'>$100,000</SelectItem>
-                  {/* ... add other income levels ... */}
+                  {PROFFESSIONAL_SECTION.INCOME_LEVEL_LABELS.map((label) => (
+                    <SelectItem key={label} value={label}>
+                      {label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -440,6 +397,7 @@ function FormSections({
                   });
                 }}
                 type='number'
+                min={0}
                 placeholder='Enter number'
               />
             </div>
