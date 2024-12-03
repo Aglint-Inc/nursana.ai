@@ -168,3 +168,29 @@ export const useDeletePreferredLocation = () => {
   };
   return { ...updateMutation, deletePreferredLocations };
 };
+
+export const useProfessionalInfo = () => {
+  return api.user.professionalInfo.get.useQuery();
+};
+
+export const useUpdateProfessionalInfo = () => {
+  const utils = api.useUtils();
+
+  const updateMutation = api.user.professionalInfo.update.useMutation({
+    onSuccess: () => {
+      utils.user.professionalInfo.get.invalidate();
+    },
+    onError: (e) => {
+      console.error(e);
+      toast({
+        title: `Error updating professional information`,
+      });
+    },
+  });
+  const updateProffessionalInfo = async (
+    payload: Unvoid<RouterInputs['user']['professionalInfo']['update']>,
+  ) => {
+    return await updateMutation.mutateAsync({ ...payload });
+  };
+  return { updateProffessionalInfo };
+};

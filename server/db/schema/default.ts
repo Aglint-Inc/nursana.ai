@@ -62,15 +62,15 @@ export type Database = {
       }
       applicant_user: {
         Row: {
-          certification_agency: string | null
+          certification_agency: string[] | null
           created_at: string | null
           education_level: string | null
-          employment_interest: boolean | null
+          employment_interest: string | null
           id: string
           income_level: string | null
           job_title: Database["public"]["Enums"]["nerse_titles"]
-          licence_number: number | null
-          licenced_year: number | null
+          licence_number: string | null
+          licenced_year: string | null
           licensed_state: string | null
           licenses: Database["public"]["Enums"]["nurse_license"][] | null
           malpractice_insurance: boolean | null
@@ -84,22 +84,22 @@ export type Database = {
             | Database["public"]["Enums"]["travel_preferrence"]
             | null
           professional_highlight: string | null
-          proffessional_titles: string[]
+          proffessional_titles: string | null
           salary_range: unknown | null
           specialties: string[]
           terms_accepted: boolean
           virtues: string | null
         }
         Insert: {
-          certification_agency?: string | null
+          certification_agency?: string[] | null
           created_at?: string | null
           education_level?: string | null
-          employment_interest?: boolean | null
+          employment_interest?: string | null
           id: string
           income_level?: string | null
           job_title?: Database["public"]["Enums"]["nerse_titles"]
-          licence_number?: number | null
-          licenced_year?: number | null
+          licence_number?: string | null
+          licenced_year?: string | null
           licensed_state?: string | null
           licenses?: Database["public"]["Enums"]["nurse_license"][] | null
           malpractice_insurance?: boolean | null
@@ -113,22 +113,22 @@ export type Database = {
             | Database["public"]["Enums"]["travel_preferrence"]
             | null
           professional_highlight?: string | null
-          proffessional_titles?: string[]
+          proffessional_titles?: string | null
           salary_range?: unknown | null
           specialties?: string[]
           terms_accepted?: boolean
           virtues?: string | null
         }
         Update: {
-          certification_agency?: string | null
+          certification_agency?: string[] | null
           created_at?: string | null
           education_level?: string | null
-          employment_interest?: boolean | null
+          employment_interest?: string | null
           id?: string
           income_level?: string | null
           job_title?: Database["public"]["Enums"]["nerse_titles"]
-          licence_number?: number | null
-          licenced_year?: number | null
+          licence_number?: string | null
+          licenced_year?: string | null
           licensed_state?: string | null
           licenses?: Database["public"]["Enums"]["nurse_license"][] | null
           malpractice_insurance?: boolean | null
@@ -142,7 +142,7 @@ export type Database = {
             | Database["public"]["Enums"]["travel_preferrence"]
             | null
           professional_highlight?: string | null
-          proffessional_titles?: string[]
+          proffessional_titles?: string | null
           salary_range?: unknown | null
           specialties?: string[]
           terms_accepted?: boolean

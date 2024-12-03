@@ -1,7 +1,13 @@
 'use client';
 
-import { Search } from 'lucide-react';
+import { debouncedAsync } from 'lib/debouncedAsync';
+import { useCallback, useState } from 'react';
 
+import { Loader } from '@/app/components/Loader';
+import {
+  useProfessionalInfo,
+  useUpdateProfessionalInfo,
+} from '@/applicant/hooks/useUserData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -14,13 +20,84 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { type RouterInputs, type RouterOutputs } from '@/trpc/client';
 
 import { PROFFESSIONAL_SECTION } from '../constant';
 
+type ApplicantUser = RouterOutputs['user']['professionalInfo'];
+type UpdateFieldsType = RouterInputs['user']['professionalInfo']['update'];
+
+type FieldsType = {
+  [K in keyof UpdateFieldsType]-?: NonNullable<UpdateFieldsType[K]> extends
+    | boolean
+    | null
+    | undefined
+    ? boolean
+    : NonNullable<UpdateFieldsType[K]>;
+};
+
 export default function EditProfessionalInformation() {
-  //
-  //
-  //
+  const { data: userInfo, error, isLoading } = useProfessionalInfo();
+  if (isLoading || !userInfo || error) {
+    return (
+      <div className='flex h-full w-full items-center justify-center'>
+        <Loader />
+      </div>
+    );
+  }
+
+  return <FormSections userInfo={userInfo} />;
+}
+
+function FormSections({
+  userInfo,
+}: {
+  userInfo: NonNullable<ApplicantUser['get']>;
+}) {
+  const [fields, setFields] = useState<FieldsType>({
+    proffessional_titles: userInfo.proffessional_titles ?? '',
+    licenced_year: userInfo.licenced_year ?? '',
+    licensed_state: userInfo.licensed_state ?? '',
+    malpractice_insurance: userInfo.malpractice_insurance ?? false,
+    memberships: userInfo.memberships ?? [],
+    npi_number: userInfo.npi_number ?? '',
+    open_to_work: userInfo.open_to_work ?? false,
+    patients_attend_per_week: userInfo.patients_attend_per_week ?? 0,
+    preceptorship_interest: userInfo.preceptorship_interest ?? false,
+    professional_highlight: userInfo.professional_highlight ?? '',
+    salary_range: userInfo.salary_range ?? {},
+    specialties: userInfo.specialties ?? [],
+    virtues: userInfo.virtues ?? '',
+    user_id: userInfo.id,
+    certification_agency: userInfo.certification_agency ?? [],
+    education_level: userInfo.education_level ?? '',
+    employment_interest: userInfo.employment_interest ?? '',
+    income_level: userInfo.income_level ?? '',
+    licence_number: userInfo.licence_number ?? '',
+  });
+  const { updateProffessionalInfo } = useUpdateProfessionalInfo();
+
+  // Create memoized debounced function
+  const debouncedUpdate: (_updates: Partial<FieldsType>) => Promise<void> =
+    useCallback(
+      debouncedAsync(
+        (updates: Partial<FieldsType>) =>
+          updateProffessionalInfo({ ...updates, user_id: userInfo.id }),
+        1000,
+      ),
+      [updateProffessionalInfo],
+    ) as unknown as any;
+
+  async function handleUpdateField(fields: Partial<FieldsType>) {
+    setFields((p) => ({
+      ...p,
+      ...fields,
+    }));
+    await debouncedUpdate({
+      ...fields,
+    });
+  }
+
   return (
     <Card className='mb-[200px] w-full bg-gray-50'>
       <CardHeader className='p-4'>
@@ -36,11 +113,13 @@ export default function EditProfessionalInformation() {
             <Label>Proffessional Titles</Label>
             <div className='mt-2 flex flex-col'>
               <Input
-                value={''}
+                value={fields.proffessional_titles}
                 id='first_name'
                 placeholder={'RN, CN'}
                 onChange={(e) => {
-                  // setFirstName(e.target.value);
+                  handleUpdateField({
+                    proffessional_titles: e.target.value,
+                  });
                 }}
               />
             </div>
@@ -50,7 +129,19 @@ export default function EditProfessionalInformation() {
             <div className='mt-2 grid grid-cols-2 gap-4'>
               {PROFFESSIONAL_SECTION.SPECIALTIES.map((specialty) => (
                 <div key={specialty.id} className='flex items-center gap-2'>
-                  <Checkbox id={`specialty-${specialty.id}`} />
+                  <Checkbox
+                    id={`specialty-${specialty.id}`}
+                    checked={fields.specialties.includes(specialty.name)}
+                    onCheckedChange={(checked) => {
+                      handleUpdateField({
+                        specialties: checked
+                          ? [...fields.specialties, specialty.name]
+                          : fields.specialties.filter(
+                              (s) => s !== specialty.name,
+                            ),
+                      });
+                    }}
+                  />
                   <Label htmlFor={`specialty-${specialty.id}`}>
                     {specialty.name}
                   </Label>
@@ -65,8 +156,13 @@ export default function EditProfessionalInformation() {
                 id='npi_number'
                 placeholder='Enter your 10 digit NPI number'
                 pattern='\d{10}'
+                value={fields.npi_number ?? ''}
+                onChange={(e) => {
+                  handleUpdateField({
+                    npi_number: e.target.value,
+                  });
+                }}
               />
-              <Search className='absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-500' />
             </div>
             <span className='mt-1 text-xs text-gray-500'>
               If you don&apos;t know your NPI number, you can look it up{' '}
@@ -93,7 +189,14 @@ export default function EditProfessionalInformation() {
           <div className='col-span-1'>
             <Label>Year Licensed/Expected</Label>
             <div className='mt-2'>
-              <Select>
+              <Select
+                value={fields.licenced_year ?? undefined}
+                onValueChange={(value) => {
+                  handleUpdateField({
+                    licenced_year: value,
+                  });
+                }}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder='Select year' />
                 </SelectTrigger>
@@ -114,7 +217,14 @@ export default function EditProfessionalInformation() {
           <div className='col-span-1'>
             <Label>Education Level</Label>
             <div className='mt-2'>
-              <Select>
+              <Select
+                value={fields.education_level ?? undefined}
+                onValueChange={(value) => {
+                  handleUpdateField({
+                    education_level: value,
+                  });
+                }}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder='Select education level' />
                 </SelectTrigger>
@@ -132,14 +242,29 @@ export default function EditProfessionalInformation() {
           <div className='col-span-1'>
             <Label>License Number</Label>
             <div className='mt-2'>
-              <Input placeholder='Enter license number' />
+              <Input
+                placeholder='Enter license number'
+                value={fields.licence_number ?? ''}
+                onChange={(e) => {
+                  handleUpdateField({
+                    licence_number: e.target.value,
+                  });
+                }}
+              />
             </div>
           </div>
 
           <div className='col-span-1'>
             <Label>State of Licensure</Label>
             <div className='mt-2'>
-              <Select>
+              <Select
+                value={fields.licensed_state ?? undefined}
+                onValueChange={(value) => {
+                  handleUpdateField({
+                    licensed_state: value,
+                  });
+                }}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder='Select state' />
                 </SelectTrigger>
@@ -158,7 +283,19 @@ export default function EditProfessionalInformation() {
             <div className='mt-2 grid grid-cols-4 gap-4'>
               {PROFFESSIONAL_SECTION.CERTIFICATION_AGENCIES.map((agency) => (
                 <div key={agency.id} className='flex items-center gap-2'>
-                  <Checkbox id={`agency-${agency.id}`} />
+                  <Checkbox
+                    id={`agency-${agency.id}`}
+                    checked={fields.certification_agency.includes(agency.label)}
+                    onCheckedChange={(checked) => {
+                      handleUpdateField({
+                        certification_agency: checked
+                          ? [...fields.certification_agency, agency.label]
+                          : fields.certification_agency.filter(
+                              (s) => s !== agency.label,
+                            ),
+                      });
+                    }}
+                  />
                   <Label htmlFor={`agency-${agency.id}`}>{agency.label}</Label>
                 </div>
               ))}
@@ -215,7 +352,17 @@ export default function EditProfessionalInformation() {
                 'WOCN',
               ].map((membership) => (
                 <div key={membership} className='flex items-center gap-2'>
-                  <Checkbox id={`membership-${membership}`} />
+                  <Checkbox
+                    id={`membership-${membership}`}
+                    checked={fields.memberships.includes(membership)}
+                    onCheckedChange={(checked) => {
+                      handleUpdateField({
+                        memberships: checked
+                          ? [...fields.memberships, membership]
+                          : fields.memberships.filter((s) => s !== membership),
+                      });
+                    }}
+                  />
                   <Label htmlFor={`membership-${membership}`}>
                     {membership}
                   </Label>
@@ -228,11 +375,31 @@ export default function EditProfessionalInformation() {
             <Label>Do you buy your own malpractice insurance?</Label>
             <div className='mt-2 flex gap-4'>
               <div className='flex items-center gap-2'>
-                <input type='radio' id='malpractice-yes' name='malpractice' />
+                <input
+                  type='radio'
+                  id='malpractice-yes'
+                  name='malpractice'
+                  checked={fields.malpractice_insurance}
+                  onChange={(e) => {
+                    handleUpdateField({
+                      malpractice_insurance: e.target.checked,
+                    });
+                  }}
+                />
                 <Label htmlFor='malpractice-yes'>Yes</Label>
               </div>
               <div className='flex items-center gap-2'>
-                <input type='radio' id='malpractice-no' name='malpractice' />
+                <input
+                  type='radio'
+                  id='malpractice-no'
+                  name='malpractice'
+                  checked={!fields.malpractice_insurance}
+                  onChange={(e) => {
+                    handleUpdateField({
+                      malpractice_insurance: !e.target.checked,
+                    });
+                  }}
+                />
                 <Label htmlFor='malpractice-no'>No</Label>
               </div>
             </div>
@@ -241,7 +408,14 @@ export default function EditProfessionalInformation() {
           <div className='col-span-1'>
             <Label>Income level</Label>
             <div className='mt-2'>
-              <Select>
+              <Select
+                value={fields.income_level ?? undefined}
+                onValueChange={(value) => {
+                  handleUpdateField({
+                    income_level: value,
+                  });
+                }}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder='Select income level' />
                 </SelectTrigger>
@@ -258,7 +432,16 @@ export default function EditProfessionalInformation() {
           <div className='col-span-1'>
             <Label>How many patients do you see weekly?</Label>
             <div className='mt-2'>
-              <Input type='number' placeholder='Enter number' />
+              <Input
+                value={fields.patients_attend_per_week ?? ''}
+                onChange={(e) => {
+                  handleUpdateField({
+                    patients_attend_per_week: Number(e.target.value),
+                  });
+                }}
+                type='number'
+                placeholder='Enter number'
+              />
             </div>
           </div>
 
@@ -273,6 +456,12 @@ export default function EditProfessionalInformation() {
                   type='radio'
                   id='preceptorship-yes'
                   name='preceptorship'
+                  checked={fields.preceptorship_interest}
+                  onChange={(e) => {
+                    handleUpdateField({
+                      preceptorship_interest: e.target.checked,
+                    });
+                  }}
                 />
                 <Label htmlFor='preceptorship-yes'>Yes</Label>
               </div>
@@ -281,6 +470,12 @@ export default function EditProfessionalInformation() {
                   type='radio'
                   id='preceptorship-no'
                   name='preceptorship'
+                  checked={!fields.preceptorship_interest}
+                  onChange={(e) => {
+                    handleUpdateField({
+                      preceptorship_interest: !e.target.checked,
+                    });
+                  }}
                 />
                 <Label htmlFor='preceptorship-no'>No</Label>
               </div>
@@ -291,11 +486,31 @@ export default function EditProfessionalInformation() {
             <Label>Are you interested in employment opportunities?</Label>
             <div className='mt-2 flex gap-4'>
               <div className='flex items-center gap-2'>
-                <input type='radio' id='employment-yes' name='employment' />
+                <input
+                  type='radio'
+                  id='employment-yes'
+                  name='employment'
+                  checked={fields.open_to_work}
+                  onChange={(e) => {
+                    handleUpdateField({
+                      open_to_work: e.target.checked,
+                    });
+                  }}
+                />
                 <Label htmlFor='employment-yes'>Yes</Label>
               </div>
               <div className='flex items-center gap-2'>
-                <input type='radio' id='employment-no' name='employment' />
+                <input
+                  type='radio'
+                  id='employment-no'
+                  name='employment'
+                  checked={!fields.open_to_work}
+                  onChange={(e) => {
+                    handleUpdateField({
+                      open_to_work: !e.target.checked,
+                    });
+                  }}
+                />
                 <Label htmlFor='employment-no'>No</Label>
               </div>
             </div>
@@ -304,19 +519,41 @@ export default function EditProfessionalInformation() {
           <div className='col-span-2'>
             <Label>Favorite thing about my profession</Label>
             <div className='mt-2'>
-              <Textarea placeholder='Enter your favorite thing' />
+              <Textarea
+                value={fields.professional_highlight ?? ''}
+                onChange={(e) => {
+                  handleUpdateField({
+                    professional_highlight: e.target.value,
+                  });
+                }}
+              />
             </div>
           </div>
           <div className='col-span-2'>
             <Label>Professional achievements</Label>
             <div className='mt-2'>
-              <Textarea placeholder='Enter your favorite thing' />
+              <Textarea
+                value={fields.employment_interest ?? ''}
+                onChange={(e) => {
+                  handleUpdateField({
+                    employment_interest: e.target.value,
+                  });
+                }}
+              />
             </div>
           </div>
           <div className='col-span-2'>
             <Label>Virtues</Label>
             <div className='mt-2'>
-              <Textarea placeholder='Enter your favorite thing' />
+              <Textarea
+                value={fields.virtues ?? ''}
+                onChange={(e) => {
+                  handleUpdateField({
+                    virtues: e.target.value,
+                  });
+                }}
+                placeholder='Enter your favorite thing'
+              />
             </div>
           </div>
         </div>

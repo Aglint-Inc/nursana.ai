@@ -8,7 +8,8 @@ const query = async ({ ctx: { user_id } }: ApplicantProcedure) => {
   const { data } = await supabase
     .from('applicant_user')
     .select()
-    .eq('id', user_id);
+    .eq('id', user_id)
+    .single();
   return data;
 };
 
