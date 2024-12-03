@@ -12,6 +12,7 @@ import { getData } from './get_data';
 import { getPreferredJobLocations } from './get_data/get-preferred-job-locations';
 import { getPreferredJobTitles } from './get_data/get-preferred-job-titles';
 import { getPreferredJobTypes } from './get_data/get-preferred-job-types';
+import { professionalInfo } from './proffesional_info';
 import { updateUser } from './update';
 import { updatePreferences } from './update_preferences';
 
@@ -32,4 +33,5 @@ export const user = createTRPCRouter({
 
   updatePreferences: updatePreferences,
   updateUser,
+  professionalInfo,
 });
