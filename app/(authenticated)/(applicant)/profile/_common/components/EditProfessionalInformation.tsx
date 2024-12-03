@@ -18,6 +18,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { PROFFESSIONAL_SECTION } from '../constant';
 
 export default function EditProfessionalInformation() {
+  //
+  //
+  //
   return (
     <Card className='mb-[200px] w-full bg-gray-50'>
       <CardHeader className='p-4'>

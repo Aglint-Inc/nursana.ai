@@ -62,43 +62,91 @@ export type Database = {
       }
       applicant_user: {
         Row: {
+          certification_agency: string | null
           created_at: string | null
+          education_level: string | null
+          employment_interest: boolean | null
           id: string
+          income_level: string | null
           job_title: Database["public"]["Enums"]["nerse_titles"]
+          licence_number: number | null
+          licenced_year: number | null
+          licensed_state: string | null
           licenses: Database["public"]["Enums"]["nurse_license"][] | null
+          malpractice_insurance: boolean | null
+          memberships: string[]
+          npi_number: string | null
           open_to_work: boolean
+          patients_attend_per_week: number | null
           phone_number: string | null
+          preceptorship_interest: boolean | null
           preferred_travel_preference:
             | Database["public"]["Enums"]["travel_preferrence"]
             | null
+          professional_highlight: string | null
+          proffessional_titles: string[]
           salary_range: unknown | null
+          specialties: string[]
           terms_accepted: boolean
+          virtues: string | null
         }
         Insert: {
+          certification_agency?: string | null
           created_at?: string | null
+          education_level?: string | null
+          employment_interest?: boolean | null
           id: string
+          income_level?: string | null
           job_title?: Database["public"]["Enums"]["nerse_titles"]
+          licence_number?: number | null
+          licenced_year?: number | null
+          licensed_state?: string | null
           licenses?: Database["public"]["Enums"]["nurse_license"][] | null
+          malpractice_insurance?: boolean | null
+          memberships?: string[]
+          npi_number?: string | null
           open_to_work?: boolean
+          patients_attend_per_week?: number | null
           phone_number?: string | null
+          preceptorship_interest?: boolean | null
           preferred_travel_preference?:
             | Database["public"]["Enums"]["travel_preferrence"]
             | null
+          professional_highlight?: string | null
+          proffessional_titles?: string[]
           salary_range?: unknown | null
+          specialties?: string[]
           terms_accepted?: boolean
+          virtues?: string | null
         }
         Update: {
+          certification_agency?: string | null
           created_at?: string | null
+          education_level?: string | null
+          employment_interest?: boolean | null
           id?: string
+          income_level?: string | null
           job_title?: Database["public"]["Enums"]["nerse_titles"]
+          licence_number?: number | null
+          licenced_year?: number | null
+          licensed_state?: string | null
           licenses?: Database["public"]["Enums"]["nurse_license"][] | null
+          malpractice_insurance?: boolean | null
+          memberships?: string[]
+          npi_number?: string | null
           open_to_work?: boolean
+          patients_attend_per_week?: number | null
           phone_number?: string | null
+          preceptorship_interest?: boolean | null
           preferred_travel_preference?:
             | Database["public"]["Enums"]["travel_preferrence"]
             | null
+          professional_highlight?: string | null
+          proffessional_titles?: string[]
           salary_range?: unknown | null
+          specialties?: string[]
           terms_accepted?: boolean
+          virtues?: string | null
         }
         Relationships: [
           {
