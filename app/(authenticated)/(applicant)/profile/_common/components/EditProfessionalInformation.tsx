@@ -484,6 +484,7 @@ function FormSections({
                     professional_highlight: e.target.value,
                   });
                 }}
+                placeholder='Enter your favorite thing about your profession'
               />
             </div>
           </div>
@@ -492,6 +493,7 @@ function FormSections({
             <div className='mt-2'>
               <Textarea
                 value={fields.employment_interest ?? ''}
+                placeholder='Enter your professional achievements'
                 onChange={(e) => {
                   handleUpdateField({
                     employment_interest: e.target.value,
@@ -510,7 +512,7 @@ function FormSections({
                     virtues: e.target.value,
                   });
                 }}
-                placeholder='Enter your favorite thing'
+                placeholder='Enter your virtues'
               />
             </div>
           </div>
