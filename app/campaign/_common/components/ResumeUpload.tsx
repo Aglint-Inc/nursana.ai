@@ -12,7 +12,7 @@ function ResumeUpload({
 }: {
   saving: boolean;
   onChange: (_x: File | null) => void;
-  value: File;
+  value: File | null;
 }) {
   const [file, setFile] = useState<File | null>(value);
   const [dragActive, setDragActive] = useState(false);
