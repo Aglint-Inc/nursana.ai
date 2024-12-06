@@ -16,3 +16,13 @@ export const campaignFormDataSchema = zfd.formData({
   terms_accepted: z.string(),
   licenses: z.string().nullable(),
 });
+
+export const campaignFormDataSchemaWithoutResume = z.object({
+  email: z.string().email(),
+  role: nerseTitlesSchema,
+  first_name: z.string().min(2, 'First name is required'),
+  campaign_id: z.string().uuid(),
+  user_id: z.string().uuid().optional().nullable(),
+  applicant_id: z.string().uuid().optional().nullable(),
+  licenses: z.string(),
+});

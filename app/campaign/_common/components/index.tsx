@@ -31,7 +31,13 @@ import { useUploadCampaign } from '../hooks/useUpload';
 import ResumeUpload from './ResumeUpload';
 
 export default function FormCampaign() {
-  const { form, saving, handleSubmit } = useUploadCampaign();
+  const {
+    form,
+    saving,
+    handleSubmit,
+    isAppoloCampaign,
+    isAppoloCampaignLoading,
+  } = useUploadCampaign();
 
   const {
     control,
@@ -41,10 +47,18 @@ export default function FormCampaign() {
     formState: { isDirty },
   } = form;
 
+  if (isAppoloCampaignLoading) {
+    return (
+      <div className='fixed h-screen w-screen bg-white'>
+        <Loader className='text-purple-600' />
+      </div>
+    );
+  }
+
   return (
     <Section>
-      <div className='flex w-full flex-col items-center justify-center gap-8 lg:p-8 md:p-4'>
-        <div className='my-8 md:my-16 grid w-full lg:grid-cols-2 overflow-hidden rounded-xl md:border border-border lg:max-w-5xl md:max-w-xl'>
+      <div className='flex w-full flex-col items-center justify-center gap-8 md:p-4 lg:p-8'>
+        <div className='my-8 grid w-full overflow-hidden rounded-xl border-border md:my-16 md:max-w-xl md:border lg:max-w-5xl lg:grid-cols-2'>
           <Form {...form}>
             <form
               className='mb-4 w-full px-4'
@@ -60,7 +74,7 @@ export default function FormCampaign() {
                     </h1>
                   </div>
                   <div className='flex flex-col gap-4'>
-                    <div className='grid w-full grid-cols-1 sm:grid-cols-2 gap-4'>
+                    <div className='grid w-full grid-cols-1 gap-4 sm:grid-cols-2'>
                       <FormField
                         control={control}
                         name='first_name'
@@ -180,16 +194,13 @@ export default function FormCampaign() {
                                   );
                                 }
                               }}
-                              defaultValue={
-                                JSON.parse(getValues('licenses')!) ?? ''
-                              }
+                              defaultValue={JSON.parse(getValues('licenses')!)}
                             />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-
                     <FormField
                       control={control}
                       name='image'
@@ -204,8 +215,8 @@ export default function FormCampaign() {
                                   setValue('image', file);
                                   clearErrors('image');
                                 } else {
-                                  // @ts-ignore
-                                  setValue('file', null);
+                                  //@ts-ignore
+                                  setValue('image', null);
                                   clearErrors('image');
                                 }
                               }}
@@ -216,6 +227,7 @@ export default function FormCampaign() {
                         </FormItem>
                       )}
                     />
+
                     <div className='flex'>
                       <FormField
                         control={form.control}
@@ -250,9 +262,11 @@ export default function FormCampaign() {
                       className='w-full'
                       type='submit'
                       disabled={
-                        !isDirty ||
-                        saving ||
-                        form.getValues('terms_accepted') === 'false'
+                        isAppoloCampaign
+                          ? false
+                          : !isDirty ||
+                            saving ||
+                            form.getValues('terms_accepted') === 'false'
                       }
                     >
                       <div className='flex items-center gap-2'>
@@ -262,7 +276,7 @@ export default function FormCampaign() {
                     </Button>
                   </div>
                 </CardContent>
-                <CardFooter className='flex p-0 mt-4'>
+                <CardFooter className='mt-4 flex p-0'>
                   <p className='text-sm text-muted-foreground'>
                     Already have an account?{' '}
                     <a
@@ -277,7 +291,7 @@ export default function FormCampaign() {
               </Card>
             </form>
           </Form>
-          <div className='relative hidden md:block h-full w-full'>
+          <div className='relative hidden h-full w-full md:block'>
             <Image
               src={'/images/nurse-1.jpg'}
               layout='fill'
