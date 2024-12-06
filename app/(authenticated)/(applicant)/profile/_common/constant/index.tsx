@@ -1,6 +1,7 @@
 export { JOB_TITLES } from './JOB_TITLES';
 export { JOB_TYPES } from './JOB_TYPES';
 export { NURSE_LICENSE } from './NURSE_LICENSE';
+export { PROFFESSIONAL_SECTION } from './PROFFESSIONAL_SECTION';
 export { PROFILE_SECTIONS } from './PROFILE_SECTIONS';
 export { SALARY_RANGES } from './SALARY_RANGES';
 export { TRAVEL_PREFERENCES } from './TRAVEL_PREFERENCES';

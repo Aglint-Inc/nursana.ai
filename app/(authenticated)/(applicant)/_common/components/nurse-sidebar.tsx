@@ -96,6 +96,10 @@ const items = [
         title: 'Resume',
         url: '/profile/resume',
       },
+      {
+        title: 'Professional Information',
+        url: '/profile/professional-information',
+      },
     ],
   },
 ];

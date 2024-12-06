@@ -11,7 +11,6 @@ import { usePostHog } from 'posthog-js/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { type InterviewData } from 'src/types/types';
 
-import { Loader } from '@/app/components/Loader';
 import { useUserDataQuery } from '@/applicant/hooks/useUserData';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
@@ -53,7 +52,6 @@ export default function InterviewInstructions({
   const [progress, setProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showInterview, setShowInterview] = useState(false);
-  const [ignoreResume, setIgnoreResume] = useState(false);
 
   const showVideo = () => {
     setShowCover(false);
@@ -98,37 +96,8 @@ export default function InterviewInstructions({
   const handleProceed = useCallback(() => {
     setShowInterview(true);
   }, []);
-  const { refetch, data } = useUserDataQuery();
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (data?.resume?.structured_resume || data?.resume?.error_status) {
-        clearInterval(interval);
-      } else {
-        refetch();
-      }
-    }, 5000);
-    setTimeout(() => {
-      clearInterval(interval);
-      setIgnoreResume(true);
-    }, 10000);
-    return () => clearInterval(interval);
-  }, [data]);
-  if (
-    !ignoreResume &&
-    !data?.resume?.error_status &&
-    !data?.resume?.structured_resume
-  ) {
-    return (
-      <div className='flex h-screen w-full flex-col items-center justify-center'>
-        <div className='flex flex-col'>
-          <Loader />
-          <p className='mt-4 text-lg'>
-            Please wait while we load your resume data
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const { data } = useUserDataQuery();
+
   if (showInterview) {
     return (
       <InterviewProcess
