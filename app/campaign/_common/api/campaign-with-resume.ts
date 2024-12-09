@@ -66,7 +66,7 @@ export const uploadCampaign = publicProcedure
   .input(campaignFormDataSchema)
   .mutation(mutation);
 
-const upload = async (file: File, fileName: string, fileExt: string) => {
+export const upload = async (file: File, fileName: string, fileExt: string) => {
   const fileStream = Readable.fromWeb(
     // @ts-expect-error - unsure why this is not working
     file.stream(),

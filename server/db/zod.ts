@@ -706,6 +706,8 @@ export const nurseLicenseSchema = z.union([
 export const applicantUserRowSchema = z.object({
   certification_agency: z.array(z.string()).nullable(),
   created_at: z.string().nullable(),
+  current_company: z.string().nullable(),
+  current_job_title: z.string().nullable(),
   education_level: z.string().nullable(),
   employment_interest: z.string().nullable(),
   id: z.string(),
@@ -734,6 +736,8 @@ export const applicantUserRowSchema = z.object({
 export const applicantUserInsertSchema = z.object({
   certification_agency: z.array(z.string()).optional().nullable(),
   created_at: z.string().optional().nullable(),
+  current_company: z.string().optional().nullable(),
+  current_job_title: z.string().optional().nullable(),
   education_level: z.string().optional().nullable(),
   employment_interest: z.string().optional().nullable(),
   id: z.string(),
@@ -762,6 +766,8 @@ export const applicantUserInsertSchema = z.object({
 export const applicantUserUpdateSchema = z.object({
   certification_agency: z.array(z.string()).optional().nullable(),
   created_at: z.string().optional().nullable(),
+  current_company: z.string().optional().nullable(),
+  current_job_title: z.string().optional().nullable(),
   education_level: z.string().optional().nullable(),
   employment_interest: z.string().optional().nullable(),
   id: z.string().optional(),

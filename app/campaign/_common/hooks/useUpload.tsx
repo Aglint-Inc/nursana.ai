@@ -142,6 +142,8 @@ export const useUploadCampaign = () => {
   const handleSubmitWithoutResume = async () => {
     const email = searchParams.get('email') as string;
     const name = searchParams.get('name') as string;
+    const currentJobtitle = searchParams.get('jobtitle') as string;
+    const currentCompany = searchParams.get('company') as string;
     const resCheckUser = await checkUser({
       email,
     });
@@ -165,6 +167,8 @@ export const useUploadCampaign = () => {
       role: 'registered-nurse',
       user_id: resCheckUser?.user_id ?? null,
       applicant_id: resCheckUser?.applicant_id ?? null,
+      current_company: currentCompany,
+      current_job_title: currentJobtitle,
     });
 
     const { error } = await supabase.auth.signInWithPassword({
