@@ -64,6 +64,8 @@ export type Database = {
         Row: {
           certification_agency: string[] | null
           created_at: string | null
+          current_company: string | null
+          current_job_title: string | null
           education_level: string | null
           employment_interest: string | null
           id: string
@@ -93,6 +95,8 @@ export type Database = {
         Insert: {
           certification_agency?: string[] | null
           created_at?: string | null
+          current_company?: string | null
+          current_job_title?: string | null
           education_level?: string | null
           employment_interest?: string | null
           id: string
@@ -122,6 +126,8 @@ export type Database = {
         Update: {
           certification_agency?: string[] | null
           created_at?: string | null
+          current_company?: string | null
+          current_job_title?: string | null
           education_level?: string | null
           employment_interest?: string | null
           id?: string

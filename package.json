@@ -12,7 +12,7 @@
     "json-to-any": "npx tsc src/script/removeJsonType.ts --skipLibCheck && node src/script/removeJsonType.js",
     "zod": "supabase-to-zod --input server/db/schema/default.ts --output server/db/zod.ts",
     "types:local": "npx supabase gen types --lang=typescript --local --schema public> server/db/schema/default.ts && npm run json-to-any && npm run zod",
-    "types:remote": "npx supabase gen types --lang=typescript --linked --schema public> server/db/schema/default.ts && npm run json-to-any && npm run zod",
+    "types:remote": "npx supabase gen types --lang=typescript --db-url postgresql://postgres:m4f0eRER0SLoYWRF@db.wkcrwjfqljwprytoiigk.supabase.co:5432/postgres --schema public> server/db/schema/default.ts && npm run json-to-any && npm run zod",
     "seed:local": "supabase db dump -f supabase/seed.sql --local --data-only --exclude auth.audit_log_entries,auth.flow_state,auth.sessions,auth.mfa_amr_claims,auth.one_time_tokens,auth.refresh_tokens",
     "seed:remote": "supabase db dump -f supabase/seed.sql --data-only --exclude auth.audit_log_entries,auth.flow_state,auth.sessions,auth.mfa_amr_claims,auth.one_time_tokens,auth.refresh_tokens"
   },
