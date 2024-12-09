@@ -17,6 +17,8 @@ const mutation = async ({
     applicant_id,
     role,
     licenses,
+    current_company,
+    current_job_title,
   },
 }: PublicProcedure<typeof campaignFormDataSchemaWithoutResume>) => {
   const db = createPublicClient();
@@ -31,6 +33,8 @@ const mutation = async ({
       first_name,
       role,
       licenses,
+      current_company,
+      current_job_title,
     });
 
     userId = resUser.userId;
@@ -101,12 +105,16 @@ const createUser = async ({
   first_name,
   role,
   licenses,
+  current_job_title,
+  current_company,
 }: {
   db: SupabaseClient<DB>;
   email: string;
   first_name: string;
   role: z.infer<typeof nerseTitlesSchema>;
   licenses: string | null;
+  current_job_title: string | null | undefined;
+  current_company: string | null | undefined;
 }) => {
   const res = await db.auth.admin.createUser({
     email: email,
@@ -137,6 +145,8 @@ const createUser = async ({
         licenses: licenses
           ? (JSON.parse(licenses) as z.infer<typeof nurseLicenseSchema>[])
           : null,
+        current_job_title,
+        current_company,
       })
       .select()
       .single()

@@ -3,6 +3,8 @@
 
 import './interview-instructions.css';
 
+import ResumeUpload from 'app/campaign/_common/components/ResumeUpload';
+import { type schemaInterviewResumeUpload } from 'app/interview/_common/schema/upload';
 import parse from 'html-react-parser';
 import { Pause, Play, Repeat } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -10,11 +12,14 @@ import Image from 'next/image';
 import { usePostHog } from 'posthog-js/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { type InterviewData } from 'src/types/types';
+import { type z } from 'zod';
 
 import { useUserDataQuery } from '@/applicant/hooks/useUserData';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { toast } from '@/hooks/use-toast';
+import { api } from '@/trpc/client';
 
 import Footer from './footer';
 import NursanaLogo from './nursana-logo';
@@ -52,6 +57,7 @@ export default function InterviewInstructions({
   const [progress, setProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showInterview, setShowInterview] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
 
   const showVideo = () => {
     setShowCover(false);
@@ -97,6 +103,58 @@ export default function InterviewInstructions({
     setShowInterview(true);
   }, []);
   const { data } = useUserDataQuery();
+
+  const { mutateAsync: upload, isPending } =
+    api.interview.uploadResume.useMutation({
+      onError(err) {
+        toast({ title: err.message });
+      },
+      trpc: {
+        context: {
+          upload: true,
+        },
+      },
+    });
+
+  if (!data?.resume) {
+    return (
+      <div className='flex h-screen flex-col items-center justify-center gap-8'>
+        <h1 className='text-2xl font-medium md:text-center md:text-3xl'>
+          <span className=''>Upload your resume to proceed</span>
+          <br />
+        </h1>
+        <ResumeUpload
+          value={file}
+          onChange={(e) => {
+            setFile(e);
+          }}
+          saving={isPending}
+        />
+        <Button
+          variant={'default'}
+          disabled={!file || isPending}
+          onClick={async () => {
+            const fileExt = file?.name.split('.').pop() as string;
+            const formData = new FormData();
+            const dataTransform: z.infer<typeof schemaInterviewResumeUpload> = {
+              fileExt,
+              applicant_id: data.applicant_user.id,
+              campaign_id: data.interview.campaign_id,
+              image: file as File,
+            };
+            Object.entries(dataTransform)
+              .filter((d) => d[1] !== null)
+              .forEach(([key, value]) => {
+                formData.append(key, value as string);
+              });
+            await upload(formData);
+          }}
+        >
+          Proceed to interview
+        </Button>
+      </div>
+    );
+  }
 
   if (showInterview) {
     return (

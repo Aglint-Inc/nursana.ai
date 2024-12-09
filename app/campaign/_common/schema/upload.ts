@@ -25,4 +25,6 @@ export const campaignFormDataSchemaWithoutResume = z.object({
   user_id: z.string().uuid().optional().nullable(),
   applicant_id: z.string().uuid().optional().nullable(),
   licenses: z.string(),
+  current_job_title: z.string().optional().nullable(),
+  current_company: z.string().optional().nullable(),
 });
