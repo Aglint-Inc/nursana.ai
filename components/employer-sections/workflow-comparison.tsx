@@ -46,16 +46,16 @@ export function BeforeAfterComparison() {
     <section className='w-full py-12 md:py-24 lg:py-32'>
       <div className='container px-4 md:px-6'>
         <div className='mb-8 space-y-4 text-center'>
-          <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>
+          <h2 className='text-3xl font-bold tracking-tighter md:text-4xl/tight'>
             The Nursana Advantage
           </h2>
           <p className='text-lg text-muted-foreground'>
-            Save up to 40 hours per week on recruiting
+            Save up to 40 hours per week per hire on recruiting
           </p>
         </div>
-        <div className='relative grid gap-8 lg:grid-cols-2'>
+        <div className='relative grid gap-24 lg:grid-cols-2'>
           <Card className='border-2 border-red-600 bg-white shadow-lg'>
-            <CardHeader className='bg-red-100'>
+            <CardHeader className='rounded-t-lg bg-red-100'>
               <CardTitle className='text-2xl font-semibold text-red-800'>
                 Traditional Process
               </CardTitle>
@@ -93,14 +93,14 @@ export function BeforeAfterComparison() {
           <div className='absolute left-1/2 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 lg:block'>
             <Badge
               variant='secondary'
-              className='rounded-full bg-slate-800 px-6 py-3 text-2xl font-bold text-white shadow-lg'
+              className='rounded-full bg-slate-800 px-3 py-3 text-2xl font-bold text-white shadow-lg'
             >
               VS
             </Badge>
           </div>
 
           <Card className='relative border-2 border-green-600 bg-white shadow-lg'>
-            <CardHeader className='bg-green-100'>
+            <CardHeader className='rounded-t-lg bg-green-100'>
               <CardTitle className='text-2xl font-semibold text-green-800'>
                 Nursana AI
               </CardTitle>

@@ -13,27 +13,26 @@ function EmployerHero() {
   return (
     <div className='relative min-h-screen'>
       <div className='relative z-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-        <div className='flex items-center justify-between pt-6 lg:pt-8'>
-          <Link href={'/'}>
+        <div className='flex flex-col items-center justify-between gap-4 pt-6 sm:flex-row lg:pt-8'>
+          <Link href={'/'} className='w-[150px] sm:w-[200px]'>
             <Image
               src={'/images/nursana-beta.svg'}
               width={200}
               height={60}
               alt='nursana.ai'
+              className='w-full'
+              priority
             />
           </Link>
 
-          <div className='flex items-center gap-3'>
-            <span className='text-sm text-muted-foreground'>
-              Are you a nurse?
-            </span>
+          <div className='flex flex-col items-center gap-3 sm:flex-row'>
             <Tabs
               defaultValue='employer'
               onValueChange={(value) => value === 'nurse' && router.push('/')}
             >
-              <TabsList className='grid w-[200px] grid-cols-2'>
-                <TabsTrigger value='employer'>Employer</TabsTrigger>
-                <TabsTrigger value='nurse'>Nurse</TabsTrigger>
+              <TabsList className='grid w-[240px] grid-cols-2 sm:w-[240px]'>
+                <TabsTrigger value='employer'>For Employers</TabsTrigger>
+                <TabsTrigger value='nurse'>For Nurses</TabsTrigger>
               </TabsList>
             </Tabs>
           </div>
