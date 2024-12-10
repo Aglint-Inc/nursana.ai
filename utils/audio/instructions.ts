@@ -28,24 +28,25 @@ export const getInstructions = ({
   resume: string;
 }) => {
   return `
-        Instructions:
-        ${aiInstructions ? aiInstructions : null}
-        
-        Welcome message:
-        ${aiWelcomeMessage}
+Instructions:
+'''${aiInstructions || ''}'''
 
-        Questions:
-        ${aiQuestions ? aiQuestions : null}
+Welcome Message:
+'''${aiWelcomeMessage}'''
 
-        Ending message:
-        ${aiEndingMessage}
+Questions:
+'''${aiQuestions || ''}
+Ask them as if you are the interviewer. Dont mention section name while asking questions'''
 
-        Candidate Resume Details:
-        ${resume}
+Ending Message:
+'''${aiEndingMessage}'''
 
-        Personality:
-        Be professional and attentive
-        Maintain a calm and focused demeanor
-        Remember: the goal is to evaluate the candidate's technical skills and cultural fit
-        `;
+Candidate Resume Details:
+'''${resume}'''
+
+Personality:
+Be professional and attentive.
+Maintain a calm and focused demeanor.
+Remember: the goal is to evaluate the candidate's technical skills and cultural fit.
+`.trim();
 };

@@ -5,7 +5,10 @@ import {
   useUpdateInterviewsAnalysis,
 } from 'app/interview/_common/hooks';
 import { useCreateWelCall } from 'app/interview/_common/hooks/useCreateWebCall';
+import { time } from 'console';
+import dayjs from 'dayjs';
 import { useParams, useRouter } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RetellWebClient } from 'retell-client-js-sdk';
 import { type InterviewData } from 'src/types/types';
@@ -49,6 +52,7 @@ export default function Interview({
     videoBlobRef,
     fileMeta,
   } = useVideoRecording();
+  const posthog = usePostHog();
   const { updateInterview } = useUpdateInterviews();
   const { updateInterviewAnalysis } = useUpdateInterviewsAnalysis();
 
@@ -200,6 +204,9 @@ export default function Interview({
   );
   const { createWebCall } = useCreateWelCall();
   const handleStartInterview = useCallback(async () => {
+    posthog.capture('interview-start-clicked', {
+      interview_start_timestamp: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    });
     setError(null);
     setIsInitializingClient(true);
 
@@ -235,12 +242,18 @@ export default function Interview({
   }, [interviewId, startRecording, setupRetellEventListeners]);
 
   const handleStopInterview = useCallback(async () => {
+    posthog.capture('interview-stop-clicked', {
+      interview_stop_timestamp: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    });
     if (retellWebClientRef.current) {
       retellWebClientRef.current.stopCall();
     }
     stopRecording();
     setIsInterviewStarted(false);
     await processAndUploadInterview();
+    posthog.capture('interview-uploaded', {
+      interview_uploaded_timestamp: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    });
   }, [stopRecording, processAndUploadInterview]);
 
   // const toggleCaptions = useCallback(() => {
