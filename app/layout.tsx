@@ -1,7 +1,6 @@
 import './globals.css';
 
 import { GeistSans } from 'geist/font/sans';
-import dynamic from 'next/dynamic';
 import { ThemeProvider } from 'next-themes';
 
 import ScriptAppolo from './_common/components/ScriptAppolo';
@@ -45,13 +44,6 @@ export const metadata = {
   },
 };
 
-const PostHogPageView = dynamic(
-  () => import('./_common/components/PostHogPageView'),
-  {
-    ssr: false,
-  },
-);
-
 export default function RootLayout({
   children,
 }: {
@@ -67,10 +59,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main className='flex flex-col items-center overflow-hidden'>
-            <Providers>
-              <PostHogPageView />
-              {children}
-            </Providers>
+            <Providers>{children}</Providers>
           </main>
         </ThemeProvider>
       </body>
