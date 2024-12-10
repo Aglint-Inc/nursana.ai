@@ -5,7 +5,6 @@ import {
   useUpdateInterviewsAnalysis,
 } from 'app/interview/_common/hooks';
 import { useCreateWelCall } from 'app/interview/_common/hooks/useCreateWebCall';
-import { time } from 'console';
 import dayjs from 'dayjs';
 import { useParams, useRouter } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
