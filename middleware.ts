@@ -33,6 +33,7 @@ const PUBLIC_ROUTES = new RegExp(
     '^/ui(/.*)?$',
     '^/terms$',
     '^/privacy-policy$',
+    '^/employer(/.*)?$',
     ...PUBLIC_API,
   ].join('|'),
 );
