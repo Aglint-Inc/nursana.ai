@@ -115,7 +115,7 @@ export const useUploadCampaign = () => {
         const { error } = await supabase.auth.signInWithOtp({
           email: getValues().email,
           options: {
-            emailRedirectTo: ``,
+            emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/interview?id=${res.interview_id}`,
           },
         });
         if (error) {
