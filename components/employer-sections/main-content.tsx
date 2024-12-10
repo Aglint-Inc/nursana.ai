@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 
 import { BookingSection } from './booking-section';
 import { TransformHiringProcess } from './TransformHiringProcess';
+import { BeforeAfterComparison } from './workflow-comparison';
 
 export function EmployerMainContent() {
   return (
@@ -71,6 +72,7 @@ export function EmployerMainContent() {
       </section>
 
       <TransformHiringProcess />
+      <BeforeAfterComparison />
 
       <BookingSection />
     </>

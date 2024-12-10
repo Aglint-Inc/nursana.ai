@@ -116,7 +116,7 @@ function EmployerHero() {
           </div>
         </div>
       </div>
-      <div className='absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-r from-pink-50/80 via-white/50 to-pink-50/80' />
+      <div className='absolute bottom-0 left-0 right-0 h-full bg-gradient-to-r from-pink-50/80 via-white/50 to-pink-50/80' />
     </div>
   );
 }
