@@ -104,7 +104,7 @@ export function TransformHiringProcess() {
     <section className='w-full bg-purple-50 py-12 md:py-24 lg:py-32'>
       <div className='container px-4 md:px-6'>
         <div className='flex flex-col items-center justify-center space-y-4 text-center'>
-          <h2 className='text-3xl font-bold tracking-tighter sm:text-5xl'>
+          <h2 className='text-3xl font-bold tracking-tighter md:text-4xl/tight'>
             Transform Your Hiring Process
           </h2>
           <p className='max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed'>
