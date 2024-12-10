@@ -14,6 +14,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { type InterviewData } from 'src/types/types';
 import { type z } from 'zod';
 
+import { Loader } from '@/app/components/Loader';
 import { useUserDataQuery } from '@/applicant/hooks/useUserData';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
@@ -47,8 +48,9 @@ export default function InterviewInstructions({
   const posthog = usePostHog();
   useEffect(() => {
     const hasCaptured = localStorage.getItem('stage_start_interview');
+
     if (!hasCaptured) {
-      posthog.capture('stage_start_interview');
+      posthog.capture('interview-opened');
       localStorage.setItem('stage_start_interview', 'true');
     }
   }, []);
@@ -58,6 +60,7 @@ export default function InterviewInstructions({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showInterview, setShowInterview] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [ignoreResume, setIgnoreResume] = useState(false);
 
   const showVideo = () => {
     setShowCover(false);
@@ -100,9 +103,10 @@ export default function InterviewInstructions({
   };
 
   const handleProceed = useCallback(() => {
+    posthog.capture('interview-proceed-clicked');
     setShowInterview(true);
   }, []);
-  const { data } = useUserDataQuery();
+  const { data, refetch, isLoading } = useUserDataQuery();
 
   const { mutateAsync: upload, isPending } =
     api.interview.uploadResume.useMutation({
@@ -116,7 +120,32 @@ export default function InterviewInstructions({
       },
     });
 
-  if (!data?.resume) {
+  useEffect(() => {
+    if (data?.resume?.file_url) {
+      const interval = setInterval(() => {
+        if (data?.resume?.structured_resume || data?.resume?.error_status) {
+          clearInterval(interval);
+        } else {
+          refetch();
+        }
+      }, 5000);
+      setTimeout(() => {
+        clearInterval(interval);
+        setIgnoreResume(true);
+      }, 10000);
+      return () => clearInterval(interval);
+    }
+  }, [data]);
+
+  if (isLoading) {
+    return (
+      <div className='flex h-screen flex-col items-center justify-center gap-8'>
+        <Loader />
+      </div>
+    );
+  }
+
+  if (!data?.resume?.file_url) {
     return (
       <div className='flex h-screen flex-col items-center justify-center gap-8'>
         <h1 className='text-2xl font-medium md:text-center md:text-3xl'>
@@ -134,6 +163,7 @@ export default function InterviewInstructions({
           variant={'default'}
           disabled={!file || isPending}
           onClick={async () => {
+            posthog.capture('interview-resume-upload-clicked');
             const fileExt = file?.name.split('.').pop() as string;
             const formData = new FormData();
             const dataTransform: z.infer<typeof schemaInterviewResumeUpload> = {
@@ -148,10 +178,32 @@ export default function InterviewInstructions({
                 formData.append(key, value as string);
               });
             await upload(formData);
+            posthog.capture('interview-resume-uploaded', {
+              fileExt,
+              applicant_id: data.applicant_user.id,
+              campaign_id: data.interview.campaign_id,
+            });
           }}
         >
-          Proceed to interview
+          Upload Resume
         </Button>
+      </div>
+    );
+  }
+
+  if (
+    !ignoreResume &&
+    !data?.resume?.error_status &&
+    !data?.resume?.structured_resume
+  ) {
+    return (
+      <div className='flex h-screen w-full flex-col items-center justify-center'>
+        <div className='flex flex-col'>
+          <Loader />
+          <p className='mt-4 text-lg'>
+            Please wait while we load your resume data
+          </p>
+        </div>
       </div>
     );
   }
