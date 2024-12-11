@@ -26,8 +26,18 @@ export function EmployerMainContent() {
               {/* Cards */}
               <Card>
                 <CardContent className='p-6'>
+                  <Star className='mb-4 h-12 w-12 text-purple-600' />
+                  <h3 className='mb-2 font-bold'>Continuous Learning</h3>
+                  <p className='text-sm text-gray-500 dark:text-gray-400'>
+                    Nursana gets smarter with every interaction, improving
+                    results over time
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className='p-6'>
                   <Clock className='mb-4 h-12 w-12 text-purple-600' />
-                  <h3 className='mb-2 font-bold'>24/7 Operation</h3>
+                  <h3 className='mb-2 font-bold'>Operates 24/7</h3>
                   <p className='text-sm text-gray-500 dark:text-gray-400'>
                     Continuous candidate sourcing and screening, working around
                     the clock
@@ -49,21 +59,12 @@ export function EmployerMainContent() {
                   <Shield className='mb-4 h-12 w-12 text-purple-600' />
                   <h3 className='mb-2 font-bold'>Quality Assured</h3>
                   <p className='text-sm text-gray-500 dark:text-gray-400'>
-                    AI-powered screening ensures only the best candidates move
-                    forward
+                    Nursana does in-depth screening to ensure only the best
+                    candidates move forward
                   </p>
                 </CardContent>
               </Card>
-              <Card>
-                <CardContent className='p-6'>
-                  <Star className='mb-4 h-12 w-12 text-purple-600' />
-                  <h3 className='mb-2 font-bold'>Continuous Learning</h3>
-                  <p className='text-sm text-gray-500 dark:text-gray-400'>
-                    Our AI gets smarter with every interaction, improving
-                    results over time
-                  </p>
-                </CardContent>
-              </Card>
+
               {/* Repeat for other cards... */}
               {/* Similar structure for LineChart, Shield, and Star cards */}
             </div>
