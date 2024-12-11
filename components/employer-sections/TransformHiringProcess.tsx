@@ -68,7 +68,7 @@ const hiringSteps: HiringStep[] = [
   },
   {
     id: 'quality-hire',
-    title: 'Quality Hire',
+    title: 'Quality Hires',
     description:
       'Improved candidate quality and reduced time-to-hire, resulting in better matches and more efficient recruitment processes.',
     benefits: [
@@ -108,9 +108,8 @@ export function TransformHiringProcess() {
             Transform Your Hiring Process
           </h2>
           <p className='max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed'>
-            Streamline your healthcare recruitment with our innovative AI
-            solution. Set up in less than two weeks and start seeing results
-            immediately.
+            Streamline your healthcare recruitment with Nursana. Set up in less
+            than two weeks and start seeing results immediately.
           </p>
         </div>
         <div className='mx-auto mt-12 max-w-5xl'>

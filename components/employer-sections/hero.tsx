@@ -101,12 +101,8 @@ function EmployerHero() {
                       </div>
                     </div>
                     <div className='absolute bottom-0 left-0 right-0 bg-purple-600 p-4 text-center text-white'>
-                      <h3 className='text-xl font-medium uppercase'>
-                        Monica Dillon
-                      </h3>
-                      <p className='text-md mt-1 opacity-90'>
-                        Chief Nursing Officer
-                      </p>
+                      <h3 className='text-xl font-medium uppercase'>Nursana</h3>
+                      <p className='text-md mt-1 opacity-90'>AI Recruiter</p>
                     </div>
                   </div>
                 </div>
