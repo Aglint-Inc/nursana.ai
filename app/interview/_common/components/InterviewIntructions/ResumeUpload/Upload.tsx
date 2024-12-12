@@ -82,7 +82,10 @@ export default function Upload() {
 
             <Button
               variant='link'
-              onClick={() => window.open('https://rxresu.me/', '_blank')}
+              onClick={() => {
+                posthog.capture('interview-dont-have-resume');
+                window.open('https://rxresu.me/', '_blank');
+              }}
               className='w-full text-gray-600 hover:text-gray-900'
             >
               {`I don't have a resume yet`}
