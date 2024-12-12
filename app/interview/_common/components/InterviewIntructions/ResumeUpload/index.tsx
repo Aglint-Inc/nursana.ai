@@ -1,3 +1,4 @@
+import { usePostHog } from 'posthog-js/react';
 import { useState } from 'react';
 
 import NursanaLogo from '@/components/nursana-logo';
@@ -8,6 +9,7 @@ import Upload from './Upload';
 type Steps = 'InitialExplanation' | 'ResumeUpload';
 
 function StageResumeUpload() {
+  const posthog = usePostHog();
   const [step, setStep] = useState<Steps>('InitialExplanation');
 
   const renderComponent = () => {
@@ -16,6 +18,7 @@ function StageResumeUpload() {
         return (
           <InitialExplanation
             onNext={() => {
+              posthog.capture('interview-start-preocess');
               setStep('ResumeUpload');
             }}
           />
