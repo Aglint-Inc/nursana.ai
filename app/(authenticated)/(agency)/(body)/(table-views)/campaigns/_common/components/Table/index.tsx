@@ -25,8 +25,6 @@ export const Table = () => {
   // const filterFields = getFilterFields(data);
   const filterFields = getFilterFields(data);
 
-  console.log(data);
-
   return (
     <DataTable
       columns={COLUMNS}
