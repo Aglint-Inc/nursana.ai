@@ -35,7 +35,7 @@ export default function InitialExplanation({
 
   return (
     <div className='mx-auto max-w-md space-y-6'>
-      <Card className='border-none bg-white/80 shadow-lg backdrop-blur-md'>
+      <Card className='border-none bg-white/80 shadow-none backdrop-blur-md'>
         <CardHeader>
           <CardTitle className='bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-center text-2xl font-bold text-transparent'>
             Welcome to Your Interview Journey
@@ -87,7 +87,10 @@ export default function InitialExplanation({
         </Button>
       </div>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <Dialog
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+      >
         <DialogContent className='sm:max-w-[425px]'>
           <DialogHeader>
             <DialogTitle>Schedule Interview</DialogTitle>
