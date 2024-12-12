@@ -10,12 +10,6 @@ export const useInterviews = (): Read['output'] => {
   // const search = useDeferredValue(_search);
   return api.authenticated.agency.interviews.read.useSuspenseQuery(
     {},
-    // {
-    //   campaign_code: search.campaign_code ?? undefined,
-    //   interview_stage: search.interview_stage ?? undefined,
-    //   updated_at: search.updated_at ?? undefined,
-    //   terms_accepted: search.terms_accepted ?? undefined,
-    // },
     { refetchOnMount: false },
   )[0];
 };

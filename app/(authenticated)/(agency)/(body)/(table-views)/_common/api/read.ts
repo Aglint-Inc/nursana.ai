@@ -33,19 +33,6 @@ export const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
 
   if (input.campaign_id) query.eq('campaign_id', input.campaign_id);
 
-  // if (input.campaign_code && input.campaign_code.length)
-  //   query.or(`campaign_code.in.(${input.campaign_code.join(', ')})`, {
-  //     referencedTable: 'campaign',
-  //   });
-
-  // if (input.interview_stage && input.interview_stage.length)
-  //   query.in('interview_stage', input.interview_stage);
-
-  // if (input.updated_at && input.updated_at.length === 2) {
-  //   query.gte('updated_at', input.updated_at[0]);
-  //   query.lte('updated_at', input.updated_at[1]);
-  // }
-
   const { data } = await query;
 
   if (!data)
@@ -54,12 +41,6 @@ export const query = async ({ ctx, input }: AgencyProcedure<typeof schema>) => {
       message: 'Interviews not found',
     });
 
-  // const { data, count } = await query;
-  // if (!data || !count)
-  //   throw new TRPCError({
-  //     code: 'NOT_FOUND',
-  //     message: 'Interviews not found',
-  //   });
   return data.map(
     ({
       campaign: { campaign_code },

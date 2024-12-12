@@ -83,7 +83,7 @@ const createInterview = async ({
       .from('interview')
       .insert({
         applicant_id,
-        interview_stage: 'resume_submitted',
+        interview_stage: 'not_started',
         name: campaign.name,
         campaign_id: campaign.id,
         agency_id: campaign.agency_id,

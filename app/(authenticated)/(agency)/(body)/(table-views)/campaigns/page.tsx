@@ -3,10 +3,10 @@
 import { Body } from '@/campaigns/components/Body';
 import { Table } from '@/campaigns/components/Table';
 
-const Page = (props: Parameters<typeof Table>['0']) => {
+const Page = () => {
   return (
     <Body>
-      <Table {...props} />
+      <Table />
     </Body>
   );
 };
