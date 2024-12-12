@@ -32,7 +32,9 @@ const PUBLIC_ROUTES = new RegExp(
     '^/auth(?!/sign-in$)',
     '^/ui(/.*)?$',
     '^/terms$',
+    '^/api/contact$',
     '^/privacy-policy$',
+    '^/employer(/.*)?$',
     ...PUBLIC_API,
   ].join('|'),
 );

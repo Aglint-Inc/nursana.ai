@@ -70,7 +70,8 @@ const ResumeScoreFallback = () => {
 };
 
 const ResumeInfo = () => {
-  return <InterviewHome.ResumeInfo />;
+  const { file_url } = useInterviewResume();
+  return <InterviewHome.ResumeInfo submitted={!!file_url} />;
 };
 
 const InterviewInfo = () => {

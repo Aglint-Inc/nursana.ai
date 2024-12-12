@@ -76,9 +76,14 @@ const ResumeScore = ({
 };
 ResumeScore.Fallback = ResumeScoreFallback;
 
-const Resume = ({ children }: PropsWithChildren) => {
+const Resume = ({
+  children,
+  submitted,
+}: PropsWithChildren<{
+  submitted: boolean;
+}>) => {
   return (
-    <InterviewInfo variant='resume' submitted>
+    <InterviewInfo variant='resume' submitted={submitted}>
       {children}
     </InterviewInfo>
   );
@@ -135,7 +140,7 @@ const ErrorFallback = () => {
 
 export const InterviewHome = (props: Props) => {
   return (
-    <div className='flex min-h-[85vh] flex-col items-center justify-center gap-10 py-10 mx-auto max-w-3xl'>
+    <div className='mx-auto flex min-h-[85vh] max-w-3xl flex-col items-center justify-center gap-10 py-10'>
       <div className='flex flex-col items-center gap-2'>
         {props.Title}
         <Description />
