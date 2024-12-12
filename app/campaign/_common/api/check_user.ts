@@ -26,9 +26,19 @@ const query = async ({
     ? (
         await db
           .from('resume')
-          .select('id')
+          .select('*')
           .eq('campaign_id', campaign_id)
           .eq('applicant_id', app_user[0].applicant_user.id)
+          .throwOnError()
+      ).data
+    : null;
+
+  const interview = app_user[0]?.applicant_user
+    ? (
+        await db
+          .from('interview')
+          .select('*')
+          .eq('applicant_id', app_user[0]?.applicant_user.id)
           .throwOnError()
       ).data
     : null;
@@ -38,8 +48,9 @@ const query = async ({
     applicant_id: app_user[0]?.applicant_user
       ? app_user[0].applicant_user.id
       : null,
-    resume_id: resume ? (resume[0]?.id ? resume[0].id : null) : null,
+    resume: resume ? resume[0] : null,
     role: app_user[0]?.user_role ? app_user[0].user_role : null,
+    interview: interview ? interview[0] : null,
   };
 };
 

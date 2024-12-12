@@ -150,34 +150,42 @@ export const useUploadCampaign = () => {
 
     if (!resCheckUser) return;
 
-    posthog.capture('campaign-submitted', {
-      email,
-      first_name: name,
-      role: getValues().role,
-      licenses: 'Registered Nurse',
-      campaign_id: campaignData?.id,
-      applicant_id: getValues().applicant_id,
-    });
+    if (
+      resCheckUser.interview?.interview_stage === 'not_started' ||
+      resCheckUser.interview?.interview_stage === 'resume_submitted' ||
+      resCheckUser.interview?.interview_stage === 'interview_inprogress'
+    ) {
+      await sigIn(email);
+      router.push(`/interview/${resCheckUser.interview.id}/start-interview`);
+    } else if (
+      resCheckUser.interview?.interview_stage === 'interview_completed'
+    ) {
+      await sigIn(email);
+      router.push(`/dashboard`);
+    } else {
+      posthog.capture('campaign-submitted', {
+        email,
+        first_name: name,
+        role: getValues().role,
+        licenses: 'Registered Nurse',
+        campaign_id: campaignData?.id,
+        applicant_id: getValues().applicant_id,
+      });
 
-    const resUpload = await uploadWithoutResume({
-      email,
-      first_name: name,
-      campaign_id: campaignData?.id,
-      licenses: JSON.stringify(['registered-nurse']),
-      role: 'registered-nurse',
-      user_id: resCheckUser?.user_id ?? null,
-      applicant_id: resCheckUser?.applicant_id ?? null,
-      current_company: currentCompany,
-      current_job_title: currentJobtitle,
-    });
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password: 'Welcome@123',
-    });
-
-    if (error) throw new Error('Error signing user');
-    router.push(`/interview/${resUpload.interview_id}/start-interview`);
+      const resUpload = await uploadWithoutResume({
+        email,
+        first_name: name,
+        campaign_id: campaignData?.id,
+        licenses: JSON.stringify(['registered-nurse']),
+        role: 'registered-nurse',
+        user_id: resCheckUser?.user_id ?? null,
+        applicant_id: resCheckUser?.applicant_id ?? null,
+        current_company: currentCompany,
+        current_job_title: currentJobtitle,
+      });
+      await sigIn(email);
+      router.push(`/interview/${resUpload.interview_id}/start-interview`);
+    }
   };
 
   const checkUser = async ({ email }: { email: string }) => {
@@ -193,8 +201,9 @@ export const useUploadCampaign = () => {
       });
       return;
     }
+
     //in appolo campaign we are skipping resume upload user is directly going to interview
-    if (isAppoloCampaign ? resCheckUser.applicant_id : resCheckUser.resume_id) {
+    if (!isAppoloCampaign && resCheckUser.resume?.id) {
       toast({
         description: 'You have already applied . Please signin to view details',
         variant: 'destructive',
@@ -204,6 +213,16 @@ export const useUploadCampaign = () => {
     }
 
     return resCheckUser;
+  };
+
+  const sigIn = async (email: string) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password: 'Welcome@123',
+    });
+
+    if (error)
+      toast({ description: 'Error signing user', variant: 'destructive' });
   };
 
   return {
