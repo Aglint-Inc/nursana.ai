@@ -9,8 +9,8 @@ import { type InterviewData } from 'src/types/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 
-import Footer from './footer';
-import NursanaLogo from './nursana-logo';
+import Footer from '../../../../../components/footer';
+import NursanaLogo from '../../../../../components/nursana-logo';
 
 interface InterviewSummaryProps {
   interviewId: string;
@@ -30,6 +30,7 @@ export default function InterviewSummary({
   }, []);
 
   const router = useRouter();
+
   return (
     <div className='flex flex-col items-center'>
       <div className='flex h-[calc(100vh-72px)] flex-col items-center pt-10'>

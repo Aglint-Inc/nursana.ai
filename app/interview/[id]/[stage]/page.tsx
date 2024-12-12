@@ -1,21 +1,8 @@
-import dynamic from 'next/dynamic';
+import InterviewInstructions from 'app/interview/_common/components/InterviewIntructions';
+import InterviewSummary from 'app/interview/_common/components/InterviewSummary';
 import { notFound, redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { api } from 'trpc/server';
-
-const InterviewInstructions = dynamic(
-  () => import('@/components/interview-instructions'),
-  {
-    ssr: false,
-  },
-);
-
-const InterviewSummary = dynamic(
-  () => import('@/components/interview-summary'),
-  {
-    ssr: false,
-  },
-);
 
 const normalizeStage = (stage: string) => {
   switch (stage) {
@@ -63,7 +50,7 @@ export default async function InterviewPage({
     switch (redirectStage) {
       case 'start-interview':
         return (
-          <Suspense fallback={<div>Loading Instructions...</div>}>
+          <Suspense fallback={<></>}>
             <InterviewInstructions
               key={params.id}
               interviewId={params.id}

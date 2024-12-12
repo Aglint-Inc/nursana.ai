@@ -1,67 +1,23 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-'use client';
-
-import './interview-instructions.css';
-
-import ResumeUpload from 'app/campaign/_common/components/ResumeUpload';
-import { type schemaInterviewResumeUpload } from 'app/interview/_common/schema/upload';
 import parse from 'html-react-parser';
 import { Pause, Play, Repeat } from 'lucide-react';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { usePostHog } from 'posthog-js/react';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { type InterviewData } from 'src/types/types';
-import { type z } from 'zod';
+import posthog from 'posthog-js';
+import React, { useCallback, useRef, useState } from 'react';
 
-import { Loader } from '@/app/components/Loader';
-import { useUserDataQuery } from '@/applicant/hooks/useUserData';
+import Footer from '@/components/footer';
+import NursanaLogo from '@/components/nursana-logo';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { toast } from '@/hooks/use-toast';
-import { api } from '@/trpc/client';
 
-import Footer from './footer';
-import NursanaLogo from './nursana-logo';
+import { type InterviewInstructionsProps } from '.';
 
-const mode = 'retell' as 'openAI' | 'retell';
-const InterviewProcess = dynamic(
-  () =>
-    mode === 'openAI'
-      ? import('@/components/openai_interview_process')
-      : import('@/components/retell_interview-process'),
-  {
-    ssr: false,
-  },
-);
-
-interface InterviewInstructionsProps {
-  interviewData: InterviewData;
-  interviewId: string;
-}
-
-export default function InterviewInstructions({
-  interviewData,
-  interviewId,
-}: InterviewInstructionsProps) {
-  const posthog = usePostHog();
-  useEffect(() => {
-    const hasCaptured = localStorage.getItem('stage_start_interview');
-
-    if (!hasCaptured) {
-      posthog.capture('interview-opened');
-      localStorage.setItem('stage_start_interview', 'true');
-    }
-  }, []);
+function InstructionFromDB({ interviewData }: InterviewInstructionsProps) {
   const [showCover, setShowCover] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [showInterview, setShowInterview] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
-  const [ignoreResume, setIgnoreResume] = useState(false);
-
   const showVideo = () => {
     setShowCover(false);
   };
@@ -104,119 +60,7 @@ export default function InterviewInstructions({
 
   const handleProceed = useCallback(() => {
     posthog.capture('interview-proceed-clicked');
-    setShowInterview(true);
   }, []);
-  const { data, refetch, isLoading } = useUserDataQuery();
-
-  const { mutateAsync: upload, isPending } =
-    api.interview.uploadResume.useMutation({
-      onError(err) {
-        toast({ title: err.message });
-      },
-      trpc: {
-        context: {
-          upload: true,
-        },
-      },
-    });
-
-  useEffect(() => {
-    if (data?.resume?.file_url) {
-      const interval = setInterval(() => {
-        if (data?.resume?.structured_resume || data?.resume?.error_status) {
-          clearInterval(interval);
-        } else {
-          refetch();
-        }
-      }, 5000);
-      setTimeout(() => {
-        clearInterval(interval);
-        setIgnoreResume(true);
-      }, 10000);
-      return () => clearInterval(interval);
-    }
-  }, [data]);
-
-  if (isLoading) {
-    return (
-      <div className='flex h-screen flex-col items-center justify-center gap-8'>
-        <Loader />
-      </div>
-    );
-  }
-
-  if (!data?.resume?.file_url) {
-    return (
-      <div className='flex h-screen flex-col items-center justify-center gap-8'>
-        <h1 className='text-2xl font-medium md:text-center md:text-3xl'>
-          <span className=''>Upload your resume to proceed</span>
-          <br />
-        </h1>
-        <ResumeUpload
-          value={file}
-          onChange={(e) => {
-            setFile(e);
-          }}
-          saving={isPending}
-        />
-        <Button
-          variant={'default'}
-          disabled={!file || isPending}
-          onClick={async () => {
-            posthog.capture('interview-resume-upload-clicked');
-            const fileExt = file?.name.split('.').pop() as string;
-            const formData = new FormData();
-            const dataTransform: z.infer<typeof schemaInterviewResumeUpload> = {
-              fileExt,
-              applicant_id: data.applicant_user.id,
-              campaign_id: data.interview.campaign_id,
-              image: file as File,
-            };
-            Object.entries(dataTransform)
-              .filter((d) => d[1] !== null)
-              .forEach(([key, value]) => {
-                formData.append(key, value as string);
-              });
-            await upload(formData);
-            posthog.capture('interview-resume-uploaded', {
-              fileExt,
-              applicant_id: data.applicant_user.id,
-              campaign_id: data.interview.campaign_id,
-            });
-          }}
-        >
-          Upload Resume
-        </Button>
-      </div>
-    );
-  }
-
-  if (
-    !ignoreResume &&
-    !data?.resume?.error_status &&
-    !data?.resume?.structured_resume
-  ) {
-    return (
-      <div className='flex h-screen w-full flex-col items-center justify-center'>
-        <div className='flex flex-col'>
-          <Loader />
-          <p className='mt-4 text-lg'>
-            Please wait while we load your resume data
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (showInterview) {
-    return (
-      <InterviewProcess
-        interviewId={interviewId}
-        interviewData={interviewData}
-        resumeData={data?.resume?.structured_resume}
-      />
-    );
-  }
 
   return (
     <div className='w-screen'>
@@ -347,3 +191,5 @@ export default function InterviewInstructions({
     </div>
   );
 }
+
+export default InstructionFromDB;
