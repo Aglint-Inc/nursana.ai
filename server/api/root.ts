@@ -5,8 +5,8 @@ import { uploadResume } from 'app/campaign/_common/api/uploadCandidateResume';
 
 import { authenticated } from '@/authenticated/api';
 
+import { interview } from '../../app/interview/_common/api/interview';
 import { example } from './routers/example';
-import { interview } from './routers/interview';
 import { interviewAnalysis } from './routers/interview_analysis';
 import { getLocationList } from './routers/location-list';
 import { services } from './routers/services';

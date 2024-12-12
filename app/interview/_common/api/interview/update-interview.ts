@@ -2,9 +2,8 @@ import 'server-only';
 
 import { z } from 'zod';
 
+import { type ApplicantProcedure, applicantProcedure } from '@/server/api/trpc';
 import { supabase } from '@/utils/supabase/client';
-
-import { type ApplicantProcedure, applicantProcedure } from '../../trpc';
 
 const schema = z.object({
   id: z.string(),

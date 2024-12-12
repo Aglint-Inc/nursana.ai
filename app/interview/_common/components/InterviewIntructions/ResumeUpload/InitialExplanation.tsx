@@ -1,18 +1,19 @@
 import { ArrowRight, UploadIcon as FileUpload, Video } from 'lucide-react';
-import { useState } from 'react';
+import { useParams } from 'next/navigation';
+import React, { useState } from 'react';
 
+import { DateTimePicker } from '@/app/components/DateTimePicker';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { toast } from '@/hooks/use-toast';
+import { api } from '@/trpc/client';
 
 import { PurpleButtonClassName } from '../InterviewProcess/instructions';
 
@@ -24,6 +25,13 @@ export default function InitialExplanation({
   onNext,
 }: InitialExplanationProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [date, setDate] = React.useState<Date>();
+
+  const params = useParams();
+
+  const { mutateAsync, isPending } =
+    api.interview.scheduleInterview.useMutation();
+
   return (
     <div className='mx-auto max-w-md space-y-6'>
       <Card className='border-none bg-white/80 shadow-lg backdrop-blur-md'>
@@ -87,23 +95,29 @@ export default function InitialExplanation({
               reminder.`}
             </DialogDescription>
           </DialogHeader>
-          <div className='grid gap-4 py-4'>
-            <div className='grid grid-cols-4 items-center gap-4'>
-              <Label htmlFor='interview-date' className='text-right'>
-                Date and Time
-              </Label>
-              <Input
-                id='interview-date'
-                type='datetime-local'
-                className='col-span-3'
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button type='submit' onClick={() => setIsDialogOpen(false)}>
+          <div className='flex w-full flex-row items-center gap-4'>
+            <DateTimePicker date={date} setDate={setDate} />
+            <Button
+              disabled={isPending}
+              variant={'default'}
+              onClick={async () => {
+                if (!date) return;
+                await mutateAsync({
+                  date: date.toISOString(),
+                  interview_id: params.id as string,
+                });
+                toast({
+                  title: 'Interview Scheduled',
+                  description:
+                    'Your interview has been scheduled successfully. We will send you a reminder.',
+                  variant: 'default',
+                });
+                setIsDialogOpen(false);
+              }}
+            >
               Schedule
             </Button>
-          </DialogFooter>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

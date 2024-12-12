@@ -4,7 +4,10 @@ import { z } from 'zod';
 
 import { supabase } from '@/utils/supabase/client';
 
-import { type ApplicantProcedure, applicantProcedure } from '../../trpc';
+import {
+  type ApplicantProcedure,
+  applicantProcedure,
+} from '../../../../../server/api/trpc';
 
 const schema = z.object({
   interview_id: z.string(),

@@ -3,7 +3,10 @@ import { z } from 'zod';
 import { createPrivateClient } from '@/db/client';
 import { getInstructions } from '@/utils/audio/instructions';
 
-import { type PrivateProcedure, privateProcedure } from '../../trpc';
+import {
+  type PrivateProcedure,
+  privateProcedure,
+} from '../../../../../server/api/trpc';
 
 const schema = z.object({
   interview_id: z.string(),
