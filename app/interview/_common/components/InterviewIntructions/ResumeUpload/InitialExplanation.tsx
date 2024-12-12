@@ -1,5 +1,6 @@
 import { ArrowRight, UploadIcon as FileUpload, Video } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
 import React, { useState } from 'react';
 
 import { DateTimePicker } from '@/app/components/DateTimePicker';
@@ -26,7 +27,7 @@ export default function InitialExplanation({
 }: InitialExplanationProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [date, setDate] = React.useState<Date>();
-
+  const posthog = usePostHog();
   const params = useParams();
 
   const { mutateAsync, isPending } =
@@ -102,6 +103,7 @@ export default function InitialExplanation({
               variant={'default'}
               onClick={async () => {
                 if (!date) return;
+                posthog.capture('interview-scheduled');
                 await mutateAsync({
                   date: date.toISOString(),
                   interview_id: params.id as string,
