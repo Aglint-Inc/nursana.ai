@@ -347,6 +347,34 @@ export const interviewAnalysisRelationshipsSchema = z.tuple([
   }),
 ]);
 
+export const interviewScheduledRowSchema = z.object({
+  created_at: z.string(),
+  interview_id: z.string(),
+  scheduled_at: z.string().nullable(),
+});
+
+export const interviewScheduledInsertSchema = z.object({
+  created_at: z.string().optional(),
+  interview_id: z.string(),
+  scheduled_at: z.string().optional().nullable(),
+});
+
+export const interviewScheduledUpdateSchema = z.object({
+  created_at: z.string().optional(),
+  interview_id: z.string().optional(),
+  scheduled_at: z.string().optional().nullable(),
+});
+
+export const interviewScheduledRelationshipsSchema = z.tuple([
+  z.object({
+    foreignKeyName: z.literal("interview_scheduled_interview_id_fkey"),
+    columns: z.tuple([z.literal("interview_id")]),
+    isOneToOne: z.literal(true),
+    referencedRelation: z.literal("interview"),
+    referencedColumns: z.tuple([z.literal("id")]),
+  }),
+]);
+
 export const locationsListRowSchema = z.object({
   city: z.string(),
   country: z.string(),
@@ -575,15 +603,7 @@ export const userUpdateSchema = z.object({
   user_role: userRoleSchema.optional(),
 });
 
-export const userRelationshipsSchema = z.tuple([
-  z.object({
-    foreignKeyName: z.literal("user_id_fkey"),
-    columns: z.tuple([z.literal("id")]),
-    isOneToOne: z.literal(true),
-    referencedRelation: z.literal("users"),
-    referencedColumns: z.tuple([z.literal("id")]),
-  }),
-]);
+export const userRelationshipsSchema = z.tuple([]);
 
 export const userInterviewRatingRowSchema = z.object({
   applicant_id: z.string(),

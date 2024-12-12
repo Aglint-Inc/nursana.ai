@@ -12,17 +12,18 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { RetellWebClient } from 'retell-client-js-sdk';
 import { type InterviewData } from 'src/types/types';
 
+import Footer from '@/components/footer';
+import InterviewConversations from '@/components/interview-conversations';
+import InterviewRecording from '@/components/interview-recording';
+import MultiStepLoader from '@/components/multi-step.loader';
+import NursanaLogo from '@/components/nursana-logo';
+import Retry from '@/components/Retry';
 import { Button } from '@/components/ui/button';
 import { useVideoRecording } from '@/hooks/useVideoRecording';
 import type { DBTable } from '@/server/db/types';
 import { supabase } from '@/utils/supabase/client';
 
-import Footer from './footer';
-import InterviewConversations from './interview-conversations';
-import InterviewRecording from './interview-recording';
-import MultiStepLoader from './multi-step.loader';
-import NursanaLogo from './nursana-logo';
-import Retry from './Retry';
+import { PurpleButtonClassName } from './instructions';
 
 interface InterviewProps {
   interviewId: string;
@@ -304,7 +305,7 @@ export default function Interview({
           <></>
         ) : (
           <Button
-            className='w-full'
+            className={PurpleButtonClassName}
             size='lg'
             onClick={handleStartInterview}
             disabled={

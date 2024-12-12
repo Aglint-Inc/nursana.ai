@@ -87,7 +87,7 @@ export const useUploadCampaign = () => {
 
       if (!resCheckUser) return;
 
-      posthog.capture('Campaign submitted', {
+      posthog.capture('campaign-submitted', {
         email: getValues().email,
         first_name: getValues().first_name,
         role: getValues().role,
@@ -150,7 +150,7 @@ export const useUploadCampaign = () => {
 
     if (!resCheckUser) return;
 
-    posthog.capture('Campaign submitted', {
+    posthog.capture('campaign-submitted', {
       email,
       first_name: name,
       role: getValues().role,
