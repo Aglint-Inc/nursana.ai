@@ -22,8 +22,8 @@ declare global {
       NEXT_PUBLIC_POSTHOG_KEY: string;
       NEXT_PUBLIC_POSTHOG_HOST: string;
       ENCRYPTION_KEY: string;
-      SERVICE_JSON_VERTEX: string;
-      SERVICE_JSON_STORAGE: string;
+      VERTEX_KEY: string;
+      STORAGE_KEY: string;
     }
   }
 }

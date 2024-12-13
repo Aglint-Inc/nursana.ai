@@ -4,6 +4,7 @@ import { usePostHog } from 'posthog-js/react';
 import React, { useState } from 'react';
 
 import { DateTimePicker } from '@/app/components/DateTimePicker';
+import { useUserDataQuery } from '@/applicant/hooks/useUserData';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -33,12 +34,14 @@ export default function InitialExplanation({
   const { mutateAsync, isPending } =
     api.interview.scheduleInterview.useMutation();
 
+  const { data } = useUserDataQuery();
+
   return (
     <div className='mx-auto max-w-md space-y-6'>
       <Card className='border-none bg-white/80 shadow-none backdrop-blur-md'>
         <CardHeader>
           <CardTitle className='bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-center text-2xl font-bold text-transparent'>
-            Welcome to Your Interview Journey
+            {`Hi ${data.applicant_user.user.first_name}! Let's get started with your interview.`}
           </CardTitle>
         </CardHeader>
         <CardContent className='space-y-8'>
@@ -87,10 +90,7 @@ export default function InitialExplanation({
         </Button>
       </div>
 
-      <Dialog
-        open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-      >
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className='sm:max-w-[425px]'>
           <DialogHeader>
             <DialogTitle>Schedule Interview</DialogTitle>
