@@ -21,9 +21,9 @@ declare global {
       GOOGLE_PLACES_API_KEY: string;
       NEXT_PUBLIC_POSTHOG_KEY: string;
       NEXT_PUBLIC_POSTHOG_HOST: string;
+      SERVICE_JSON_VERTEX: string;
+      SERVICE_JSON_STORAGE: string;
       ENCRYPTION_KEY: string;
-      VERTEX_KEY: string;
-      STORAGE_KEY: string;
     }
   }
 }
