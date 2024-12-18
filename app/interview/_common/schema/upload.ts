@@ -6,4 +6,5 @@ export const schemaInterviewResumeUpload = zfd.formData({
   campaign_id: z.string(),
   fileExt: z.string(),
   applicant_id: z.string(),
+  interview_id: z.string(),
 });
