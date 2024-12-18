@@ -39,6 +39,7 @@ export default function Upload() {
       applicant_id: data.applicant_user.id,
       campaign_id: data.interview.campaign_id,
       image: file as File,
+      interview_id: data.interview.id,
     };
     Object.entries(dataTransform)
       .filter((d) => d[1] !== null)
